@@ -1,0 +1,235 @@
+#include "GameDisplay.h"
+#include "Game.h"
+#include "GuiIngame.h"
+#include "GuiGameOver.h"
+#include "GuiMainMenu.h"
+#include "GuiSettings.h"
+#include "GuiMapSelect.h"
+#include "GuiPowers.h"
+#include <cstdlib>
+
+void GameDisplay::drawStat(int x, int y, std::string texture, long val)
+{
+    sf::Sprite s1(this->texturesByName.find("stat/" + texture)->second);
+    s1.setPosition(x, y + 10);
+    this->renderWnd->draw(s1);
+
+    sf::Text t1 = this->drawString(to_string(val), 45, sf::Vector2f(x + 50, y), sf::Text::Bold);
+    t1.setFillColor(sf::Color::Blue);
+    this->renderWnd->draw(t1);
+}
+
+void GameDisplay::drawLoading(sf::RenderWindow* wnd)
+{
+	static int animC = 0;
+	wnd->clear(Color(30, 30, 40));
+	GameDisplay::drawLoadingProgress(loadingStr, wnd);
+	animC++;
+
+	int aX = animC % 4;
+	sf::RectangleShape rs(Vector2f(3.f, 20.f));
+	rs.setPosition(wnd->getSize().x / 2 + aX - 50, wnd->getSize().y + 200);
+	rs.setOrigin(1.5f, 10.f);
+	wnd->draw(rs);
+
+	wnd->display();
+}
+
+void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, string str)
+{
+    sf::RectangleShape rs(cs);
+    rs.setPosition(cp);
+    rs.setFillColor(sf::Color(0, 0, 0, 0));
+    rs.setOutlineColor(sf::Color(255, 255, 255));
+    rs.setOutlineThickness(10.f);
+    this->renderWnd->draw(rs);
+
+    sf::Text tx = this->drawString(str, 30, sf::Vector2f(cp.x + cs.x + 10, cp.y), sf::Text::Bold);
+    tx.setOutlineColor(sf::Color::Black);
+    tx.setOutlineThickness(2.f);
+    this->renderWnd->draw(tx);
+}
+
+void drawDebugPie(sf::RenderWindow* wnd)
+{
+    GameDisplay* disp = GameDisplay::instance;
+    Game* game = Game::instance;
+
+    sf::RectangleShape r1(sf::Vector2f(40.f, game->times.timeEvent.asMicroseconds() / 5.f));
+    sf::RectangleShape r2(sf::Vector2f(40.f, game->times.timeGui.asMicroseconds() / 5.f));
+    sf::RectangleShape r3(sf::Vector2f(40.f, game->times.timeTick.asMicroseconds() / 5.f));
+    sf::RectangleShape r4(sf::Vector2f(40.f, game->times.timeRender.asMicroseconds() / 5.f));
+    sf::RectangleShape r5(sf::Vector2f(40.f, game->times.timeWait.asMicroseconds() / 5.f));
+
+    r1.setPosition(wnd->getSize().x - 40, wnd->getSize().y - r1.getSize().y);
+    r2.setPosition(wnd->getSize().x - 80, wnd->getSize().y - r2.getSize().y);
+    r3.setPosition(wnd->getSize().x - 120, wnd->getSize().y - r3.getSize().y);
+    r4.setPosition(wnd->getSize().x - 160, wnd->getSize().y - r4.getSize().y);
+    r5.setPosition(wnd->getSize().x - 200, wnd->getSize().y - r5.getSize().y);
+
+    r1.setFillColor(sf::Color::Red);
+    r2.setFillColor(sf::Color::Green);
+    r3.setFillColor(sf::Color::Blue);
+    r4.setFillColor(sf::Color::Yellow);
+    r5.setFillColor(sf::Color::Cyan);
+
+    wnd->draw(r1);
+    wnd->draw(r2);
+    wnd->draw(r3);
+    wnd->draw(r4);
+    wnd->draw(r5);
+
+    sf::Text tx1 = disp->drawString(std::string(to_string(game->times.timeEvent.asMicroseconds())), 15, sf::Vector2f(wnd->getSize().x - 40, wnd->getSize().y - 21));
+    sf::Text tx2 = disp->drawString(std::string(to_string(game->times.timeGui.asMicroseconds())), 15, sf::Vector2f(wnd->getSize().x - 80, wnd->getSize().y - 21));
+    sf::Text tx3 = disp->drawString(std::string(to_string(game->times.timeTick.asMicroseconds())), 15, sf::Vector2f(wnd->getSize().x - 120, wnd->getSize().y - 21));
+    sf::Text tx4 = disp->drawString(std::string(to_string(game->times.timeRender.asMicroseconds())), 15, sf::Vector2f(wnd->getSize().x - 160, wnd->getSize().y - 21));
+    sf::Text tx5 = disp->drawString(std::string(to_string(game->times.timeWait.asMicroseconds())), 15, sf::Vector2f(wnd->getSize().x - 200, wnd->getSize().y - 21));
+
+    tx1.setFillColor(sf::Color::White);
+    tx1.setOutlineColor(sf::Color::Black);
+    tx1.setOutlineThickness(1.f);
+    tx2.setFillColor(sf::Color::White);
+    tx2.setOutlineColor(sf::Color::Black);
+    tx2.setOutlineThickness(1.f);
+    tx3.setFillColor(sf::Color::White);
+    tx3.setOutlineColor(sf::Color::Black);
+    tx3.setOutlineThickness(1.f);
+    tx4.setFillColor(sf::Color::White);
+    tx4.setOutlineColor(sf::Color::Black);
+    tx4.setOutlineThickness(1.f);
+    tx5.setFillColor(sf::Color::White);
+    tx5.setOutlineColor(sf::Color::Black);
+    tx5.setOutlineThickness(1.f);
+
+    wnd->draw(tx1);
+    wnd->draw(tx2);
+    wnd->draw(tx3);
+    wnd->draw(tx4);
+    wnd->draw(tx5);
+}
+
+void drawDebugInfo(sf::RenderWindow* wnd)
+{
+    GameDisplay* disp = GameDisplay::instance;
+
+    sf::RectangleShape rs(sf::Vector2f(wnd->getSize().x, 20));
+    rs.setPosition(0.f, wnd->getSize().y - 20);
+    rs.setFillColor(sf::Color::Black);
+    wnd->draw(rs);
+
+	wnd->draw(disp->drawString(std::string("CarGame v0.0.5 ")
+		+ std::string("|\ttick = ") + std::string(to_string(Game::instance->tickTime.asMicroseconds()))
+		+ std::string(",\trtick = ") + std::string(to_string(Game::instance->realTickTime.asMicroseconds()))
+		+ std::string(",\tgui = ") + std::string(to_string(Game::instance->displayedGui))
+		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
+		+ std::string(",\tmtc = ") + std::string(to_string(Game::instance->mainTickCount))
+		+ std::string(",\tcars = ") + std::string(to_string(Game::instance->cars.size()))
+		+ std::string(",\tpwc = ") + std::string(to_string(Game::instance->powerCooldown))
+		+ std::string(",\tpwt = ") + std::string(to_string(Game::instance->powerTime))
+		+ std::string(",\tg = ") + std::string(GameDisplay::instance->getVSync() ? "vsync" : "")
+    , 15, sf::Vector2f(6.f, wnd->getSize().y - 21)));
+
+    drawDebugPie(wnd);
+}
+
+void GameDisplay::drawGui()
+{
+    Game* game = Game::instance;
+
+    /*sf::Text text = this->drawString("Click Esc to pause", 40, sf::Vector2f(6.f, 6.f), sf::Text::Bold);
+    text.setFillColor(sf::Color::Red);
+    this->renderWnd->draw(text);*/
+
+    if(!game->paused() || game->tutorialStep == 6) //is not paused
+    {
+        drawStat(250, 32, "score", game->getScore());
+        drawStat(450, 32, "high", game->highScore);
+        drawStat(650, 32, "mpl", game->getCoinMultiplier());
+        drawStat(850, 32, "points_mpl", game->pointsToNewMpl);
+
+        if(game->getCurrentPower() >= 1)
+        {
+            sf::Sprite spr(this->texturesByName.find("power/" + to_string(game->getCurrentPower()))->second);
+            spr.setPosition(1050, 42);
+            this->renderWnd->draw(spr);
+
+            sf::Text t1 = this->drawString(to_string(game->powers[game->getCurrentPower()]), 45, sf::Vector2f(1100, 32), sf::Text::Bold);
+            t1.setFillColor(sf::Color::Blue);
+            this->renderWnd->draw(t1);
+        }
+
+        sf::RectangleShape rs1(sf::Vector2f(64.f, abs(game->powerCooldown / (300.f / 64.f))));
+        rs1.setFillColor(sf::Color::Red);
+
+        sf::RectangleShape rs2(sf::Vector2f(64.f, 64.f));
+        rs2.setFillColor(sf::Color::Green);
+
+        rs1.setPosition(1150, 42);
+        rs2.setPosition(1150, 42);
+
+        this->renderWnd->draw(rs2);
+        this->renderWnd->draw(rs1);
+    }
+
+	if (game->isGuiLoaded && game->displayedGui != -1)
+	{
+		Gui::findHandlerByID(game->displayedGui).draw(this->renderWnd); //DRAW GUI
+		if(Gui::isDialogRunning())
+			Gui::drawDialog(this->renderWnd); //DRAW DIALOG
+	}
+
+    if(game->guiCooldown > 0)
+    {
+        sf::RectangleShape rect((sf::Vector2f) this->renderWnd->getSize());
+        rect.setFillColor(sf::Color(25, 20, 20, 250));
+        this->renderWnd->draw(rect);
+
+        sf::Text sc2 = this->drawString("Loading... ", 80, sf::Vector2f(this->renderWnd->getSize().x / 2, this->renderWnd->getSize().y / 2));
+        sc2.setFillColor(sf::Color::White);
+        this->renderWnd->draw(sc2);
+    }
+
+    drawStat(50, 32, "coin", game->getCoins());
+
+    switch(game->tutorialStep)
+    {
+    case 2:
+        if(game->displayedGui == 2)
+            this->drawTutorial(sf::Vector2f(400.f, 40.f), sf::Vector2f(this->renderWnd->getSize().x / 2 - 200, this->renderWnd->getSize().y / 2 - 60), "Click here to\nstart new game.");
+        break;
+    case 3:
+        if(game->displayedGui == 4)
+            this->drawTutorial(sf::Vector2f(100.f, 40.f), sf::Vector2f(this->renderWnd->getSize().x / 2 + 420, this->renderWnd->getSize().y / 2 - 180), "Here you can\nbuy new maps.");
+        break;
+    case 4:
+        if(game->displayedGui == 4)
+            this->drawTutorial(sf::Vector2f(400.f, 40.f), sf::Vector2f(this->renderWnd->getSize().x / 2 - 200, this->renderWnd->getSize().y / 2 - 180), "Click to start new game");
+        break;
+    case 5:
+        if(!game->isGuiLoaded && game->cars.size() > 0)
+            this->drawTutorial(sf::Vector2f(100.f, 40.f), sf::Vector2f(game->cars[0].getScreenPos()), "Destroy cars by clicking him. You get points and coins by destroying cars.");
+        break;
+    case 6:
+        if(!game->isGuiLoaded)
+        {
+            if(!game->paused())
+                game->pause(true);
+            this->drawTutorial(sf::Vector2f(1000.f, 100.f), sf::Vector2f(250.f, 32.f), "This is your coins, score, highscore,\n coin multiplier and coins \nrequired to get new multiplier.\n(Click Space to delete this message)");
+        }
+        break;
+    default:
+        break;
+    }
+
+    if(game->debug) drawDebugInfo(this->renderWnd);
+}
+
+void GameDisplay::nextFullscreenMode()
+{
+	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "Car Game", sf::Style::Fullscreen);
+	if (fullscreenMode == sf::VideoMode::getFullscreenModes().size())
+	{
+		fullscreenMode = 0;
+	}
+	this->setVSync(this->getVSync());
+}

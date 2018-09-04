@@ -1,0 +1,61 @@
+#ifndef GAMEDISPLAY_H
+#define GAMEDISPLAY_H
+
+#include <SFML/Graphics.hpp>
+#include <string>
+#include <map>
+#include <iostream>
+
+using namespace std;
+
+class GameDisplay
+{
+public:
+    GameDisplay(sf::RenderWindow* wnd);
+	GameDisplay() {}
+    virtual ~GameDisplay();
+
+    void drawGui();
+	void nextFullscreenMode();
+    void display();
+    void drawGame();
+    void drawEffect();
+    void reload();
+    void clearTextures();
+    void drawStat(int, int, string, long);
+	static void drawLoading(sf::RenderWindow* wnd);
+	static string loadingStr;
+    static void drawLoadingProgress(string action, sf::RenderWindow* wnd);
+    void drawTutorial(sf::Vector2f, sf::Vector2f, string str);
+
+    sf::Text drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
+    sf::Text drawCenteredString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
+
+    sf::RenderWindow* getRenderWnd()
+    {
+        return this->renderWnd;
+    }
+
+    void addTexture(string name);
+    //sf::Texture getTexture(string name);
+
+    static GameDisplay* instance;
+
+	void setVSync(bool b);
+	bool getVSync();
+
+protected:
+
+private:
+    sf::RenderWindow* renderWnd;
+
+    sf::Texture unknownTexture;
+    map<string, sf::Texture> texturesByName;
+
+    sf::Font guiFont;
+
+	bool vsync;
+	int fullscreenMode;
+};
+
+#endif // GAMEDISPLAY_H
