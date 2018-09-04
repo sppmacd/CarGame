@@ -79,7 +79,7 @@ Button Gui::onMouseClick(sf::Vector2f vec)
 
 void Gui::onClose()
 {
-    if(!buttons.empty())
+    if (!buttons.empty())
 		buttons.clear();
 
 	if (!dialogButtons.empty())

@@ -246,7 +246,6 @@ void Game::loadGame(LevelData level)
     this->gameSpeed = level.getAcceleration() / 2.2;
     this->score = 0;
     this->gameOver = false;
-    this->isGuiLoaded = false;
     this->cars.clear();
     this->pause(false);
     this->closeGui();
@@ -351,8 +350,9 @@ void Game::displayGui(int gui)
 
 void Game::closeGui()
 {
-	if (this->isGuiLoaded && this->displayedGui != -1)
+	if (this->isGuiLoaded)
 	{
+		Gui::onClose();
 		GuiData handler = Gui::findHandlerByID(this->displayedGui);
 		handler.close();
 

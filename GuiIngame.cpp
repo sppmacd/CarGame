@@ -33,15 +33,15 @@ void GuiIngame::onButtonClicked(long button)
 {
     Game* game = Game::instance;
 
-    if(button == 1)
+	if (button == 0)
+	{
+		game->pause(false);
+		game->closeGui();
+	}
+    else if(button == 1)
     {
         game->displayGui(2); //main menu
         game->closeLevel();
-    }
-    else if(button == 0)
-    {
-        game->pause(false);
-        game->closeGui();
     }
     else if(button == 2)
     {
