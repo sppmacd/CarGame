@@ -33,7 +33,6 @@ Game::Game()
 		this->running = true; //Set game running	
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
-		this->newRecord = false; //Set new record to false
 
 		// Reset player stats
 		this->isNewPlayer = false;
@@ -251,6 +250,7 @@ void Game::loadGame(LevelData level)
     this->closeGui();
     this->currentPower = 0;
 	this->carCreatingSpeed = level.getCarCreationSpeed();
+	this->newRecord = false; //Set new record to false
 }
 
 void Game::loadGame()
@@ -271,6 +271,7 @@ void Game::loadGame()
     this->closeGui();
     this->currentPower = 0;
 	this->carCreatingSpeed = this->level.getCarCreationSpeed();
+	this->newRecord = false; //Set new record to false
 }
 
 void Game::closeLevel()
