@@ -75,8 +75,8 @@ void Game::updateCars()
 
 void Game::tickNormalGame()
 {
-	if (this->carCreatingSpeed == 0) this->carCreatingSpeed = this->level.getCarCreationSpeed();
-    if(this->tickCount % this->carCreatingSpeed == 0)
+	//if (this->carCreatingSpeed == 0) this->carCreatingSpeed = this->level.getCarCreationSpeed();
+    if(this->tickCount % 70 == 0)
     {
         Car car;
 
