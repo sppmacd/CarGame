@@ -122,7 +122,8 @@ void Game::tickNormalGame()
 			this->newRecord = true; // New record!
 			//Create splash screen
 
-			GameDisplay::instance->setSplash("New Record!");
+			if(this->highScore != 0)
+				GameDisplay::instance->setSplash("New Record!");
 		}
 
 		//Update highscore to score
