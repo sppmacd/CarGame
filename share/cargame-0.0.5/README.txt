@@ -1,0 +1,1 @@
+This software is placed in the Public Domain
