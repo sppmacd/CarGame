@@ -97,6 +97,16 @@ void GameDisplay::display()
 
     this->drawGui();
 
+	// Tick and draw splash
+
+	if (this->splashSet)
+		this->drawSplash(this->splashText);
+
+	if (this->splashTick > 0)
+		this->splashTick--;
+	else
+		this->splashSet = false;
+
     this->renderWnd->display();
 }
 

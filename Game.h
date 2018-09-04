@@ -66,6 +66,9 @@ public:
 	/// Variable storing car creating speed.
 	int carCreatingSpeed;
 
+	/// Variable storing, if the new record is set (used in splash screen)
+	bool newRecord;
+
 	/////////////////////////
     ////// PLAYER DATA //////
 	/////////////////////////

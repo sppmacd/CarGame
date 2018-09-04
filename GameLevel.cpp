@@ -4,6 +4,7 @@
 #include "CarBus.h"
 #include "CarAmbulance.h"
 #include "GameSound.h"
+#include "GameDisplay.h"
 
 void Game::addCar(Car car)
 {
@@ -116,6 +117,15 @@ void Game::tickNormalGame()
 
     if(this->score > this->highScore)
     {
+		if (!this->newRecord)
+		{
+			this->newRecord = true; // New record!
+			//Create splash screen
+
+			GameDisplay::instance->setSplash("New Record!");
+		}
+
+		//Update highscore to score
         this->highScore = this->score;
     }
 

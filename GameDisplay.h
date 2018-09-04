@@ -27,6 +27,8 @@ public:
 	static string loadingStr;
     static void drawLoadingProgress(string action, sf::RenderWindow* wnd);
     void drawTutorial(sf::Vector2f, sf::Vector2f, string str);
+	void drawSplash(string text);
+	void setSplash(string text);
 
     sf::Text drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
     sf::Text drawCenteredString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
@@ -53,6 +55,15 @@ private:
     map<string, sf::Texture> texturesByName;
 
     sf::Font guiFont;
+
+	// Splash data - text
+	string splashText;
+
+	// Splash data - is the splash set?
+	bool splashSet;
+
+	// Splash data - animation tick
+	int splashTick;
 
 	bool vsync;
 	int fullscreenMode;

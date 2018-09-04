@@ -33,6 +33,7 @@ Game::Game()
 		this->running = true; //Set game running	
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
+		this->newRecord = false; //Set new record to false
 
 		// Reset player stats
 		this->isNewPlayer = false;

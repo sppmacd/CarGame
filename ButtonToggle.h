@@ -8,6 +8,7 @@ using namespace sf;
 class ButtonToggle : public Button
 {
 	bool state;
+	int animStat;
 
 public:
 	ButtonToggle(sf::Vector2f size, sf::Vector2f pos, string text, int id, bool defaultState = false);

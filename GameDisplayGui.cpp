@@ -50,6 +50,21 @@ void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, string str)
     this->renderWnd->draw(tx);
 }
 
+void GameDisplay::drawSplash(string text)
+{
+	int textSize = this->splashTick < 30 ? this->splashTick : 60 - this->splashTick;
+	sf::Text tx = drawCenteredString(text, textSize, Vector2f(this->renderWnd->getSize() / 2u), sf::Text::Bold);
+	tx.setFillColor(Color(200, 20, 20));
+	this->renderWnd->draw(tx);
+}
+
+void GameDisplay::setSplash(string text)
+{
+	this->splashText = text;
+	this->splashSet = true;
+	this->splashTick = 60;
+}
+
 void drawDebugPie(sf::RenderWindow* wnd)
 {
     GameDisplay* disp = GameDisplay::instance;
