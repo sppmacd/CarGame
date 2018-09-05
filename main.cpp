@@ -135,7 +135,7 @@ int main()
 					data.game->wheelEvent(ev1.mouseWheelScroll);
 				}
 
-				else if (ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Escape && data.game->displayedGui == 1) //close ingame GUI on Esc (0.0.5)
+				else if (ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Escape && data.game->displayedGui == 0) //close ingame GUI on Esc (0.0.5)
 				{
 					data.game->closeGui();
 				}
