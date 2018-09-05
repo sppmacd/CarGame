@@ -14,6 +14,7 @@ Car::Car(float speed, int line)
     this->health = this->maxHealth - 1;
     this->textureName = "default";
 	this->animSize = 1;
+	this->frameLength = 1;
 }
 
 bool Car::tickDestroy()

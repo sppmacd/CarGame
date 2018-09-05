@@ -52,6 +52,7 @@ public:
     float carRelativeToScreen;
     float destroyTick;
 	int animSize;
+	int frameLength;
 
     enum TypeId
     {

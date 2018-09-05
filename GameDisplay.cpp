@@ -189,7 +189,7 @@ void GameDisplay::drawGame()
     for(unsigned int i = 0; i < game->cars.size(); i++)
     {
         Car& carobj = game->cars[i];
-		int animFrame = game->mainTickCount/4 % carobj.animSize;
+		int animFrame = game->mainTickCount/carobj.frameLength % carobj.animSize;
 
 		// health bars
         rect1.setSize(sf::Vector2f((((float)carobj.health+1) / (float)carobj.maxHealth) * 30.f, 3.f));

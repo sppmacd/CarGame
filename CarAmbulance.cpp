@@ -8,6 +8,7 @@ CarAmbulance::CarAmbulance(float s, int l)
     this->health = 3;
     this->textureName = "ambulance";
 	this->animSize = 2;
+	this->frameLength = 8;
 }
 
 
