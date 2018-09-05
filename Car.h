@@ -10,11 +10,11 @@ class Car
 {
 public:
     /// \brief Constructor used to create empty cars. Do not use in spawning!
-    Car()
+    Car() : animSize(1)
     {
         this->typeId = NORMAL;
     }
-    Car(float speed, int line);
+	Car(float speed, int line);
     float getSpeed();
     int getLine();
     void setColor(sf::Color color);
@@ -23,6 +23,12 @@ public:
     void makeDestroy();
     bool tickDestroy();
     bool isCrashedWith(Car* car);
+
+	//events
+	virtual void onCreate();
+	virtual void onDamage();
+	virtual void onDestroy();
+	virtual void onUpdate();
 
     float getPos()
     {
@@ -45,7 +51,7 @@ public:
     int maxHealth;
     float carRelativeToScreen;
     float destroyTick;
-    int typeId;
+	int animSize;
 
     enum TypeId
     {
@@ -54,8 +60,15 @@ public:
         RARE,
         BUS,
         AMBULANCE,
+		RALLY,
+		FIREMAN,
+		TANK,
+		OLD,
+		BOMB,
         COUNT
     };
+
+	TypeId typeId;
 
     string getTextureName();
 

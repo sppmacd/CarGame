@@ -188,24 +188,33 @@ void GameDisplay::drawGame()
 
     for(unsigned int i = 0; i < game->cars.size(); i++)
     {
-        Car carobj = game->cars[i];
+        Car& carobj = game->cars[i];
+		int animFrame = game->mainTickCount/4 % carobj.animSize;
 
+		// health bars
         rect1.setSize(sf::Vector2f((((float)carobj.health+1) / (float)carobj.maxHealth) * 30.f, 3.f));
         rect2.setSize(sf::Vector2f(30.f - ((((float)carobj.health+1) / (float)carobj.maxHealth) * 30.f), 3.f));
 
-        car.setPosition(carobj.getScreenPos());
-        car.setColor(carobj.getColor());
+		// common car data
+		if (carobj.isDestroying())
+		{
+			car.setRotation(carobj.destroyTick * 7.1f);
+			car.setScale(carobj.destroyTick / 20.f, carobj.destroyTick / 20.f);
+		}
+		car.setPosition(carobj.getScreenPos());
 
+		// car background layer
+		car.setColor(carobj.getColor());
         car.setTexture(this->texturesByName.find("car/" + carobj.getTextureName())->second);
-
-        if(carobj.isDestroying())
-        {
-            car.setRotation(carobj.destroyTick * 7.1f);
-            car.setScale(carobj.destroyTick / 20.f, carobj.destroyTick / 20.f);
-        }
-
+		car.setTextureRect(IntRect(0, 0, 100, 40));
         this->renderWnd->draw(car);
 
+		// car foreground layer (animated)
+		car.setColor(Color::White);
+		car.setTextureRect(IntRect(0, (animFrame + 1) * 40, 100, 40));
+		this->renderWnd->draw(car);
+
+		// reset
         car.setScale(2.0f, 2.0f);
         car.setRotation(0.f);
 

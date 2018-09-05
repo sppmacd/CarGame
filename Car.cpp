@@ -2,17 +2,18 @@
 #include <iostream>
 
 Car::Car(float speed, int line)
-    : typeId(0)
+    : typeId(NORMAL)
     , carSpeed(speed)
     , lineIn(line)
 {
-    this->pos = 1200.f;
-    this->carRelativeToScreen = 1200.f;
+    this->pos = 1080.f;
+    this->carRelativeToScreen = 1080.f;
     this->destroyTick = -1.f;
     this->canErase = false;
     this->maxHealth = 1;
     this->health = this->maxHealth - 1;
     this->textureName = "default";
+	this->animSize = 1;
 }
 
 bool Car::tickDestroy()
@@ -24,7 +25,7 @@ bool Car::tickDestroy()
     }
     else
     {
-        this->colorMultiplier += sf::Color(2,0,0);
+        this->colorMultiplier += sf::Color(3,0,0);
         return false;
     }
 }
@@ -72,6 +73,23 @@ void Car::makeDestroy()
 bool Car::isCrashedWith(Car* car)
 {
     return car->getLine() == this->getLine() && abs(car->getPos() - this->getPos()) < 50.f;
+}
+
+void Car::onCreate()
+{
+	//...
+}
+
+void Car::onDamage()
+{
+}
+
+void Car::onDestroy()
+{
+}
+
+void Car::onUpdate()
+{
 }
 
 sf::Vector2f Car::getScreenPos()
