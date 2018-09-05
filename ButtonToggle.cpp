@@ -20,8 +20,8 @@ void ButtonToggle::draw(RenderWindow * wnd)
 	rect.setOutlineThickness(2.2f);
 	rect.setOutlineColor(this->bColor);
 
-	sf::RectangleShape rect2(Vector2f(20.f, this->getSize().y));
-	rect2.setPosition(this->getPos().x + (this->getSize().x - 20.f) * (ap / 30.f), this->getPos().y);
+	sf::RectangleShape rect2(Vector2f(30.f, this->getSize().y));
+	rect2.setPosition(this->getPos().x + (this->getSize().x - 30.f) * (ap / 30.f), this->getPos().y);
 
 	int rcp = this->state ? this->animStat : 30 - this->animStat;
 	int gcp = this->state ? 30 - this->animStat : this->animStat;
@@ -48,7 +48,7 @@ void ButtonToggle::draw(RenderWindow * wnd)
 void ButtonToggle::onClick()
 {
 	state = !state;
-	this->animStat = 30; //0.5 seconds
+	this->animStat = 30-this->animStat; //0.5 seconds
 }
 
 bool ButtonToggle::getState()
