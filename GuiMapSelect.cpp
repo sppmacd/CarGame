@@ -74,9 +74,22 @@ void GuiMapSelect::draw(sf::RenderWindow* wnd)
     bPowers.draw(wnd);
 	bNext.draw(wnd);
 	bPrev.draw(wnd);
+	Game* game = Game::instance;
 
     wnd->draw(GameDisplay::instance->drawCenteredString("Map & Powers", 30, sf::Vector2f(wnd->getSize().x / 2, 100)));
-    wnd->draw(GameDisplay::instance->drawCenteredString(bMd[id].name + ": " + to_string(bMd[id].cost) + "$ " + "(ID "+to_string(id)+")", 30, sf::Vector2f(wnd->getSize().x / 2, 150)));
+	string mapstr = bMd[id].name;
+	string mapstr2;
+
+	if (!game->isLevelUnlocked((LevelData::MapType)id))
+	{
+		if (!(game->getCoins() >= bMd[id].cost))
+			mapstr2.append("Not Enough Coins");
+
+		mapstr.append(": Buy for " + to_string(bMd[id].cost) + "$");
+	}
+
+    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(wnd->getSize().x / 2, 150)));
+    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(wnd->getSize().x / 2, 175)));
 }
 
 void GuiMapSelect::onButtonClicked(long button)

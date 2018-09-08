@@ -8,7 +8,6 @@
 #include <string>
 #include <ctime>
 
-
 using namespace std;
 
 void loop(Game* game)
@@ -79,7 +78,7 @@ int main()
 			clock.restart();
 			eventClock.restart();
 
-			data.game->times.timeGui = Time::Zero;
+			if(data.game->mainTickCount % 6 == 0) data.game->times.timeGui = Time::Zero;
 
 			while(data.wnd->pollEvent(ev1))
 			{
@@ -146,20 +145,20 @@ int main()
 				{
 					guiClock.restart();
 					data.game->tickGui(ev1);
-					data.game->times.timeGui += guiClock.getElapsedTime();
+					if (data.game->mainTickCount % 6 == 0) data.game->times.timeGui += guiClock.getElapsedTime();
 				}
 			}
-			data.game->times.timeEvent = eventClock.getElapsedTime();
+			if (data.game->mainTickCount % 6 == 0) data.game->times.timeEvent = eventClock.getElapsedTime();
 
 			tickClock.restart();
 			loop(data.game);
-			data.game->times.timeTick = tickClock.getElapsedTime();
+			if (data.game->mainTickCount % 6 == 0) data.game->times.timeTick = tickClock.getElapsedTime();
 
 			renderClock.restart();
 			data.disp->display();
-			data.game->times.timeRender = renderClock.getElapsedTime();
+			if (data.game->mainTickCount % 6 == 0) data.game->times.timeRender = renderClock.getElapsedTime();
 
-			data.game->tickTime = clock.getElapsedTime();
+			if (data.game->mainTickCount % 6 == 0) data.game->tickTime = clock.getElapsedTime();
 
 			sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
 
@@ -171,8 +170,8 @@ int main()
 			waitClock.restart();
 			while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
 
-			data.game->realTickTime = clock.getElapsedTime();
-			data.game->times.timeWait = waitClock.getElapsedTime();
+			if (data.game->mainTickCount % 6 == 0) data.game->realTickTime = clock.getElapsedTime();
+			if (data.game->mainTickCount % 6 == 0) data.game->times.timeWait = waitClock.getElapsedTime();
 		}
 		else
 		{
