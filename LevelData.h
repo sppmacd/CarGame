@@ -17,7 +17,7 @@ public:
         DESERT,
         FOREST,
         ICE,
-        MOUNTAINS, //new
+        MOUNTAINS,
         COUNT
     };
     static void init();

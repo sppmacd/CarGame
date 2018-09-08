@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Button.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ButtonToggle.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
-    </ClCompile>
     <ClCompile Include="GameDisplayGui.cpp">
       <Filter>Pliki grafiki\Pliki GUI</Filter>
     </ClCompile>
@@ -67,14 +61,17 @@
     <ClCompile Include="Power.cpp">
       <Filter>Pliki obsługi poziomu</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonToggle.cpp">
+      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonImage.cpp">
+      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Button.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonToggle.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Gui.h">
       <Filter>Pliki grafiki\Pliki GUI</Filter>
     </ClInclude>
@@ -129,6 +126,15 @@
     <ClInclude Include="Power.h">
       <Filter>Pliki obsługi poziomu</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonToggle.h">
+      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonImage.h">
+      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Pliki grafiki">
@@ -151,6 +157,9 @@
     </Filter>
     <Filter Include="Pliki nieużywane/historyczne">
       <UniqueIdentifier>{d0325697-8ca4-4fff-8a37-a01e86c7181e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki grafiki\Pliki GUI\Kontrolki">
+      <UniqueIdentifier>{4bde3544-0bb3-42b8-9ef0-b76989883f5d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

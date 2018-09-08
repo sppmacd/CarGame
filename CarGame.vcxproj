@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonImage.cpp" />
     <ClCompile Include="ButtonToggle.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="CarAmbulance.cpp" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonImage.h" />
     <ClInclude Include="ButtonToggle.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="CarAmbulance.h" />

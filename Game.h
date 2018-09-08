@@ -92,6 +92,9 @@ public:
 	////// OTHER DATA ///////
 	/////////////////////////
 
+	/// Registry of the maps, used by MapSelect GUI.
+	map<string, LevelData*> levelRegistry;
+
 	/// Tick time
     sf::Time tickTime;
 

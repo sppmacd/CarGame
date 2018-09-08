@@ -95,15 +95,15 @@ void Game::usePower(int id)
 
 void Game::registerGUIs()
 {
-	Gui::registerGuiHandlers(0, GuiData{GuiIngame::draw, GuiIngame::onMouseClick, GuiIngame::onMouseMove, GuiIngame::onButtonClicked, GuiIngame::onLoad, GuiIngame::onClose});
-	Gui::registerGuiHandlers(1, GuiData{GuiGameOver::draw, GuiGameOver::onMouseClick, GuiGameOver::onMouseMove, GuiGameOver::onButtonClicked, GuiGameOver::onLoad, GuiGameOver::onClose});
-	Gui::registerGuiHandlers(2, GuiData{GuiMainMenu::draw, GuiMainMenu::onMouseClick, GuiMainMenu::onMouseMove, GuiMainMenu::onButtonClicked, GuiMainMenu::onLoad, GuiMainMenu::onClose});
-	Gui::registerGuiHandlers(3, GuiData{GuiSettings::draw, GuiSettings::onMouseClick, GuiSettings::onMouseMove, GuiSettings::onButtonClicked, GuiSettings::onLoad, GuiSettings::onClose});
-	Gui::registerGuiHandlers(4, GuiData{GuiMapSelect::draw, GuiMapSelect::onMouseClick, GuiMapSelect::onMouseMove, GuiMapSelect::onButtonClicked, GuiMapSelect::onLoad, GuiMapSelect::onClose});
-	Gui::registerGuiHandlers(5, GuiData{GuiPowers::draw, GuiPowers::onMouseClick, GuiPowers::onMouseMove, GuiPowers::onButtonClicked, GuiPowers::onLoad, GuiPowers::onClose});
+	Gui::registerGuiHandlers(0, GuiData{GuiIngame::draw, GuiIngame::onMouseClick, GuiIngame::onMouseMove, GuiIngame::onButtonClicked, GuiIngame::onLoad, GuiIngame::onClose, GuiIngame::onDialogFinished});
+	Gui::registerGuiHandlers(1, GuiData{GuiGameOver::draw, GuiGameOver::onMouseClick, GuiGameOver::onMouseMove, GuiGameOver::onButtonClicked, GuiGameOver::onLoad, GuiGameOver::onClose, GuiGameOver::onDialogFinished });
+	Gui::registerGuiHandlers(2, GuiData{GuiMainMenu::draw, GuiMainMenu::onMouseClick, GuiMainMenu::onMouseMove, GuiMainMenu::onButtonClicked, GuiMainMenu::onLoad, GuiMainMenu::onClose, GuiMainMenu::onDialogFinished });
+	Gui::registerGuiHandlers(3, GuiData{GuiSettings::draw, GuiSettings::onMouseClick, GuiSettings::onMouseMove, GuiSettings::onButtonClicked, GuiSettings::onLoad, GuiSettings::onClose, GuiSettings::onDialogFinished });
+	Gui::registerGuiHandlers(4, GuiData{GuiMapSelect::draw, GuiMapSelect::onMouseClick, GuiMapSelect::onMouseMove, GuiMapSelect::onButtonClicked, GuiMapSelect::onLoad, GuiMapSelect::onClose, GuiMapSelect::onDialogFinished });
+	Gui::registerGuiHandlers(5, GuiData{GuiPowers::draw, GuiPowers::onMouseClick, GuiPowers::onMouseMove, GuiPowers::onButtonClicked, GuiPowers::onLoad, GuiPowers::onClose, GuiPowers::onDialogFinished });
 	
 	//dialogs
-	Gui::registerGuiHandlers(100, GuiData{GuiYesNo::draw, GuiYesNo::onMouseClick, GuiYesNo::onMouseMove, GuiYesNo::onButtonClicked, GuiYesNo::onLoad, GuiYesNo::onClose});
+	Gui::registerGuiHandlers(100, GuiData{GuiYesNo::draw, GuiYesNo::onMouseClick, GuiYesNo::onMouseMove, GuiYesNo::onButtonClicked, GuiYesNo::onLoad, GuiYesNo::onClose, GuiYesNo::onDialogFinished });
 }
 
 void Game::registerPowers() 

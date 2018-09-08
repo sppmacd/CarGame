@@ -43,6 +43,8 @@ public:
 
     static GameDisplay* instance;
 
+	map<string, sf::Texture> texturesByName;
+
 	void setVSync(bool b);
 	bool getVSync();
 
@@ -52,7 +54,6 @@ private:
     sf::RenderWindow* renderWnd;
 
     sf::Texture unknownTexture;
-    map<string, sf::Texture> texturesByName;
 
     sf::Font guiFont;
 

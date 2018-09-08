@@ -16,6 +16,15 @@ void Gui::addButton(Button& button)
     buttons.push_back(&button);
 }
 
+void Gui::removeButton(Button & button)
+{
+	for (int i = 0; i < buttons.size(); i++)
+	{
+		if (*buttons[i] == button)
+			buttons.erase(buttons.begin() + i);
+	}
+}
+
 void Gui::addButtonToDialog(Button & button)
 {
 	dialogButtons.push_back(&button);
@@ -86,6 +95,12 @@ void Gui::onClose()
 		dialogButtons.clear();
 }
 
+void Gui::onDialogFinished(int d, int rv)
+{
+	if (!dialogButtons.empty())
+		dialogButtons.clear();
+}
+
 void Gui::onMouseMove(sf::Vector2f vec)
 {
 	if (!runningDialog)
@@ -137,8 +152,7 @@ void Gui::drawNFG(sf::RenderWindow* wnd)
 {
 	Gui::drawGui(wnd);
 
-	sf::Text t = drawString("Sorry, we can't find this GUI ID. Please report this problem to game developers.", 30, sf::Vector2f(wnd->getSize().x / 2, wnd->getSize().y / 2), sf::Text::Bold);
-	t.setOrigin(t.getLocalBounds().width/2, t.getLocalBounds().height/2);
+	sf::Text t = GameDisplay::instance->drawCenteredString("Sorry, we can't find this GUI ID. Please report this problem to game developers.", 30, sf::Vector2f(wnd->getSize().x / 2, wnd->getSize().y / 2), sf::Text::Bold);
 	wnd->draw(t);
 }
 
@@ -159,7 +173,7 @@ const GuiData Gui::findHandlerByID(int id)
 	catch (out_of_range)
 	{
 		cout << "Cannot find GUI with id " << id << endl;
-		gd = GuiData( Gui::drawNFG, Gui::mouseNFG, Gui::onMouseMove, Gui::onButtonClicked, Gui::onLoad, Gui::onClose );
+		gd = GuiData( Gui::drawNFG, Gui::mouseNFG, Gui::onMouseMove, Gui::onButtonClicked, Gui::onLoad, Gui::onClose, Gui::onDialogFinished);
 		return gd;
 	}
 	return gd;
@@ -181,16 +195,19 @@ void Gui::setDialogReturnValue(int rv)
 {
 	dialogRv = rv;
 	runningDialog = false;
-	dialogId = -1;
 
-	if (!dialogButtons.empty())
-		dialogButtons.clear();
+	Gui::findHandlerByID(Game::instance->displayedGui).onDialogFinished(dialogId, dialogRv);
+	Gui::onDialogFinished(dialogId, dialogRv);
+
+	dialogId = -1;
 }
 
-GuiData::GuiData(GUIDrawFunc drawFunc1, GUIMouseClickHandler mouseClickHandler1, GUIMouseMoveHandler mouseMoveHandler1, GUIButtonHandler buttonHandler1, GUILoadHandler loadHandler1, GUICloseHandler closeHandler1) :
-	draw(drawFunc1),
-		onMouseClick(mouseClickHandler1),
-		onMouseMove(mouseMoveHandler1),
-		onButtonClick(buttonHandler1),
-		load(loadHandler1),
-		close(closeHandler1) {}
+GuiData::GuiData(GUIDrawFunc drawFunc1, GUIMouseClickHandler mouseClickHandler1, GUIMouseMoveHandler mouseMoveHandler1, GUIButtonHandler buttonHandler1, GUILoadHandler loadHandler1, GUICloseHandler closeHandler1, GUIDialogFinishHandler dialogFinishHandler1) :
+draw(drawFunc1),
+onMouseClick(mouseClickHandler1),
+onMouseMove(mouseMoveHandler1),
+onButtonClick(buttonHandler1),
+load(loadHandler1),
+close(closeHandler1),
+onDialogFinished(dialogFinishHandler1)
+{}

@@ -19,6 +19,7 @@ typedef void(*GUIButtonHandler)(long);
 typedef void(*GUILoadHandler)();
 typedef void(*GUICloseHandler)();
 typedef void(*GUIKeyboardHandler)(char);
+typedef void(*GUIDialogFinishHandler)(int, int);
 
 // Struct to store handlers
 struct GuiData
@@ -29,6 +30,7 @@ struct GuiData
 	GUIButtonHandler onButtonClick;
 	GUILoadHandler load;
 	GUICloseHandler close;
+	GUIDialogFinishHandler onDialogFinished;
 
 	GuiData(
 		GUIDrawFunc drawFunc1,
@@ -36,10 +38,11 @@ struct GuiData
 		GUIMouseMoveHandler mouseMoveHandler1,
 		GUIButtonHandler buttonHandler1,
 		GUILoadHandler loadHandler1,
-		GUICloseHandler closeHandler1
+		GUICloseHandler closeHandler1,
+		GUIDialogFinishHandler dialogFinishHandler1
 		);
 
-	GuiData() : GuiData(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr) {}
+	GuiData() : GuiData(nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr) {}
 };
 
 class Gui
@@ -69,6 +72,9 @@ public:
 	/// Adds specified button pointer to GUI.
 	static void addButton(Button& button);
 
+	/// Removes specified Button from GUI.
+	static void removeButton(Button& button);
+
 	/// Adds button to dialog
 	static void addButtonToDialog(Button& button);
 
@@ -86,6 +92,9 @@ public:
 
 	/// Called if the gui is closed.
 	static void onClose();
+
+	/// Called if the dialog GUI is finished. Params: dialog ID, return value
+	static void onDialogFinished(int d, int rv);
 
 	/// Checks if the dialog is running.
 	static bool isDialogRunning() { return runningDialog; }

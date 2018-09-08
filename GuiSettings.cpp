@@ -64,7 +64,7 @@ void GuiSettings::onButtonClicked(long button)
 			GameDisplay::instance->nextFullscreenMode();
 		}
 
-		if (!Gui::isDialogRunning() && Gui::getDialogReturnValue() == 1)
+		if (Gui::getDialogReturnValue() == 1)
 		{
 			remove("data.txt");
 			remove("highscore.txt");

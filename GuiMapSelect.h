@@ -2,6 +2,7 @@
 #define GUIMAPSELECT_H
 
 #include "Gui.h"
+#include "ButtonImage.h"
 
 class GuiMapSelect : public Gui
 {
@@ -9,24 +10,27 @@ public:
     static void draw(sf::RenderWindow* wnd);
     static void onButtonClicked(long button);
     static void onLoad();
+	static void onClose();
+	static void onDialogFinished(int did, int rv);
 
 protected:
 
 private:
-    static Button bMap1;
-    static Button bMap2;
-    static Button bMap3; //settings
-    static Button bMap4; //settings
-    static Button bMap5; //settings
+	static int id;
 
-    static Button bMapB1;
-    static Button bMapB2;
-    static Button bMapB3; //settings
-    static Button bMapB4; //settings
-    static Button bMapB5; //settings
+	struct MapData
+	{
+		string name;
+		ButtonImage bImg;
+		int cost;
+	};
+
+	static vector<MapData> bMd;
     static Button bReturn;
+	static Button bPowers;
 
-    static Button bPowers; //unlock powers
+	static Button bNext;
+	static Button bPrev;
 };
 
 #endif // GUIMAPSELECT_H
