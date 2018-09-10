@@ -36,6 +36,16 @@ void GuiSettings::draw(sf::RenderWindow* wnd)
     wnd->draw(GameDisplay::instance->drawCenteredString("Settings", 30, sf::Vector2f(wnd->getSize().x / 2, 200)));
 }
 
+void GuiSettings::onDialogFinished(int id, int rv)
+{
+	if (id == 100 && rv == 1)
+	{
+		remove("data.txt");
+		remove("highscore.txt");
+		Game::instance->loadPlayerData();
+	}
+}
+
 void GuiSettings::onButtonClicked(long button)
 {
 	if (!Gui::isDialogRunning())
@@ -62,13 +72,6 @@ void GuiSettings::onButtonClicked(long button)
 		else if (button == 4)
 		{
 			GameDisplay::instance->nextFullscreenMode();
-		}
-
-		if (Gui::getDialogReturnValue() == 1)
-		{
-			remove("data.txt");
-			remove("highscore.txt");
-			game->loadPlayerData();
 		}
 	}
 	else //not yet finished

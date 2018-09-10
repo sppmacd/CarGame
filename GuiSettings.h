@@ -10,6 +10,7 @@ public:
     static void draw(sf::RenderWindow* wnd);
     static void onButtonClicked(long button);
     static void onLoad();
+	static void onDialogFinished(int id, int rv);
 
 protected:
 
