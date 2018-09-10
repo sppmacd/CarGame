@@ -33,6 +33,7 @@ Game::Game()
 		this->running = true; //Set game running	
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
+		this->fullscreen = false;
 
 		// Reset player stats
 		this->isNewPlayer = false;
@@ -59,7 +60,7 @@ Game::Game()
 	}
 	else //fatal error
 	{
-		this->exit(-1);
+		instance->exit(-1);
 	}
 }
 

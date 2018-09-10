@@ -22,10 +22,10 @@ void GuiMapSelect::onLoad()
 
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bReturn = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 300, game->getRenderWnd()->getSize().y / 2 + 320), "Return...", 0));
-    addButton(bPowers = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 + 50, game->getRenderWnd()->getSize().y / 2 + 320), "Powers...", 1));
-    addButton(bNext = Button(sf::Vector2f(40.f, 300.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 + 310, game->getRenderWnd()->getSize().y / 2 - 300), ">", 2));
-    addButton(bPrev = Button(sf::Vector2f(40.f, 300.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 350, game->getRenderWnd()->getSize().y / 2 - 300), "<", 3));
+    addButton(bReturn = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 300.f, game->getRenderWnd()->getSize().y / 2 + 320.f), "Return...", 0));
+    addButton(bPowers = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 + 50.f, game->getRenderWnd()->getSize().y / 2 + 320.f), "Powers...", 1));
+    addButton(bNext = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 + 310.f, game->getRenderWnd()->getSize().y / 2 - 300.f), ">", 2));
+    addButton(bPrev = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 350.f, game->getRenderWnd()->getSize().y / 2 - 300.f), "<", 3));
 	
 	id = 0;
 	
@@ -123,7 +123,14 @@ void GuiMapSelect::onButtonClicked(long button)
 			if (button == 100)
 			{
 				if (game->isLevelUnlocked((LevelData::MapType)id))
+				{
 					game->loadGame(*game->levelRegistry[bMd[id].name]);
+					
+					if (Game::instance->isNewPlayer && Game::instance->tutorialStep == 4)
+					{
+						Game::instance->tutorialStep = 5;
+					}
+				}
 				else
 				{
 					if (game->getCoins() >= bMd[id].cost)

@@ -33,7 +33,7 @@ void loadGame(LoadData* ld)
 	cout << "main: Starting CarGame v0.0.4..." << endl;
 	ld->disp = new GameDisplay(ld->wnd);
     srand(time(NULL));
-    //ld->wnd->setVerticalSyncEnabled(true); //!!!
+    ld->wnd->setVerticalSyncEnabled(true); //!!!
 
     cout << "main: Loading game engine..." << endl;
 
@@ -41,10 +41,11 @@ void loadGame(LoadData* ld)
     
     ld->game = new Game;
     //GameSound gamesound;
-	ld->loaded = true;
+
+	sf::sleep(sf::seconds(5.f));
 
 	loadTime.restart();
-
+	ld->loaded = true;
 	cout << "main: Loading took " << loadTime.getElapsedTime().asMilliseconds() << "ms." << endl;
 }
 
@@ -52,7 +53,7 @@ int main()
 {
 	LoadData data;
 	data.loaded = false;
-	data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Game v0.0.5", sf::Style::Fullscreen);
+	data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Game v0.0.5", Style::Fullscreen);
 	data.wnd->setVerticalSyncEnabled(true);
 	
 	sf::Thread loadingThread(loadGame,&data);
@@ -114,7 +115,7 @@ int main()
 
 				else if(ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Escape && !data.game->isGameOver() && !data.game->paused())
 				{
-					cout << "main: Pausing data.game->.." << endl;
+					cout << "main: Pausing game..." << endl;
 					data.game->displayGui(0);
 					data.game->pause(true);
 				}
@@ -137,6 +138,7 @@ int main()
 				else if (ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Escape && data.game->displayedGui == 0) //close ingame GUI on Esc (0.0.5)
 				{
 					data.game->closeGui();
+					data.game->pause(false);
 				}
 
 				// tick GUI for each event
@@ -175,6 +177,11 @@ int main()
 		}
 		else
 		{
+			while (data.wnd->pollEvent(ev1))
+			{
+				if (ev1.type == Event::Closed || (ev1.type == Event::KeyPressed && ev1.key.code == Keyboard::Escape))
+					data.game->exit(0);
+			}
 			data.disp->drawLoading(data.wnd);
 		}
     }

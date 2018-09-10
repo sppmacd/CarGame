@@ -7,7 +7,7 @@ ButtonImage::ButtonImage(string imgName, sf::Vector2f size, sf::Vector2f pos, st
 	this->bText = imgName;
 }
 
-ButtonImage::ButtonImage() : ButtonImage("stat/mpl", Vector2f(0, 0), Vector2f(100, 30), "ButtonImage", -1) {}
+ButtonImage::ButtonImage() : ButtonImage("stat/mpl", Vector2f(0, 0), Vector2f(100, 100), "ButtonImage", -1) {}
 
 void ButtonImage::draw(RenderWindow* wnd)
 {
@@ -25,7 +25,6 @@ void ButtonImage::draw(RenderWindow* wnd)
 	wnd->draw(rect);
 
 	Sprite spr(*this->img);
-	spr.setPosition(this->bPos);
-	spr.setOrigin(this->bSize / 2.f);
+	spr.setPosition(this->getPos());
 	wnd->draw(spr);
 }
