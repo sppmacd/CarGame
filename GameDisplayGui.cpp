@@ -26,14 +26,17 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	GameDisplay::drawLoadingProgress(loadingStr, wnd);
 	animC++;
 
-	int aX = animC % 20;
+	int aX = animC % 40;
 	sf::RectangleShape rsbg(Vector2f(100.f, 20.f));
+	rsbg.setFillColor(Color(20, 20, 20));
+	rsbg.setOutlineColor(Color(70, 70, 70));
+	rsbg.setOutlineThickness(2.f);
 	rsbg.setOrigin(50.f, 10.f);
-	rsbg.setPosition(wnd->getSize().x / 2 + aX * 5, wnd->getSize().y / 2 + 200);
+	rsbg.setPosition(wnd->getSize().x / 2, wnd->getSize().y / 2 + 200);
 	wnd->draw(rsbg);
 
 	sf::RectangleShape rs(Vector2f(3.f, 20.f));
-	rs.setPosition(wnd->getSize().x / 2 + aX*5 - 50, wnd->getSize().y / 2 + 200);
+	rs.setPosition(wnd->getSize().x / 2 + aX*2.5f - 50, wnd->getSize().y / 2 + 200);
 	rs.setOrigin(1.5f, 10.f);
 	wnd->draw(rs);
 

@@ -42,8 +42,6 @@ void loadGame(LoadData* ld)
     ld->game = new Game;
     //GameSound gamesound;
 
-	sf::sleep(sf::seconds(5.f));
-
 	loadTime.restart();
 	ld->loaded = true;
 	cout << "main: Loading took " << loadTime.getElapsedTime().asMilliseconds() << "ms." << endl;
