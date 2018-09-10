@@ -181,6 +181,12 @@ int main()
 					data.game->exit(0);
 			}
 			data.disp->drawLoading(data.wnd);
+
+			if (!data.game->isRunning())
+			{
+				loadingThread.terminate();
+				break;
+			}
 		}
     }
 
@@ -188,8 +194,15 @@ int main()
 
     GameDisplay::drawLoadingProgress("Closing...", data.wnd);
 
-    data.game->savePlayerData();
-    int i = data.game->retVal;
+	int i;
+
+	if (data.loaded)
+	{
+		data.game->savePlayerData();
+		i = data.game->retVal;
+	}
+	else
+		i = 0;
 
     data.wnd->close();
 

@@ -35,11 +35,13 @@ void GameDisplay::reload()
     this->addTexture("car/lorry");
     this->addTexture("car/bus");
     this->addTexture("car/ambulance");
-    this->addTexture("bg/countryside");
-    this->addTexture("bg/desert");
-    this->addTexture("bg/forest");
-    this->addTexture("bg/ice");
-    this->addTexture("bg/mountains");
+
+	for (auto ld : Game::instance->levelRegistry)
+	{
+		this->addTexture("bg/" + ld.second->getTextureName());
+		this->addTexture("map/" + ld.second->getTextureName());
+	}
+
     this->addTexture("stat/coin");
     this->addTexture("stat/high");
     this->addTexture("stat/score");

@@ -33,7 +33,7 @@ void GuiMapSelect::onLoad()
 	for (auto ld : Game::instance->levelRegistry)
 	{
 		LevelData* lvld = ld.second;
-		ButtonImage bimg("stat/coin", Vector2f(600.f, 600.f), Vector2f(game->getRenderWnd()->getSize().x / 2 - 300.f, game->getRenderWnd()->getSize().y / 2 - 300.f), ld.first, 100);
+		ButtonImage bimg("map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getRenderWnd()->getSize().x / 2 - 300.f, game->getRenderWnd()->getSize().y / 2 - 300.f), ld.first, 100);
 		bimg.setColor(lvld->getColor());
 		MapData md{ld.first, bimg, costs[i]};
 		bMd.push_back(md);
