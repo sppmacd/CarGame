@@ -54,9 +54,6 @@ Game::Game()
 
 		// Register GUI data
 		this->registerGUIs();
-
-		// Display the main menu
-		this->displayGui(2);
 	}
 	else //fatal error
 	{

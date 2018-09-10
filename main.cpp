@@ -12,6 +12,10 @@ using namespace std;
 
 void loop(Game* game)
 {
+	if (game->mainTickCount == 0)
+		// Display the main menu
+		game->displayGui(2);
+
     if(!game->paused())
         game->tickNormalGame();
 
@@ -31,15 +35,16 @@ void loadGame(LoadData* ld)
 	sf::Clock loadTime;
 
 	cout << "main: Starting CarGame v0.0.4..." << endl;
-	ld->disp = new GameDisplay(ld->wnd);
+
+	GameDisplay::loadingStr = "Loading game engine...";
+	ld->game = new Game;
+	ld->disp = new GameDisplay(ld->wnd);	
+	
     srand(time(NULL));
     ld->wnd->setVerticalSyncEnabled(true); //!!!
 
     cout << "main: Loading game engine..." << endl;
 
-    GameDisplay::loadingStr = "Loading game engine...";
-    
-    ld->game = new Game;
     //GameSound gamesound;
 
 	loadTime.restart();
@@ -53,6 +58,8 @@ int main()
 	data.loaded = false;
 	data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Game v0.0.5", Style::Fullscreen);
 	data.wnd->setVerticalSyncEnabled(true);
+	data.game = NULL;
+	data.disp = NULL;
 	
 	sf::Thread loadingThread(loadGame,&data);
 	
@@ -180,8 +187,9 @@ int main()
 				if (ev1.type == Event::Closed || (ev1.type == Event::KeyPressed && ev1.key.code == Keyboard::Escape))
 					data.game->exit(0);
 			}
-			data.disp->drawLoading(data.wnd);
+			GameDisplay::drawLoading(data.wnd);
 
+			if (data.game)
 			if (!data.game->isRunning())
 			{
 				loadingThread.terminate();
