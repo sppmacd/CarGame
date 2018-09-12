@@ -167,4 +167,7 @@
       <Filter>Pliki zasobów</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CHANGELOG" />
+  </ItemGroup>
 </Project>
