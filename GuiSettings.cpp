@@ -25,7 +25,7 @@ void GuiSettings::onLoad()
 
 void GuiSettings::draw(sf::RenderWindow* wnd)
 {
-    Gui::drawGui(wnd);
+    //Gui::drawGui(wnd);
 
     bDone.draw(wnd);
     bResetHS.draw(wnd);
