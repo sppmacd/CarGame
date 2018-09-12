@@ -167,7 +167,9 @@
     <ResourceCompile Include="icon.rc">
       <Filter>Pliki zasobów</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="version.rc" />
+    <ResourceCompile Include="version.rc">
+      <Filter>Pliki zasobów</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="CHANGELOG" />
