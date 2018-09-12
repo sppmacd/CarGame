@@ -14,10 +14,10 @@ void GuiSettings::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bDone = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 120), "Done", 0));
-    addButton(bResetHS = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 30), "Reset Game", 1));
-    addButton(bRefreshGD = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 - 90), "Refresh Resources", 2));
-    addButton(bVerticalSync = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 - 30), "Vertical Sync", 3, game->getVSync()));
+    addButton(bDone = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), "Done", 0));
+    addButton(bResetHS = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), "Reset Game", 1));
+    addButton(bRefreshGD = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), "Refresh Resources", 2));
+    addButton(bVerticalSync = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), "Vertical Sync", 3, game->getVSync()));
     //addButton(bTFM = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 90), "Toggle Fullscreen Mode", 4));
 
     bDone.setColor(sf::Color::Green);
@@ -33,7 +33,7 @@ void GuiSettings::draw(sf::RenderWindow* wnd)
     bVerticalSync.draw(wnd);
 	//bTFM.draw(wnd);
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Settings", 30, sf::Vector2f(wnd->getSize().x / 2, 200)));
+    wnd->draw(GameDisplay::instance->drawCenteredString("Settings", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
 }
 
 void GuiSettings::onDialogFinished(int id, int rv)

@@ -47,6 +47,8 @@ public:
 
 	void setVSync(bool b);
 	bool getVSync();
+	Vector2u getSize();
+	void setWndSize(Vector2u vec);
 
 protected:
 
@@ -68,6 +70,9 @@ private:
 
 	bool vsync;
 	int fullscreenMode;
+
+	// Default wnd size, set on create.
+	Vector2u wndSizeDefault;
 };
 
 #endif // GAMEDISPLAY_H

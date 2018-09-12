@@ -15,10 +15,10 @@ void GuiPowers::onLoad()
     cooldown = 0;
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bPower1 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 - 120), "Buy Oil: 400$", 1));
-    addButton(bPower2 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 - 60), "Buy Ice: 1000$", 2));
+    addButton(bPower1 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 120), "Buy Oil: 400$", 1));
+    addButton(bPower2 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), "Buy Ice: 1000$", 2));
 
-    addButton(bReturn = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 60), "Return to Maps", 0));
+    addButton(bReturn = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Return to Maps", 0));
 }
 
 void GuiPowers::draw(sf::RenderWindow* wnd)
@@ -47,10 +47,10 @@ void GuiPowers::draw(sf::RenderWindow* wnd)
     bPower2.draw(wnd);
     bReturn.draw(wnd);
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Buy Powers", 30, sf::Vector2f(wnd->getSize().x / 2, 200)));
+    wnd->draw(GameDisplay::instance->drawCenteredString("Buy Powers", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
 
-    wnd->draw(drawString(to_string(game->powers[1]), 30, sf::Vector2f(wnd->getSize().x / 2 + 300, wnd->getSize().y / 2 - 120)));
-    wnd->draw(drawString(to_string(game->powers[2]), 30, sf::Vector2f(wnd->getSize().x / 2 + 300, wnd->getSize().y / 2 - 60)));
+    wnd->draw(drawString(to_string(game->powers[1]), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 120)));
+    wnd->draw(drawString(to_string(game->powers[2]), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 60)));
 
     if(cooldown > 0) cooldown--;
 }

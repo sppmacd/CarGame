@@ -7,3 +7,4 @@
 * Changed toggle button graphics (bigger slider)
 * Now the cars is spawning in other timespan in different maps
 * Fixed some bugs
+* Fixed graphics on window resize

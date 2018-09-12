@@ -13,9 +13,9 @@ void GuiMainMenu::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(b1 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 - 60), "New Game", 0));
-    addButton(b2 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2), "Settings", 2));
-    addButton(b3 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 60), "Quit Game", 1));
+    addButton(b1 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), "New Game", 0));
+    addButton(b2 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), "Settings", 2));
+    addButton(b3 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Quit Game", 1));
     b3.setColor(sf::Color::Red);
 }
 
@@ -25,7 +25,7 @@ void GuiMainMenu::draw(sf::RenderWindow* wnd)
     b2.draw(wnd);
     b3.draw(wnd);
 
-    sf::Text text = GameDisplay::instance->drawCenteredString("Car Game", 200, sf::Vector2f(wnd->getSize().x / 2, 200), sf::Text::Italic);
+    sf::Text text = GameDisplay::instance->drawCenteredString("Car Game", 200, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200), sf::Text::Italic);
     text.setFillColor(sf::Color(100, 0, 0));
     wnd->draw(text);
 }

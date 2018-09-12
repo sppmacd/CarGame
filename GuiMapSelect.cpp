@@ -22,10 +22,10 @@ void GuiMapSelect::onLoad()
 
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bReturn = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 300.f, game->getRenderWnd()->getSize().y / 2 + 320.f), "Return...", 0));
-    addButton(bPowers = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 + 50.f, game->getRenderWnd()->getSize().y / 2 + 320.f), "Powers...", 1));
-    addButton(bNext = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 + 310.f, game->getRenderWnd()->getSize().y / 2 - 300.f), ">", 2));
-    addButton(bPrev = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 350.f, game->getRenderWnd()->getSize().y / 2 - 300.f), "<", 3));
+    addButton(bReturn = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f), "Return...", 0));
+    addButton(bPowers = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f), "Powers...", 1));
+    addButton(bNext = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f), ">", 2));
+    addButton(bPrev = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f), "<", 3));
 	
 	id = 0;
 	
@@ -33,7 +33,7 @@ void GuiMapSelect::onLoad()
 	for (auto ld : Game::instance->levelRegistry)
 	{
 		LevelData* lvld = ld.second;
-		ButtonImage bimg("map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getRenderWnd()->getSize().x / 2 - 300.f, game->getRenderWnd()->getSize().y / 2 - 300.f), ld.first, 100);
+		ButtonImage bimg("map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first, 100);
 		bimg.setColor(lvld->getColor());
 		MapData md{ld.first, bimg, costs[i]};
 		bMd.push_back(md);
@@ -76,7 +76,7 @@ void GuiMapSelect::draw(sf::RenderWindow* wnd)
 	bPrev.draw(wnd);
 	Game* game = Game::instance;
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Map & Powers", 30, sf::Vector2f(wnd->getSize().x / 2, 100)));
+    wnd->draw(GameDisplay::instance->drawCenteredString("Map & Powers", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 100)));
 	string mapstr = bMd[id].name;
 	string mapstr2;
 
@@ -88,8 +88,8 @@ void GuiMapSelect::draw(sf::RenderWindow* wnd)
 		mapstr.append(": Buy for " + to_string(bMd[id].cost) + "$");
 	}
 
-    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(wnd->getSize().x / 2, 150)));
-    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(wnd->getSize().x / 2, 175)));
+    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));
+    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 175)));
 }
 
 void GuiMapSelect::onButtonClicked(long button)

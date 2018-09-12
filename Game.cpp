@@ -366,16 +366,15 @@ void Game::toggleFullscreen()
 
     if(this->fullscreen)
     {
-        wnd->close();
         wnd->create(sf::VideoMode(1920, 1080, 32), "Car Game");
         this->fullscreen = false;
     }
     else
     {
-        wnd->close();
         wnd->create(sf::VideoMode(), sf::String(), sf::Style::Fullscreen);
         this->fullscreen = true;
     }
+	GameDisplay::instance->setWndSize(wnd->getSize());
 }
 
 void Game::addCoins(long v)

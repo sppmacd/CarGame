@@ -152,7 +152,7 @@ void Gui::drawNFG(sf::RenderWindow* wnd)
 {
 	Gui::drawGui(wnd);
 
-	sf::Text t = GameDisplay::instance->drawCenteredString("Sorry, we can't find this GUI ID. Please report this problem to game developers.", 30, sf::Vector2f(wnd->getSize().x / 2, wnd->getSize().y / 2), sf::Text::Bold);
+	sf::Text t = GameDisplay::instance->drawCenteredString("Sorry, we can't find this GUI ID. Please report this problem to game developers.", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2), sf::Text::Bold);
 	wnd->draw(t);
 }
 
@@ -181,7 +181,7 @@ const GuiData Gui::findHandlerByID(int id)
 
 void Gui::drawGui(sf::RenderWindow* wnd)
 {
-    sf::RectangleShape rect((sf::Vector2f) wnd->getSize());
+    sf::RectangleShape rect((sf::Vector2f) GameDisplay::instance->getSize());
     rect.setFillColor(sf::Color(25, 20, 20, 200));
     wnd->draw(rect);
 }

@@ -8,6 +8,7 @@ string GameDisplay::loadingStr;
 GameDisplay::GameDisplay(sf::RenderWindow* wnd)
     : renderWnd(wnd)
 {
+	this->wndSizeDefault = renderWnd->getSize();
 	loadingStr = "Loading GameDisplay...";
 
     cout << "GameDisplay: Creating GameDisplay instance..." << endl;
@@ -74,6 +75,16 @@ void GameDisplay::setVSync(bool b)
 bool GameDisplay::getVSync()
 {
 	return vsync;
+}
+
+Vector2u GameDisplay::getSize()
+{
+	return wndSizeDefault;
+}
+
+void GameDisplay::setWndSize(Vector2u vec)
+{
+	wndSizeDefault = vec;
 }
 
 GameDisplay::~GameDisplay()
