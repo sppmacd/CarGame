@@ -135,6 +135,7 @@
     <ClInclude Include="ButtonImage.h">
       <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Pliki grafiki">
@@ -166,6 +167,7 @@
     <ResourceCompile Include="icon.rc">
       <Filter>Pliki zasobów</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="version.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CHANGELOG" />

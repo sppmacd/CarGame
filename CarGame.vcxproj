@@ -65,9 +65,11 @@
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="maptype.h" />
     <ClInclude Include="Power.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
+    <ResourceCompile Include="version.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CHANGELOG" />
