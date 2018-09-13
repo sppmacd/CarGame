@@ -366,12 +366,12 @@ void Game::toggleFullscreen()
 
     if(this->fullscreen)
     {
-        wnd->create(sf::VideoMode(1920, 1080, 32), "Car Game");
+        wnd->create(sf::VideoMode(1280, 720, 32), "Car Game");
         this->fullscreen = false;
     }
     else
     {
-        wnd->create(sf::VideoMode(), sf::String(), sf::Style::Fullscreen);
+		wnd->create(sf::VideoMode::getFullscreenModes()[0], sf::String(), sf::Style::Fullscreen);
         this->fullscreen = true;
     }
 	GameDisplay::instance->setWndSize(wnd->getSize());
