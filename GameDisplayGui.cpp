@@ -38,6 +38,9 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	sf::RectangleShape rs(Vector2f(3.f, 20.f));
 	rs.setPosition(wnd->getSize().x / 2 + aX*2.5f - 50, wnd->getSize().y / 2 + 200);
 	rs.setOrigin(1.5f, 10.f);
+	rs.setFillColor(Color(230, 230, 230));
+	rs.setOutlineColor(Color(50,50,50));
+	rs.setOutlineThicness(1.5f);
 	wnd->draw(rs);
 
 	wnd->display();
