@@ -28,6 +28,6 @@ void ButtonImage::draw(RenderWindow* wnd)
 	spr.setPosition(this->getPos() + this->getSize() / 2.f);
 	spr.setOrigin(this->getSize() / 2.f);
 	if (!enabled) spr.setColor(Color(128, 128, 128));
-	spr.setScale((isMouseOver && enabled) ? Vector2f(0.95f, 0.95f) : Vector2f(0.9f, 0.9f));
+	spr.setScale((isMouseOver && enabled) ? Vector2f(0.97f, 0.97f) : Vector2f(0.93f, 0.93f));
 	wnd->draw(spr);
 }
