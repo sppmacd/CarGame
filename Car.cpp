@@ -1,5 +1,6 @@
 #include "Car.h"
 #include <iostream>
+#include "GameDisplay.h"
 
 Car::Car(float speed, int line)
     : typeId(NORMAL)
@@ -95,7 +96,7 @@ void Car::onUpdate()
 
 sf::Vector2f Car::getScreenPos()
 {
-    return sf::Vector2f(this->carRelativeToScreen * 2, (this->getLine() * 83) + 455);
+    return sf::Vector2f(this->carRelativeToScreen * 2, (this->getLine() * 83) + GameDisplay::instance->getSize().y/2 - 85);
 }
 
 string Car::getTextureName()

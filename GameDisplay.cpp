@@ -186,7 +186,7 @@ void GameDisplay::drawGame()
     sf::Sprite bg(this->texturesByName.find("bg/" + game->level.getTextureName().toAnsiString())->second);
     bg.setScale(1920.0f, 2.0f);
 	bg.setOrigin(0.f, 125.f);
-	bg.setPosition(0.f, 540.f);
+	bg.setPosition(0.f, this->getSize().y / 2.f);
     this->renderWnd->draw(bg);
 
     // CARS
