@@ -29,6 +29,7 @@ public:
     void drawTutorial(sf::Vector2f, sf::Vector2f, string str);
 	void drawSplash(string text);
 	void setSplash(string text);
+	sf::Vector2i mousePos();
 
     sf::Text drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
     sf::Text drawCenteredString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);

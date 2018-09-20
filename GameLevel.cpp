@@ -39,7 +39,7 @@ void Game::updateCars()
                     continue;
                 }
 
-                if(abs(car->getScreenPos().x - sf::Mouse::getPosition(*GameDisplay::instance->getRenderWnd()).x) < 100.f && abs(car->getScreenPos().y - sf::Mouse::getPosition(*GameDisplay::instance->getRenderWnd()).y) < 40.f && this->wasReleased)
+                if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
                     car->makeDestroy();
                     if(car->typeId == Car::RARE)

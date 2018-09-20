@@ -60,7 +60,7 @@ void PowerOil::drawPower(RenderWindow * wnd)
 
 void PowerOil::drawPowerIdle(RenderWindow* wnd)
 {
-	Vector2f p(Mouse::getPosition(*wnd));
+	Vector2f p(GameDisplay::instance->mousePos());
 	RectangleShape rs(Vector2f(40.f, 500.f));
 	rs.setFillColor(Color(219, 201, 65, 150));
 	rs.setOutlineColor(Color(219, 201, 65));

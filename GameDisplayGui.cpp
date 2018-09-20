@@ -40,7 +40,7 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	rs.setOrigin(1.5f, 10.f);
 	rs.setFillColor(Color(230, 230, 230));
 	rs.setOutlineColor(Color(50,50,50));
-	rs.setOutlineThicness(1.5f);
+	rs.setOutlineThickness(1.5f);
 	wnd->draw(rs);
 
 	wnd->display();
@@ -74,6 +74,11 @@ void GameDisplay::setSplash(string text)
 	this->splashText = text;
 	this->splashSet = true;
 	this->splashTick = 60;
+}
+
+Vector2i GameDisplay::mousePos()
+{
+	return Vector2i(this->getRenderWnd()->mapPixelToCoords(Mouse::getPosition(*this->getRenderWnd())));
 }
 
 void drawDebugPie(sf::RenderWindow* wnd)

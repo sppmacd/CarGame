@@ -293,13 +293,13 @@ void Game::tickGui(sf::Event& event)
 	if (event.type == sf::Event::MouseMoved)
 	{
 		sf::Vector2i mousepos(event.mouseMove.x, event.mouseMove.y);
-		this->tickEventMouseMove(sf::Vector2f(mousepos));
+		this->tickEventMouseMove(GameDisplay::instance->getRenderWnd()->mapPixelToCoords(mousepos));
 	}
 
     if(event.type == sf::Event::MouseButtonReleased)
     {
 		sf::Vector2i mousepos(event.mouseButton.x, event.mouseButton.y);
-        this->tickEventMouseClick(sf::Vector2f(mousepos));
+        this->tickEventMouseClick(GameDisplay::instance->getRenderWnd()->mapPixelToCoords(mousepos));
     }
 }
 
