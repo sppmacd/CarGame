@@ -27,10 +27,31 @@ void GameDisplay::clearTextures()
 
 void GameDisplay::reload()
 {
-	GameDisplay::loadingStr = "Reloading resources...";
-
     cout << "GameDisplay: Reloading graphics resources..." << endl;
     this->clearTextures();
+
+	// Create unknown texture
+	Image imgUnknownTexture;
+	imgUnknownTexture.create(300, 300);
+
+	GameDisplay::loadingStr = "Creating unknown texture...";
+	for(int i = 0; i < 64; i++)
+	for(int j = 0; j < 64; j++)
+	{ 
+		// 0     150    300
+		// *******%%%%%%% 0
+		// *******%%%%%%%
+		// *******%%%%%%% 150
+		// %%%%%%%*******
+		// %%%%%%%*******
+		// %%%%%%%******* 300
+
+		bool isNB = ((i <= 32 && j >= 32) || (i <= 32 && j >= 32));
+		imgUnknownTexture.setPixel(i, j, isNB ? Color::Red : Color::Green);
+	}
+	this->unknownTexture.loadFromImage(imgUnknownTexture);
+
+	GameDisplay::loadingStr = "Reloading resources...";
 
     this->addTexture("car/default");
     this->addTexture("car/lorry");
@@ -61,8 +82,24 @@ void GameDisplay::addTexture(string name)
     cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
     sf::Texture tx;
-    tx.loadFromFile("res/" + name + ".png");
-    this->texturesByName.insert(pair<string,sf::Texture>(name,tx));
+    if(!tx.loadFromFile("res/" + name + ".png"))
+		this->texturesByName.insert(pair<string, sf::Texture>(name,unknownTexture));
+	else
+		this->texturesByName.insert(pair<string, sf::Texture>(name, tx));
+}
+
+sf::Texture & GameDisplay::getTexture(string name)
+{
+	sf::Texture* tex;
+	try
+	{
+		tex = &texturesByName.find(name)->second;
+	}
+	catch(out_of_range)
+	{ 
+		return unknownTexture;
+	}
+	return *tex;
 }
 
 void GameDisplay::setVSync(bool b)
@@ -148,12 +185,14 @@ void GameDisplay::drawLoadingProgress(string action, sf::RenderWindow* wnd)
     static sf::Font f;
 	static bool l = false;
     
+	// Temporarily load Font
 	if (!l)
 	{
 		f.loadFromFile("res/font.ttf");
 		l = true;
 	}
 
+	// we can't use drawString in static function (before the GameDisplay is loaded)
     sf::Text text("Loading...", f, 30);
 	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
 	text.setStyle(sf::Text::Bold);
@@ -183,14 +222,14 @@ void GameDisplay::drawGame()
     this->renderWnd->clear(game->getLevelColor());
 
     // BACKGROUND
-    sf::Sprite bg(this->texturesByName.find("bg/" + game->level.getTextureName().toAnsiString())->second);
+    sf::Sprite bg(this->getTexture("bg/" + game->level.getTextureName().toAnsiString()));
     bg.setScale(1920.0f, 2.0f);
 	bg.setOrigin(0.f, 125.f);
 	bg.setPosition(0.f, this->getSize().y / 2.f);
     this->renderWnd->draw(bg);
 
     // CARS
-    sf::Sprite car(this->texturesByName.find("car/default")->second);
+    sf::Sprite car(this->getTexture("car/default"));
     car.setOrigin(50.f, 20.f);
     car.setScale(2.0f, 2.0f);
 
@@ -218,7 +257,7 @@ void GameDisplay::drawGame()
 
 		// car background layer
 		car.setColor(carobj.getColor());
-        car.setTexture(this->texturesByName.find("car/" + carobj.getTextureName())->second);
+        car.setTexture(this->getTexture("car/" + carobj.getTextureName()));
 		car.setTextureRect(IntRect(0, 0, 100, 40));
         this->renderWnd->draw(car);
 

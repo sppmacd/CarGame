@@ -3,7 +3,7 @@
 
 ButtonImage::ButtonImage(string imgName, sf::Vector2f size, sf::Vector2f pos, string text, int id) : Button(size,pos,text,id)
 {
-	this->img = &GameDisplay::instance->texturesByName.find(imgName)->second;
+	this->img = &GameDisplay::instance->getTexture(imgName);
 	this->bText = imgName;
 }
 

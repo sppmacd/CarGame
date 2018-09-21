@@ -21,12 +21,14 @@ void Game::updateCars()
         {
             Car* car = &(this->cars[i]);
             car->move(this->gameSpeed / 0.176);
+			car->onUpdate();
 
             if(car->isDestroying())
             {
                 if(car->tickDestroy())
                 {
                     car->setToErase();
+					car->onDestroy();
                 }
             }
             else
@@ -42,6 +44,8 @@ void Game::updateCars()
                 if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
                     car->makeDestroy();
+					car->onDamage();
+
                     if(car->typeId == Car::RARE)
                     {
                         this->addScore(2);
@@ -70,7 +74,7 @@ void Game::updateCars()
                 this->cars.erase(this->cars.begin() + i);
             }
         }
-        this->wasReleased = false; // This was moved from destroy code to prevent bug (gos2) with destroying
+        this->wasReleased = false;
     }
 }
 
@@ -109,6 +113,7 @@ void Game::tickNormalGame()
             car.setColor(sf::Color(((rand() % 8)*32)-1, ((rand() % 8)*32)-1, ((rand() % 8)*32)-1));
         }
 
+		car.onCreate();
         this->addCar(car);
     }
 

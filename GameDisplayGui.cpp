@@ -10,7 +10,7 @@
 
 void GameDisplay::drawStat(int x, int y, std::string texture, long val)
 {
-    sf::Sprite s1(this->texturesByName.find("stat/" + texture)->second);
+    sf::Sprite s1(this->getTexture("stat/" + texture));
     s1.setPosition(x, y + 10);
     this->renderWnd->draw(s1);
 
@@ -180,7 +180,7 @@ void GameDisplay::drawGui()
 
         if(game->getCurrentPower() >= 1)
         {
-            sf::Sprite spr(this->texturesByName.find("power/" + to_string(game->getCurrentPower()))->second);
+            sf::Sprite spr(this->getTexture("power/" + to_string(game->getCurrentPower())));
             spr.setPosition(1050, 42);
             this->renderWnd->draw(spr);
 
