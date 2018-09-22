@@ -27,6 +27,7 @@
     <ClCompile Include="CarBus.cpp" />
     <ClCompile Include="CarLorry.cpp" />
     <ClCompile Include="CarRare.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDisplay.cpp" />
     <ClCompile Include="GameDisplayGui.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="CarBus.h" />
     <ClInclude Include="CarLorry.h" />
     <ClInclude Include="CarRare.h" />
+    <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDisplay.h" />
     <ClInclude Include="Gui.h" />
@@ -73,6 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CHANGELOG" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarGameLauncher\CarGame Launcher.vcxproj">
+      <Project>{feb76d67-9f80-48e3-99d7-53069556fb91}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

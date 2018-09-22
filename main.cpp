@@ -88,64 +88,9 @@ int main()
 
 			while(data.wnd->pollEvent(ev1))
 			{
-				if(ev1.type == sf::Event::Closed)
-				{
-					data.game->exit(0);
-				}
-
-				else if(ev1.type == sf::Event::MouseButtonReleased && ev1.mouseButton.button == sf::Mouse::Left)
-				{
-					data.game->wasReleased = true;
-				}
-
-				else if(ev1.type == sf::Event::MouseButtonReleased && ev1.mouseButton.button == sf::Mouse::Right)
-				{
-					if(data.game->powerCooldown <= 0 && data.game->powerTime <= 0 && data.game->powers[data.game->getCurrentPower()] > 0)
-						data.game->isPowerUsed = true;
-				}
-
-				else if(ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Space)
-				{
-					if(data.game->tutorialStep == 6)
-					{
-						data.game->tutorialStep = 0;
-						data.game->pause(false);
-					}
-				}
-
-				else if(data.game->isGameOver() && ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Return)
-				{
-					data.game->loadGame();
-				}
-
-				else if(ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Escape && !data.game->isGameOver() && !data.game->paused())
-				{
-					cout << "main: Pausing game..." << endl;
-					data.game->displayGui(0);
-					data.game->pause(true);
-				}
-
-				else if(ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::F11)
-				{
-					data.game->toggleFullscreen();
-				}
-
-				else if(ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::F3 && ev1.key.shift)
-				{
-					data.game->debug = !data.game->debug;
-				}
-
-				else if(ev1.type == sf::Event::MouseWheelScrolled)
-				{
-					data.game->wheelEvent(ev1.mouseWheelScroll);
-				}
-
-				else if (ev1.type == sf::Event::KeyPressed && ev1.key.code == sf::Keyboard::Escape && data.game->displayedGui == 0) //close ingame GUI on Esc (0.0.5)
-				{
-					data.game->closeGui();
-					data.game->pause(false);
-				}
-
+				
+				else //for event api
+					data.game->runEventHandler(ev1);
 				// tick GUI for each event
 
 				if (data.game->guiCooldown <= 0 && data.game->isGuiLoaded)

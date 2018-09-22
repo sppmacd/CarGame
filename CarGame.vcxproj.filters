@@ -2,173 +2,182 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="GameDisplayGui.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="Gui.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiGameOver.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiIngame.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiMainMenu.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiMapSelect.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiPowers.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiSettings.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="GameDisplay.cpp">
-      <Filter>Pliki grafiki</Filter>
+      <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Pliki główne</Filter>
+      <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Pliki główne</Filter>
+      <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="Car.cpp">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClCompile>
     <ClCompile Include="CarAmbulance.cpp">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClCompile>
     <ClCompile Include="CarBus.cpp">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClCompile>
     <ClCompile Include="CarLorry.cpp">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClCompile>
     <ClCompile Include="CarRare.cpp">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClCompile>
     <ClCompile Include="GameLevel.cpp">
-      <Filter>Pliki obsługi poziomu</Filter>
+      <Filter>level</Filter>
     </ClCompile>
     <ClCompile Include="LevelData.cpp">
-      <Filter>Pliki obsługi poziomu</Filter>
+      <Filter>level</Filter>
     </ClCompile>
     <ClCompile Include="GuiYesNo.cpp">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClCompile>
     <ClCompile Include="Power.cpp">
-      <Filter>Pliki obsługi poziomu</Filter>
+      <Filter>level</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+      <Filter>graphics\gui\Kontrolki</Filter>
     </ClCompile>
     <ClCompile Include="ButtonToggle.cpp">
-      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+      <Filter>graphics\gui\Kontrolki</Filter>
     </ClCompile>
     <ClCompile Include="ButtonImage.cpp">
-      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+      <Filter>graphics\gui\Kontrolki</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>main\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiGameOver.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiIngame.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiMainMenu.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiMapSelect.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiPowers.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiSettings.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="GameDisplay.h">
-      <Filter>Pliki grafiki</Filter>
+      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Pliki główne</Filter>
+      <Filter>main</Filter>
     </ClInclude>
     <ClInclude Include="Car.h">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClInclude>
     <ClInclude Include="CarAmbulance.h">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClInclude>
     <ClInclude Include="CarBus.h">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClInclude>
     <ClInclude Include="CarLorry.h">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClInclude>
     <ClInclude Include="LevelData.h">
-      <Filter>Pliki obsługi poziomu</Filter>
+      <Filter>level</Filter>
     </ClInclude>
     <ClInclude Include="maptype.h">
-      <Filter>Pliki obsługi poziomu</Filter>
+      <Filter>level</Filter>
     </ClInclude>
     <ClInclude Include="CarRare.h">
-      <Filter>Pliki obsługi poziomu\Pliki definicji samochodów</Filter>
+      <Filter>level\cars</Filter>
     </ClInclude>
     <ClInclude Include="GuiYesNo.h">
-      <Filter>Pliki grafiki\Pliki GUI</Filter>
+      <Filter>graphics\gui</Filter>
     </ClInclude>
     <ClInclude Include="Power.h">
-      <Filter>Pliki obsługi poziomu</Filter>
+      <Filter>level</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+      <Filter>graphics\gui\Kontrolki</Filter>
     </ClInclude>
     <ClInclude Include="ButtonToggle.h">
-      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+      <Filter>graphics\gui\Kontrolki</Filter>
     </ClInclude>
     <ClInclude Include="ButtonImage.h">
-      <Filter>Pliki grafiki\Pliki GUI\Kontrolki</Filter>
+      <Filter>graphics\gui\Kontrolki</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="EventHandler.h">
+      <Filter>main\event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Pliki grafiki">
-      <UniqueIdentifier>{667507ac-807a-4959-b19f-bf6ee79c75f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pliki główne">
+    <Filter Include="main">
       <UniqueIdentifier>{be6ab483-0700-4dd6-a26b-5852fa06f175}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki zasobów">
-      <UniqueIdentifier>{442c36d2-e105-481d-a24d-265fb6fbe1ed}</UniqueIdentifier>
+    <Filter Include="main\event">
+      <UniqueIdentifier>{c957a04a-b31d-4758-8d3b-fcf264e7bcf3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki grafiki\Pliki GUI">
+    <Filter Include="graphics">
+      <UniqueIdentifier>{667507ac-807a-4959-b19f-bf6ee79c75f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\gui">
       <UniqueIdentifier>{eefad9c2-fc86-4e6a-8a5a-f33ba4130af0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki obsługi poziomu">
-      <UniqueIdentifier>{11c73320-f831-4dbb-8d0b-7e2b1073f0cd}</UniqueIdentifier>
+    <Filter Include="graphics\gui\Kontrolki">
+      <UniqueIdentifier>{4bde3544-0bb3-42b8-9ef0-b76989883f5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki obsługi poziomu\Pliki definicji samochodów">
-      <UniqueIdentifier>{a9948a9f-6f08-4bad-ab9b-60c1aabadd1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pliki nieużywane/historyczne">
+    <Filter Include="unused">
       <UniqueIdentifier>{d0325697-8ca4-4fff-8a37-a01e86c7181e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki grafiki\Pliki GUI\Kontrolki">
-      <UniqueIdentifier>{4bde3544-0bb3-42b8-9ef0-b76989883f5d}</UniqueIdentifier>
+    <Filter Include="level">
+      <UniqueIdentifier>{11c73320-f831-4dbb-8d0b-7e2b1073f0cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{442c36d2-e105-481d-a24d-265fb6fbe1ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="level\cars">
+      <UniqueIdentifier>{a9948a9f-6f08-4bad-ab9b-60c1aabadd1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc">
-      <Filter>Pliki zasobów</Filter>
+      <Filter>resource</Filter>
     </ResourceCompile>
     <ResourceCompile Include="version.rc">
-      <Filter>Pliki zasobów</Filter>
+      <Filter>resource</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>

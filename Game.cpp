@@ -34,6 +34,7 @@ Game::Game()
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
 		this->fullscreen = false;
+		this->registerEventHandlers();
 
 		// Reset player stats
 		this->isNewPlayer = false;
@@ -128,6 +129,37 @@ float Game::getGameSpeed()
 void Game::setGameSpeed(float speed)
 {
 	this->gameSpeed = speed;
+}
+
+void Game::runEventHandler(Event& event)
+{
+	int counter = 0;
+	for (pair<const Event::EventType, EventHandler>& pair : eventHandlers)
+	{
+		if (pair.first == event.type)
+		{
+			counter++;
+			bool stat = pair.second(event);
+			if (!stat)
+				cout << "Event canceling is not implemented in CG 0.1 MPI!" << endl;
+		}
+	}
+
+	if(counter < 1)
+		cout << "Event Handler not found for event " << event.type << endl;
+}
+
+void Game::registerEventHandlers()
+{
+	addEventHandler(Event::Closed, EventHandlers::onClose);
+	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
+	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
+	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
+}
+
+void Game::addEventHandler(Event::EventType type, EventHandler handler)
+{
+	eventHandlers.insert(make_pair(type, handler));
 }
 
 int  Game::getCurrentPower()

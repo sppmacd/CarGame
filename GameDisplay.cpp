@@ -50,6 +50,7 @@ void GameDisplay::reload()
 		imgUnknownTexture.setPixel(i, j, isNB ? Color::Red : Color::Green);
 	}
 	this->unknownTexture.loadFromImage(imgUnknownTexture);
+	this->unknownTexture.setRepeated(true);
 
 	GameDisplay::loadingStr = "Reloading resources...";
 
