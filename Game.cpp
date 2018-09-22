@@ -139,7 +139,7 @@ void Game::runEventHandler(Event& event)
 		if (pair.first == event.type)
 		{
 			counter++;
-			bool stat = pair.second(event);
+			bool stat = pair.second(event, this);
 			if (!stat)
 				cout << "Event canceling is not implemented in CG 0.1 MPI!" << endl;
 		}
@@ -360,6 +360,12 @@ void Game::setGameOver()
     this->gameOver = true;
     this->savePlayerData();
     this->displayGui(1);
+}
+
+void Game::pause(bool s)
+{
+	this->gamePaused = s;
+	GameDisplay::instance->getRenderWnd()->setKeyRepeatEnabled(s);
 }
 
 void Game::moveCamera()

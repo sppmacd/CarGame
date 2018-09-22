@@ -165,7 +165,7 @@ public:
     void setGameOver();
 
 	// Pauses / unpauses game
-    void pause(bool s) { this->gamePaused = s; }
+	void pause(bool s);
 
 	// Check if the game is already paused
     bool paused() { return this->gamePaused; }

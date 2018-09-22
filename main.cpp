@@ -88,9 +88,7 @@ int main()
 
 			while(data.wnd->pollEvent(ev1))
 			{
-				
-				else //for event api
-					data.game->runEventHandler(ev1);
+				data.game->runEventHandler(ev1);
 				// tick GUI for each event
 
 				if (data.game->guiCooldown <= 0 && data.game->isGuiLoaded)
