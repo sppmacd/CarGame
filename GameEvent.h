@@ -1,6 +1,7 @@
 #pragma once
 
 class Car;
+class CarType;
 
 class GameEvent
 {
@@ -8,7 +9,7 @@ public:
 
 	enum Type
 	{
-		CarSpawning, //Using UnknownCarEvent
+		CarSpawning, //Using CreateCarInstanceEvent
 		CarSpawned, //Using CarEvent
 		CarDestroyed, //Using CarEvent
 		CarDeleted, //Using CarEvent
@@ -17,9 +18,9 @@ public:
 	};
 	Type type;
 
-	union Events
+	union
 	{
 		struct CarEvent { Car* car; } car;
-		struct UnknownCarEvent { Car* car; } unknownCar;
+		struct CreateCarInstanceEvent { Car* carToCreate; CarType* type; } carSpawned;
 	};
 };

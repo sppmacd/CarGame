@@ -71,6 +71,7 @@ void Game::updateCars()
 
             if(car->canErase)
             {
+				delete car;
                 this->cars.erase(this->cars.begin() + i);
             }
         }
@@ -85,14 +86,27 @@ void Game::tickNormalGame()
         Car car;
 
 		vector<CarType*> selectedTypes;
+		while(selectedTypes.empty())
 		for (CarType& type : carTypeRegistry)
 		{
 			if (rand() % type.getRarity(this->level.getMapType()) == 0)
 				selectedTypes.push_back(&type);
 		}
-		car.type = 
 
-		car.onCreate();
+		CarType* carType = selectedTypes[rand() % selectedTypes.size()];
+
+		// Create event
+		GameEvent event;
+		event.type = GameEvent::CarSpawning;
+		event.carSpawned.carToCreate = &car;
+		event.carSpawned.type = carType;
+		bool createCar = runGameEventHandler(event);
+		
+		if (createCar)
+		{
+			addCar(car);
+			car.onCreate();
+		}
 
         this->addCar(car);
     }

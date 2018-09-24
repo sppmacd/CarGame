@@ -7,7 +7,6 @@ using namespace std;
 class CarType
 {
 	string carTexture;
-	Car::TypeId carId;
 	int maxHealth;
 	vector<int> carRarities;
 public:
@@ -21,4 +20,5 @@ public:
 	CarType& setMaxHealth(int max);
 	int getRarity(LevelData::MapType mapType);
 	static void init();
+	Car::TypeId carId;
 };

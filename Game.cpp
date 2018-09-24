@@ -15,6 +15,9 @@
 #include "GuiPowers.h"
 #include "GuiYesNo.h"
 
+#include "EventHandler.h"
+#include "GameEvent.h"
+
 Game* Game::instance;
 
 Game::Game()
@@ -168,17 +171,20 @@ void Game::runEventHandler(Event& event)
 bool Game::runGameEventHandler(GameEvent & event)
 {
 	int counter = 0;
+	bool stat;
 	for (pair<const GameEvent::Type, GameEventHandler>& pair : eventHandler.registry)
 	{
 		if (pair.first == event.type)
 		{
 			counter++;
-			return pair.second(event, this);
+			stat |= pair.second(event, this);
 		}
 	}
 
 	if (counter < 1)
 		cout << "Game Event Handler not found for event " << event.type << endl;
+
+	return stat;
 }
 
 void Game::registerEventHandlers()
@@ -187,6 +193,7 @@ void Game::registerEventHandlers()
 	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
 	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
 	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
+	eventHandler.registerGameEvent(GameEvent::CarCreating, EventHandlers::onCarCreating);
 }
 
 void Game::addEventHandler(Event::EventType type, EventHandler handler)
@@ -350,6 +357,11 @@ Game::~Game()
     cout << "Game: Deleting game engine instance..." << endl;
     this->closeLevel();
 	delete[] this->powers;
+	
+	for (Car& car : cars)
+	{
+		delete &car;
+	}
 }
 
 void Game::tickGui(sf::Event& event)

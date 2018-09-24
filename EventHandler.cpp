@@ -1,5 +1,10 @@
 #include "EventHandler.h"
 #include "Game.h"
+#include "Car.h"
+#include "CarLorry.h"
+#include "CarRare.h"
+#include "CarBus.h"
+#include "CarAmbulance.h"
 
 bool EventHandlers::onClose(Event event, Game* game)
 {
@@ -59,6 +64,39 @@ bool EventHandlers::onKeyPressed(Event event, Game * game)
 	{
 		game->closeGui();
 		game->pause(false);
+	}
+	return true;
+}
+
+bool EventHandlers::onCarSpawning(GameEvent event, Game * game)
+{
+	Car::TypeId carId = event.carSpawned.type->carId;
+
+	int color = rand() % 64 + 128;
+
+	switch (carId)
+	{
+	case Car::NORMAL: 
+		event.carSpawned.carToCreate = new Car(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate->setColor(Color(rand() % 64 + 128, rand() % 64 + 128, rand() % 64 + 128));
+		break;
+	case Car::LORRY:
+		event.carSpawned.carToCreate = new CarLorry(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate->setColor(Color(color, color, color));
+		break;
+	case Car::RARE:
+		event.carSpawned.carToCreate = new CarRare(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate->setColor(Color(color, 0, 0));
+		break;
+	case Car::BUS:
+		event.carSpawned.carToCreate = new CarBus(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate->setColor(Color(0, color, color));
+		break;
+	case Car::AMBULANCE:
+		event.carSpawned.carToCreate = new CarAmbulance(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate->setColor(Color(color, color, color));
+		break;
+	default: return false;
 	}
 	return true;
 }
