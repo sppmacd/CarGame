@@ -365,8 +365,7 @@ void Game::setGameOver()
 void Game::pause(bool s)
 {
 	this->gamePaused = s;
-	if(GameDisplay::instance)
-		GameDisplay::instance->getRenderWnd()->setKeyRepeatEnabled(s);
+	GameDisplay::instance->getRenderWnd()->setKeyRepeatEnabled(s);
 }
 
 void Game::moveCamera()
