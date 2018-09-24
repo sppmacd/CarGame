@@ -3,18 +3,34 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "CarType.h"
 
 using std::string;
 
 class Car
 {
 public:
+	enum TypeId
+	{
+		NORMAL,
+		LORRY,
+		RARE,
+		BUS,
+		AMBULANCE,
+		RALLY,
+		FIREMAN,
+		TANK,
+		OLD,
+		BOMB,
+		COUNT
+	};
+
     /// \brief Constructor used to create empty cars. Do not use in spawning!
     Car() : animSize(1)
     {
         this->typeId = NORMAL;
     }
-	Car(float speed, int line);
+	Car(Car::TypeId id, float speed, int line);
     float getSpeed();
     int getLine();
     void setColor(sf::Color color);
@@ -53,21 +69,6 @@ public:
     float destroyTick;
 	int animSize;
 	int frameLength;
-
-    enum TypeId
-    {
-        NORMAL,
-        LORRY,
-        RARE,
-        BUS,
-        AMBULANCE,
-		RALLY,
-		FIREMAN,
-		TANK,
-		OLD,
-		BOMB,
-        COUNT
-    };
 
 	TypeId typeId;
 	CarType* type;

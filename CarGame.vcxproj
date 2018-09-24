@@ -27,6 +27,7 @@
     <ClCompile Include="CarBus.cpp" />
     <ClCompile Include="CarLorry.cpp" />
     <ClCompile Include="CarRare.cpp" />
+    <ClCompile Include="CarType.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDisplay.cpp" />
@@ -53,9 +54,11 @@
     <ClInclude Include="CarBus.h" />
     <ClInclude Include="CarLorry.h" />
     <ClInclude Include="CarRare.h" />
+    <ClInclude Include="CarType.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameDisplay.h" />
+    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="GuiGameOver.h" />
     <ClInclude Include="GuiIngame.h" />

@@ -1,9 +1,10 @@
 #include "Car.h"
 #include <iostream>
 #include "GameDisplay.h"
+#include "Game.h"
 
-Car::Car(float speed, int line)
-    : typeId(NORMAL)
+Car::Car(Car::TypeId id, float speed, int line)
+    : typeId(id)
     , carSpeed(speed)
     , lineIn(line)
 {
@@ -13,6 +14,7 @@ Car::Car(float speed, int line)
     this->canErase = false;
 	
 	// Create car type for car
+	this->type = Game::instance->findCarTypeByID(id);
 }
 
 bool Car::tickDestroy()

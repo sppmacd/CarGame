@@ -10,7 +10,7 @@ public:
     {
         this->typeId = LORRY;
     }
-    CarLorry(float, int);
+    CarLorry(Car::TypeId, float, int);
     virtual ~CarLorry() {}
 
 protected:

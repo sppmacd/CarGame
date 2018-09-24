@@ -35,7 +35,6 @@ public:
     sf::Color getColor();
     sf::String getTextureName();
     float getAcceleration();
-    int getCarRarity(Car::TypeId car);
 	int getCarCreationSpeed();
 
 private:

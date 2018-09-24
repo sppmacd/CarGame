@@ -10,7 +10,7 @@ public:
     {
         this->typeId = AMBULANCE;
     }
-    CarAmbulance(float, int);
+    CarAmbulance(Car::TypeId, float, int);
     virtual ~CarAmbulance() {}
 
 protected:

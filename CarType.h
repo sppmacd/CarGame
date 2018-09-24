@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "LevelData.h"
+#include "Car.h"
 using namespace std;
 
 class CarType

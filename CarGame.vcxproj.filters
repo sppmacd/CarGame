@@ -52,14 +52,8 @@
     <ClCompile Include="GameLevel.cpp">
       <Filter>level</Filter>
     </ClCompile>
-    <ClCompile Include="LevelData.cpp">
-      <Filter>level</Filter>
-    </ClCompile>
     <ClCompile Include="GuiYesNo.cpp">
       <Filter>graphics\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="Power.cpp">
-      <Filter>level</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>graphics\gui\Kontrolki</Filter>
@@ -72,6 +66,15 @@
     </ClCompile>
     <ClCompile Include="EventHandler.cpp">
       <Filter>main\event</Filter>
+    </ClCompile>
+    <ClCompile Include="CarType.cpp">
+      <Filter>level\cars</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelData.cpp">
+      <Filter>level\maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Power.cpp">
+      <Filter>level\powers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,20 +117,11 @@
     <ClInclude Include="CarLorry.h">
       <Filter>level\cars</Filter>
     </ClInclude>
-    <ClInclude Include="LevelData.h">
-      <Filter>level</Filter>
-    </ClInclude>
-    <ClInclude Include="maptype.h">
-      <Filter>level</Filter>
-    </ClInclude>
     <ClInclude Include="CarRare.h">
       <Filter>level\cars</Filter>
     </ClInclude>
     <ClInclude Include="GuiYesNo.h">
       <Filter>graphics\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="Power.h">
-      <Filter>level</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>graphics\gui\Kontrolki</Filter>
@@ -141,6 +135,21 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="EventHandler.h">
       <Filter>main\event</Filter>
+    </ClInclude>
+    <ClInclude Include="CarType.h">
+      <Filter>level\cars</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>main\event</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelData.h">
+      <Filter>level\maps</Filter>
+    </ClInclude>
+    <ClInclude Include="maptype.h">
+      <Filter>level\maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Power.h">
+      <Filter>level\powers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +179,12 @@
     </Filter>
     <Filter Include="level\cars">
       <UniqueIdentifier>{a9948a9f-6f08-4bad-ab9b-60c1aabadd1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="level\maps">
+      <UniqueIdentifier>{8ab08327-b0fe-44dd-92c4-001d95b76818}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="level\powers">
+      <UniqueIdentifier>{986e5b6a-d464-4c75-8129-1fa756f9355b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
