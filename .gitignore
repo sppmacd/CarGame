@@ -260,4 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 *.zip
-/share/cargame-0.0.5.exe
+
+share/
+*.vcxproj*
