@@ -78,7 +78,7 @@ public:
     }
 
 	// Add/register texture to GameDisplay.
-    void addTexture(string name);
+    void addTexture(string name, bool repeated = false, bool smooth = false);
 
 	// Get texture instance.
     sf::Texture& getTexture(string name);

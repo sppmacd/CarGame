@@ -61,7 +61,7 @@ void GameDisplay::reload()
 
 	for (auto ld : Game::instance->levelRegistry)
 	{
-		this->addTexture("bg/" + ld.second->getTextureName());
+		this->addTexture("bg/" + ld.second->getTextureName(), true, true);
 		this->addTexture("map/" + ld.second->getTextureName());
 	}
 
@@ -78,15 +78,23 @@ void GameDisplay::reload()
     this->guiFont = font;
 }
 
-void GameDisplay::addTexture(string name)
+void GameDisplay::addTexture(string name, bool repeated, bool smooth)
 {
     cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
     sf::Texture tx;
-    if(!tx.loadFromFile("res/" + name + ".png"))
-		this->texturesByName.insert(pair<string, sf::Texture>(name,unknownTexture));
+	bool load = !tx.loadFromFile("res/" + name + ".png");
+	if (!load)
+	{
+		this->texturesByName.insert(pair<string, sf::Texture>(name, unknownTexture));
+		return;
+	}
 	else
+	{
+		tx.setRepeated(repeated);
+		tx.setSmooth(smooth);
 		this->texturesByName.insert(pair<string, sf::Texture>(name, tx));
+	}
 }
 
 sf::Texture & GameDisplay::getTexture(string name)
@@ -223,8 +231,7 @@ void GameDisplay::drawGame()
     this->renderWnd->clear(game->getLevelColor());
 
     // BACKGROUND
-    sf::Sprite bg(this->getTexture("bg/" + game->level.getTextureName().toAnsiString()));
-    bg.setScale(1920.0f, 2.0f);
+    sf::Sprite bg(this->getTexture("bg/" + game->level.getTextureName().toAnsiString()), IntRect(0, 0, this->getSize().x, 500));
 	bg.setOrigin(0.f, 125.f);
 	bg.setPosition(0.f, this->getSize().y / 2.f);
     this->renderWnd->draw(bg);

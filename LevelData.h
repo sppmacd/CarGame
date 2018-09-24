@@ -6,6 +6,7 @@
 #include "Car.h"
 
 using namespace std;
+using namespace sf;
 
 /// Class used with loading game, stores main level data.
 class LevelData
@@ -40,9 +41,9 @@ public:
 
 private:
     /// Internal array to store car rarity.
-    std::array<int, Car::COUNT> carRarity;
-    sf::Color mapColor;
-    sf::String textureName;
+    array<int, Car::COUNT> carRarity;
+    Color mapColor;
+    String textureName;
     float acc;
     MapType mapType;
 	int carCreationSpd;

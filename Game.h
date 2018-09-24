@@ -6,6 +6,7 @@
 #include "LevelData.h"
 #include "Power.h"
 #include "EventHandler.h"
+#include "CarType.h"
 
 using namespace std;
 
@@ -232,6 +233,9 @@ public:
 
 	// Register powers
 	void registerPowers();
+
+	// Register car type. Used in generator,renderer,...
+	void registerCarType(CarType type);
 
 	// Get game speed value. Used externally by powers
 	float getGameSpeed();
