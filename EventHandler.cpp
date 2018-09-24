@@ -63,12 +63,12 @@ bool EventHandlers::onKeyPressed(Event event, Game * game)
 	return true;
 }
 
-void EventHandler::registerGameEvent(GameEvent::Type event, GameEventHandler func)
+EventsHandler::EventsHandler()
 {
-	registry.insert(make_pair(event, func));
+	instance = this;
 }
 
-GameEventHandler EventHandler::getHandlerByEvent(GameEvent::Type event)
+void EventsHandler::registerGameEvent(GameEvent::Type event, GameEventHandler func)
 {
-	return registry[event];
+	registry.insert(make_pair(event, func));
 }

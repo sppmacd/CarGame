@@ -165,6 +165,22 @@ void Game::runEventHandler(Event& event)
 		cout << "Event Handler not found for event " << event.type << endl;
 }
 
+bool Game::runGameEventHandler(GameEvent & event)
+{
+	int counter = 0;
+	for (pair<const GameEvent::Type, GameEventHandler>& pair : eventHandler.registry)
+	{
+		if (pair.first == event.type)
+		{
+			counter++;
+			return pair.second(event, this);
+		}
+	}
+
+	if (counter < 1)
+		cout << "Game Event Handler not found for event " << event.type << endl;
+}
+
 void Game::registerEventHandlers()
 {
 	addEventHandler(Event::Closed, EventHandlers::onClose);

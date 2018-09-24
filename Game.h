@@ -26,91 +26,94 @@ public:
 	/////// MAIN DATA ///////
 	/////////////////////////
 
-	/// Instance of the game
+	// Instance of the game
     static Game* instance;
 
-	/// Game tick count depended on level
+	// Game tick count depended on level
     int tickCount;
 
-	/// Main tick count since the game started
+	// Main tick count since the game started
     long mainTickCount;
 
-	/// Variable storing MouseButtonReleased event status
+	// Variable storing MouseButtonReleased event status
     bool wasReleased;
 
-	/// Variable storing gui status
+	// Variable storing gui status
     bool isGuiLoaded;
 
-	/// Variable storing currently displayed GUI
+	// Variable storing currently displayed GUI
     int displayedGui;
 
-	/// Gui cooldown (deprecated)
+	// Gui cooldown (deprecated)
     int guiCooldown;
 
-	/// Power time
+	// Power time
     int powerTime;
 
-	/// Power cooldown
+	// Power cooldown
     int powerCooldown;
 
-	/// Current level data
+	// Current level data
     LevelData level;
 
-	/// Current return value for game
+	// Current return value for game
     int retVal;
 
-	/// Time values (debug!)
+	// Time values (debug!)
     Times times;
 
-	/// Is the power used? (Right click event status)
+	// Is the power used? (Right click event status)
     bool isPowerUsed;
 
-	/// Variable storing car creating speed.
+	// Variable storing car creating speed.
 	int carCreatingSpeed;
 
-	/// Variable storing, if the new record is set (used in splash screen)
+	// Variable storing, if the new record is set (used in splash screen)
 	bool newRecord;
 
-	/// Vector storing event handlers.
+	///Vector storing event handlers.
 	map<sf::Event::EventType, EventHandler> eventHandlers;
 
 	/////////////////////////
     ////// PLAYER DATA //////
 	/////////////////////////
 
-	/// Points required to get new coin multiplier
+	// Points required to get new coin multiplier
     int pointsToNewMpl;
 
-	/// Score in the last tick. Used by the game over GUI
+	// Score in the last tick. Used by the game over GUI
     long lastTickScore;
 
-	/// Player highscore, currently used only by renderer
+	// Player highscore, currently used only by renderer
     long highScore;
 
-	/// Variable stores if the player started game first one
+	// Variable stores if the player started game first one
     bool isNewPlayer;
 
-	/// Player tutorial step. Can reset by restart
+	// Player tutorial step. Can reset by restart
     int tutorialStep;
 
 	/////////////////////////
 	////// OTHER DATA ///////
 	/////////////////////////
 
-	/// Registry of the maps, used by MapSelect GUI.
+	// Registry of the maps, used by MapSelect GUI.
 	map<string, LevelData*> levelRegistry;
 
-	/// Tick time
+	// Tick time
     sf::Time tickTime;
 
-	/// Real tick time (with wait time)
+	// Real tick time (with wait time)
     sf::Time realTickTime;
 
-	/// Debug mode stat
+	// Debug mode stat
     bool debug;
 
-    /// Saved in byte format, unlocked levels for player
+    // Saved in byte format, unlocked levels for player
     int unlockedLevels;
+
+	// EventsHandler instance
+	EventsHandler eventHandler;
 
 	///// FUNCTIONS /////
 
@@ -248,6 +251,9 @@ public:
 
 	// Runs EventHandler for event.
 	void runEventHandler(Event& event);
+
+	// Runs GameEventHandler for event.
+	bool runGameEventHandler(GameEvent& event);
 
 	// Registers event handlers. Called once on loading.
 	void registerEventHandlers();

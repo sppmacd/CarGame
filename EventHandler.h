@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Window.hpp>
-#include "GameEvent.hpp"
+#include "GameEvent.h"
 
 class Game;
 
@@ -21,11 +21,11 @@ namespace EventHandlers
 	bool onCarSpawning(GameEvent event, Game* game);
 }
 
-class EventHandler
+class EventsHandler
 {
 public:
-	static EventHandler* instance;
+	EventsHandler();
+	static EventsHandler* instance;
 	map<GameEvent::Type, GameEventHandler> registry;
 	void registerGameEvent(GameEvent::Type event, GameEventHandler func);
-	GameEventHandler getHandlersByEvent(GameEvent::Type event);
 };
