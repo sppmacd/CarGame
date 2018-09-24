@@ -27,7 +27,6 @@ public:
     LevelData() {}
     MapType getMapType();
 
-    void addRarity(Car::TypeId car, int value);
     void setColor(sf::Color c);
     void setTextureName(sf::String name);
     void setAcceleration(float f);
@@ -40,8 +39,6 @@ public:
 	int getCarCreationSpeed();
 
 private:
-    /// Internal array to store car rarity.
-    array<int, Car::COUNT> carRarity;
     Color mapColor;
     String textureName;
     float acc;

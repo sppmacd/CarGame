@@ -255,6 +255,9 @@ public:
 	// Variable storing power data registry
 	map<int, PowerHandles> powerRegistry;
 
+	// Car type registry
+	vector<CarType> carTypeRegistry;
+
 private:
 	// Not used variable storing camera position
     int cameraPos;

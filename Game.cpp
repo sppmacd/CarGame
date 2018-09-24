@@ -41,8 +41,9 @@ Game::Game()
 		this->tutorialStep = 0;
 		this->powers = new int[3];
 
-		// Reset level data
+		// Reset level and car data
 		LevelData::init();
+		CarType::init();
 
 		// Reset powers
 		this->powerCooldown = 0;
@@ -119,6 +120,11 @@ void Game::registerPowers()
 	powerRegistry.insert(make_pair(0, PowerHandles{}));
 	powerRegistry.insert(make_pair(1, PowerHandles{ PowerOil::drawPower, PowerOil::onPowerStart, PowerOil::onPowerStop, PowerOil::onPowerTick, PowerOil::drawPowerIdle }));
 	powerRegistry.insert(make_pair(2, PowerHandles{ PowerFreeze::drawPower, PowerFreeze::onPowerStart, PowerFreeze::onPowerStop }));
+}
+
+void Game::registerCarType(CarType type)
+{
+	carTypeRegistry.push_back(type);
 }
 
 float Game::getGameSpeed()

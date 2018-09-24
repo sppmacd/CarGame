@@ -84,36 +84,14 @@ void Game::tickNormalGame()
     {
         Car car;
 
-        if(rand() % this->level.getCarRarity(Car::LORRY) == 0)
-        {
-            car = CarLorry(1.7f, rand() % 3);
-            int c = rand() % 56 + 200;
-            car.setColor(sf::Color(c, c, c));
-        }
-        else if(rand() % this->level.getCarRarity(Car::RARE) == 0)
-        {
-            car = CarRare(1.7f, rand() % 3);
-            int c = rand() % 56 + 200;
-            car.setColor(sf::Color(c, 50, 50));
-        }
-        else if(rand() % this->level.getCarRarity(Car::BUS) == 0)
-        {
-            car = CarBus(1.7f, rand() % 3);
-            int c = rand() % 200 + 56;
-            car.setColor(sf::Color(c, c, 50));
-        }
-        else if(rand() % this->level.getCarRarity(Car::AMBULANCE) == 0)
-        {
-            car = CarAmbulance(1.7f, rand() % 3);
-            car.setColor(sf::Color(230, 230, 230));
-        }
-        else
-        {
-            car = Car(1.7f, rand() % 3);
-            car.setColor(sf::Color(((rand() % 8)*32)-1, ((rand() % 8)*32)-1, ((rand() % 8)*32)-1));
-        }
+		vector<CarType*> selectedTypes;
+		for (CarType& type : carTypeRegistry)
+		{
+			if(rand)
+		}
 
 		car.onCreate();
+
         this->addCar(car);
     }
 

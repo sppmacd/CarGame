@@ -70,7 +70,7 @@ public:
     };
 
 	TypeId typeId;
-
+	CarType* type;
     string getTextureName();
 
 protected:
