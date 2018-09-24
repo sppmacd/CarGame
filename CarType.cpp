@@ -1,13 +1,23 @@
 #include "CarType.h"
 #include "Game.h"
 
-CarType::CarType(int id, string textureName) : carId(id), carTexture(textureName)
+CarType::CarType(Car::TypeId id, string textureName) : carId(id), carTexture(textureName)
 {
 }
 
 bool CarType::operator==(CarType & type2)
 {
 	return type2.carId == this->carId;
+}
+
+bool CarType::operator==(Car::TypeId id)
+{
+	return id == this->carId;
+}
+
+bool CarType::operator!=(Car::TypeId id)
+{
+	return !(*this == id);
 }
 
 bool CarType::operator!=(CarType & type2)
@@ -33,19 +43,24 @@ CarType & CarType::setMaxHealth(int max)
 	return *this;
 }
 
+int CarType::getRarity(LevelData::MapType mapType)
+{
+	return carRarities[mapType];
+}
+
 void CarType::init()
 {
 	Game* game = Game::instance;
-	game->registerCarType(Car::NORMAL, CarType(Car::NORMAL, "default").setRarities({2,2,2,2,2}));
-	game->registerCarType(Car::LORRY, CarType(Car::LORRY, "lorry").setRarities({3,3,3,15,13}));
-	game->registerCarType(Car::RARE, CarType(Car::RARE, "default").setRarities({5,2,2,3,7}));
-	game->registerCarType(Car::BUS, CarType(Car::BUS, "bus").setRarities({10,3,14,8,3}));
-	game->registerCarType(Car::AMBULANCE, CarType(Car::AMBULANCE, "ambulance").setRarities({10,3,10,15,20}));
+	game->registerCarType(CarType(Car::NORMAL, "default").setRarities({2,2,2,2,2}).setMaxHealth(1));
+	game->registerCarType(CarType(Car::LORRY, "lorry").setRarities({3,3,3,15,13}).setMaxHealth(3));
+	game->registerCarType(CarType(Car::RARE, "default").setRarities({5,2,2,3,7}).setMaxHealth(2));
+	game->registerCarType(CarType(Car::BUS, "bus").setRarities({10,3,14,8,3}).setMaxHealth(5));
+	game->registerCarType(CarType(Car::AMBULANCE, "ambulance").setRarities({10,3,10,15,20}).setMaxHealth(4));
 
 	// TODO: NEW CARS!
-	game->registerCarType(Car::RALLY, CarType(Car::RALLY, "default").setRarities({2,20,5,25,10}));
-	game->registerCarType(Car::FIREMAN, CarType(Car::FIREMAN, "default").setRarities({5,7,3,10,8}));
-	game->registerCarType(Car::TANK, CarType(Car::TANK, "default").setRarities({10,7,15,20,25}));
-	game->registerCarType(Car::OLD, CarType(Car::OLD, "default").setRarities({5,20,8,10,15}));
-	game->registerCarType(Car::BOMB, CarType(Car::BOMB, "default").setRarities({30,30,30,30,30}));
+	game->registerCarType(CarType(Car::RALLY, "default").setRarities({2,20,5,25,10}).setMaxHealth(2));
+	game->registerCarType(CarType(Car::FIREMAN, "default").setRarities({5,7,3,10,8}).setMaxHealth(5));
+	game->registerCarType(CarType(Car::TANK, "default").setRarities({10,7,15,20,25}).setMaxHealth(10));
+	game->registerCarType(CarType(Car::OLD, "default").setRarities({5,20,8,10,15}).setMaxHealth(2));
+	game->registerCarType(CarType(Car::BOMB, "default").setRarities({30,30,30,30,30}).setMaxHealth(1));
 }

@@ -127,6 +127,16 @@ void Game::registerCarType(CarType type)
 	carTypeRegistry.push_back(type);
 }
 
+CarType* Game::findCarTypeByID(Car::TypeId id)
+{
+	for (CarType& type : carTypeRegistry)
+	{
+		if (type == id)
+			return &type;
+	}
+	return nullptr;
+}
+
 float Game::getGameSpeed()
 {
 	return this->gameSpeed;

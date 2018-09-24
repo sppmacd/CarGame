@@ -11,11 +11,8 @@ Car::Car(float speed, int line)
     this->carRelativeToScreen = 1080.f;
     this->destroyTick = -1.f;
     this->canErase = false;
-    this->maxHealth = 1;
-    this->health = this->maxHealth - 1;
-    this->textureName = "default";
-	this->animSize = 1;
-	this->frameLength = 1;
+	
+	// Create car type for car
 }
 
 bool Car::tickDestroy()

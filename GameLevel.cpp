@@ -87,8 +87,10 @@ void Game::tickNormalGame()
 		vector<CarType*> selectedTypes;
 		for (CarType& type : carTypeRegistry)
 		{
-			if(rand)
+			if (rand() % type.getRarity(this->level.getMapType()) == 0)
+				selectedTypes.push_back(&type);
 		}
+		car.type = 
 
 		car.onCreate();
 

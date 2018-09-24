@@ -237,6 +237,9 @@ public:
 	// Register car type. Used in generator,renderer,...
 	void registerCarType(CarType type);
 
+	// Find car type by car ID
+	CarType* findCarTypeByID(Car::TypeId id);
+
 	// Get game speed value. Used externally by powers
 	float getGameSpeed();
 
