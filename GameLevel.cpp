@@ -103,9 +103,9 @@ void Game::tickNormalGame()
 		
 		if (createCar)
 		{
-			addCar(car);
+			addCar(*event.carSpawned.carToCreate);
 			car.onCreate();
-			delete &car; //deallocate memory allocated in EventHandler
+			//delete &car; //deallocate memory allocated in EventHandler
 		}
     }
 

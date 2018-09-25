@@ -70,7 +70,7 @@ bool EventHandlers::onKeyPressed(Event event, Game * game)
 	return true;
 }
 
-bool EventHandlers::onCarSpawning(GameEvent event, Game * game)
+bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 {
 	Car::TypeId carId = event.carSpawned.type->carId;
 

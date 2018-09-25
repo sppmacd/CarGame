@@ -10,7 +10,7 @@ using namespace std;
 using namespace sf;
 
 typedef bool(*EventHandler)(Event,Game*);
-typedef bool(*GameEventHandler)(GameEvent, Game*);
+typedef bool(*GameEventHandler)(GameEvent&, Game*);
 
 namespace EventHandlers
 {
@@ -20,7 +20,7 @@ namespace EventHandlers
 	bool onKeyPressed(Event event, Game* game);
 	
 	// True if the car has to be spawned.
-	bool onCarSpawning(GameEvent event, Game* game);
+	bool onCarSpawning(GameEvent& event, Game* game);
 }
 
 class EventsHandler
