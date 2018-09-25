@@ -58,6 +58,7 @@ void GameDisplay::reload()
     this->addTexture("car/lorry");
     this->addTexture("car/bus");
     this->addTexture("car/ambulance");
+
 	for (int i = 0; i < Car::COUNT; i++)
 	{
 		this->addTexture("car/" + Game::instance->findCarTypeByID(Car::TypeId(i))->getTextureName());
