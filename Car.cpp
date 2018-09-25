@@ -13,9 +13,14 @@ Car::Car(Car::TypeId id, float speed, int line)
     this->carRelativeToScreen = 1080.f;
     this->destroyTick = -1.f;
     this->canErase = false;
+	this->animSize = 1;
+	this->frameLength = 60; //to higher performance we are updating car texture once 60 frames.
 	
 	// Create car type for car
 	this->type = Game::instance->findCarTypeByID(id);
+	this->maxHealth = this->type->getMaxHealth();
+	this->textureName = this->type->getTextureName();
+	this->health = this->maxHealth - 1;
 }
 
 bool Car::tickDestroy()

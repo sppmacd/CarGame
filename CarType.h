@@ -19,6 +19,8 @@ public:
 	bool operator!=(Car::TypeId id);
 	CarType& setRarities(initializer_list<int> list);
 	CarType& setMaxHealth(int max);
+	string getTextureName();
+	int getMaxHealth();
 	int getRarity(LevelData::MapType mapType);
 	static void init();
 	Car::TypeId carId;

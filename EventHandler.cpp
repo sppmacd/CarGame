@@ -79,23 +79,23 @@ bool EventHandlers::onCarSpawning(GameEvent event, Game * game)
 	switch (carId)
 	{
 	case Car::NORMAL: 
-		event.carSpawned.carToCreate = new Car(Car::NORMAL, game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = &Car(Car::NORMAL, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(rand() % 64 + 128, rand() % 64 + 128, rand() % 64 + 128));
 		break;
 	case Car::LORRY:
-		event.carSpawned.carToCreate = new CarLorry(Car::LORRY, game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = &CarLorry(Car::LORRY, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 		break;
 	case Car::RARE:
-		event.carSpawned.carToCreate = new CarRare(Car::RARE, game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = &CarRare(Car::RARE, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(color, 0, 0));
 		break;
 	case Car::BUS:
-		event.carSpawned.carToCreate = new CarBus(Car::BUS, game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = &CarBus(Car::BUS, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(0, color, color));
 		break;
 	case Car::AMBULANCE:
-		event.carSpawned.carToCreate = new CarAmbulance(Car::AMBULANCE, game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = &CarAmbulance(Car::AMBULANCE, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 		break;
 	default: return false;

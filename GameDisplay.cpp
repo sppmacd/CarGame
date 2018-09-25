@@ -32,7 +32,7 @@ void GameDisplay::reload()
 
 	// Create unknown texture
 	Image imgUnknownTexture;
-	imgUnknownTexture.create(300, 300);
+	imgUnknownTexture.create(64, 64);
 
 	GameDisplay::loadingStr = "Creating unknown texture...";
 	for(int i = 0; i < 64; i++)
@@ -46,7 +46,7 @@ void GameDisplay::reload()
 		// %%%%%%%*******
 		// %%%%%%%******* 300
 
-		bool isNB = ((i <= 32 && j >= 32) || (i <= 32 && j >= 32));
+		bool isNB = ((i <= 32 && j >= 32) || (i >= 32 && j <= 32));
 		imgUnknownTexture.setPixel(i, j, isNB ? Color::Red : Color::Green);
 	}
 	this->unknownTexture.loadFromImage(imgUnknownTexture);
@@ -58,6 +58,10 @@ void GameDisplay::reload()
     this->addTexture("car/lorry");
     this->addTexture("car/bus");
     this->addTexture("car/ambulance");
+	for (int i = 0; i < Car::COUNT; i++)
+	{
+		this->addTexture("car/" + Game::instance->findCarTypeByID(Car::TypeId(i))->getTextureName());
+	}
 
 	for (auto ld : Game::instance->levelRegistry)
 	{
