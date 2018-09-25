@@ -2,9 +2,11 @@
 
 #include <SFML/Window.hpp>
 #include "GameEvent.h"
+#include <map>
 
 class Game;
 
+using namespace std;
 using namespace sf;
 
 typedef bool(*EventHandler)(Event,Game*);

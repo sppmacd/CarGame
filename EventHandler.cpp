@@ -6,6 +6,8 @@
 #include "CarBus.h"
 #include "CarAmbulance.h"
 
+EventsHandler* EventsHandler::instance;
+
 bool EventHandlers::onClose(Event event, Game* game)
 {
 	game->exit(0);
@@ -77,23 +79,23 @@ bool EventHandlers::onCarSpawning(GameEvent event, Game * game)
 	switch (carId)
 	{
 	case Car::NORMAL: 
-		event.carSpawned.carToCreate = new Car(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = new Car(Car::NORMAL, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(rand() % 64 + 128, rand() % 64 + 128, rand() % 64 + 128));
 		break;
 	case Car::LORRY:
-		event.carSpawned.carToCreate = new CarLorry(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = new CarLorry(Car::LORRY, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 		break;
 	case Car::RARE:
-		event.carSpawned.carToCreate = new CarRare(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = new CarRare(Car::RARE, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(color, 0, 0));
 		break;
 	case Car::BUS:
-		event.carSpawned.carToCreate = new CarBus(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = new CarBus(Car::BUS, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(0, color, color));
 		break;
 	case Car::AMBULANCE:
-		event.carSpawned.carToCreate = new CarAmbulance(game->getGameSpeed(), rand() % 3);
+		event.carSpawned.carToCreate = new CarAmbulance(Car::AMBULANCE, game->getGameSpeed(), rand() % 3);
 		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 		break;
 	default: return false;
@@ -108,5 +110,5 @@ EventsHandler::EventsHandler()
 
 void EventsHandler::registerGameEvent(GameEvent::Type event, GameEventHandler func)
 {
-	registry.insert(make_pair(event, func));
+	this->registry.insert(make_pair(event, func));
 }

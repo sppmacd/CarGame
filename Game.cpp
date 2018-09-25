@@ -193,7 +193,7 @@ void Game::registerEventHandlers()
 	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
 	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
 	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
-	eventHandler.registerGameEvent(GameEvent::CarCreating, EventHandlers::onCarCreating);
+	eventHandler.registerGameEvent(GameEvent::CarSpawning, EventHandlers::onCarSpawning);
 }
 
 void Game::addEventHandler(Event::EventType type, EventHandler handler)
