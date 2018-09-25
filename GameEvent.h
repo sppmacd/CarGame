@@ -20,11 +20,10 @@ public:
 
 	union
 	{
-		struct CarEvent { Car car; } car;
-		struct CreateCarInstanceEvent { Car carToCreate; CarType* type; } carSpawned;
+		struct CarEvent { Car* car; } car;
+		struct CreateCarInstanceEvent { Car* carToCreate; CarType* type; } carSpawned;
 	};
 
 	GameEvent() {}
-	GameEvent(const GameEvent& e);
 	~GameEvent() {}
 };

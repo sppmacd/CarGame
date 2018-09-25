@@ -97,7 +97,7 @@ void Game::tickNormalGame()
 		// Create event
 		GameEvent event;
 		event.type = GameEvent::CarSpawning;
-		event.carSpawned.carToCreate = car;
+		event.carSpawned.carToCreate = &car;
 		event.carSpawned.type = carType;
 		bool createCar = runGameEventHandler(event);
 		
@@ -105,6 +105,7 @@ void Game::tickNormalGame()
 		{
 			addCar(car);
 			car.onCreate();
+			delete &car; //deallocate memory allocated in EventHandler
 		}
     }
 

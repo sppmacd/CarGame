@@ -80,37 +80,37 @@ bool EventHandlers::onCarSpawning(GameEvent event, Game * game)
 	{
 	case Car::NORMAL: 
 	{
-		Car car(Car::NORMAL, 7.f, rand() % 3);
+		Car* car = new Car(Car::NORMAL, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate.setColor(Color(rand() % 64 + 128, rand() % 64 + 128, rand() % 64 + 128));
+		event.carSpawned.carToCreate->setColor(Color(rand() % 64 + 128, rand() % 64 + 128, rand() % 64 + 128));
 		break;
 	}
 	case Car::LORRY:
 	{
-		CarLorry car(Car::LORRY, 7.f, rand() % 3);
+		Car* car = new CarLorry(Car::LORRY, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate.setColor(Color(color, color, color));
+		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 		break;
 	}
 	case Car::RARE:
 	{
-		CarRare car(Car::RARE, 7.f, rand() % 3);
+		Car* car = new CarRare(Car::RARE, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate.setColor(Color(color, 0, 0));
+		event.carSpawned.carToCreate->setColor(Color(color, 0, 0));
 		break;
 	}
 	case Car::BUS:
 	{
-		CarBus car(Car::BUS, 7.f, rand() % 3);
+		Car* car = new CarBus(Car::BUS, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate.setColor(Color(0, color, color));
+		event.carSpawned.carToCreate->setColor(Color(0, color, color));
 		break;
 	}
 	case Car::AMBULANCE:
 	{
-		CarAmbulance car(Car::AMBULANCE, 7.f, rand() % 3);
+		Car* car = new CarAmbulance(Car::AMBULANCE, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate.setColor(Color(color, color, color));
+		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 		break;
 	}
 	default: return false;
