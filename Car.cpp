@@ -2,6 +2,7 @@
 #include <iostream>
 #include "GameDisplay.h"
 #include "Game.h"
+#include "CarType.h"
 
 Car::Car(Car::TypeId id, float speed, int line)
     : typeId(id)

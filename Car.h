@@ -3,7 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "CarType.h"
+
+class CarType;
 
 using std::string;
 
