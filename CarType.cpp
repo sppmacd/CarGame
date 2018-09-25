@@ -43,6 +43,16 @@ CarType & CarType::setMaxHealth(int max)
 	return *this;
 }
 
+string CarType::getTextureName()
+{
+	return carTexture;
+}
+
+int CarType::getMaxHealth()
+{
+	return maxHealth;
+}
+
 int CarType::getRarity(LevelData::MapType mapType)
 {
 	return carRarities[mapType];

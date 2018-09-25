@@ -87,7 +87,7 @@ void GameDisplay::addTexture(string name, bool repeated, bool smooth)
     cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
     sf::Texture tx;
-	bool load = !tx.loadFromFile("res/" + name + ".png");
+	bool load = tx.loadFromFile("res/" + name + ".png");
 	if (!load)
 	{
 		this->texturesByName.insert(pair<string, sf::Texture>(name, unknownTexture));
@@ -97,22 +97,15 @@ void GameDisplay::addTexture(string name, bool repeated, bool smooth)
 	{
 		tx.setRepeated(repeated);
 		tx.setSmooth(smooth);
-		this->texturesByName.insert(pair<string, sf::Texture>(name, tx));
+		this->texturesByName.insert(make_pair(name, tx));
 	}
 }
 
 sf::Texture & GameDisplay::getTexture(string name)
 {
-	sf::Texture* tex;
-	try
-	{
-		tex = &texturesByName.find(name)->second;
-	}
-	catch(out_of_range)
-	{ 
-		return unknownTexture;
-	}
-	return *tex;
+	map<string,Texture>::iterator tex = texturesByName.find(name);
+
+	return (tex != texturesByName.end()) ? tex->second : unknownTexture;
 }
 
 void GameDisplay::setVSync(bool b)
@@ -236,8 +229,9 @@ void GameDisplay::drawGame()
 
     // BACKGROUND
     sf::Sprite bg(this->getTexture("bg/" + game->level.getTextureName().toAnsiString()), IntRect(0, 0, this->getSize().x, 500));
-	bg.setOrigin(0.f, 125.f);
+	bg.setOrigin(0.f, 250.f);
 	bg.setPosition(0.f, this->getSize().y / 2.f);
+	bg.setScale(1.f, 2.f);
     this->renderWnd->draw(bg);
 
     // CARS

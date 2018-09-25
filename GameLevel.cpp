@@ -107,8 +107,6 @@ void Game::tickNormalGame()
 			addCar(car);
 			car.onCreate();
 		}
-
-        this->addCar(car);
     }
 
     this->updateCars();

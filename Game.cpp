@@ -171,13 +171,13 @@ void Game::runEventHandler(Event& event)
 bool Game::runGameEventHandler(GameEvent & event)
 {
 	int counter = 0;
-	bool stat;
+	bool stat = false;
 	for (pair<const GameEvent::Type, GameEventHandler>& pair : eventHandler.registry)
 	{
 		if (pair.first == event.type)
 		{
 			counter++;
-			stat |= pair.second(event, this);
+			stat &= pair.second(event, this);
 		}
 	}
 
