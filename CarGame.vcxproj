@@ -32,6 +32,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameDisplay.cpp" />
     <ClCompile Include="GameDisplayGui.cpp" />
+    <ClCompile Include="GameEvent.cpp" />
     <ClCompile Include="GameLevel.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="GuiGameOver.cpp" />

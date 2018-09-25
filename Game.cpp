@@ -357,11 +357,6 @@ Game::~Game()
     cout << "Game: Deleting game engine instance..." << endl;
     this->closeLevel();
 	delete[] this->powers;
-	
-	for (Car& car : cars)
-	{
-		delete &car;
-	}
 }
 
 void Game::tickGui(sf::Event& event)

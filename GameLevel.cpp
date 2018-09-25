@@ -71,7 +71,6 @@ void Game::updateCars()
 
             if(car->canErase)
             {
-				delete car;
                 this->cars.erase(this->cars.begin() + i);
             }
         }
@@ -98,7 +97,7 @@ void Game::tickNormalGame()
 		// Create event
 		GameEvent event;
 		event.type = GameEvent::CarSpawning;
-		event.carSpawned.carToCreate = &car;
+		event.carSpawned.carToCreate = car;
 		event.carSpawned.type = carType;
 		bool createCar = runGameEventHandler(event);
 		
