@@ -101,7 +101,7 @@ void Car::onUpdate()
 
 sf::Vector2f Car::getScreenPos()
 {
-    return sf::Vector2f(this->carRelativeToScreen * 2, (this->getLine() * 83) + GameDisplay::instance->getSize().y/2 - 85);
+    return sf::Vector2f(this->carRelativeToScreen * 2, GameDisplay::instance->getSize().y / 2 + ((this->getLine()-1) * 94));
 }
 
 string Car::getTextureName()
