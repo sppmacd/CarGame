@@ -74,7 +74,7 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 {
 	Car::TypeId carId = event.carSpawned.type->carId;
 
-	int color = rand() % 64 + 128;
+	int color = rand() % 128 + 64;
 
 	switch (carId)
 	{
@@ -82,7 +82,7 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 	{
 		Car* car = new Car(Car::NORMAL, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate->setColor(Color(rand() % 64 + 128, rand() % 64 + 128, rand() % 64 + 128));
+		event.carSpawned.carToCreate->setColor(Color(rand() % 128 + 64, rand() % 128 + 64, rand() % 128 + 64));
 		break;
 	}
 	case Car::LORRY:
@@ -110,7 +110,15 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 	{
 		Car* car = new CarAmbulance(Car::AMBULANCE, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate->setColor(Color(color, color, color));
+		//event.carSpawned.carToCreate->setColor(Color(color, color, color));
+		break;
+	}
+	case Car::RALLY:
+	{
+		Car* car = new Car(Car::RALLY, 7.f, rand() % 3);
+		event.carSpawned.carToCreate = car;
+		Uint8 cc = rand() & 0x8;
+		event.carSpawned.carToCreate->setColor(Color(cc & 0x4 ? color : 0, cc & 0x2 ? color : 0, cc & 0x1 ? color : 0));
 		break;
 	}
 	default: return false;
