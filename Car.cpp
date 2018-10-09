@@ -14,7 +14,7 @@ Car::Car(Car::TypeId id, float speed, int line)
     this->destroyTick = -1.f;
     this->canErase = false;
 	this->animSize = 1;
-	this->frameLength = 60; //to higher performance we are updating car texture once 60 frames.
+	this->frameLength = 60;
 	
 	// Create car type for car
 	this->type = Game::instance->findCarTypeByID(id);
@@ -101,7 +101,7 @@ void Car::onUpdate()
 
 sf::Vector2f Car::getScreenPos()
 {
-    return sf::Vector2f(this->carRelativeToScreen * 2, GameDisplay::instance->getSize().y / 2 + ((this->getLine()-1) * 94));
+    return sf::Vector2f(this->carRelativeToScreen * 2, GameDisplay::instance->getSize().y / 2 + ((this->getLine()-1) * 100));
 }
 
 string Car::getTextureName()

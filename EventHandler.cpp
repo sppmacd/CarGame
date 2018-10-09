@@ -121,6 +121,18 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 		event.carSpawned.carToCreate->setColor(Color(cc & 0x4 ? color : 0, cc & 0x2 ? color : 0, cc & 0x1 ? color : 0));
 		break;
 	}
+	case Car::BOMB:
+	{
+		Car* car = new Car(Car::BOMB, 7.f, 1); // ALWAYS ON CENTER LANE
+		// TODO: create CarBomb
+		event.carSpawned.carToCreate = car;
+		event.carSpawned.carToCreate->setColor(Color::White);
+
+		// TODO: This will be moved to CarBomb class !!!
+		event.carSpawned.carToCreate->animSize = 10;
+		event.carSpawned.carToCreate->frameLength = 3;
+		break;
+	}
 	default: return false;
 	}
 	return true;

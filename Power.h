@@ -46,6 +46,7 @@ public:
 	static void drawPowerIdle(RenderWindow* wnd);
 
 	static Vector2f pos;
+	static bool isWeaken; //weaken on placed at center lane!
 };
 
 class PowerFreeze
