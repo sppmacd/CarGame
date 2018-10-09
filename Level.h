@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/System.hpp>
+#include "GameDisplay.h"
 using namespace sf;
 
 namespace LevelUtility
@@ -10,7 +11,7 @@ namespace LevelUtility
 		float windowMiddle = GameDisplay::instance->getRenderWnd()->getSize().y / 2;
 		if (position.y <= windowMiddle - 50)
 			return 0;
-		else if (position.y > windowMiddle - 50 && pos.y < windowMiddle + 50)
+		else if (position.y > windowMiddle - 50 && position.y < windowMiddle + 50)
 			return 1;
 		else if (position.y >= windowMiddle + 50)
 			return 2;
@@ -19,6 +20,6 @@ namespace LevelUtility
 	Vector2f getLanePos(int lane)
 	{
 		//	   |--------------------window center---------------------|
-		return (GameDisplay::instance->getRenderWnd()->getSize().y / 2) + (lane-1) * 50;
+		return Vector2f(0.f,(GameDisplay::instance->getRenderWnd()->getSize().y / 2) + (lane-1) * 100);
 	}
 }

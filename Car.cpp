@@ -3,6 +3,7 @@
 #include "GameDisplay.h"
 #include "Game.h"
 #include "CarType.h"
+#include "Level.h"
 
 Car::Car(Car::TypeId id, float speed, int line)
     : typeId(id)
@@ -101,7 +102,7 @@ void Car::onUpdate()
 
 sf::Vector2f Car::getScreenPos()
 {
-    return sf::Vector2f(this->carRelativeToScreen * 2, GameDisplay::instance->getSize().y / 2 + ((this->getLine()-1) * 100));
+    return sf::Vector2f(this->carRelativeToScreen * 2, LevelUtility::getLanePos(this->getLine()).y/*+laneChangeTick*/);
 }
 
 string Car::getTextureName()

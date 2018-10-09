@@ -232,7 +232,7 @@ void GameDisplay::drawGame()
     sf::Sprite bg(this->getTexture("bg/" + game->level.getTextureName().toAnsiString()), IntRect(0, 0, this->getSize().x, 250));
 	bg.setOrigin(0.f, 125.f);
 	bg.setPosition(0.f, this->getSize().y / 2.f);
-	bg.setScale(1.f, 2.f);
+	bg.setScale(2.f, 2.f);
     this->renderWnd->draw(bg);
 
     // CARS

@@ -68,6 +68,7 @@
     <ClInclude Include="GuiPowers.h" />
     <ClInclude Include="GuiSettings.h" />
     <ClInclude Include="GuiYesNo.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="maptype.h" />
     <ClInclude Include="Power.h" />
