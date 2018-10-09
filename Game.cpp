@@ -36,7 +36,7 @@ Game::Game()
 		this->running = true; //Set game running	
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
-		this->fullscreen = false;
+		this->fullscreen = true;
 		this->registerEventHandlers();
 
 		// Reset player stats
@@ -164,8 +164,8 @@ void Game::runEventHandler(Event& event)
 		}
 	}
 
-	if(counter < 1)
-		cout << "Event Handler not found for event " << event.type << endl;
+	//if(counter < 1)
+		//cout << "Event Handler not found for event " << event.type << endl;
 }
 
 bool Game::runGameEventHandler(GameEvent & event)
@@ -181,8 +181,8 @@ bool Game::runGameEventHandler(GameEvent & event)
 		}
 	}
 
-	if (counter < 1)
-		cout << "Game Event Handler not found for event " << event.type << endl;
+	//if (counter < 1)
+		//cout << "Game Event Handler not found for event " << event.type << endl;
 
 	return stat;
 }
@@ -311,7 +311,7 @@ void Game::loadGame(LevelData level)
     this->lastTickScore = 0;
     this->cameraPos = 0;
     this->tickCount = 0;
-    this->gameSpeed = level.getAcceleration() / 2.2;
+    this->gameSpeed = level.getAcceleration() / 2.2f;
     this->score = 0;
     this->gameOver = false;
     this->cars.clear();
@@ -331,7 +331,7 @@ void Game::loadGame()
     this->lastTickScore = 0;
     this->cameraPos = 0;
     this->tickCount = 0;
-    this->gameSpeed = this->level.getAcceleration() / 2.2;
+    this->gameSpeed = this->level.getAcceleration() / 2.2f;
     this->score = 0;
     this->gameOver = false;
     this->isGuiLoaded = false;
@@ -410,7 +410,7 @@ void Game::pause(bool s)
 
 void Game::moveCamera()
 {
-    this->cameraPos += this->gameSpeed * 4.5;
+    this->cameraPos += static_cast<int>(this->gameSpeed * 4.5f);
 }
 
 void Game::displayGui(int gui)
@@ -452,6 +452,7 @@ void Game::toggleFullscreen()
 		wnd->create(sf::VideoMode::getFullscreenModes()[0], sf::String(), sf::Style::Fullscreen);
         this->fullscreen = true;
     }
+	GameDisplay::instance->setVSync(GameDisplay::instance->getVSync()); // to fix vsync bug on toggling fullscreen
 	GameDisplay::instance->setWndSize(wnd->getSize());
 }
 

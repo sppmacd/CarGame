@@ -34,7 +34,7 @@ void loadGame(LoadData* ld)
 {
 	sf::Clock loadTime;
 
-	cout << "main: Starting CarGame v0.0.4..." << endl;
+	cout << "main: Starting CarGame v0.1..." << endl;
 
 	GameDisplay::loadingStr = "Loading game engine...";
 	ld->game = new Game;
@@ -56,7 +56,7 @@ int main()
 {
 	LoadData data;
 	data.loaded = false;
-	data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Game v0.0.5", Style::Fullscreen);
+	data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Game v0.1", Style::Fullscreen);
 	data.wnd->setVerticalSyncEnabled(true);
 	data.game = NULL;
 	data.disp = NULL;
@@ -112,7 +112,7 @@ int main()
 
 			sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
 
-			if(l > 10000 && data.game->guiCooldown == 0)
+			if(l > 16660 && data.game->guiCooldown == 0)
 			{
 				cout << "main: Tick took " << l << endl;
 			}
@@ -128,7 +128,7 @@ int main()
 			while (data.wnd->pollEvent(ev1))
 			{
 				if (ev1.type == Event::Closed || (ev1.type == Event::KeyPressed && ev1.key.code == Keyboard::Escape))
-					data.game->exit(0);
+					return 0;
 			}
 			GameDisplay::drawLoading(data.wnd);
 
@@ -155,10 +155,10 @@ int main()
 	else
 		i = 0;
 
-    data.wnd->close();
-
 	delete data.disp;
 	delete data.game;
+
+	data.wnd->close();
 	delete data.wnd;
 
     return i;
