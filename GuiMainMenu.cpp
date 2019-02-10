@@ -5,10 +5,6 @@
 
 using namespace std;
 
-Button GuiMainMenu::b1;
-Button GuiMainMenu::b2;
-Button GuiMainMenu::b3;
-
 void GuiMainMenu::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
@@ -19,7 +15,7 @@ void GuiMainMenu::onLoad()
     b3.setColor(sf::Color::Red);
 }
 
-void GuiMainMenu::draw(sf::RenderWindow* wnd)
+void GuiMainMenu::onDraw(sf::RenderWindow& wnd)
 {
     b1.draw(wnd);
     b2.draw(wnd);
@@ -30,13 +26,13 @@ void GuiMainMenu::draw(sf::RenderWindow* wnd)
     wnd->draw(text);
 }
 
-void GuiMainMenu::onButtonClicked(long button)
+void GuiMainMenu::onClick(long button)
 {
     Game* game = Game::instance;
 
     if(button == 0)
     {
-        game->displayGui(4); //level selection
+        game->displayGui(new GuiMapSelect); //level selection
         if(game->isNewPlayer && game->tutorialStep == 2)
         {
             game->tutorialStep = 3;
@@ -50,7 +46,7 @@ void GuiMainMenu::onButtonClicked(long button)
 
     if(button == 2)
     {
-        game->displayGui(3); //settings
+        game->displayGui(new GuiSettings); //settings
     }
 }
 

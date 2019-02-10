@@ -18,7 +18,8 @@ namespace EventHandlers
 	bool onMouseButtonReleased(Event event, Game* game);
 	bool onMouseWheelScrolled(Event event, Game* game);
 	bool onKeyPressed(Event event, Game* game);
-	
+	bool onGUIKeyPressed(Event event, Game* game);
+
 	// True if the car has to be spawned.
 	bool onCarSpawning(GameEvent& event, Game* game);
 }

@@ -1,7 +1,7 @@
 #include "CarType.h"
 #include "Game.h"
 
-CarType::CarType(Car::TypeId id, string textureName) : carId(id), carTexture(textureName)
+CarType::CarType(Car::TypeId id, string textureName) : carTexture(textureName), carId(id)
 {
 }
 
@@ -69,9 +69,10 @@ void CarType::init()
 
 	// TODO: NEW CARS!
 	game->registerCarType(CarType(Car::RALLY, "rally").setRarities({4,20,5,25,10}).setMaxHealth(2));
-	game->registerCarType(CarType(Car::BOMB, "bomb").setRarities({ 30,30,30,30,30 }).setMaxHealth(1));
-	
-	game->registerCarType(CarType(Car::FIREMAN, "default").setRarities({5,7,3,10,8}).setMaxHealth(5));
-	game->registerCarType(CarType(Car::TANK, "default").setRarities({10,7,15,20,25}).setMaxHealth(10));
+	game->registerCarType(CarType(Car::BOMB, "bomb").setRarities({30,30,30,30,30}).setMaxHealth(1));
+
+	game->registerCarType(CarType(Car::FIREMAN, "fireman").setRarities({5,7,3,10,8}).setMaxHealth(5));
+	game->registerCarType(CarType(Car::TANK, "tank").setRarities({10,7,15,20,25}).setMaxHealth(10));
 	game->registerCarType(CarType(Car::OLD, "default").setRarities({5,20,8,10,15}).setMaxHealth(2));
+	game->registerCarType(CarType(Car::ARMORED, "lorry").setRarities({20,14,30,40,50}).setMaxHealth(20));
 }

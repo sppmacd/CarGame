@@ -100,7 +100,7 @@ void Game::tickNormalGame()
 		event.carSpawned.carToCreate = &car;
 		event.carSpawned.type = carType;
 		bool createCar = runGameEventHandler(event);
-		
+
 		if (createCar)
 		{
 			addCar(*event.carSpawned.carToCreate);
@@ -142,7 +142,6 @@ void Game::newTick()
     if(!this->isGuiLoaded)
     {
         this->gameSpeed += this->level.getAcceleration() / 5000;
-
         ++tickCount;
     }
 
@@ -154,14 +153,16 @@ void Game::newTick()
 
 void Game::updateEffect()
 {
-    if(this->isPowerUsed && this->powerCooldown <= 0)
+    if(this->isPowerUsed && this->powerCooldown <= 0 && this->getCurrentPower() != 0)
     {
-        this->powerTime = 200;
+        powerHandle = this->powerRegistry.find(this->getCurrentPower())->second;
+        this->powerTime = powerHandle.maxPowerTime;
+        this->powerMaxTime = this->powerTime;
 		this->powerCooldown = -1;
         this->usePower(this->currentPower);
 
 		// power 'start'
-		if (!this->powerRegistry.find(this->getCurrentPower())->second.onPowerStart())
+		if (!powerHandle.onPowerStart())
 		{
 			this->powerTime = 0;
 			this->powerCooldown = 0;
@@ -172,7 +173,7 @@ void Game::updateEffect()
         this->powerTime--;
 
 		// power 'tick'
-		this->powerRegistry.find(this->getCurrentPower())->second.onPowerTick(this->powerTime);
+		powerHandle.onPowerTick(this->powerTime);
 
         if(this->powerTime == 1)
         {
@@ -180,21 +181,21 @@ void Game::updateEffect()
             this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
 
 			// power 'stop'
-			this->powerRegistry.find(this->getCurrentPower())->second.onPowerStop();
+			powerHandle.onPowerStop();
         }
     }
 
     else if(this->powerTime == -1)
     {
 		// power 'cooldown tick'
-		this->powerRegistry.find(this->getCurrentPower())->second.onCooldownTick(this->powerCooldown);
+		powerHandle.onCooldownTick(this->powerCooldown);
         this->powerCooldown--;
     }
 
     if(this->powerCooldown == 1) // 1-set CUP, >1-cooldown!, -1-power is using!, 0-can use power
     {
 		// power 'cooldown stop'
-		this->powerRegistry.find(this->getCurrentPower())->second.onCooldownStop();
+		powerHandle.onCooldownStop();
         this->powerTime = 0;
 		this->powerCooldown = 0;
     }

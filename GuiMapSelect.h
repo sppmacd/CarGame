@@ -7,16 +7,14 @@
 class GuiMapSelect : public Gui
 {
 public:
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
-	static void onClose();
-	static void onDialogFinished(int did, int rv);
-
-protected:
+    void onDraw(sf::RenderWindow& wnd);
+    void onClick(long button);
+    void onLoad();
+	void onClose();
+	void onDialogFinished(Gui* dialog);
 
 private:
-	static int id;
+	int id;
 
 	struct MapData
 	{
@@ -25,12 +23,12 @@ private:
 		int cost;
 	};
 
-	static vector<MapData> bMd;
-    static Button bReturn;
-	static Button bPowers;
+	vector<MapData> bMd;
+    Button bReturn;
+	Button bPowers;
 
-	static Button bNext;
-	static Button bPrev;
+	Button bNext;
+	Button bPrev;
 };
 
 #endif // GUIMAPSELECT_H

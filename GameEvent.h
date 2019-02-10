@@ -18,10 +18,13 @@ public:
 	};
 	Type type;
 
+    struct CarEvent { Car* car; };
+    struct CreateCarInstanceEvent { Car* carToCreate; CarType* type; };
+
 	union
 	{
-		struct CarEvent { Car* car; } car;
-		struct CreateCarInstanceEvent { Car* carToCreate; CarType* type; } carSpawned;
+		CarEvent car;
+		CreateCarInstanceEvent carSpawned;
 	};
 
 	GameEvent() {}

@@ -31,9 +31,9 @@ Game::Game()
 	{
 		instance = this; //Set main game instance to this
 
-		// Perform first initializations 
+		// Perform first initializations
 		this->mainTickCount = 0; //Reset ticking
-		this->running = true; //Set game running	
+		this->running = true; //Set game running
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
 		this->fullscreen = true;
@@ -98,18 +98,10 @@ void Game::usePower(int id)
 
 void Game::registerGUIs()
 {
-	Gui::registerGuiHandlers(0, GuiData{GuiIngame::draw, GuiIngame::onMouseClick, GuiIngame::onMouseMove, GuiIngame::onButtonClicked, GuiIngame::onLoad, GuiIngame::onClose, GuiIngame::onDialogFinished});
-	Gui::registerGuiHandlers(1, GuiData{GuiGameOver::draw, GuiGameOver::onMouseClick, GuiGameOver::onMouseMove, GuiGameOver::onButtonClicked, GuiGameOver::onLoad, GuiGameOver::onClose, GuiGameOver::onDialogFinished });
-	Gui::registerGuiHandlers(2, GuiData{GuiMainMenu::draw, GuiMainMenu::onMouseClick, GuiMainMenu::onMouseMove, GuiMainMenu::onButtonClicked, GuiMainMenu::onLoad, GuiMainMenu::onClose, GuiMainMenu::onDialogFinished });
-	Gui::registerGuiHandlers(3, GuiData{GuiSettings::draw, GuiSettings::onMouseClick, GuiSettings::onMouseMove, GuiSettings::onButtonClicked, GuiSettings::onLoad, GuiSettings::onClose, GuiSettings::onDialogFinished });
-	Gui::registerGuiHandlers(4, GuiData{GuiMapSelect::draw, GuiMapSelect::onMouseClick, GuiMapSelect::onMouseMove, GuiMapSelect::onButtonClicked, GuiMapSelect::onLoad, GuiMapSelect::onClose, GuiMapSelect::onDialogFinished });
-	Gui::registerGuiHandlers(5, GuiData{GuiPowers::draw, GuiPowers::onMouseClick, GuiPowers::onMouseMove, GuiPowers::onButtonClicked, GuiPowers::onLoad, GuiPowers::onClose, GuiPowers::onDialogFinished });
-	
-	//dialogs
-	Gui::registerGuiHandlers(100, GuiData{GuiYesNo::draw, GuiYesNo::onMouseClick, GuiYesNo::onMouseMove, GuiYesNo::onButtonClicked, GuiYesNo::onLoad, GuiYesNo::onClose, GuiYesNo::onDialogFinished });
+    cout << "Registering GUIs is deprecated" << endl;
 }
 
-void Game::registerPowers() 
+void Game::registerPowers()
 {
 	/*
 	DrawPowerFunc drawPower = Power::drawPower;
@@ -120,9 +112,9 @@ void Game::registerPowers()
 	CooldownTickHandler onCooldownTick = Power::onCooldownTick;
 	CooldownStopHandler onCooldownStop = Power::onCooldownStop;
 	*/
-	powerRegistry.insert(make_pair(0, PowerHandles{}));
-	powerRegistry.insert(make_pair(1, PowerHandles{ PowerOil::drawPower, PowerOil::onPowerStart, PowerOil::onPowerStop, PowerOil::onPowerTick, PowerOil::drawPowerIdle }));
-	powerRegistry.insert(make_pair(2, PowerHandles{ PowerFreeze::drawPower, PowerFreeze::onPowerStart, PowerFreeze::onPowerStop }));
+	powerRegistry.insert(make_pair(0, PowerHandles()));
+	powerRegistry.insert(make_pair(1, PowerHandles(PowerOil::drawPower, PowerOil::onPowerStart, PowerOil::onPowerStop, PowerOil::onPowerTick, PowerOil::drawPowerIdle).setMaxTime(1800)));
+	powerRegistry.insert(make_pair(2, PowerHandles(PowerFreeze::drawPower, PowerFreeze::onPowerStart, PowerFreeze::onPowerStop).setMaxTime(600)));
 }
 
 void Game::registerCarType(CarType type)
@@ -193,6 +185,7 @@ void Game::registerEventHandlers()
 	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
 	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
 	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
+	addEventHandler(Event::KeyPressed, EventHandlers::onGUIKeyPressed);
 	eventHandler.registerGameEvent(GameEvent::CarSpawning, EventHandlers::onCarSpawning);
 }
 
@@ -334,7 +327,6 @@ void Game::loadGame()
     this->gameSpeed = this->level.getAcceleration() / 2.2f;
     this->score = 0;
     this->gameOver = false;
-    this->isGuiLoaded = false;
     this->cars.clear();
     this->pause(false);
     this->closeGui();
@@ -357,6 +349,9 @@ Game::~Game()
     cout << "Game: Deleting game engine instance..." << endl;
     this->closeLevel();
 	delete[] this->powers;
+
+	for(auto i: levelRegistry)
+        delete i.second;
 }
 
 void Game::tickGui(sf::Event& event)
@@ -378,8 +373,7 @@ void Game::tickEventMouseMove(sf::Vector2f pos)
 {
     if(this->isGuiLoaded)
     {
-		const GuiData& handler = Gui::findHandlerByID(this->displayedGui);
-		handler.onMouseMove(pos);
+		this->displayedGui->onMouseMove(pos);
     }
 }
 
@@ -387,9 +381,7 @@ void Game::tickEventMouseClick(sf::Vector2f pos)
 {
     if(this->isGuiLoaded)
     {
-		const GuiData& handler = Gui::findHandlerByID(this->displayedGui);
-		int buttonId = handler.onMouseClick(pos).id;
-		handler.onButtonClick(buttonId);
+		this->displayedGui->onMouseClick(pos);
     }
 }
 
@@ -413,27 +405,25 @@ void Game::moveCamera()
     this->cameraPos += static_cast<int>(this->gameSpeed * 4.5f);
 }
 
-void Game::displayGui(int gui)
+void Game::displayGui(Gui* gui)
 {
 	this->closeGui(); //Close previous GUI
-	
-	GuiData handler = Gui::findHandlerByID(gui);
-	handler.load();
-	
-	this->displayedGui = gui;
-    this->isGuiLoaded = true;
-    this->guiCooldown = 0;
+
+	if(gui != NULL)
+	{
+	    this->isGuiLoaded = true;
+	    this->displayedGui = gui;
+	    this->displayedGui->onLoad()
+	}
 }
 
 void Game::closeGui()
 {
 	if (this->isGuiLoaded)
 	{
-		Gui::onClose();
-		GuiData handler = Gui::findHandlerByID(this->displayedGui);
-		handler.close();
-
-		this->displayedGui = -1;
+	    this->displayedGui->onClose();
+	    delete this->displayedGui;
+		this->displayedGui = NULL;
 		this->isGuiLoaded = false;
 	}
 }

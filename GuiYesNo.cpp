@@ -20,7 +20,7 @@ void GuiYesNo::draw(RenderWindow* wnd)
 	//////////////////////////////////////////////
 
 	// Background 2
-	
+
 
 	// Text
 	Text tx = GameDisplay::instance->drawCenteredString(vstr, 30, Vector2f(GameDisplay::instance->getSize().x / 2, 300));
@@ -50,7 +50,7 @@ void GuiYesNo::onButtonClicked(long button)
 
 void GuiYesNo::onLoad()
 {
-	RenderWindow* wnd = GameDisplay::instance->getRenderWnd();
+	//RenderWindow* wnd = GameDisplay::instance->getRenderWnd();
 
 	// Simulate buttons' position
 	Text tx = GameDisplay::instance->drawCenteredString(vstr, 30, Vector2f(GameDisplay::instance->getSize().x / 2, 300));

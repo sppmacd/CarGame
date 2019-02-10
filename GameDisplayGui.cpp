@@ -171,7 +171,7 @@ void GameDisplay::drawGui()
     text.setFillColor(sf::Color::Red);
     this->renderWnd->draw(text);*/
 
-    if(!game->paused() || game->tutorialStep == 6) //is not paused
+    if(!game->paused() || game->tutorialStep == 6)
     {
         drawStat(250, 32, "score", game->getScore());
         drawStat(450, 32, "high", game->highScore);
@@ -189,27 +189,44 @@ void GameDisplay::drawGui()
             this->renderWnd->draw(t1);
         }
 
-        sf::RectangleShape rs1(sf::Vector2f(64.f, abs(game->powerCooldown / (300.f / 64.f))));
-        rs1.setFillColor(sf::Color::Red);
+        // Draw power cooldown
+        sf::VertexArray arr(TriangleFan);
+        arr.append(Vertex(Vector2f(1200,58), Color(127,127,0)));
+        double degtorad = 57.2957795;
+        for(int i = 0; i <= 64; i++)
+        {
+            float deg = 360 * i / 64.f;
+            sf::Vector2f pointPos(16*sin(deg/degtorad), 16*cos(deg/degtorad));
+            pointPos += Vector2f(1200,58);
 
-        sf::RectangleShape rs2(sf::Vector2f(64.f, 64.f));
-        rs2.setFillColor(sf::Color::Green);
-
-        rs1.setPosition(1150, 42);
-        rs2.setPosition(1150, 42);
-
-        this->renderWnd->draw(rs2);
-        this->renderWnd->draw(rs1);
+            if(game->powerTime == -1)
+            {
+                if(i >= game->powerCooldown / (300.f / 64.f))
+                    arr.append(Vertex(pointPos, Color::Green));
+                else
+                    arr.append(Vertex(pointPos, Color::Red));
+            }
+            else if(game->powerTime > 0)
+            {
+                if(i >= game->powerTime / (game->powerHandle.maxPowerTime / 64.f))
+                    arr.append(Vertex(pointPos, Color::Red));
+                else
+                    arr.append(Vertex(pointPos, Color::Blue));
+            }
+            else
+            {
+                arr.append(Vertex(pointPos, Color::Blue));
+            }
+        }
+        this->renderWnd->draw(arr);
     }
 
-	if (game->isGuiLoaded && game->displayedGui != -1)
+	if (game->isGuiLoaded)
 	{
-		Gui::findHandlerByID(game->displayedGui).draw(this->renderWnd); //DRAW GUI
-		if(Gui::isDialogRunning())
-			Gui::drawDialog(this->renderWnd); //DRAW DIALOG
+		game->displayedGui->onDraw(*this->renderWnd);
 	}
 
-    if(game->guiCooldown > 0)
+    /*if(game->guiCooldown > 0)
     {
         sf::RectangleShape rect((sf::Vector2f) this->getSize());
         rect.setFillColor(sf::Color(25, 20, 20, 250));
@@ -218,7 +235,7 @@ void GameDisplay::drawGui()
         sf::Text sc2 = this->drawString("Loading... ", 80, sf::Vector2f(this->getSize().x / 2, this->getSize().y / 2));
         sc2.setFillColor(sf::Color::White);
         this->renderWnd->draw(sc2);
-    }
+    }*/
 
     drawStat(50, 32, "coin", game->getCoins());
 
@@ -258,7 +275,7 @@ void GameDisplay::drawGui()
 void GameDisplay::nextFullscreenMode()
 {
 	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "Car Game", sf::Style::Fullscreen);
-	if (fullscreenMode == sf::VideoMode::getFullscreenModes().size())
+	if (fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
 	{
 		fullscreenMode = 0;
 	}

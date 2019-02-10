@@ -7,19 +7,19 @@
 class GuiSettings : public Gui
 {
 public:
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
-	static void onDialogFinished(int id, int rv);
+    void onDraw(sf::RenderWindow* wnd);
+    void onClick(long button);
+    void onLoad();
+	void onDialogFinished(int dialogId, int returnValue);
 
 protected:
 
 private:
-    static Button bDone;
-    static Button bResetHS;
-    static Button bRefreshGD;
-    static ButtonToggle bVerticalSync;
-    static Button bTFM;
+    Button bDone;
+    Button bResetHS;
+    Button bRefreshGD;
+    ButtonToggle bVerticalSync;
+    Button bTFM;
 };
 
 #endif // GUISETTINGS_H

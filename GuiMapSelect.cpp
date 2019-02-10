@@ -7,15 +7,6 @@
 
 using namespace std;
 
-vector<GuiMapSelect::MapData> GuiMapSelect::bMd;
-Button GuiMapSelect::bReturn;
-Button GuiMapSelect::bPowers;
-
-Button GuiMapSelect::bNext;
-Button GuiMapSelect::bPrev;
-
-int GuiMapSelect::id;
-
 void GuiMapSelect::onLoad()
 {
 	static int costs[] = { 0,100,400,1000,4000 };
@@ -26,9 +17,9 @@ void GuiMapSelect::onLoad()
     addButton(bPowers = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f), "Powers...", 1));
     addButton(bNext = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f), ">", 2));
     addButton(bPrev = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f), "<", 3));
-	
+
 	id = 0;
-	
+
 	int i = 0;
 	for (auto ld : Game::instance->levelRegistry)
 	{
@@ -51,21 +42,21 @@ void GuiMapSelect::onClose()
 	bMd.clear();
 }
 
-void GuiMapSelect::onDialogFinished(int did, int rv)
+void GuiMapSelect::onDialogFinished(Gui* dialog, int callId)
 {
-	if (did == 100 && rv == 1)
+	if(callId == 0)
 	{
 		Game::instance->unlockedLevels |= (0b1 << id);
 		Game::instance->removeCoins(bMd[id].cost);
 
-		if (Game::instance->isNewPlayer && Game::instance->tutorialStep == 3)
+		if(Game::instance->isNewPlayer && Game::instance->tutorialStep == 3)
 		{
 			Game::instance->tutorialStep = 4;
 		}
 	}
 }
 
-void GuiMapSelect::draw(sf::RenderWindow* wnd)
+void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 {
 	// draw all maps
 	bMd[id].bImg.draw(wnd);
@@ -76,7 +67,7 @@ void GuiMapSelect::draw(sf::RenderWindow* wnd)
 	bPrev.draw(wnd);
 	Game* game = Game::instance;
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Map & Powers", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 100)));
+    wnd.draw(GameDisplay::instance->drawCenteredString("Map & Powers", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 100)));
 	string mapstr = bMd[id].name;
 	string mapstr2;
 
@@ -88,64 +79,58 @@ void GuiMapSelect::draw(sf::RenderWindow* wnd)
 		mapstr.append(": Buy for " + to_string(bMd[id].cost) + "$");
 	}
 
-    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));
-    wnd->draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 175)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 175)));
 }
 
-void GuiMapSelect::onButtonClicked(long button)
+void GuiMapSelect::onClick(long button)
 {
     Game* game = Game::instance;
 
-	if (!isDialogRunning())
-	{
-		if (button == 0)
-			game->displayGui(2);
-		else if (button == 1)
-			game->displayGui(5);
-		else if (button == 2)
-		{
-			removeButton(bMd[id].bImg);
-			id++;
-			if (id >= game->levelRegistry.size())
-				id = 0;
-			addButton(bMd[id].bImg);
-		}
-		else if (button == 3)
-		{
-			removeButton(bMd[id].bImg);
-			id--;
-			if (id < 0)
-				id = game->levelRegistry.size() - 1;
-			addButton(bMd[id].bImg);
-		}
-		else
-		{
-			if (button == 100)
-			{
-				if (game->isLevelUnlocked((LevelData::MapType)id))
-				{
-					game->loadGame(*game->levelRegistry[bMd[id].name]);
-					
-					if (Game::instance->isNewPlayer && Game::instance->tutorialStep == 4)
-					{
-						Game::instance->tutorialStep = 5;
-					}
-				}
-				else
-				{
-					if (game->getCoins() >= bMd[id].cost)
-					{
-						GuiYesNo::vstr = "Do you want to buy " + bMd[id].name + "?";
-						Gui::runDialog(100);
-					}
-					else
-						bMd[id].bImg.enabled = false;
-				}
-			}
-		}
-	}
-	else
-		GuiYesNo::onButtonClicked(button);
+    if (button == 0)
+        game->displayGui(new GuiMainMenu);
+    else if (button == 1)
+        game->displayGui(new GuiPowers);
+    else if (button == 2)
+    {
+        removeButton(bMd[id].bImg);
+        id++;
+        if (id >= int(game->levelRegistry.size()))
+            id = 0;
+        addButton(bMd[id].bImg);
+    }
+    else if (button == 3)
+    {
+        removeButton(bMd[id].bImg);
+        id--;
+        if (id < 0)
+            id = game->levelRegistry.size() - 1;
+        addButton(bMd[id].bImg);
+    }
+    else
+    {
+        if (button == 100)
+        {
+            if (game->isLevelUnlocked((LevelData::MapType)id))
+            {
+                game->loadGame(*game->levelRegistry[bMd[id].name]);
+
+                if (Game::instance->isNewPlayer && Game::instance->tutorialStep == 4)
+                {
+                    Game::instance->tutorialStep = 5;
+                }
+            }
+            else
+            {
+                if (game->getCoins() >= bMd[id].cost)
+                {
+                    runDialog(new GuiYesNo("Do you want to buy " + bMd[id].name + "?"), 0);
+                }
+                else
+                    bMd[id].bImg.enabled = false;
+            }
+        }
+    }
 
 	if (!(game->getCoins() >= bMd[id].cost) && !game->isLevelUnlocked((LevelData::MapType)id))
 		bMd[id].bImg.enabled = false;

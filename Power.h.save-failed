@@ -90,6 +90,6 @@ struct PowerHandles
 	PowerHandles& setMaxTime(int time)
 	{
 	    maxPowerTime = time;
-	    return *this;
+	    return this
 	}
 };

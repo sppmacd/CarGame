@@ -14,7 +14,7 @@ void loop(Game* game)
 {
 	if (game->mainTickCount == 0)
 		// Display the main menu
-		game->displayGui(2);
+		game->displayGui(new GuiMainMenu);
 
     if(!game->paused())
         game->tickNormalGame();
@@ -38,16 +38,14 @@ void loadGame(LoadData* ld)
 
 	GameDisplay::loadingStr = "Loading game engine...";
 	ld->game = new Game;
-	ld->disp = new GameDisplay(ld->wnd);	
-	
+	ld->disp = new GameDisplay(ld->wnd);
+
     srand(time(NULL));
-    ld->wnd->setVerticalSyncEnabled(true); //!!!
 
     cout << "main: Loading game engine..." << endl;
 
     //GameSound gamesound;
 
-	loadTime.restart();
 	ld->loaded = true;
 	cout << "main: Loading took " << loadTime.getElapsedTime().asMilliseconds() << "ms." << endl;
 }
@@ -60,9 +58,9 @@ int main()
 	data.wnd->setVerticalSyncEnabled(true);
 	data.game = NULL;
 	data.disp = NULL;
-	
+
 	sf::Thread loadingThread(loadGame,&data);
-	
+
 	loadingThread.launch();
 	sf::Clock clock;
 	sf::Clock eventClock;
@@ -78,37 +76,50 @@ int main()
     {
 		if(data.loaded)
 		{
+		    bool updateDebugStats = data.game->mainTickCount % 6 == 0;
 			if (!data.game->isRunning())
 				mainLoopRunning = false;
 
 			clock.restart();
 			eventClock.restart();
 
-			if(data.game->mainTickCount % 6 == 0) data.game->times.timeGui = Time::Zero;
+			if(updateDebugStats) data.game->times.timeGui = Time::Zero;
 
+			bool mouseMoveHandled = false;
 			while(data.wnd->pollEvent(ev1))
 			{
-				data.game->runEventHandler(ev1);
+			    if(ev1.type == Event::MouseMoved)
+                {
+                    if(!mouseMoveHandled)
+                    {
+                        data.game->runEventHandler(ev1);
+                        mouseMoveHandled = true;
+                    }
+                }
+                else
+                {
+                    data.game->runEventHandler(ev1);
+                }
 				// tick GUI for each event
 
-				if (data.game->guiCooldown <= 0 && data.game->isGuiLoaded)
-				{
-					guiClock.restart();
-					data.game->tickGui(ev1);
-					if (data.game->mainTickCount % 6 == 0) data.game->times.timeGui += guiClock.getElapsedTime();
-				}
+				if (data.game->guiCooldown <= 0 && data.game->isGuiLoaded && (ev1.type == Event::MouseMoved || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
+                {
+                    guiClock.restart();
+                    data.game->tickGui(ev1);
+                    if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
+                }
 			}
-			if (data.game->mainTickCount % 6 == 0) data.game->times.timeEvent = eventClock.getElapsedTime();
+			if (updateDebugStats) data.game->times.timeEvent = eventClock.getElapsedTime();
 
 			tickClock.restart();
 			loop(data.game);
-			if (data.game->mainTickCount % 6 == 0) data.game->times.timeTick = tickClock.getElapsedTime();
+			if (updateDebugStats) data.game->times.timeTick = tickClock.getElapsedTime();
 
 			renderClock.restart();
 			data.disp->display();
-			if (data.game->mainTickCount % 6 == 0) data.game->times.timeRender = renderClock.getElapsedTime();
+			if (updateDebugStats) data.game->times.timeRender = renderClock.getElapsedTime();
 
-			if (data.game->mainTickCount % 6 == 0) data.game->tickTime = clock.getElapsedTime();
+			if (updateDebugStats) data.game->tickTime = clock.getElapsedTime();
 
 			sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
 
@@ -120,8 +131,8 @@ int main()
 			waitClock.restart();
 			while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
 
-			if (data.game->mainTickCount % 6 == 0) data.game->realTickTime = clock.getElapsedTime();
-			if (data.game->mainTickCount % 6 == 0) data.game->times.timeWait = waitClock.getElapsedTime();
+			if (updateDebugStats) data.game->realTickTime = clock.getElapsedTime();
+			if (updateDebugStats) data.game->times.timeWait = waitClock.getElapsedTime();
 		}
 		else
 		{

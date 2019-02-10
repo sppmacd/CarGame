@@ -37,7 +37,7 @@ void GameDisplay::reload()
 	GameDisplay::loadingStr = "Creating unknown texture...";
 	for(int i = 0; i < 64; i++)
 	for(int j = 0; j < 64; j++)
-	{ 
+	{
 		// 0     150    300
 		// *******%%%%%%% 0
 		// *******%%%%%%%
@@ -85,7 +85,7 @@ void GameDisplay::reload()
 
 void GameDisplay::addTexture(string name, bool repeated, bool smooth)
 {
-    cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
+    //cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
     sf::Texture tx;
 	bool load = tx.loadFromFile("res/" + name + ".png");
@@ -183,7 +183,7 @@ sf::Text GameDisplay::drawCenteredString(string tx, int height, sf::Vector2f pos
 	text.setCharacterSize(height);
 	text.setStyle(style);
 	text.setPosition(pos.x - text.getLocalBounds().width / 2, pos.y - text.getLocalBounds().height / 2);
-	
+
 	return text;
 }
 
@@ -191,7 +191,7 @@ void GameDisplay::drawLoadingProgress(string action, sf::RenderWindow* wnd)
 {
     static sf::Font f;
 	static bool l = false;
-    
+
 	// Temporarily load Font
 	if (!l)
 	{
@@ -234,6 +234,31 @@ void GameDisplay::drawGame()
 	bg.setPosition(0.f, this->getSize().y / 2.f);
 	bg.setScale(2.f, 2.f);
     this->renderWnd->draw(bg);
+
+    // FOG
+    VertexArray arr(Quads);
+    Color fogColor = game->getLevelColor();
+    arr.append(Vertex(Vector2f(0,0), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,0), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2-250), fogColor));
+    arr.append(Vertex(Vector2f(0,this->getSize().y/2-250), fogColor));
+
+    arr.append(Vertex(Vector2f(0,this->getSize().y), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2+250), fogColor));
+    arr.append(Vertex(Vector2f(0,this->getSize().y/2+250), fogColor));
+
+
+    arr.append(Vertex(Vector2f(0,this->getSize().y/2-250), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2-250), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2-200), Color::Transparent));
+    arr.append(Vertex(Vector2f(0,this->getSize().y/2-200), Color::Transparent));
+
+    arr.append(Vertex(Vector2f(0,this->getSize().y/2+250), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2+250), fogColor));
+    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2+200), Color::Transparent));
+    arr.append(Vertex(Vector2f(0,this->getSize().y/2+200), Color::Transparent));
+    this->renderWnd->draw(arr);
 
     // CARS
     sf::Sprite car(this->getTexture("car/default"));

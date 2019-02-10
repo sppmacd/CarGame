@@ -7,19 +7,16 @@
 class GuiIngame : public Gui
 {
 public:
-	GuiIngame() {};
-	virtual ~GuiIngame() {};
-
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
+    void onDraw(sf::RenderWindow& wnd);
+    void onClick(long button);
+    void onLoad();
 
 protected:
 
 private:
-    static Button b1;
-    static Button b2;
-    static Button bQuit;
+    Button b1;
+    Button b2;
+    Button bQuit;
 };
 
 #endif // GUIINGAME_H

@@ -4,21 +4,17 @@
 #include <iostream>
 
 using namespace std;
-
-Button GuiPowers::bPower1;
-Button GuiPowers::bPower2;
-Button GuiPowers::bReturn;
-int GuiPowers::cooldown;
+using namespace sf;
 
 void GuiPowers::onLoad()
 {
     cooldown = 0;
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bPower1 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 120), "Buy Oil: 400$", 1));
-    addButton(bPower2 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), "Buy Ice: 1000$", 2));
+    addButton(bPower1 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 120), "Buy Oil: 400$", 1));
+    addButton(bPower2 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), "Buy Ice: 1000$", 2));
 
-    addButton(bReturn = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Return to Maps", 0));
+    addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Return to Maps", 0));
 }
 
 void GuiPowers::draw(sf::RenderWindow* wnd)

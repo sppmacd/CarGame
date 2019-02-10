@@ -40,35 +40,11 @@ LevelData::LevelData(MapType type)
 
 void LevelData::init()
 {
-    Maps::countryside = new LevelData(COUNTRYSIDE);
-    Maps::countryside->setAcceleration(4.f);
-    Maps::countryside->setColor(sf::Color(82, 133, 75));
-    Maps::countryside->setTextureName("countryside");
-	Maps::countryside->setCarCreationSpeed(70);
-
-	Maps::desert = new LevelData(LevelData::DESERT);
-    Maps::desert->setAcceleration(3.4f);
-    Maps::desert->setColor(sf::Color::Yellow);
-    Maps::desert->setTextureName("desert");
-	Maps::desert->setCarCreationSpeed(80);
-
-    Maps::forest = new LevelData(LevelData::FOREST);
-    Maps::forest->setAcceleration(5.f);
-    Maps::forest->setColor(sf::Color(0, 140, 0));
-    Maps::forest->setTextureName("forest");
-	Maps::forest->setCarCreationSpeed(60);
-
-    Maps::ice = new LevelData(LevelData::ICE);
-    Maps::ice->setAcceleration(6.f);
-    Maps::ice->setColor(sf::Color(230, 230, 230));
-    Maps::ice->setTextureName("ice");
-	Maps::ice->setCarCreationSpeed(90);
-
-    Maps::mountains = new LevelData(LevelData::MOUNTAINS);
-    Maps::mountains->setAcceleration(3.f);
-    Maps::mountains->setColor(sf::Color(85, 86, 85));
-    Maps::mountains->setTextureName("mountains");
-	Maps::mountains->setCarCreationSpeed(85);
+    Maps::countryside = &(new LevelData(COUNTRYSIDE))->setAcceleration(4.f).setColor(sf::Color(82, 133, 75)).setTextureName("countryside").setCarCreationSpeed(70);
+	Maps::desert = &(new LevelData(LevelData::DESERT))->setAcceleration(3.4f).setColor(sf::Color::Yellow).setTextureName("desert").setCarCreationSpeed(80);
+    Maps::forest = &(new LevelData(LevelData::FOREST))->setAcceleration(5.f).setColor(sf::Color(0, 140, 0)).setTextureName("forest").setCarCreationSpeed(60);
+    Maps::ice = &(new LevelData(LevelData::ICE))->setAcceleration(6.f).setColor(sf::Color(230, 230, 230)).setTextureName("ice").setCarCreationSpeed(90);
+    Maps::mountains = &(new LevelData(LevelData::MOUNTAINS))->setAcceleration(3.f).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(85);
 
 	Game::instance->levelRegistry.insert(make_pair("Countryside", Maps::countryside));
 	Game::instance->levelRegistry.insert(make_pair("Desert", Maps::desert));
@@ -77,22 +53,26 @@ void LevelData::init()
 	Game::instance->levelRegistry.insert(make_pair("Mountains", Maps::mountains));
 }
 
-void LevelData::setAcceleration(float f)
+LevelData& LevelData::setAcceleration(float f)
 {
     this->acc = f;
+    return *this;
 }
 
-void LevelData::setCarCreationSpeed(int ccs)
+LevelData& LevelData::setCarCreationSpeed(int ccs)
 {
 	this->carCreationSpd = ccs;
+	return *this;
 }
 
-void LevelData::setColor(sf::Color c)
+LevelData& LevelData::setColor(sf::Color c)
 {
     this->mapColor = c;
+    return *this;
 }
 
-void LevelData::setTextureName(sf::String name)
+LevelData& LevelData::setTextureName(sf::String name)
 {
     this->textureName = name;
+    return *this;
 }

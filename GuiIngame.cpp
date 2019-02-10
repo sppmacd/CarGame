@@ -3,10 +3,6 @@
 #include "GameDisplay.h"
 #include <iostream>
 
-Button GuiIngame::b1;
-Button GuiIngame::b2;
-Button GuiIngame::bQuit;
-
 void GuiIngame::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
@@ -18,7 +14,7 @@ void GuiIngame::onLoad()
     bQuit.setColor(sf::Color::Red);
 }
 
-void GuiIngame::draw(sf::RenderWindow* wnd)
+void GuiIngame::onDraw(sf::RenderWindow& wnd)
 {
     //Gui::drawGui(wnd);
 
@@ -26,10 +22,10 @@ void GuiIngame::draw(sf::RenderWindow* wnd)
     b2.draw(wnd);
     bQuit.draw(wnd);
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Game menu", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString("Game menu", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
 }
 
-void GuiIngame::onButtonClicked(long button)
+void GuiIngame::onClick(long button)
 {
     Game* game = Game::instance;
 
@@ -40,7 +36,7 @@ void GuiIngame::onButtonClicked(long button)
 	}
     else if(button == 1)
     {
-        game->displayGui(2); //main menu
+        game->displayGui(new GuiMainMenu); //main menu
         game->closeLevel();
     }
     else if(button == 2)

@@ -34,6 +34,12 @@ bool EventHandlers::onMouseWheelScrolled(Event event, Game * game)
 	return true;
 }
 
+bool EventHandlers::onGUIKeyPressed(Event event, Game* game)
+{
+    Gui::findHandlerByID(game->displayedGui).onKeyPressed(event.key.code);
+    return true;
+}
+
 bool EventHandlers::onKeyPressed(Event event, Game * game)
 {
 	if (event.key.code == sf::Keyboard::Space)
@@ -78,7 +84,7 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 
 	switch (carId)
 	{
-	case Car::NORMAL: 
+	case Car::NORMAL:
 	{
 		Car* car = new Car(Car::NORMAL, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
@@ -131,6 +137,38 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 		// TODO: This will be moved to CarBomb class !!!
 		event.carSpawned.carToCreate->animSize = 10;
 		event.carSpawned.carToCreate->frameLength = 3;
+		break;
+	}
+	case Car::FIREMAN:
+	{
+		Car* car = new Car(Car::FIREMAN, 7.f, rand() % 3);
+		// TODO: create CarBomb
+		event.carSpawned.carToCreate = car;
+		event.carSpawned.carToCreate->setColor(Color(200, 0, 0));
+		break;
+	}
+	case Car::TANK:
+	{
+		Car* car = new Car(Car::TANK, 7.f, rand() % 3);
+		// TODO: create CarBomb
+		event.carSpawned.carToCreate = car;
+        event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
+		break;
+	}
+	case Car::OLD:
+	{
+		Car* car = new Car(Car::OLD, 7.f, rand() % 3);
+		// TODO: create CarBomb
+		event.carSpawned.carToCreate = car;
+		event.carSpawned.carToCreate->setColor(Color(35, 35, 35));
+		break;
+	}
+	case Car::ARMORED:
+	{
+		Car* car = new Car(Car::ARMORED, 7.f, rand() % 3);
+		// TODO: create CarBomb
+		event.carSpawned.carToCreate = car;
+		event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 		break;
 	}
 	default: return false;

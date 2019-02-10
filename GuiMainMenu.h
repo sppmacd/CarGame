@@ -3,20 +3,19 @@
 
 #include "Gui.h"
 
-
 class GuiMainMenu : public Gui
 {
 public:
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
+    void onDraw(sf::RenderWindow& wnd);
+    void onClick(long button);
+    void onLoad();
 
 protected:
 
 private:
-    static Button b1;
-    static Button b2;
-    static Button b3; //settings
+    Button b1;
+    Button b2;
+    Button b3; //settings
 };
 
 #endif // GUIMAINMENU_H

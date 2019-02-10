@@ -23,6 +23,7 @@ public:
 		TANK,
 		OLD,
 		BOMB,
+		ARMORED,
 		COUNT
 	};
 

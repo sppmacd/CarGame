@@ -6,17 +6,17 @@
 class GuiPowers : public Gui
 {
 public:
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
+    void onDraw(sf::RenderWindow& wnd);
+    void onClick(long button);
+    void onLoad();
 
 protected:
 
 private:
-    static Button bPower1;
-    static Button bPower2;
-    static Button bReturn; //go to map selection
-    static int cooldown;
+    Button bPower1;
+    Button bPower2;
+    Button bReturn; //go to map selection
+    int cooldown;
 };
 
 #endif // GUIPOWERS_H

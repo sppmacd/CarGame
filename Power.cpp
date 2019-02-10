@@ -37,7 +37,7 @@ Vector2f PowerOil::pos;
 
 void PowerOil::onPowerTick(int powerTick)
 {
-	if (powerTick % 10 == 0)
+	if (powerTick % 5 == 0)
 	{
 		for (Car& c : Game::instance->cars)
 		{
@@ -54,7 +54,7 @@ void PowerOil::drawPower(RenderWindow * wnd)
 	rs.setOutlineColor(Color(209, 191, 55));
 	rs.setOutlineThickness(1.8f);
 	rs.setOrigin(20.f, 250.f);
-	rs.setPosition(pos.x, 540);
+	rs.setPosition(pos.x, GameDisplay::instance->getSize().y / 2);
 	wnd->draw(rs);
 }
 
@@ -66,7 +66,7 @@ void PowerOil::drawPowerIdle(RenderWindow* wnd)
 	rs.setOutlineColor(Color(219, 201, 65));
 	rs.setOutlineThickness(2.f);
 	rs.setOrigin(20.f, 250.f);
-	rs.setPosition(p.x, 540);
+	rs.setPosition(p.x, GameDisplay::instance->getSize().y / 2);
 	wnd->draw(rs);
 }
 
@@ -79,10 +79,10 @@ void PowerFreeze::onPowerStop()
 
 void PowerFreeze::drawPower(RenderWindow * wnd)
 {
-	int effectAlpha = (-std::pow(Game::instance->powerTime, 2.f) + 500.f*Game::instance->powerTime + 250.f) / (62750.f / 64.f);
+	int effectAlpha = 32;
 
 	RectangleShape rs(Vector2f(1920.f, 500.f));
-	rs.setPosition(0.f, 540.f);
+	rs.setPosition(0.f, GameDisplay::instance->getSize().y / 2);
 	rs.setOrigin(0.f, 250.f);
 	rs.setFillColor(Color(164, 241, 249, effectAlpha));
 	wnd->draw(rs);

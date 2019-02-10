@@ -42,7 +42,7 @@ public:
     bool isGuiLoaded;
 
 	// Variable storing currently displayed GUI
-    int displayedGui;
+    Gui* displayedGui;
 
 	// Gui cooldown (deprecated)
     int guiCooldown;
@@ -52,6 +52,12 @@ public:
 
 	// Power cooldown
     int powerCooldown;
+
+    // Power max time
+    int powerMaxTime;
+
+    // Current power handle
+    PowerHandles powerHandle;
 
 	// Current level data
     LevelData level;
@@ -72,7 +78,7 @@ public:
 	bool newRecord;
 
 	///Vector storing event handlers.
-	map<sf::Event::EventType, EventHandler> eventHandlers;
+	multimap<sf::Event::EventType, EventHandler> eventHandlers;
 
 	/////////////////////////
     ////// PLAYER DATA //////
@@ -189,8 +195,9 @@ public:
 	// Returns player coins
     long getCoins();
 
-	// Displays (and loads) specified GUI
-    void displayGui(int gui);
+	// Displays (and loads) specified GUI.
+	/// The GUI must be created dynamically (by "new"!)
+    void displayGui(Gui* gui);
 
 	// Closes current GUI
     void closeGui();
@@ -204,7 +211,7 @@ public:
 	// Checks if the game is running
     bool isRunning();
 
-	// Sets game state to not running and sets retval to specified value
+	// Sets game state to not running and sets return value to specified value
     void exit(int ret);
 
 	// Returns player total points count. Not used yet
@@ -285,7 +292,7 @@ private:
 
 	// Variable storing game running stat. Almost always true.
     bool running;
-    
+
 	// Total player points, not used yet
     long totalPlayerPoints;
 

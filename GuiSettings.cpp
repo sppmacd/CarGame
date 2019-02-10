@@ -23,7 +23,7 @@ void GuiSettings::onLoad()
     bDone.setColor(sf::Color::Green);
 }
 
-void GuiSettings::draw(sf::RenderWindow* wnd)
+void GuiSettings::onDraw(sf::RenderWindow* wnd)
 {
     //Gui::drawGui(wnd);
 
@@ -46,37 +46,30 @@ void GuiSettings::onDialogFinished(int id, int rv)
 	}
 }
 
-void GuiSettings::onButtonClicked(long button)
+void GuiSettings::onClick(long button)
 {
-	if (!Gui::isDialogRunning())
-	{
-		Game* game = Game::instance;
+    Game* game = Game::instance;
 
-		if (button == 0)
-		{
-			game->displayGui(2); //main menu
-		}
-		else if (button == 1)
-		{
-			GuiYesNo::vstr = "Are you sure to delete all your player data?\n\nThis can't be undone!";
-			Gui::runDialog(100); //yes/no
-		}
-		else if (button == 2)
-		{
-			GameDisplay::instance->reload();
-		}
-		else if (button == 3)
-		{
-			GameDisplay::instance->setVSync(bVerticalSync.getState());
-		}
-		else if (button == 4)
-		{
-			GameDisplay::instance->nextFullscreenMode();
-		}
-	}
-	else //not yet finished
-	{
-		GuiYesNo::onButtonClicked(button);
-	}
+    if (button == 0)
+    {
+        game->displayGui(2); //main menu
+    }
+    else if (button == 1)
+    {
+        GuiYesNo::vstr = "Are you sure to delete all your player data?\n\nThis can't be undone!";
+        Gui::runDialog(100); //yes/no
+    }
+    else if (button == 2)
+    {
+        GameDisplay::instance->reload();
+    }
+    else if (button == 3)
+    {
+        GameDisplay::instance->setVSync(bVerticalSync.getState());
+    }
+    else if (button == 4)
+    {
+        GameDisplay::instance->nextFullscreenMode();
+    }
 }
 

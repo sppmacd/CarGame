@@ -15,11 +15,12 @@ namespace LevelUtility
 			return 1;
 		else if (position.y >= windowMiddle + 50)
 			return 2;
+        return -1;
 	}
 
 	Vector2f getLanePos(int lane)
 	{
-		//	   |--------------------window center---------------------|
+		//	                |--------------------window center---------------------|
 		return Vector2f(0.f,(GameDisplay::instance->getRenderWnd()->getSize().y / 2) + (lane-1) * 100);
 	}
 }

@@ -27,10 +27,10 @@ public:
     LevelData() {}
     MapType getMapType();
 
-    void setColor(sf::Color c);
-    void setTextureName(sf::String name);
-    void setAcceleration(float f);
-	void setCarCreationSpeed(int ccs);
+    LevelData& setColor(sf::Color c);
+    LevelData& setTextureName(sf::String name);
+    LevelData& setAcceleration(float f);
+	LevelData& setCarCreationSpeed(int ccs);
 
     sf::Color getColor();
     sf::String getTextureName();
