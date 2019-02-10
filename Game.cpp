@@ -21,7 +21,7 @@
 Game* Game::instance;
 
 Game::Game()
-    : displayedGui(-1)
+    : displayedGui(NULL)
 {
     cout << "Game: Started loading game engine..." << endl;
 
@@ -381,7 +381,9 @@ void Game::tickEventMouseClick(sf::Vector2f pos)
 {
     if(this->isGuiLoaded)
     {
-		this->displayedGui->onMouseClick(pos);
+		Button b = this->displayedGui->onMouseClick(pos);
+		if(!(Button() == b))
+            this->displayedGui->onClick(b.id);
     }
 }
 
@@ -390,7 +392,7 @@ void Game::setGameOver()
     cout << "Game: Setting game over..." << endl;
     this->gameOver = true;
     this->savePlayerData();
-    this->displayGui(1);
+    this->displayGui(new GuiGameOver);
 }
 
 void Game::pause(bool s)
@@ -413,7 +415,7 @@ void Game::displayGui(Gui* gui)
 	{
 	    this->isGuiLoaded = true;
 	    this->displayedGui = gui;
-	    this->displayedGui->onLoad()
+	    this->displayedGui->onLoad();
 	}
 }
 

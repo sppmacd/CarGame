@@ -11,7 +11,7 @@ public:
     void onClick(long button);
     void onLoad();
 	void onClose();
-	void onDialogFinished(Gui* dialog);
+	void onDialogFinished(Gui* dialog, int callId);
 
 private:
 	int id;

@@ -151,7 +151,6 @@ void drawDebugInfo(sf::RenderWindow* wnd)
 	wnd->draw(disp->drawString(std::string("CarGame v0.0.5 ")
 		+ std::string("|\ttick = ") + std::string(to_string(Game::instance->tickTime.asMicroseconds()))
 		+ std::string(",\trtick = ") + std::string(to_string(Game::instance->realTickTime.asMicroseconds()))
-		+ std::string(",\tgui = ") + std::string(to_string(Game::instance->displayedGui))
 		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
 		+ std::string(",\tmtc = ") + std::string(to_string(Game::instance->mainTickCount))
 		+ std::string(",\tcars = ") + std::string(to_string(Game::instance->cars.size()))
@@ -239,7 +238,7 @@ void GameDisplay::drawGui()
 
     drawStat(50, 32, "coin", game->getCoins());
 
-    switch(game->tutorialStep)
+    /*switch(game->tutorialStep)
     {
     case 2:
         if(game->displayedGui == 2)
@@ -267,7 +266,7 @@ void GameDisplay::drawGui()
         break;
     default:
         break;
-    }
+    }*/
 
     if(game->debug) drawDebugInfo(this->renderWnd);
 }

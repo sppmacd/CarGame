@@ -1,6 +1,7 @@
 #include "GuiPowers.h"
 #include "Game.h"
 #include "GameDisplay.h"
+#include "GuiMapSelect.h"
 #include <iostream>
 
 using namespace std;
@@ -17,7 +18,7 @@ void GuiPowers::onLoad()
     addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Return to Maps", 0));
 }
 
-void GuiPowers::draw(sf::RenderWindow* wnd)
+void GuiPowers::onDraw(sf::RenderWindow& wnd)
 {
     Game* game = Game::instance;
 
@@ -43,21 +44,23 @@ void GuiPowers::draw(sf::RenderWindow* wnd)
     bPower2.draw(wnd);
     bReturn.draw(wnd);
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Buy Powers", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString("Buy Powers", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
 
-    wnd->draw(drawString(to_string(game->powers[1]), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 120)));
-    wnd->draw(drawString(to_string(game->powers[2]), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 60)));
+    wnd.draw(drawString(to_string(game->powers[1]), 30, Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 120)));
+    wnd.draw(drawString(to_string(game->powers[2]), 30, Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 60)));
 
     if(cooldown > 0) cooldown--;
+
+    Gui::onDraw(wnd);
 }
 
-void GuiPowers::onButtonClicked(long button)
+void GuiPowers::onClick(long button)
 {
     Game* game = Game::instance;
 
     if(button == 0)
     {
-        game->displayGui(4); //map selection
+        game->displayGui(new GuiMapSelect); //map selection
     }
 
     if(button == 1)

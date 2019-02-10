@@ -15,8 +15,14 @@ using namespace sf;
 class Gui
 {
 public:
+    Gui();
+    virtual ~Gui();
+
     /// current dialog id, unique for each GUI
 	int dialogCallId;
+
+	/// current dialog return value
+	int dialogReturnValue;
 
 	/// Called in render phase.
 	virtual void onDraw(RenderWindow& wnd);
@@ -52,7 +58,7 @@ public:
 	virtual void onDialogFinished(Gui* dialog, int callId);
 
 	/// Called by dialog function, calls onDialogFinished
-	virtual void closeDialog();
+	virtual void closeDialog(int returnValue);
 
 	/// Checks if the dialog is running.
 	bool isDialogRunning();
@@ -60,16 +66,12 @@ public:
 protected:
 	/// Internal GameDisplay drawString() hook.
 	sf::Text drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
-
-	/// Set dialog return value
-	void setDialogReturnValue(int rv);
+	Gui* parent;
 
 private:
 	/// buttons :)
 	vector<Button*> buttons;
-
 	Gui* currentDialog;
-	int dialogReturnValue;
 };
 
 #endif // GUI_H

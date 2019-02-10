@@ -1,6 +1,7 @@
 #include "GuiIngame.h"
 #include "Game.h"
 #include "GameDisplay.h"
+#include "GuiMainMenu.h"
 #include <iostream>
 
 void GuiIngame::onLoad()
@@ -23,6 +24,8 @@ void GuiIngame::onDraw(sf::RenderWindow& wnd)
     bQuit.draw(wnd);
 
     wnd.draw(GameDisplay::instance->drawCenteredString("Game menu", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+
+    Gui::onDraw(wnd);
 }
 
 void GuiIngame::onClick(long button)

@@ -4,6 +4,16 @@
 #include <cmath>
 #include "Game.h"
 
+Gui::Gui()
+{
+    currentDialog = nullptr;
+}
+
+Gui::~Gui()
+{
+    closeDialog(0);
+}
+
 void Gui::onDraw(RenderWindow& wnd)
 {
     if(isDialogRunning())
@@ -12,7 +22,7 @@ void Gui::onDraw(RenderWindow& wnd)
 
 Button Gui::onMouseClick(Vector2f pos)
 {
-    if(!runningDialog)
+    if(!isDialogRunning())
     {
         for(Button* button: buttons)
         {
@@ -33,7 +43,7 @@ Button Gui::onMouseClick(Vector2f pos)
 
 void Gui::onMouseMove(Vector2f pos)
 {
-    if(!runningDialog)
+    if(!isDialogRunning())
     {
         for(Button* button: buttons)
         {
@@ -68,7 +78,7 @@ void Gui::removeButton(Button& widget)
 {
     for(unsigned int i = 0; i < buttons.size(); i++)
     {
-        if(buttons[i] == widget);
+        if(buttons[i]->id == widget.id)
         {
             buttons.erase(buttons.begin() + i);
             return;
@@ -78,21 +88,20 @@ void Gui::removeButton(Button& widget)
 
 void Gui::runDialog(Gui* dialog, int callId)
 {
-    currentDialog->closeDialog();
+    currentDialog->closeDialog(0);
     currentDialog = dialog;
-    dialogCallId = callId
+    currentDialog->parent = this;
+    dialogCallId = callId;
     currentDialog->onLoad();
 }
 
-void Gui::closeDialog()
+void Gui::closeDialog(int returnValue)
 {
-    if(isDialogRunning())
-    {
-        currentDialog->onClose();
-        this->onDialogFinished(currentDialog, dialogCallId);
-        delete currentDialog;
-        currentDialog = nullptr;
-    }
+    this->onClose();
+    parent->dialogReturnValue = returnValue;
+    parent->onDialogFinished(parent->currentDialog, parent->dialogCallId);
+    delete parent->currentDialog;
+    parent->currentDialog = nullptr;
 }
 
 void Gui::onLoad() {}
@@ -108,12 +117,7 @@ bool Gui::isDialogRunning()
     return currentDialog != nullptr;
 }
 
-Text Gui::drawString(string tx, int height, Vector2f pos, Text::Style style = Text::Regular)
+Text Gui::drawString(string tx, int height, Vector2f pos, Text::Style style)
 {
-    return GameDisplay::drawString(tx, height, pos, style);
-}
-
-void Gui::setDialogReturnValue(int rv)
-{
-    dialogReturnValue = rv;
+    return GameDisplay::instance->drawString(tx, height, pos, style);
 }

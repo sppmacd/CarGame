@@ -1,29 +1,26 @@
 #include "GuiSettings.h"
 #include "Game.h"
+#include "GuiMainMenu.h"
 #include "GameDisplay.h"
 #include "GuiYesNo.h"
 #include <iostream>
 
-Button GuiSettings::bDone;
-Button GuiSettings::bResetHS;
-Button GuiSettings::bRefreshGD;
-ButtonToggle GuiSettings::bVerticalSync;
-Button GuiSettings::bTFM;
+using namespace sf;
 
 void GuiSettings::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bDone = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), "Done", 0));
-    addButton(bResetHS = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), "Reset Game", 1));
-    addButton(bRefreshGD = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), "Refresh Resources", 2));
-    addButton(bVerticalSync = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), "Vertical Sync", 3, game->getVSync()));
+    addButton(bDone = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), "Done", 0));
+    addButton(bResetHS = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), "Reset Game", 1));
+    addButton(bRefreshGD = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), "Refresh Resources", 2));
+    addButton(bVerticalSync = ButtonToggle(Vector2f(400.f, 40.f),::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), "Vertical Sync", 3, game->getVSync()));
     //addButton(bTFM = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 90), "Toggle Fullscreen Mode", 4));
 
     bDone.setColor(sf::Color::Green);
 }
 
-void GuiSettings::onDraw(sf::RenderWindow* wnd)
+void GuiSettings::onDraw(sf::RenderWindow& wnd)
 {
     //Gui::drawGui(wnd);
 
@@ -33,12 +30,14 @@ void GuiSettings::onDraw(sf::RenderWindow* wnd)
     bVerticalSync.draw(wnd);
 	//bTFM.draw(wnd);
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Settings", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString("Settings", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+
+    Gui::onDraw(wnd);
 }
 
-void GuiSettings::onDialogFinished(int id, int rv)
+void GuiSettings::onDialogFinished(Gui* dialog, int callId)
 {
-	if (id == 100 && rv == 1)
+	if(callId == 0 && dialogReturnValue == 1)
 	{
 		remove("data.txt");
 		remove("highscore.txt");
@@ -52,12 +51,11 @@ void GuiSettings::onClick(long button)
 
     if (button == 0)
     {
-        game->displayGui(2); //main menu
+        game->displayGui(new GuiMainMenu); //main menu
     }
     else if (button == 1)
     {
-        GuiYesNo::vstr = "Are you sure to delete all your player data?\n\nThis can't be undone!";
-        Gui::runDialog(100); //yes/no
+        runDialog(new GuiYesNo("Are you sure to delete all your player data?\n\nThis can't be undone!"), 0); //yes/no
     }
     else if (button == 2)
     {

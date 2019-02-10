@@ -30,14 +30,14 @@ public:
 
     sf::Text drawString(string, int, sf::Vector2f, sf::Text::Style);
 
-    virtual void draw(sf::RenderWindow* wnd);
+    virtual void draw(sf::RenderWindow& wnd);
 	virtual void onClick();
 
     bool isMouseOver;
     bool enabled;
     long id;
 
-    bool operator==(Button r)
+    bool operator==(Button& r)
     {
         return r.id == this->id;
     }

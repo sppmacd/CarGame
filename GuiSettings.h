@@ -7,10 +7,10 @@
 class GuiSettings : public Gui
 {
 public:
-    void onDraw(sf::RenderWindow* wnd);
+    void onDraw(sf::RenderWindow& wnd);
     void onClick(long button);
     void onLoad();
-	void onDialogFinished(int dialogId, int returnValue);
+	void onDialogFinished(Gui* dialog, int callId);
 
 protected:
 
@@ -19,7 +19,7 @@ private:
     Button bResetHS;
     Button bRefreshGD;
     ButtonToggle bVerticalSync;
-    Button bTFM;
+    //Button bTFM;
 };
 
 #endif // GUISETTINGS_H

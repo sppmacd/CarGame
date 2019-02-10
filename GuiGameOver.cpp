@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "GameDisplay.h"
 #include <iostream>
+#include "GuiMainMenu.h"
 
 using namespace std;
 using namespace sf;
@@ -33,6 +34,8 @@ void GuiGameOver::onDraw(sf::RenderWindow& wnd)
     sf::Text sc = GameDisplay::instance->drawCenteredString(std::string("Your score was ") + to_string(game->lastTickScore), 40, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2 - 70));
     sc.setFillColor(sf::Color::Yellow);
     wnd.draw(sc);
+
+    Gui::onDraw(wnd);
 }
 
 void GuiGameOver::onClick(long button)

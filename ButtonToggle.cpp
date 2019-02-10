@@ -7,9 +7,9 @@ ButtonToggle::ButtonToggle(sf::Vector2f size, sf::Vector2f pos, string text, int
 	this->animStat = 0;
 }
 
-void ButtonToggle::draw(RenderWindow * wnd)
+void ButtonToggle::draw(RenderWindow& wnd)
 {
-	if (this->animStat > 0) 
+	if (this->animStat > 0)
 		this->animStat--;
 
 	int ap = state ? this->animStat : 30 - this->animStat;
@@ -36,13 +36,13 @@ void ButtonToggle::draw(RenderWindow * wnd)
 	if (!this->enabled)
 		rect.setFillColor(sf::Color(60, 51, 25));
 
-	wnd->draw(rect);
-	wnd->draw(rect2);
+	wnd.draw(rect);
+	wnd.draw(rect2);
 
 	sf::Text tx = this->drawString(this->getText() + (state ? ": On" : ": Off"), 28, this->getPos() + sf::Vector2f(5.f, 5.f), sf::Text::Bold);
 	tx.setOrigin(tx.getLocalBounds().width / 2, tx.getLocalBounds().height / 2);
 	tx.setPosition(this->getPos() + this->getSize() / 2.f - sf::Vector2f(0.f, 6.f));
-	wnd->draw(tx);
+	wnd.draw(tx);
 }
 
 void ButtonToggle::onClick()

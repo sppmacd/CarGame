@@ -36,7 +36,8 @@ bool EventHandlers::onMouseWheelScrolled(Event event, Game * game)
 
 bool EventHandlers::onGUIKeyPressed(Event event, Game* game)
 {
-    Gui::findHandlerByID(game->displayedGui).onKeyPressed(event.key.code);
+    if(game->isGuiLoaded)
+        game->displayedGui->onKeyboard(event.key.code);
     return true;
 }
 

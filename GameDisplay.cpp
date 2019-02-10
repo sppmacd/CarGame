@@ -146,10 +146,7 @@ void GameDisplay::display()
     }
     else
     {
-        if(game->displayedGui == 2)
-            this->renderWnd->clear(sf::Color(25, 20, 20));
-        else
-            this->renderWnd->clear(sf::Color(50, 40, 40));
+        this->renderWnd->clear(sf::Color(50, 40, 40));
     }
 
     this->drawGui();

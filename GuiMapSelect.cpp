@@ -1,8 +1,10 @@
 #include "GuiMapSelect.h"
 #include "Game.h"
 #include "GameDisplay.h"
+#include "GuiMainMenu.h"
 #include "GuiYesNo.h"
 #include <iostream>
+#include "GuiPowers.h"
 #include "maptype.h"
 
 using namespace std;
@@ -44,7 +46,7 @@ void GuiMapSelect::onClose()
 
 void GuiMapSelect::onDialogFinished(Gui* dialog, int callId)
 {
-	if(callId == 0)
+	if(callId == 0 && dialogReturnValue == 1)
 	{
 		Game::instance->unlockedLevels |= (0b1 << id);
 		Game::instance->removeCoins(bMd[id].cost);
@@ -81,6 +83,8 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 
     wnd.draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));
     wnd.draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 175)));
+
+    Gui::onDraw(wnd);
 }
 
 void GuiMapSelect::onClick(long button)

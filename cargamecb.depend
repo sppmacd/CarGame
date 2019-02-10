@@ -508,27 +508,27 @@
 
 1545649153 source:f:\c++\cargame\icon.rc
 
-1536077091 source:f:\c++\cargame\button.cpp
+1549798677 source:f:\c++\cargame\button.cpp
 	"Button.h"
 	"GameDisplay.h"
 
-1535975519 f:\c++\cargame\button.h
+1549798667 f:\c++\cargame\button.h
 	<SFML/Graphics.hpp>
 	<string>
 
-1537796785 source:f:\c++\cargame\buttonimage.cpp
+1549798973 source:f:\c++\cargame\buttonimage.cpp
 	"ButtonImage.h"
 	"GameDisplay.h"
 
-1536398618 f:\c++\cargame\buttonimage.h
+1549798916 f:\c++\cargame\buttonimage.h
 	<string>
 	"Button.h"
 	"SFML/Graphics.hpp"
 
-1536161910 source:f:\c++\cargame\buttontoggle.cpp
+1549798991 source:f:\c++\cargame\buttontoggle.cpp
 	"ButtonToggle.h"
 
-1536070878 f:\c++\cargame\buttontoggle.h
+1549798995 f:\c++\cargame\buttontoggle.h
 	"Button.h"
 	"SFML/Graphics.hpp"
 
@@ -544,7 +544,7 @@
 	<SFML/Graphics.hpp>
 	<string>
 
-1549642845 f:\c++\cargame\game.h
+1549796300 f:\c++\cargame\game.h
 	<vector>
 	"Car.h"
 	"Gui.h"
@@ -553,7 +553,7 @@
 	"EventHandler.h"
 	"CarType.h"
 
-1549642626 f:\c++\cargame\gui.h
+1549798551 f:\c++\cargame\gui.h
 	<SFML/Graphics.hpp>
 	<vector>
 	<map>
@@ -612,7 +612,7 @@
 1537807252 f:\c++\cargame\carrare.h
 	"Car.h"
 
-1549642651 source:f:\c++\cargame\eventhandler.cpp
+1549798147 source:f:\c++\cargame\eventhandler.cpp
 	"EventHandler.h"
 	"Game.h"
 	"Car.h"
@@ -621,7 +621,7 @@
 	"CarBus.h"
 	"CarAmbulance.h"
 
-1549554197 source:f:\c++\cargame\gamedisplay.cpp
+1549798477 source:f:\c++\cargame\gamedisplay.cpp
 	"GameDisplay.h"
 	"Game.h"
 	<iostream>
@@ -630,7 +630,7 @@
 	"CarType.h"
 	"Game.h"
 
-1549556903 source:f:\c++\cargame\gamedisplaygui.cpp
+1549798522 source:f:\c++\cargame\gamedisplaygui.cpp
 	"GameDisplay.h"
 	"Game.h"
 	"GuiIngame.h"
@@ -641,24 +641,24 @@
 	"GuiPowers.h"
 	<cstdlib>
 
-1533720039 f:\c++\cargame\guiingame.h
+1549796828 f:\c++\cargame\guiingame.h
 	"Gui.h"
 
-1533720033 f:\c++\cargame\guigameover.h
+1549796727 f:\c++\cargame\guigameover.h
 	"Gui.h"
 
-1533720046 f:\c++\cargame\guimainmenu.h
+1549796925 f:\c++\cargame\guimainmenu.h
 	"Gui.h"
 
-1537796786 f:\c++\cargame\guisettings.h
+1549797714 f:\c++\cargame\guisettings.h
 	"Gui.h"
 	"ButtonToggle.h"
 
-1536403177 f:\c++\cargame\guimapselect.h
+1549798905 f:\c++\cargame\guimapselect.h
 	"Gui.h"
 	"ButtonImage.h"
 
-1533720072 f:\c++\cargame\guipowers.h
+1549797559 f:\c++\cargame\guipowers.h
 	"Gui.h"
 
 1537895604 source:f:\c++\cargame\gameevent.cpp
@@ -673,7 +673,7 @@
 	"GameSound.h"
 	"GameDisplay.h"
 
-1549642884 source:f:\c++\cargame\game.cpp
+1549798796 source:f:\c++\cargame\game.cpp
 	"Game.h"
 	"CarLorry.h"
 	"CarRare.h"
@@ -692,58 +692,66 @@
 	"EventHandler.h"
 	"GameEvent.h"
 
-1533735258 f:\c++\cargame\guiyesno.h
+1549797815 f:\c++\cargame\guiyesno.h
 	"Gui.h"
 
-1549642939 source:f:\c++\cargame\gui.cpp
+1549798833 source:f:\c++\cargame\gui.cpp
 	"Gui.h"
 	"GameDisplay.h"
 	"GameSound.h"
 	<cmath>
 	"Game.h"
 
-1537796786 source:f:\c++\cargame\guigameover.cpp
+1549798845 source:f:\c++\cargame\guigameover.cpp
 	"GuiGameOver.h"
 	"Game.h"
 	"GameDisplay.h"
 	<iostream>
+	"GuiMainMenu.h"
 
-1537796786 source:f:\c++\cargame\guiingame.cpp
+1549798860 source:f:\c++\cargame\guiingame.cpp
 	"GuiIngame.h"
 	"Game.h"
 	"GameDisplay.h"
+	"GuiMainMenu.h"
 	<iostream>
 
-1537796786 source:f:\c++\cargame\guimainmenu.cpp
+1549798888 source:f:\c++\cargame\guimainmenu.cpp
 	"GuiMainMenu.h"
 	"Game.h"
 	"GameDisplay.h"
+	"GuiSettings.h"
+	"GuiMapSelect.h"
 	<iostream>
 
-1545649794 source:f:\c++\cargame\guimapselect.cpp
+1549798935 source:f:\c++\cargame\guimapselect.cpp
 	"GuiMapSelect.h"
 	"Game.h"
 	"GameDisplay.h"
+	"GuiMainMenu.h"
 	"GuiYesNo.h"
 	<iostream>
+	"GuiPowers.h"
 	"maptype.h"
 
 1536335939 f:\c++\cargame\maptype.h
 
-1537796786 source:f:\c++\cargame\guipowers.cpp
+1549799019 source:f:\c++\cargame\guipowers.cpp
 	"GuiPowers.h"
 	"Game.h"
 	"GameDisplay.h"
+	"GuiMapSelect.h"
 	<iostream>
 
-1537796786 source:f:\c++\cargame\guisettings.cpp
+1549799033 source:f:\c++\cargame\guisettings.cpp
 	"GuiSettings.h"
 	"Game.h"
+	"GuiMainMenu.h"
 	"GameDisplay.h"
 	"GuiYesNo.h"
 	<iostream>
 
-1545649800 source:f:\c++\cargame\guiyesno.cpp
+1549799054 source:f:\c++\cargame\guiyesno.cpp
 	"GuiYesNo.h"
 	"GameDisplay.h"
 

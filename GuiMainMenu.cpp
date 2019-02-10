@@ -1,6 +1,8 @@
 #include "GuiMainMenu.h"
 #include "Game.h"
 #include "GameDisplay.h"
+#include "GuiSettings.h"
+#include "GuiMapSelect.h"
 #include <iostream>
 
 using namespace std;
@@ -23,7 +25,9 @@ void GuiMainMenu::onDraw(sf::RenderWindow& wnd)
 
     sf::Text text = GameDisplay::instance->drawCenteredString("Car Game", 200, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200), sf::Text::Italic);
     text.setFillColor(sf::Color(100, 0, 0));
-    wnd->draw(text);
+    wnd.draw(text);
+
+    Gui::onDraw(wnd);
 }
 
 void GuiMainMenu::onClick(long button)

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "GameDisplay.h"
 #include "Game.h"
+#include "GuiMainMenu.h"
 #include "GameSound.h"
 #include <cstdlib>
 #include <iostream>
