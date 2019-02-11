@@ -13,9 +13,9 @@ public:
 protected:
 
 private:
-    Button b1;
-    Button b2;
-    Button b3; //settings
+    Button bStart;
+    Button bQuit;
+    Button bSettings; //settings
 };
 
 #endif // GUIMAINMENU_H

@@ -130,10 +130,10 @@ public:
     ~Game();
 
 	// Vector storing cars
-    vector<Car> cars;
+    vector<Car*> cars;
 
 	// Add car to game
-    void addCar(Car car);
+    void addCar(Car* car);
 
 	// Called once on LevelTick, updates cars
     void updateCars();

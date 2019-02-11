@@ -4,7 +4,9 @@
 #include "CarLorry.h"
 #include "CarRare.h"
 #include "CarBus.h"
+#include "CarBomb.hpp"
 #include "CarAmbulance.h"
+#include "GuiIngame.h"
 
 EventsHandler* EventsHandler::instance;
 
@@ -58,7 +60,7 @@ bool EventHandlers::onKeyPressed(Event event, Game * game)
 	else if (event.key.code == sf::Keyboard::Escape && !game->isGameOver() && !game->paused())
 	{
 		cout << "main: Pausing game..." << endl;
-		game->displayGui(0);
+		game->displayGui(new GuiIngame);
 		game->pause(true);
 	}
 	else if (event.key.code == sf::Keyboard::F11)
@@ -130,14 +132,9 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 	}
 	case Car::BOMB:
 	{
-		Car* car = new Car(Car::BOMB, 7.f, 1); // ALWAYS ON CENTER LANE
+		Car* car = new CarBomb(7.f, 1); // ALWAYS ON CENTER LANE
 		// TODO: create CarBomb
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate->setColor(Color::White);
-
-		// TODO: This will be moved to CarBomb class !!!
-		event.carSpawned.carToCreate->animSize = 10;
-		event.carSpawned.carToCreate->frameLength = 3;
 		break;
 	}
 	case Car::FIREMAN:

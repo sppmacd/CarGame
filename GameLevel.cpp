@@ -6,7 +6,7 @@
 #include "GameSound.h"
 #include "GameDisplay.h"
 
-void Game::addCar(Car car)
+void Game::addCar(Car* car)
 {
     this->cars.push_back(car);
 }
@@ -19,46 +19,29 @@ void Game::updateCars()
     {
         for(unsigned int i = 0; i < this->cars.size(); i++)
         {
-            Car* car = &(this->cars[i]);
+            Car* car = this->cars[i];
             car->move(this->gameSpeed / 0.176);
-			car->onUpdate();
+			car->onUpdate(this);
 
             if(car->isDestroying())
             {
                 if(car->tickDestroy())
                 {
                     car->setToErase();
-					car->onDestroy();
                 }
             }
             else
             {
                 if(car->carRelativeToScreen < -50.f)
                 {
+                    car->onLeave(this);
                     car->setToErase();
-                    this->setGameOver();
-                    this->closeLevel();
                     continue;
                 }
 
                 if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
-                    car->makeDestroy();
-					car->onDamage();
-
-                    if(car->typeId == Car::RARE)
-                    {
-                        this->addScore(2);
-                    }
-                    else
-                    {
-                        this->addScore(1);
-                    }
-
-                    if(this->score % 2 == 0)
-                    {
-                        this->addCoins(this->getCoinMultiplier());
-                    }
+					car->onDamage(this);
 
                     if(this->tutorialStep == 5)
                     {
@@ -103,8 +86,8 @@ void Game::tickNormalGame()
 
 		if (createCar)
 		{
-			addCar(*event.carSpawned.carToCreate);
-			car.onCreate();
+			addCar(event.carSpawned.carToCreate);
+			car.onCreate(this);
 			//delete &car; //deallocate memory allocated in EventHandler
 		}
     }
@@ -134,6 +117,11 @@ void Game::tickNormalGame()
     {
         this->coinMpl++;
         this->pointsToNewMpl = this->getCoinMultiplier() * 200;
+    }
+
+    if(this->gameOver && !this->paused())
+    {
+        this->pause(true);
     }
 }
 

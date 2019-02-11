@@ -57,8 +57,14 @@ public:
 	/// Called if the dialog GUI is finished. Params: dialog ID, return value
 	virtual void onDialogFinished(Gui* dialog, int callId);
 
-	/// Called by dialog function, calls onDialogFinished
+	/// Called by dialog function, calls onDialogFinished (child closes)
+	virtual void close(int returnValue);
+
+	/// Closes dialog by GUI (parent closes)
 	virtual void closeDialog(int returnValue);
+
+	/// Called by Game when the button is clicked.
+	void onButton(int buttonId);
 
 	/// Checks if the dialog is running.
 	bool isDialogRunning();

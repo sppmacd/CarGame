@@ -7,12 +7,12 @@ PRODUCTVERSION 0,1,0,0
         BLOCK "041504E4"
         {
             VALUE "CompanyName", "Sppmacd"
-            VALUE "FileDescription", "Car Game"
+            VALUE "FileDescription", "Car Destroyer"
             VALUE "FileVersion", "0.1"
             VALUE "InternalName", "cg.exe"
             VALUE "LegalCopyright", "Copyright (C) 2018"
             VALUE "OriginalFilename", "cg.exe"
-            VALUE "ProductName", "Car Game"
+            VALUE "ProductName", "Car Destroyer"
             VALUE "ProductVersion", "0.1"
         }
     }

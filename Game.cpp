@@ -21,7 +21,7 @@
 Game* Game::instance;
 
 Game::Game()
-    : displayedGui(NULL)
+    : displayedGui(nullptr)
 {
     cout << "Game: Started loading game engine..." << endl;
 
@@ -37,6 +37,7 @@ Game::Game()
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
 		this->fullscreen = true;
+		this->isGuiLoaded = false; //DISABLE GUI!
 		this->registerEventHandlers();
 
 		// Reset player stats
@@ -98,20 +99,11 @@ void Game::usePower(int id)
 
 void Game::registerGUIs()
 {
-    cout << "Registering GUIs is deprecated" << endl;
+    cout << "Game: Registering GUIs is deprecated" << endl;
 }
 
 void Game::registerPowers()
 {
-	/*
-	DrawPowerFunc drawPower = Power::drawPower;
-	PowerStartHandler onPowerStart = Power::onPowerStart;
-	PowerStopHandler onPowerStop = Power::onPowerStop;
-	PowerTickHandler onPowerTick = Power::onPowerTick;
-	DrawPowerFunc drawPowerIdle = Power::drawPowerIdle;
-	CooldownTickHandler onCooldownTick = Power::onCooldownTick;
-	CooldownStopHandler onCooldownStop = Power::onCooldownStop;
-	*/
 	powerRegistry.insert(make_pair(0, PowerHandles()));
 	powerRegistry.insert(make_pair(1, PowerHandles(PowerOil::drawPower, PowerOil::onPowerStart, PowerOil::onPowerStop, PowerOil::onPowerTick, PowerOil::drawPowerIdle).setMaxTime(1800)));
 	powerRegistry.insert(make_pair(2, PowerHandles(PowerFreeze::drawPower, PowerFreeze::onPowerStart, PowerFreeze::onPowerStop).setMaxTime(600)));
@@ -347,7 +339,7 @@ void Game::closeLevel()
 Game::~Game()
 {
     cout << "Game: Deleting game engine instance..." << endl;
-    this->closeLevel();
+//  this->closeLevel();
 	delete[] this->powers;
 
 	for(auto i: levelRegistry)
@@ -383,7 +375,9 @@ void Game::tickEventMouseClick(sf::Vector2f pos)
     {
 		Button b = this->displayedGui->onMouseClick(pos);
 		if(!(Button() == b))
-            this->displayedGui->onClick(b.id);
+        {
+            this->displayedGui->onButton(b.id);
+        }
     }
 }
 
@@ -411,7 +405,7 @@ void Game::displayGui(Gui* gui)
 {
 	this->closeGui(); //Close previous GUI
 
-	if(gui != NULL)
+	if(gui != nullptr)
 	{
 	    this->isGuiLoaded = true;
 	    this->displayedGui = gui;
@@ -425,7 +419,7 @@ void Game::closeGui()
 	{
 	    this->displayedGui->onClose();
 	    delete this->displayedGui;
-		this->displayedGui = NULL;
+		this->displayedGui = nullptr;
 		this->isGuiLoaded = false;
 	}
 }

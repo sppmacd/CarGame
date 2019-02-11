@@ -45,11 +45,11 @@ void GuiYesNo::onClick(long button)
 {
 	if (button == 1)
     {
-		this->closeDialog(1);
+		this->close(1);
     }
 	if (button == 0)
     {
-		this->closeDialog(0);
+		this->close(0);
     }
 }
 

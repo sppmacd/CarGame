@@ -39,10 +39,10 @@ void PowerOil::onPowerTick(int powerTick)
 {
 	if (powerTick % 5 == 0)
 	{
-		for (Car& c : Game::instance->cars)
+		for (Car* c : Game::instance->cars)
 		{
-			if(abs(c.getScreenPos().x - pos.x) < 42)
-				c.makeDestroy();
+			if(abs(c->getScreenPos().x - pos.x) < 42)
+				c->makeDestroy();
 		}
 	}
 }

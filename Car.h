@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+class Game;
 class CarType;
 
 using std::string;
@@ -43,10 +44,20 @@ public:
     bool isCrashedWith(Car* car);
 
 	//events
-	virtual void onCreate();
-	virtual void onDamage();
-	virtual void onDestroy();
-	virtual void onUpdate();
+	/// called when the car is created
+	virtual void onCreate(Game* game);
+
+	/// called when the player clicks on the car
+	virtual void onDamage(Game* game);
+
+	/// called when the car has 0 HP
+	virtual void onDestroy(Game* game);
+
+	/// called every tick
+	virtual void onUpdate(Game* game);
+
+	/// called when the car leaves the screen
+	virtual void onLeave(Game* game);
 
     float getPos()
     {

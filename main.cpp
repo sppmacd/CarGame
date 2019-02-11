@@ -89,21 +89,14 @@ int main()
 			bool mouseMoveHandled = false;
 			while(data.wnd->pollEvent(ev1))
 			{
-			    if(ev1.type == Event::MouseMoved)
-                {
-                    if(!mouseMoveHandled)
-                    {
-                        data.game->runEventHandler(ev1);
-                        mouseMoveHandled = true;
-                    }
-                }
-                else
+			    if(ev1.type != Event::MouseMoved || mouseMoveHandled)
                 {
                     data.game->runEventHandler(ev1);
+                    mouseMoveHandled = true;
                 }
 				// tick GUI for each event
 
-				if (data.game->guiCooldown <= 0 && data.game->isGuiLoaded && (ev1.type == Event::MouseMoved || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
+				if (data.game->isGuiLoaded && (ev1.type == Event::MouseMoved || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
                 {
                     guiClock.restart();
                     data.game->tickGui(ev1);

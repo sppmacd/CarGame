@@ -16,7 +16,7 @@ Car::Car(Car::TypeId id, float speed, int line)
     this->canErase = false;
 	this->animSize = 1;
 	this->frameLength = 60;
-	
+
 	// Create car type for car
 	this->type = Game::instance->findCarTypeByID(id);
 	this->maxHealth = this->type->getMaxHealth();
@@ -69,6 +69,7 @@ void Car::makeDestroy()
 {
     if(this->health <= 0)
     {
+        this->health = 0.f;
         this->destroyTick = 20;
         this->carSpeed /= 2.5;
     }
@@ -83,21 +84,55 @@ bool Car::isCrashedWith(Car* car)
     return car->getLine() == this->getLine() && abs(car->getPos() - this->getPos()) < 50.f;
 }
 
-void Car::onCreate()
+/// called when the car is created
+void Car::onCreate(Game* game)
 {
-	//...
+
 }
 
-void Car::onDamage()
+/// called when the player clicks on the car
+void Car::onDamage(Game* game)
 {
+    makeDestroy();
+
+    if(typeId != Car::BOMB)
+    {
+        if(typeId == Car::RARE)
+        {
+            game->addScore(2);
+        }
+        else
+        {
+            game->addScore(1);
+        }
+
+        if(game->getScore() % 2 == 0)
+        {
+            game->addCoins(game->getCoinMultiplier());
+        }
+    }
+    if(health == 0.f)
+    {
+        onDestroy(game);
+    }
 }
 
-void Car::onDestroy()
+/// called when the car has 0 HP
+void Car::onDestroy(Game* game)
 {
+
 }
 
-void Car::onUpdate()
+/// called every tick
+void Car::onUpdate(Game* game)
 {
+    //...
+}
+
+/// called when the car leaves the screen, normally indicates that the game is over.
+void Car::onLeave(Game* game)
+{
+    game->setGameOver();
 }
 
 sf::Vector2f Car::getScreenPos()

@@ -7,6 +7,7 @@
 Gui::Gui()
 {
     currentDialog = nullptr;
+    parent = nullptr;
 }
 
 Gui::~Gui()
@@ -27,7 +28,7 @@ Button Gui::onMouseClick(Vector2f pos)
         for(Button* button: buttons)
         {
             FloatRect buttonRect(button->getPos(), button->getSize());
-            if(buttonRect.contains(pos))
+            if(buttonRect.contains(pos))////////////////////////////////////ES
             {
                 button->onClick();
                 return *button;
@@ -48,12 +49,12 @@ void Gui::onMouseMove(Vector2f pos)
         for(Button* button: buttons)
         {
             FloatRect buttonRect(button->getPos(), button->getSize());
-            if(buttonRect.contains(pos))
+            if(buttonRect.contains(pos))/////////////////HERE MOUSE////////////////////////////
             {
                 button->isMouseOver = true;
             }
             else
-            {
+            {/////////////////////////////////////////////////////////////////////////////////////////
                 button->isMouseOver = false;
             }
         }
@@ -88,20 +89,47 @@ void Gui::removeButton(Button& widget)
 
 void Gui::runDialog(Gui* dialog, int callId)
 {
-    currentDialog->closeDialog(0);
+    if(isDialogRunning())
+    {
+        currentDialog->closeDialog(0);
+    }
+
     currentDialog = dialog;
     currentDialog->parent = this;
     dialogCallId = callId;
     currentDialog->onLoad();
 }
 
+void Gui::close(int returnValue)
+{
+    if(parent)
+    {
+        parent->closeDialog(returnValue);
+    }
+}
+
+void Gui::onButton(int buttonId)
+{
+    if(isDialogRunning())
+    {
+        currentDialog->onButton(buttonId);
+    }
+    else
+    {
+        this->onClick(buttonId);
+    }
+}
+
 void Gui::closeDialog(int returnValue)
 {
-    this->onClose();
-    parent->dialogReturnValue = returnValue;
-    parent->onDialogFinished(parent->currentDialog, parent->dialogCallId);
-    delete parent->currentDialog;
-    parent->currentDialog = nullptr;
+    if(isDialogRunning())
+    {
+        dialogReturnValue = returnValue;
+        currentDialog->onClose();
+        this->onDialogFinished(currentDialog, dialogCallId);
+        delete currentDialog;
+        currentDialog = nullptr;
+    }
 }
 
 void Gui::onLoad() {}

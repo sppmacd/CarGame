@@ -123,6 +123,7 @@ void GuiMapSelect::onClick(long button)
                 {
                     Game::instance->tutorialStep = 5;
                 }
+                return;
             }
             else
             {

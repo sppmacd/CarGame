@@ -269,7 +269,7 @@ void GameDisplay::drawGame()
 
     for(unsigned int i = 0; i < game->cars.size(); i++)
     {
-        Car& carobj = game->cars[i];
+        Car& carobj = *game->cars[i];
 		int animFrame = game->mainTickCount/carobj.frameLength % carobj.animSize;
 
 		// health bars
@@ -302,7 +302,7 @@ void GameDisplay::drawGame()
         rect1.setPosition(car.getPosition().x, car.getPosition().y + 30);
         rect2.setPosition(car.getPosition().x + rect1.getSize().x, car.getPosition().y + 30);
 
-        if(!game->cars[i].isDestroying())
+        if(!game->cars[i]->isDestroying())
         {
             this->renderWnd->draw(rect1);
             this->renderWnd->draw(rect2);
