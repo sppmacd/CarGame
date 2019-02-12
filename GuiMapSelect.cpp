@@ -11,8 +11,6 @@ using namespace std;
 
 void GuiMapSelect::onLoad()
 {
-	static int costs[] = { 0,100,400,1000,4000 };
-
     GameDisplay* game = GameDisplay::instance;
 
     addButton(bReturn = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f), "Return...", 0));
@@ -28,7 +26,7 @@ void GuiMapSelect::onLoad()
 		LevelData* lvld = ld.second;
 		ButtonImage bimg("map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first, 100);
 		bimg.setColor(lvld->getColor());
-		MapData md{ld.first, bimg, costs[i]};
+		MapData md{ld.first, bimg, lvld->getCost()};
 		bMd.push_back(md);
 		i++;
 	}
@@ -92,9 +90,15 @@ void GuiMapSelect::onClick(long button)
     Game* game = Game::instance;
 
     if (button == 0)
+    {
         game->displayGui(new GuiMainMenu);
+        return;
+    }
     else if (button == 1)
+    {
         game->displayGui(new GuiPowers);
+        return;
+    }
     else if (button == 2)
     {
         removeButton(bMd[id].bImg);

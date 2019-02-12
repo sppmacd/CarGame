@@ -459,7 +459,7 @@ long Game::getCoins()
 
 bool Game::isLevelUnlocked(LevelData::MapType type)
 {
-    return (this->unlockedLevels >> type) & 0x1;
+    return this->unlockedLevels & (0x1 << type);
 }
 
 bool Game::isRunning()

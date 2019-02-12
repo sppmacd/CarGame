@@ -19,6 +19,7 @@ public:
         FOREST,
         ICE,
         MOUNTAINS,
+        BEACH,
         COUNT
     };
     static void init();
@@ -31,11 +32,13 @@ public:
     LevelData& setTextureName(sf::String name);
     LevelData& setAcceleration(float f);
 	LevelData& setCarCreationSpeed(int ccs);
+	LevelData& setCost(int cost);
 
-    sf::Color getColor();
-    sf::String getTextureName();
+    Color getColor();
+    String getTextureName();
     float getAcceleration();
 	int getCarCreationSpeed();
+	int getCost();
 
 private:
     Color mapColor;
@@ -43,6 +46,7 @@ private:
     float acc;
     MapType mapType;
 	int carCreationSpd;
+	int mapCost;
 };
 
 
