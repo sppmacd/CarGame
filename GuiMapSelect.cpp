@@ -121,7 +121,7 @@ void GuiMapSelect::onClick(long button)
         {
             if (game->isLevelUnlocked((LevelData::MapType)id))
             {
-                game->loadGame(*game->levelRegistry[bMd[id].name]);
+                game->loadGame(game->findLevel((LevelData::MapType)id));
 
                 if (Game::instance->isNewPlayer && Game::instance->tutorialStep == 4)
                 {

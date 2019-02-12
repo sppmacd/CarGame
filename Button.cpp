@@ -33,6 +33,12 @@ void Button::draw(sf::RenderWindow& wnd)
 	wnd.draw(tx);
 }
 
+bool Button::isClicked(Vector2f pos)
+{
+    FloatRect buttonRect(getPos(), getSize());
+    return buttonRect.contains(pos);
+}
+
 void Button::onClick()
 {
 	//nothing to do

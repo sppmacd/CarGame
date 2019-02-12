@@ -11,7 +11,7 @@ Car::Car(Car::TypeId id, float speed, int line)
     , lineIn(line)
 {
     this->pos = 1080.f;
-    this->carRelativeToScreen = 1080.f;
+    //this->carRelativeToScreen = 1080.f;
     this->destroyTick = -1.f;
     this->canErase = false;
 	this->animSize = 1;
@@ -55,9 +55,9 @@ void Car::setColor(sf::Color color)
 
 void Car::move(float gameSpeed)
 {
-    this->pos -= this->carSpeed;
-    this->carRelativeToScreen -= this->carSpeed / 6.f;
-    this->carRelativeToScreen -= gameSpeed / 6.f;
+    //this->pos -= this->carSpeed;
+    this->pos -= this->carSpeed / 6.f;
+    this->pos -= gameSpeed / 6.f;
 }
 
 sf::Color Car::getColor()
@@ -137,7 +137,7 @@ void Car::onLeave(Game* game)
 
 sf::Vector2f Car::getScreenPos()
 {
-    return sf::Vector2f(this->carRelativeToScreen * 2, LevelUtility::getLanePos(this->getLine()).y/*+laneChangeTick*/);
+    return sf::Vector2f(this->pos * 2, LevelUtility::getLanePos(this->getLine()).y/*+laneChangeTick*/);
 }
 
 string Car::getTextureName()

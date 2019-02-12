@@ -23,12 +23,12 @@ void Power::drawPowerIdle(RenderWindow * wnd) {}
 
 void PowerOil::onPowerStop()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / 1.8f);
+	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / 1.3f);
 }
 
 bool PowerOil::onPowerStart()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() * 1.8f);
+	Game::instance->setGameSpeed(Game::instance->getGameSpeed() * 1.3f);
 	pos = Vector2f(Mouse::getPosition(*GameDisplay::instance->getRenderWnd()));
 	return true;
 }
@@ -37,11 +37,11 @@ Vector2f PowerOil::pos;
 
 void PowerOil::onPowerTick(int powerTick)
 {
-	if (powerTick % 5 == 0)
+	if (powerTick % 4 == 0)
 	{
 		for (Car* c : Game::instance->cars)
 		{
-			if(abs(c->getScreenPos().x - pos.x) < 42)
+			if(abs(c->getScreenPos().x - pos.x) < 45)
 				c->makeDestroy();
 		}
 	}

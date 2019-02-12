@@ -78,7 +78,7 @@ public:
     bool canErase;
     int health;
     int maxHealth;
-    float carRelativeToScreen;
+    float pos;
     float destroyTick;
 	int animSize;
 	int frameLength;
@@ -94,7 +94,7 @@ private:
     float carSpeed;
     int lineIn;
     sf::Color colorMultiplier;
-    float pos;
+    //float pos;
 };
 
 #endif // CAR_H

@@ -27,8 +27,7 @@ Button Gui::onMouseClick(Vector2f pos)
     {
         for(Button* button: buttons)
         {
-            FloatRect buttonRect(button->getPos(), button->getSize());
-            if(buttonRect.contains(pos))////////////////////////////////////ES
+            if(button->isClicked(pos))////////////////////////////////////ES
             {
                 button->onClick();
                 return *button;

@@ -266,6 +266,11 @@ void Game::loadPlayerData()
     }
 }
 
+LevelData Game::findLevel(LevelData::MapType type)
+{
+    return *levelRegistry[type].second;
+}
+
 void Game::savePlayerData()
 {
     cout << "Game: Saving player data in data.txt..." << endl;
@@ -305,6 +310,9 @@ void Game::loadGame(LevelData level)
     this->currentPower = 0;
 	this->carCreatingSpeed = level.getCarCreationSpeed();
 	this->newRecord = false; //Set new record to false
+
+	this->powerTime = 0;
+	this->powerCooldown = 0;
 }
 
 void Game::loadGame()
@@ -325,6 +333,9 @@ void Game::loadGame()
     this->currentPower = 0;
 	this->carCreatingSpeed = this->level.getCarCreationSpeed();
 	this->newRecord = false; //Set new record to false
+
+	this->powerTime = 0;
+	this->powerCooldown = 0;
 }
 
 void Game::closeLevel()

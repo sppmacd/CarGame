@@ -20,6 +20,7 @@ public:
         ICE,
         MOUNTAINS,
         BEACH,
+        CITY,
         COUNT
     };
     static void init();

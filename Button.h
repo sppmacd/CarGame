@@ -32,6 +32,7 @@ public:
 
     virtual void draw(sf::RenderWindow& wnd);
 	virtual void onClick();
+	virtual bool isClicked(Vector2f pos);
 
     bool isMouseOver;
     bool enabled;

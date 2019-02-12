@@ -10,6 +10,7 @@ public:
     static LevelData* ice;          ///<- Ice map
     static LevelData* mountains;    ///<- Mountains map
     static LevelData* beach;        ///<- Beach map
+    static LevelData* city;         ///<- City map
 };
 
 #endif // maptype_H

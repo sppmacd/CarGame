@@ -8,6 +8,7 @@ LevelData* Maps::forest;
 LevelData* Maps::ice;
 LevelData* Maps::mountains;
 LevelData* Maps::beach;
+LevelData* Maps::city;
 
 float LevelData::getAcceleration()
 {
@@ -52,14 +53,16 @@ void LevelData::init()
     Maps::forest = &(new LevelData(LevelData::FOREST))->setAcceleration(6.f).setColor(sf::Color(0, 140, 0)).setTextureName("forest").setCarCreationSpeed(60).setCost(400);
     Maps::ice = &(new LevelData(LevelData::ICE))->setAcceleration(7.f).setColor(sf::Color(230, 230, 230)).setTextureName("ice").setCarCreationSpeed(90).setCost(1000);
     Maps::mountains = &(new LevelData(LevelData::MOUNTAINS))->setAcceleration(4.f).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(85).setCost(4000);
-    Maps::beach = &(new LevelData(LevelData::BEACH))->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("desert").setCarCreationSpeed(50).setCost(10000);
+    Maps::beach = &(new LevelData(LevelData::BEACH))->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(50).setCost(10000);
+    Maps::city = &(new LevelData(LevelData::CITY))->setAcceleration(6.f).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(30).setCost(25000);
 
-	Game::instance->levelRegistry.insert(make_pair("Countryside", Maps::countryside));
-	Game::instance->levelRegistry.insert(make_pair("Desert", Maps::desert));
-	Game::instance->levelRegistry.insert(make_pair("Forest", Maps::forest));
-	Game::instance->levelRegistry.insert(make_pair("Ice", Maps::ice));
-	Game::instance->levelRegistry.insert(make_pair("Mountains", Maps::mountains));
-	Game::instance->levelRegistry.insert(make_pair("Beach", Maps::beach));
+	Game::instance->levelRegistry.push_back(make_pair("Countryside", Maps::countryside));
+	Game::instance->levelRegistry.push_back(make_pair("Desert", Maps::desert));
+	Game::instance->levelRegistry.push_back(make_pair("Forest", Maps::forest));
+	Game::instance->levelRegistry.push_back(make_pair("Ice", Maps::ice));
+	Game::instance->levelRegistry.push_back(make_pair("Mountains", Maps::mountains));
+	Game::instance->levelRegistry.push_back(make_pair("Beach", Maps::beach));
+	Game::instance->levelRegistry.push_back(make_pair("City", Maps::city));
 }
 
 LevelData& LevelData::setAcceleration(float f)

@@ -32,7 +32,7 @@ void Game::updateCars()
             }
             else
             {
-                if(car->carRelativeToScreen < -50.f)
+                if(car->pos < -50.f)
                 {
                     car->onLeave(this);
                     car->setToErase();
@@ -149,7 +149,7 @@ void Game::updateEffect()
 		this->powerCooldown = -1;
         this->usePower(this->currentPower);
 
-		// power 'start'
+		// power 'start'c
 		if (!powerHandle.onPowerStart())
 		{
 			this->powerTime = 0;

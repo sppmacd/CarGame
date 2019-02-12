@@ -104,7 +104,7 @@ public:
 	/////////////////////////
 
 	// Registry of the maps, used by MapSelect GUI.
-	map<string, LevelData*> levelRegistry;
+	vector<pair<string, LevelData*>> levelRegistry;
 
 	// Tick time
     sf::Time tickTime;
@@ -268,7 +268,10 @@ public:
 	// Add event handler.
 	void addEventHandler(Event::EventType type, EventHandler handler);
 
-	// Variable storing power data registry
+	// Find level by ID
+	LevelData findLevel(LevelData::MapType type);
+
+	// Map storing power data registry
 	map<int, PowerHandles> powerRegistry;
 
 	// Car type registry
