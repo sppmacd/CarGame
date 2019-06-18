@@ -71,7 +71,7 @@ public:
 
 protected:
 	/// Internal GameDisplay drawString() hook.
-	sf::Text drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
+	sf::Text drawString(String tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
 	Gui* parent;
 
 private:

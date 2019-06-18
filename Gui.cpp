@@ -147,7 +147,7 @@ bool Gui::isDialogRunning()
     return currentDialog != nullptr;
 }
 
-Text Gui::drawString(string tx, int height, Vector2f pos, Text::Style style)
+Text Gui::drawString(String tx, int height, Vector2f pos, Text::Style style)
 {
     return GameDisplay::instance->drawString(tx, height, pos, style);
 }

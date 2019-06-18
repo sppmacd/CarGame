@@ -30,6 +30,7 @@ void GuiSettings::onDraw(sf::RenderWindow& wnd)
     bLanguage.draw(wnd);
 
     wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.settings.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("lang.test"), 15, sf::Vector2f(10.f, GameDisplay::instance->getSize().y - 20.f)));
 
     Gui::onDraw(wnd);
 }

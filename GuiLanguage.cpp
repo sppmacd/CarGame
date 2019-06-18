@@ -1,4 +1,6 @@
 #include "GuiLanguage.hpp"
+#include "GameDisplay.h"
+#include "Game.h"
 
 void GuiLanguage::onLoad()
 {
@@ -17,9 +19,9 @@ void GuiLanguage::onLoad()
 }
 void GuiLanguage::onDraw(RenderWindow& wnd)
 {
-
+    // TODO
 }
 void GuiLanguage::onClick(long buttonId)
 {
-    switch()
+    // TODO
 }

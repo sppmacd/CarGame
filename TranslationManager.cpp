@@ -74,8 +74,8 @@ bool TranslationManager::loadFromFile(String code)
         if(pos == String::InvalidPos || str[str.find_first_not_of(L" ")] == '#')
             continue;
 
-        String code = sfStr.toUtf32().substr(0, pos);
-        String trs = sfStr.toUtf32().substr(pos + 1);
+        String code = sfStr.substring(0, pos);
+        String trs = sfStr.substring(pos + 1);
         addTranslation(code, trs);
     }
 

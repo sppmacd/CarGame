@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Gui.h"
+#include "Button.h"
 
-class GuiLanguge : public Gui
+class GuiLanguage : public Gui
 {
     vector<Button> bLangButtons;
     Button bCancel;

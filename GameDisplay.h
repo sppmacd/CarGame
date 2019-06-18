@@ -7,13 +7,14 @@
 #include <iostream>
 
 using namespace std;
+using namespace sf;
 
 class GameDisplay
 {
 public:
 	// Default constructor with wnd.
     GameDisplay(sf::RenderWindow* wnd);
-	
+
 	// Default constructor.
 	GameDisplay() {}
 
@@ -28,7 +29,7 @@ public:
 
 	// Display [in loop].
     void display();
-	
+
 	// Draw game: cars, background, powers etc [in loop].
     void drawGame();
 
@@ -54,22 +55,22 @@ public:
     static void drawLoadingProgress(string action, sf::RenderWindow* wnd);
 
 	// Draw tutorial text and rectangle.
-    void drawTutorial(sf::Vector2f, sf::Vector2f, string str);
+    void drawTutorial(sf::Vector2f pos, sf::Vector2f size, String str);
 
 	// Draw splash with specified text.
-	void drawSplash(string text);
+	void drawSplash(String text);
 
 	// Set splash text.
-	void setSplash(string text);
+	void setSplash(String text);
 
 	// Retrieve mouse position.
 	sf::Vector2i mousePos();
 
 	// Get drawable string prepared to draw. Params: string,size,position,style. Returns: instance of sf::Text.
-    sf::Text drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
+    sf::Text drawString(String tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
 
 	// Get drawable centered string prepared to draw. Params: string,size,position,style. Returns: instance of sf::Text.
-    sf::Text drawCenteredString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
+    sf::Text drawCenteredString(String tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
 
 	// Retrieve current RenderWindow.
     sf::RenderWindow* getRenderWnd()

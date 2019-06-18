@@ -18,6 +18,10 @@
 #include "EventHandler.h"
 #include "GameEvent.h"
 
+// error codes:
+// 00 could not load default language
+// 01 could not load language config
+
 Game* Game::instance = NULL;
 
 Game::Game()
@@ -58,19 +62,8 @@ Game::Game()
 		// Load player data
 		this->loadPlayerData();
 
-		// Load default translation (English)
-		string code = "en_US";
-		bool b1 = translation.loadFromFile(code);
-		if(!b1)
-		{
-            cout << "Game: Could not load translation file. Defaulting to en_US" << endl;
-            bool b2 = translation.loadFromFile("en_US");
-            if(!b2)
-            {
-                cout << "Game: Could not load default translation!" << endl;
-                displayError("Could not load translation (err 00)");
-            }
-		}
+        // Load language configuration
+		this->loadLanguages();
 	}
 	else //fatal error
 	{
@@ -505,5 +498,26 @@ void Game::displayError(string text)
 
 void Game::loadLanguages()
 {
-    languageConfig.loadFromFile("config");
+    cout << "Game: Loading language config..." << endl;
+    bool b = languageConfig.loadFromFile("config");
+    if(!b)
+    {
+        cout << "Game: Could not load translation config!" << endl;
+        displayError("Could not load translation config (err 01)");
+    }
+
+    // Load user-config translation
+    string code = languageConfig.get("current.lang");
+    bool b1 = translation.loadFromFile(code);
+    if(!b1)
+    {
+        // Load default translation (English)
+        cout << "Game: Could not load translation file. Defaulting to en_US" << endl;
+        bool b2 = translation.loadFromFile("en_US");
+        if(!b2)
+        {
+            cout << "Game: Could not load default translation!" << endl;
+            displayError("Could not load translation (err 00)");
+        }
+    }
 }

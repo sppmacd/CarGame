@@ -10,9 +10,10 @@ using namespace sf;
 void GuiGameOver::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
+    Game* game2 = Game::instance;
 
-    addButton(b1 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), "New Game", 0));
-    addButton(bMainMenu = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Return to Menu", 1));
+    addButton(b1 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), game2->translation.get("gui.gameover.newgame"), 0));
+    addButton(bMainMenu = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), game2->translation.get("gui.gameover.return"), 1));
 
     b1.setColor(sf::Color::Green);
     bMainMenu.setColor(sf::Color::Red);
@@ -27,11 +28,11 @@ void GuiGameOver::onDraw(sf::RenderWindow& wnd)
 
     Game* game = Game::instance;
 
-    sf::Text gameover = GameDisplay::instance->drawCenteredString("Game Over!", 100, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2 - 250), sf::Text::Italic);
+    sf::Text gameover = GameDisplay::instance->drawCenteredString(game->translation.get("gui.gameover.title"), 100, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2 - 250), sf::Text::Italic);
     gameover.setFillColor(sf::Color(100, 0, 0));
     wnd.draw(gameover);
 
-    sf::Text sc = GameDisplay::instance->drawCenteredString(std::string("Your score was ") + to_string(game->lastTickScore), 40, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2 - 70));
+    sf::Text sc = GameDisplay::instance->drawCenteredString(game->translation.get("gui.gameover.score", {to_string(game->lastTickScore)}), 40, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2 - 70));
     sc.setFillColor(sf::Color::Yellow);
     wnd.draw(sc);
 

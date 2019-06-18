@@ -159,7 +159,7 @@ void GameDisplay::display()
     this->renderWnd->display();
 }
 
-sf::Text GameDisplay::drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style)
+sf::Text GameDisplay::drawString(String tx, int height, sf::Vector2f pos, sf::Text::Style style)
 {
     sf::Text text = sf::Text(tx, this->guiFont);
     text.setPosition(pos);
@@ -169,7 +169,7 @@ sf::Text GameDisplay::drawString(string tx, int height, sf::Vector2f pos, sf::Te
     return text;
 }
 
-sf::Text GameDisplay::drawCenteredString(string tx, int height, sf::Vector2f pos, sf::Text::Style style)
+sf::Text GameDisplay::drawCenteredString(String tx, int height, sf::Vector2f pos, sf::Text::Style style)
 {
 	sf::Text text = sf::Text(tx, this->guiFont);
 	text.setCharacterSize(height);
@@ -206,7 +206,7 @@ void GameDisplay::drawLoadingProgress(string action, sf::RenderWindow* wnd)
     text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)) + sf::Vector2f(0.f, 100.f));
     wnd->draw(text);
 
-    text.setString("Car Game");
+    text.setString("Car Destroyer");
     text.setCharacterSize(60);
 	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
     text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)) - sf::Vector2f(0.f, 100.f));

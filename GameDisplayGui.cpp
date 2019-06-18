@@ -46,7 +46,7 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	wnd->display();
 }
 
-void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, string str)
+void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, String str)
 {
     sf::RectangleShape rs(cs);
     rs.setPosition(cp);
@@ -61,7 +61,7 @@ void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, string str)
     this->renderWnd->draw(tx);
 }
 
-void GameDisplay::drawSplash(string text)
+void GameDisplay::drawSplash(String text)
 {
 	int textSize = (this->splashTick < 30 ? this->splashTick : 60 - this->splashTick)*2 + 30;
 	sf::Text tx = drawCenteredString(text, textSize, Vector2f(getSize() / 2u), sf::Text::Bold);
@@ -69,7 +69,7 @@ void GameDisplay::drawSplash(string text)
 	this->renderWnd->draw(tx);
 }
 
-void GameDisplay::setSplash(string text)
+void GameDisplay::setSplash(String text)
 {
 	this->splashText = text;
 	this->splashSet = true;
@@ -262,7 +262,7 @@ void GameDisplay::drawGui()
 
 void GameDisplay::nextFullscreenMode()
 {
-	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "Car Game", sf::Style::Fullscreen);
+	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "Car Destroyer", sf::Style::Fullscreen);
 	if (fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
 	{
 		fullscreenMode = 0;
