@@ -281,11 +281,17 @@ public:
 	// Display error screen
 	void displayError(string text);
 
+	// Loads language list.
+	void loadLanguages();
+
 	// Map storing power data registry
 	map<int, PowerHandles> powerRegistry;
 
 	// Car type registry
 	vector<CarType> carTypeRegistry;
+
+	// All languages.
+	TranslationManager languageConfig;
 
 private:
 	// Not used variable storing camera position

@@ -98,3 +98,8 @@ String TranslationManager::get(String unlocalized, initializer_list<String> valu
     TranslationEntry entry = it->second;
     return entry.getValue(values);
 }
+void TranslationManager::setDisplay(String name, String country)
+{
+    displayCountryName = country;
+    displayLangName = name;
+}

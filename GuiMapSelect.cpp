@@ -76,7 +76,7 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 		if (!(game->getCoins() >= bMd[id].cost))
 			mapstr2.append(Game::instance->translation.get("gui.selectmap.notenoughcoins"));
 
-		mapstr.append(Game::instance->translation.get("gui.selectmap.buyfor", {to_string(bMd[id].cost)}));
+		mapstr.append(" - " + Game::instance->translation.get("gui.selectmap.buyfor", {to_string(bMd[id].cost)}));
 	}
 
     wnd.draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));

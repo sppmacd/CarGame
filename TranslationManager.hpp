@@ -17,13 +17,15 @@ public:
 
 class TranslationManager
 {
-    map<String, TranslationEntry> translations;
     String displayLangName;
     String displayCountryName;
     String languageCode;
 
 public:
+    map<String, TranslationEntry> translations;
+
     bool loadFromFile(String code);
+    void setDisplay(String name, String country);
     void addTranslation(String unlocalized, String localized);
     String get(String unlocalized, initializer_list<String> values = {});
 };

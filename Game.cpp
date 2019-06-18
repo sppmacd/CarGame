@@ -502,3 +502,8 @@ void Game::displayError(string text)
 {
     errStr = text;
 }
+
+void Game::loadLanguages()
+{
+    languageConfig.loadFromFile("config");
+}
