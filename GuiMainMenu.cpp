@@ -34,7 +34,7 @@ void GuiMainMenu::onDraw(RenderWindow& wnd)
     text.setFillColor(Color(100, 0, 0));
     wnd.draw(text);
 
-    Text credits = drawString("v0.1 - Sppmacd 2018. Powered by SFML.", 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 60.f));+,
+    Text credits = drawString("v0.1 - Sppmacd 2018. Powered by SFML.", 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 30.f));
 
     wnd.draw(credits);
 

@@ -58,11 +58,23 @@ Game::Game()
 		// Load player data
 		this->loadPlayerData();
 
-		// Register GUI data
-		this->registerGUIs();
+		// Load default translation (English)
+		string code = "en_US";
+		bool b1 = translation.loadFromFile(code);
+		if(!b1)
+		{
+            cout << "Game: Could not load translation file. Defaulting to en_US" << endl;
+            bool b2 = translation.loadFromFile("en_US");
+            if(!b2)
+            {
+                cout << "Game: Could not load default translation!" << endl;
+                exit(-1);
+            }
+		}
 	}
 	else //fatal error
 	{
+	    cout << "Game: Tried to create second Game instance!" << endl;
 		instance->exit(-1);
 	}
 }

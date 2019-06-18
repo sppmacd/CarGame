@@ -7,6 +7,7 @@
 #include "Power.h"
 #include "EventHandler.h"
 #include "CarType.h"
+#include "TranslationManager.hpp"
 
 using namespace std;
 
@@ -76,6 +77,9 @@ public:
 
 	// Variable storing, if the new record is set (used in splash screen)
 	bool newRecord;
+
+	// Variable storing language settings.
+	TranslationManager translation;
 
 	///Vector storing event handlers.
 	multimap<sf::Event::EventType, EventHandler> eventHandlers;
