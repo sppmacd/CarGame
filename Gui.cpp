@@ -47,8 +47,7 @@ void Gui::onMouseMove(Vector2f pos)
     {
         for(Button* button: buttons)
         {
-            FloatRect buttonRect(button->getPos(), button->getSize());
-            if(buttonRect.contains(pos))/////////////////HERE MOUSE////////////////////////////
+            if(button->isClicked(pos))/////////////////HERE MOUSE////////////////////////////
             {
                 button->isMouseOver = true;
             }

@@ -35,7 +35,7 @@ void loadGame(LoadData* ld)
 {
 	sf::Clock loadTime;
 
-	cout << "main: Starting CarGame v0.1..." << endl;
+	cout << "main: Starting CarDestroyer v0.1..." << endl;
 
 	GameDisplay::loadingStr = "Loading game engine...";
 	ld->game = new Game;
@@ -55,7 +55,7 @@ int main()
 {
 	LoadData data;
 	data.loaded = false;
-	data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Game v0.1", Style::Fullscreen);
+	data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Destroyer v0.1", Style::Fullscreen);
 	data.wnd->setVerticalSyncEnabled(true);
 	data.game = NULL;
 	data.disp = NULL;
@@ -146,7 +146,7 @@ int main()
 		}
     }
 
-    cout << "main: Closing CarGame v0.0.4..." << endl;
+    cout << "main: Closing CarDestroyer v0.1..." << endl;
 
     GameDisplay::drawLoadingProgress("Closing...", data.wnd);
 

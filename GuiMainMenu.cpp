@@ -11,9 +11,9 @@ void GuiMainMenu::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bStart = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), "New Game", 0));
-    addButton(bSettings = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), "Settings", 2));
-    addButton(bQuit = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Quit Game", 1));
+    addButton(bStart = ButtonCircle(180.f, Vector2f(game->getSize().x / 2, game->getSize().y / 2), "map/countryside", 0));
+    addButton(bSettings = ButtonCircle(100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "stat/coin", 2));
+    addButton(bQuit = ButtonCircle(100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "stat/mpl", 1));
 
     /*
     addButton(bStart = ButtonImage("gui/start", sf::Vector2f(320.f, 320.f), sf::Vector2f(game->getSize().x / 2 - 160, game->getSize().y / 2 - 160.f + 60.f), "New Game", 0));
@@ -22,20 +22,20 @@ void GuiMainMenu::onLoad()
     */
     bStart.setColor(Color::Green);
     bQuit.setColor(Color::Red);
-    bSettings.setColor(Color::Blue);
 }
 
-void GuiMainMenu::onDraw(sf::RenderWindow& wnd)
+void GuiMainMenu::onDraw(RenderWindow& wnd)
 {
     bStart.draw(wnd);
     bQuit.draw(wnd);
     bSettings.draw(wnd);
 
-    sf::Text text = GameDisplay::instance->drawCenteredString("Car Destroyer", 150, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200), sf::Text::Italic);
-    text.setFillColor(sf::Color(100, 0, 0));
+    Text text = GameDisplay::instance->drawCenteredString("Car Destroyer", 150, Vector2f(GameDisplay::instance->getSize().x / 2, 125), Text::Italic);
+    text.setFillColor(Color(100, 0, 0));
     wnd.draw(text);
 
-    Text credits = drawString("v0.1 - Sppmacd 2018. Powered by SFML.", 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 60.f));
+    Text credits = drawString("v0.1 - Sppmacd 2018. Powered by SFML.", 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 60.f));+,
+
     wnd.draw(credits);
 
     Gui::onDraw(wnd);

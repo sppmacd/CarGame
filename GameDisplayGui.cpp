@@ -86,11 +86,11 @@ void drawDebugPie(sf::RenderWindow* wnd)
     GameDisplay* disp = GameDisplay::instance;
     Game* game = Game::instance;
 
-    sf::RectangleShape r1(sf::Vector2f(40.f, game->times.timeEvent.asMicroseconds() / 5.f));
-    sf::RectangleShape r2(sf::Vector2f(40.f, game->times.timeGui.asMicroseconds() / 5.f));
-    sf::RectangleShape r3(sf::Vector2f(40.f, game->times.timeTick.asMicroseconds() / 5.f));
-    sf::RectangleShape r4(sf::Vector2f(40.f, game->times.timeRender.asMicroseconds() / 5.f));
-    sf::RectangleShape r5(sf::Vector2f(40.f, game->times.timeWait.asMicroseconds() / 5.f));
+    sf::RectangleShape r1(sf::Vector2f(40.f, game->times.timeEvent.asMicroseconds() / 8.f));
+    sf::RectangleShape r2(sf::Vector2f(40.f, game->times.timeGui.asMicroseconds() / 8.f));
+    sf::RectangleShape r3(sf::Vector2f(40.f, game->times.timeTick.asMicroseconds() / 8.f));
+    sf::RectangleShape r4(sf::Vector2f(40.f, game->times.timeRender.asMicroseconds() / 8.f));
+    sf::RectangleShape r5(sf::Vector2f(40.f, game->times.timeWait.asMicroseconds() / 8.f));
 
     r1.setPosition(disp->getSize().x - 40, disp->getSize().y - r1.getSize().y);
     r2.setPosition(disp->getSize().x - 80, disp->getSize().y - r2.getSize().y);
@@ -148,7 +148,7 @@ void drawDebugInfo(sf::RenderWindow* wnd)
     rs.setFillColor(sf::Color::Black);
     wnd->draw(rs);
 
-	wnd->draw(disp->drawString(std::string("CarGame v0.0.5 ")
+	wnd->draw(disp->drawString(std::string("CarDestroyer v0.1 ")
 		+ std::string("|\ttick = ") + std::string(to_string(Game::instance->tickTime.asMicroseconds()))
 		+ std::string(",\trtick = ") + std::string(to_string(Game::instance->realTickTime.asMicroseconds()))
 		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
@@ -170,7 +170,7 @@ void GameDisplay::drawGui()
     text.setFillColor(sf::Color::Red);
     this->renderWnd->draw(text);*/
 
-    if(!game->paused() || game->tutorialStep == 6)
+    if(!game->paused()/* || game->tutorialStep == 6*/)
     {
         drawStat(250, 32, "score", game->getScore());
         drawStat(450, 32, "high", game->highScore);
@@ -224,17 +224,6 @@ void GameDisplay::drawGui()
 	{
 		game->displayedGui->onDraw(*this->renderWnd);
 	}
-
-    /*if(game->guiCooldown > 0)
-    {
-        sf::RectangleShape rect((sf::Vector2f) this->getSize());
-        rect.setFillColor(sf::Color(25, 20, 20, 250));
-        this->renderWnd->draw(rect);
-
-        sf::Text sc2 = this->drawString("Loading... ", 80, sf::Vector2f(this->getSize().x / 2, this->getSize().y / 2));
-        sc2.setFillColor(sf::Color::White);
-        this->renderWnd->draw(sc2);
-    }*/
 
     drawStat(50, 32, "coin", game->getCoins());
 

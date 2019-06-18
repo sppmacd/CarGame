@@ -397,6 +397,7 @@ void Game::setGameOver()
     cout << "Game: Setting game over..." << endl;
     this->gameOver = true;
     this->savePlayerData();
+    this->pause(true);
     this->displayGui(new GuiGameOver);
 }
 

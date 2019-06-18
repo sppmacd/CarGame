@@ -14,6 +14,6 @@ public:
 	ButtonImage();
 
 	void draw(RenderWindow& wnd);
-private:
+protected:
 	Texture* img;
 };

@@ -149,7 +149,7 @@ void Game::updateEffect()
 		this->powerCooldown = -1;
         this->usePower(this->currentPower);
 
-		// power 'start'c
+		// power 'start'
 		if (!powerHandle.onPowerStart())
 		{
 			this->powerTime = 0;

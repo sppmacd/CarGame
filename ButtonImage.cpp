@@ -24,10 +24,11 @@ void ButtonImage::draw(RenderWindow& wnd)
 
 	wnd.draw(rect);
 
-	Sprite spr(*this->img, IntRect(Vector2i(0,0),Vector2i(this->getSize())));
+	Sprite spr(*this->img);
 	spr.setPosition(this->getPos() + this->getSize() / 2.f);
-	spr.setOrigin(this->getSize() / 2.f);
+	spr.setOrigin(Vector2f(this->img->getSize() / 2U));
 	if (!enabled) spr.setColor(Color(128, 128, 128));
-	spr.setScale((isMouseOver && enabled) ? Vector2f(0.97f, 0.97f) : Vector2f(0.93f, 0.93f));
+	Vector2f a = Vector2f(this->getSize().x / Vector2f(this->img->getSize()).x, this->getSize().y / Vector2f(this->img->getSize()).y);
+	spr.setScale((isMouseOver && enabled) ? Vector2f(0.97f*a.x, 0.97f*a.y) : Vector2f(0.93f*a.x, 0.93f*a.y));
 	wnd.draw(spr);
 }

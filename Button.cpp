@@ -36,7 +36,7 @@ void Button::draw(sf::RenderWindow& wnd)
 bool Button::isClicked(Vector2f pos)
 {
     FloatRect buttonRect(getPos(), getSize());
-    return buttonRect.contains(pos);
+    return enabled && buttonRect.contains(pos);
 }
 
 void Button::onClick()

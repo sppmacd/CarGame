@@ -2,6 +2,9 @@
 #define GUIMAINMENU_H
 
 #include "Gui.h"
+#include "ButtonCircle.h"
+
+using namespace sf;
 
 class GuiMainMenu : public Gui
 {
@@ -13,9 +16,9 @@ public:
 protected:
 
 private:
-    Button bStart;
-    Button bQuit;
-    Button bSettings; //settings
+    ButtonCircle bStart;
+    ButtonCircle bQuit;
+    ButtonCircle bSettings; //settings
 };
 
 #endif // GUIMAINMENU_H
