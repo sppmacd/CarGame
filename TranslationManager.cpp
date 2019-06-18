@@ -14,13 +14,17 @@ TranslationEntry::TranslationEntry(String in)
     size_t lastp = 0;
     for(size_t i = 0; i < in.getSize(); i++)
     {
-        Uint32 character = in[i];
-        if(i == '%' && i != in.getSize() - 1 && isdigit(in[i+1]))
+        if(in[i] == '%' && i != in.getSize() - 1 && isdigit(in[i+1]))
         {
             translation.push_back(in.substring(lastp, i - lastp));
             translation.back().replace("%%", "%");
             lastp = i + 2;
-            translation.push_back(String("%") + character);
+            translation.push_back(String("%") + in[i+1]);
+        }
+        else if(i == in.getSize() - 1)
+        {
+            translation.push_back(in.substring(lastp, i - lastp + 1));
+            translation.back().replace("%%", "%");
         }
     }
     for(String& str: translation)
@@ -72,7 +76,7 @@ bool TranslationManager::loadFromFile(String code)
 
         size_t pos = sfStr.find("=");
 
-        if(pos == String::InvalidPos)
+        if(pos == String::InvalidPos || str[str.find_first_not_of(L" ")] == '#')
             continue;
 
         String code = sfStr.toUtf32().substr(0, pos);
@@ -86,6 +90,7 @@ void TranslationManager::addTranslation(String unlocalized, String localized)
 {
     TranslationEntry entry(localized);
     translations.insert(make_pair(unlocalized, entry));
+    cout << "Adding: '" << unlocalized.toAnsiString() << "' = '" << localized.toAnsiString() << "'" << endl;
 }
 String TranslationManager::get(String unlocalized, initializer_list<String> values)
 {

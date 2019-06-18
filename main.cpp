@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "GameDisplay.h"
-#include "Game.h"
 #include "GuiMainMenu.h"
 #include "GuiYesNo.h"
 #include "GameSound.h"
