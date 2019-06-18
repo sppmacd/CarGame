@@ -11,12 +11,11 @@ void GuiSettings::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bDone = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), "Done", 0));
-    addButton(bResetHS = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), "Reset Game", 1));
-    addButton(bRefreshGD = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), "Refresh Resources", 2));
-    addButton(bVerticalSync = ButtonToggle(Vector2f(400.f, 40.f),::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), "Vertical Sync", 3, game->getVSync()));
-    //addButton(bTFM = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 90), "Toggle Fullscreen Mode", 4));
-
+    addButton(bDone = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), Game::instance->translation.get("gui.done"), 0));
+    addButton(bResetHS = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), Game::instance->translation.get("gui.settings.resetgame"), 1));
+    addButton(bRefreshGD = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 150), Game::instance->translation.get("gui.settings.refreshres"), 2));
+    addButton(bVerticalSync = ButtonToggle(Vector2f(400.f, 40.f),::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), Game::instance->translation.get("gui.settings.verticalsync"), 3, game->getVSync()));
+    addButton(bLanguage = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), Game::instance->translation.get("gui.settings.language"), 4));
     bDone.setColor(sf::Color::Green);
 }
 
@@ -28,9 +27,9 @@ void GuiSettings::onDraw(sf::RenderWindow& wnd)
     bResetHS.draw(wnd);
     bRefreshGD.draw(wnd);
     bVerticalSync.draw(wnd);
-	//bTFM.draw(wnd);
+    bLanguage.draw(wnd);
 
-    wnd.draw(GameDisplay::instance->drawCenteredString("Settings", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.settings.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
 
     Gui::onDraw(wnd);
 }
@@ -64,10 +63,6 @@ void GuiSettings::onClick(long button)
     else if (button == 3)
     {
         GameDisplay::instance->setVSync(bVerticalSync.getState());
-    }
-    else if (button == 4)
-    {
-        GameDisplay::instance->nextFullscreenMode();
     }
 }
 

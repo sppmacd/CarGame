@@ -25,5 +25,5 @@ class TranslationManager
 public:
     bool loadFromFile(String code);
     void addTranslation(String unlocalized, String localized);
-    String get(String unlocalized, initializer_list<String> values);
+    String get(String unlocalized, initializer_list<String> values = {});
 };

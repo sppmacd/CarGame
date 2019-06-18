@@ -27,10 +27,6 @@ TranslationEntry::TranslationEntry(String in)
             translation.back().replace("%%", "%");
         }
     }
-    for(String& str: translation)
-    {
-        cout << str.toAnsiString() << ", " << endl;
-    }
 }
 String TranslationEntry::getValue(initializer_list<String> values)
 {
@@ -41,12 +37,11 @@ String TranslationEntry::getValue(initializer_list<String> values)
     {
         if(str[0] == '%')
         {
-            size_t val = str[1];
+            size_t val = str[1] - '0';
             if(val < strings.size() && val >= 0)
                 stream << strings[val].toUtf32();
             else
             {
-                cout << "TranslationEntry: invalid value set given! (error:01)" << endl;
                 return "(translation err 01)";
             }
         }
@@ -90,7 +85,6 @@ void TranslationManager::addTranslation(String unlocalized, String localized)
 {
     TranslationEntry entry(localized);
     translations.insert(make_pair(unlocalized, entry));
-    cout << "Adding: '" << unlocalized.toAnsiString() << "' = '" << localized.toAnsiString() << "'" << endl;
 }
 String TranslationManager::get(String unlocalized, initializer_list<String> values)
 {

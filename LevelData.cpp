@@ -56,13 +56,13 @@ void LevelData::init()
     Maps::beach = &(new LevelData(LevelData::BEACH))->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(50).setCost(10000);
     Maps::city = &(new LevelData(LevelData::CITY))->setAcceleration(6.f).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(30).setCost(25000);
 
-	Game::instance->levelRegistry.push_back(make_pair("Countryside", Maps::countryside));
-	Game::instance->levelRegistry.push_back(make_pair("Desert", Maps::desert));
-	Game::instance->levelRegistry.push_back(make_pair("Forest", Maps::forest));
-	Game::instance->levelRegistry.push_back(make_pair("Ice", Maps::ice));
-	Game::instance->levelRegistry.push_back(make_pair("Mountains", Maps::mountains));
-	Game::instance->levelRegistry.push_back(make_pair("Beach", Maps::beach));
-	Game::instance->levelRegistry.push_back(make_pair("City", Maps::city));
+	Game::instance->levelRegistry.push_back(make_pair("countryside", Maps::countryside));
+	Game::instance->levelRegistry.push_back(make_pair("desert", Maps::desert));
+	Game::instance->levelRegistry.push_back(make_pair("forest", Maps::forest));
+	Game::instance->levelRegistry.push_back(make_pair("ice", Maps::ice));
+	Game::instance->levelRegistry.push_back(make_pair("mountains", Maps::mountains));
+	Game::instance->levelRegistry.push_back(make_pair("beach", Maps::beach));
+	Game::instance->levelRegistry.push_back(make_pair("city", Maps::city));
 }
 
 LevelData& LevelData::setAcceleration(float f)

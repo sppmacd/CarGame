@@ -1,5 +1,6 @@
 #include "GuiYesNo.h"
 #include "GameDisplay.h"
+#include "Game.h"
 
 GuiYesNo::GuiYesNo(string text)
 {
@@ -19,9 +20,6 @@ void GuiYesNo::onDraw(RenderWindow& wnd)
 	//	|--25%--|Yes|20%| No|--25%--|
 	//	|---------------------------|
 	//////////////////////////////////////////////
-
-	// Background 2
-
 
 	// Text
 	Text tx = GameDisplay::instance->drawCenteredString(message, 30, Vector2f(GameDisplay::instance->getSize().x / 2, 300));
@@ -67,6 +65,6 @@ void GuiYesNo::onLoad()
 	rsb.setFillColor(Color(110, 100, 65));
 	rsb.setPosition(Vector2f(GameDisplay::instance->getSize()) / 2.f);
 
-	addButton(bYes = Button(Vector2f(rsb.getSize().x * 0.30f, 40.f), Vector2f(rsb.getPosition().x - rsb.getSize().x *0.40f, tx.getGlobalBounds().top + tx.getGlobalBounds().height + 20.f), "Yes", true));
-	addButton(bNo = Button(Vector2f(rsb.getSize().x * 0.30f, 40.f), Vector2f(rsb.getPosition().x + rsb.getSize().x *0.10f, tx.getGlobalBounds().top + tx.getGlobalBounds().height + 20.f), "No", false));
+	addButton(bYes = Button(Vector2f(rsb.getSize().x * 0.30f, 40.f), Vector2f(rsb.getPosition().x - rsb.getSize().x *0.40f, tx.getGlobalBounds().top + tx.getGlobalBounds().height + 20.f), Game::instance->translation.get("gui.yesno.yes", {}), true));
+	addButton(bNo = Button(Vector2f(rsb.getSize().x * 0.30f, 40.f), Vector2f(rsb.getPosition().x + rsb.getSize().x *0.10f, tx.getGlobalBounds().top + tx.getGlobalBounds().height + 20.f), Game::instance->translation.get("gui.yesno.no", {}), false));
 }

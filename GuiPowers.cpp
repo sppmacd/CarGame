@@ -12,10 +12,10 @@ void GuiPowers::onLoad()
     cooldown = 0;
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bPower1 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 120), "Buy Oil: 400$", 1));
-    addButton(bPower2 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), "Buy Ice: 1000$", 2));
+    addButton(bPower1 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 120), Game::instance->translation.get("gui.powers.buy", {Game::instance->translation.get("powers.oil"), "400"}), 1));
+    addButton(bPower2 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), Game::instance->translation.get("gui.powers.buy", {Game::instance->translation.get("powers.ice"), "400"}), 2));
 
-    addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Return to Maps", 0));
+    addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), Game::instance->translation.get("gui.powers.return"), 0));
 }
 
 void GuiPowers::onDraw(sf::RenderWindow& wnd)
@@ -44,7 +44,7 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
     bPower2.draw(wnd);
     bReturn.draw(wnd);
 
-    wnd.draw(GameDisplay::instance->drawCenteredString("Buy Powers", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.powers.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
 
     wnd.draw(drawString(to_string(game->powers[1]), 30, Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 120)));
     wnd.draw(drawString(to_string(game->powers[2]), 30, Vector2f(GameDisplay::instance->getSize().x / 2 + 300, GameDisplay::instance->getSize().y / 2 - 60)));

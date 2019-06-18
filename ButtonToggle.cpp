@@ -1,4 +1,5 @@
 #include "ButtonToggle.h"
+#include "Game.h"
 
 ButtonToggle::ButtonToggle(sf::Vector2f size, sf::Vector2f pos, string text, int id, bool defaultState)
 	: Button(size,pos,text,id)
@@ -39,7 +40,10 @@ void ButtonToggle::draw(RenderWindow& wnd)
 	wnd.draw(rect);
 	wnd.draw(rect2);
 
-	sf::Text tx = this->drawString(this->getText() + (state ? ": On" : ": Off"), 28, this->getPos() + sf::Vector2f(5.f, 5.f), sf::Text::Bold);
+	string on = Game::instance->translation.get("gui.toggle.on");
+	string off = Game::instance->translation.get("gui.toggle.off");
+
+	sf::Text tx = this->drawString(this->getText() + (state ? ": "+on : ": "+off), 28, this->getPos() + sf::Vector2f(5.f, 5.f), sf::Text::Bold);
 	tx.setOrigin(tx.getLocalBounds().width / 2, tx.getLocalBounds().height / 2);
 	tx.setPosition(this->getPos() + this->getSize() / 2.f - sf::Vector2f(0.f, 6.f));
 	wnd.draw(tx);

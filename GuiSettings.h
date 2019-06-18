@@ -19,6 +19,7 @@ private:
     Button bResetHS;
     Button bRefreshGD;
     ButtonToggle bVerticalSync;
+    Button bLanguage;
     //Button bTFM;
 };
 
