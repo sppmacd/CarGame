@@ -8,7 +8,7 @@
 #include "GuiPowers.h"
 #include <cstdlib>
 
-void GameDisplay::drawStat(int x, int y, std::string texture, long val)
+void GameDisplay::drawStat(int x, int y, String texture, long val)
 {
     sf::Sprite s1(this->getTexture("stat/" + texture));
     s1.setPosition(x, y + 10);
@@ -110,11 +110,11 @@ void drawDebugPie(sf::RenderWindow* wnd)
     wnd->draw(r4);
     wnd->draw(r5);
 
-    sf::Text tx1 = disp->drawString(std::string(to_string(game->times.timeEvent.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 40, disp->getSize().y - 21));
-    sf::Text tx2 = disp->drawString(std::string(to_string(game->times.timeGui.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 80, disp->getSize().y - 21));
-    sf::Text tx3 = disp->drawString(std::string(to_string(game->times.timeTick.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 120, disp->getSize().y - 21));
-    sf::Text tx4 = disp->drawString(std::string(to_string(game->times.timeRender.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 160, disp->getSize().y - 21));
-    sf::Text tx5 = disp->drawString(std::string(to_string(game->times.timeWait.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21));
+    sf::Text tx1 = disp->drawString(String(to_string(game->times.timeEvent.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 40, disp->getSize().y - 21));
+    sf::Text tx2 = disp->drawString(String(to_string(game->times.timeGui.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 80, disp->getSize().y - 21));
+    sf::Text tx3 = disp->drawString(String(to_string(game->times.timeTick.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 120, disp->getSize().y - 21));
+    sf::Text tx4 = disp->drawString(String(to_string(game->times.timeRender.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 160, disp->getSize().y - 21));
+    sf::Text tx5 = disp->drawString(String(to_string(game->times.timeWait.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21));
 
     tx1.setFillColor(sf::Color::White);
     tx1.setOutlineColor(sf::Color::Black);

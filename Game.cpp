@@ -506,7 +506,7 @@ void Game::loadLanguages()
         displayError("Could not load translation config (err 01)");
     }
 
-    // Load user-config translation
+    // Load user-defined translation
     string code = languageConfig.get("current.lang");
     bool b1 = translation.loadFromFile(code);
     if(!b1)

@@ -3,7 +3,7 @@
 #include <iostream>
 
 GameDisplay* GameDisplay::instance;
-string GameDisplay::loadingStr;
+String GameDisplay::loadingStr;
 
 GameDisplay::GameDisplay(sf::RenderWindow* wnd)
     : renderWnd(wnd)
@@ -179,7 +179,7 @@ sf::Text GameDisplay::drawCenteredString(String tx, int height, sf::Vector2f pos
 	return text;
 }
 
-void GameDisplay::drawLoadingProgress(string action, sf::RenderWindow* wnd)
+void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
 {
     static sf::Font f;
 	static bool l = false;

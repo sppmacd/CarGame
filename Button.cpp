@@ -1,7 +1,7 @@
 #include "Button.h"
 #include "GameDisplay.h"
 
-Button::Button(sf::Vector2f size, sf::Vector2f pos, string text, int id)
+Button::Button(sf::Vector2f size, sf::Vector2f pos, String text, int id)
 {
     this->isMouseOver = false;
     this->bColor = sf::Color(60, 51, 25);
@@ -49,7 +49,7 @@ void Button::setColor(sf::Color color)
     this->bColor = color;
 }
 
-sf::Text Button::drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style)
+sf::Text Button::drawString(String tx, int height, sf::Vector2f pos, sf::Text::Style style)
 {
     return GameDisplay::instance->drawString(tx, height, pos, style);
 }

@@ -68,15 +68,15 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 	Game* game = Game::instance;
 
     wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.selectmap.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 100)));
-	string mapstr = Game::instance->translation.get("map." + bMd[id].name);
-	string mapstr2;
+	String mapstr = Game::instance->translation.get("map." + bMd[id].name);
+	String mapstr2;
 
 	if (!game->isLevelUnlocked((LevelData::MapType)id))
 	{
 		if (!(game->getCoins() >= bMd[id].cost))
-			mapstr2.append(Game::instance->translation.get("gui.selectmap.notenoughcoins"));
+			mapstr2 += (Game::instance->translation.get("gui.selectmap.notenoughcoins"));
 
-		mapstr.append(" - " + Game::instance->translation.get("gui.selectmap.buyfor", {to_string(bMd[id].cost)}));
+		mapstr += (" - " + Game::instance->translation.get("gui.selectmap.buyfor", {to_string(bMd[id].cost)}));
 	}
 
     wnd.draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));

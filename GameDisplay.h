@@ -43,16 +43,16 @@ public:
     void clearTextures();
 
 	// Draw stat. Params: statX, statY, stat texture name, value of stat.
-    void drawStat(int x, int y, string name, long val);
+    void drawStat(int x, int y, String name, long val);
 
 	// Draw loading screen [in loading loop].
 	static void drawLoading(sf::RenderWindow* wnd);
 
 	// The string displayed on loading screen.
-	static string loadingStr;
+	static String loadingStr;
 
 	// Draw simple loading screen.
-    static void drawLoadingProgress(string action, sf::RenderWindow* wnd);
+    static void drawLoadingProgress(String action, sf::RenderWindow* wnd);
 
 	// Draw tutorial text and rectangle.
     void drawTutorial(sf::Vector2f pos, sf::Vector2f size, String str);
@@ -115,7 +115,7 @@ private:
     sf::Font guiFont;
 
 	// Splash data - text
-	string splashText;
+	String splashText;
 
 	// Splash data - is the splash set?
 	bool splashSet;

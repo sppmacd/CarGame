@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "GuiMainMenu.h"
 #include "GameDisplay.h"
+#include "GuiLanguage.hpp"
 #include "GuiYesNo.h"
 #include <iostream>
 
@@ -30,7 +31,6 @@ void GuiSettings::onDraw(sf::RenderWindow& wnd)
     bLanguage.draw(wnd);
 
     wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.settings.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
-    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("lang.test"), 15, sf::Vector2f(10.f, GameDisplay::instance->getSize().y - 20.f)));
 
     Gui::onDraw(wnd);
 }
@@ -55,7 +55,7 @@ void GuiSettings::onClick(long button)
     }
     else if (button == 1)
     {
-        runDialog(new GuiYesNo("Are you sure to delete all your player data?\n\nThis can't be undone!"), 0); //yes/no
+        runDialog(new GuiYesNo(game->translation.get("gui.settings.resetgame.delete")+"\n\n"+game->translation.get("gui.settings.resetgame.warning")), 0); //yes/no
     }
     else if (button == 2)
     {
@@ -64,6 +64,10 @@ void GuiSettings::onClick(long button)
     else if (button == 3)
     {
         GameDisplay::instance->setVSync(bVerticalSync.getState());
+    }
+    else if(button == 4)
+    {
+        game->displayGui(new GuiLanguage);
     }
 }
 

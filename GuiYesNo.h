@@ -7,12 +7,12 @@ using namespace sf;
 class GuiYesNo : public Gui
 {
 public:
-    GuiYesNo(string text);
+    GuiYesNo(String text);
 	void onDraw(RenderWindow& wnd);
 	void onClick(long button);
 	void onLoad();
 private:
-    string message;
+    String message;
 	Button bYes;
 	Button bNo;
 };

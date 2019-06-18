@@ -3,6 +3,8 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <locale>
+#include <codecvt>
 
 // error codes
 // 01 - not enough values given (too many variables in translation string)
@@ -58,7 +60,9 @@ String TranslationEntry::getValue(initializer_list<String> values)
 bool TranslationManager::loadFromFile(String code)
 {
     languageCode = code;
+
     wifstream file("res/lang/" + code + ".lang");
+    file.imbue(locale(file.getloc(), new codecvt_utf8_utf16<wchar_t>));
     if(!file.good())
         return false;
 
@@ -71,7 +75,7 @@ bool TranslationManager::loadFromFile(String code)
 
         size_t pos = sfStr.find("=");
 
-        if(pos == String::InvalidPos || str[str.find_first_not_of(L" ")] == '#')
+        if(pos == String::InvalidPos || str[str.find_first_not_of(32)] == '#')
             continue;
 
         String code = sfStr.substring(0, pos);
@@ -93,7 +97,7 @@ String TranslationManager::get(String unlocalized, initializer_list<String> valu
     auto it = translations.find(unlocalized);
 
     if(it == translations.end())
-        return "(translation err 03: " + unlocalized + ")";
+        return unlocalized;
 
     TranslationEntry entry = it->second;
     return entry.getValue(values);

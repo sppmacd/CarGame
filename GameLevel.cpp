@@ -102,7 +102,7 @@ void Game::tickNormalGame()
 			//Create splash screen
 
 			if(this->highScore != 0)
-				GameDisplay::instance->setSplash("New Record!");
+				GameDisplay::instance->setSplash(translation.get("splash,newrecord"));
 		}
 
 		//Update highscore to score

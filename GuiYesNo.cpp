@@ -2,7 +2,7 @@
 #include "GameDisplay.h"
 #include "Game.h"
 
-GuiYesNo::GuiYesNo(string text)
+GuiYesNo::GuiYesNo(String text)
 {
     message = text;
 }
