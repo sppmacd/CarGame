@@ -3,6 +3,7 @@
 #include "GameDisplay.h"
 #include "Game.h"
 #include "GuiMainMenu.h"
+#include "GuiYesNo.h"
 #include "GameSound.h"
 #include <cstdlib>
 #include <iostream>
@@ -16,6 +17,9 @@ void loop(Game* game)
 	if (game->mainTickCount == 0)
 		// Display the main menu
 		game->displayGui(new GuiMainMenu);
+
+    if(!game->errStr.empty())
+            game->displayGui(new GuiYesNo("An error occured: " + game->errStr));
 
     if(!game->paused())
         game->tickNormalGame();
@@ -136,13 +140,6 @@ int main()
 					return 0;
 			}
 			GameDisplay::drawLoading(data.wnd);
-
-			if (data.game)
-			if (!data.game->isRunning())
-			{
-				loadingThread.terminate();
-				break;
-			}
 		}
     }
 

@@ -18,7 +18,7 @@
 #include "EventHandler.h"
 #include "GameEvent.h"
 
-Game* Game::instance;
+Game* Game::instance = NULL;
 
 Game::Game()
     : displayedGui(nullptr)
@@ -68,7 +68,7 @@ Game::Game()
             if(!b2)
             {
                 cout << "Game: Could not load default translation!" << endl;
-                exit(-1);
+                displayError("Could not load translation (err 00)");
             }
 		}
 	}
@@ -496,4 +496,9 @@ void Game::exit(int ret)
     cout << "Game: Handling exit()..." << endl;
     this->running = false;
     this->retVal = ret;
+}
+
+void Game::displayError(string text)
+{
+    errStr = text;
 }

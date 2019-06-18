@@ -125,6 +125,9 @@ public:
 	// EventsHandler instance
 	EventsHandler eventHandler;
 
+	// Error string
+	string errStr;
+
 	///// FUNCTIONS /////
 
 	/// Default constructor
@@ -274,6 +277,9 @@ public:
 
 	// Find level by ID
 	LevelData findLevel(LevelData::MapType type);
+
+	// Display error screen
+	void displayError(string text);
 
 	// Map storing power data registry
 	map<int, PowerHandles> powerRegistry;

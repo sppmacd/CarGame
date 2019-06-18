@@ -104,6 +104,10 @@ void Gui::close(int returnValue)
     {
         parent->closeDialog(returnValue);
     }
+    else
+    {
+        Game::instance->exit(0);
+    }
 }
 
 void Gui::onButton(int buttonId)
