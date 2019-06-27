@@ -65,8 +65,6 @@ void Game::tickNormalGame()
 {
     if(this->tickCount % this->carCreatingSpeed == 0)
     {
-        Car car;
-
 		vector<CarType*> selectedTypes;
 		while(selectedTypes.empty())
 		for (CarType& type : carTypeRegistry)
@@ -80,14 +78,14 @@ void Game::tickNormalGame()
 		// Create event
 		GameEvent event;
 		event.type = GameEvent::CarSpawning;
-		event.carSpawned.carToCreate = &car;
+		event.carSpawned.carToCreate = NULL;
 		event.carSpawned.type = carType;
 		bool createCar = runGameEventHandler(event);
 
-		if (createCar)
+		if (createCar && event.carSpawned.carToCreate)
 		{
 			addCar(event.carSpawned.carToCreate);
-			car.onCreate(this);
+			event.carSpawned.carToCreate->onCreate(this);
 			//delete &car; //deallocate memory allocated in EventHandler
 		}
     }
@@ -102,7 +100,7 @@ void Game::tickNormalGame()
 			//Create splash screen
 
 			if(this->highScore != 0)
-				GameDisplay::instance->setSplash(translation.get("splash,newrecord"));
+				GameDisplay::instance->setSplash(translation.get("splash.newrecord"));
 		}
 
 		//Update highscore to score

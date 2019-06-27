@@ -65,17 +65,15 @@ sf::Color Car::getColor()
     return this->colorMultiplier;
 }
 
-void Car::makeDestroy()
+void Car::makeDestroy(float count)
 {
+    this->health -= count;
+
     if(this->health <= 0)
     {
         this->health = 0.f;
         this->destroyTick = 20;
         this->carSpeed /= 2.5;
-    }
-    else
-    {
-        this->health--;
     }
 }
 
@@ -148,4 +146,10 @@ string Car::getTextureName()
 void Car::setSpeed(float speed)
 {
     this->carSpeed = speed;
+}
+
+void Car::setMaxHealth(float maxH)
+{
+    this->maxHealth = maxH;
+    this->health = maxH;
 }

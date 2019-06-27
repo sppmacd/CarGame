@@ -29,6 +29,6 @@ class EventsHandler
 public:
 	EventsHandler();
 	static EventsHandler* instance;
-	map<GameEvent::Type, GameEventHandler> registry;
+	multimap<GameEvent::Type, GameEventHandler> registry;
 	void registerGameEvent(GameEvent::Type event, GameEventHandler func);
 };

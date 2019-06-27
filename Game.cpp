@@ -343,7 +343,12 @@ void Game::closeLevel()
 {
     cout << "Game: Closing level..." << endl;
     GameDisplay::drawLoadingProgress("Closing level...", GameDisplay::instance->getRenderWnd());
-    if(!this->cars.empty()) this->cars.clear();
+    if(!this->cars.empty())
+    {
+        for(Car* car: cars) //fixed memory leak?
+            delete car;
+        this->cars.clear();
+    }
     this->tickCount = 0;
     this->pause(true);
 }

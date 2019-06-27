@@ -24,7 +24,7 @@ bool PowerOil::onPowerStart()
 
 void PowerOil::onPowerTick(int powerTick)
 {
-	if (powerTick % 4 == 0)
+	if (powerTick % 3 == 0)
 	{
 		for (Car* c : Game::instance->cars)
 		{
@@ -32,7 +32,7 @@ void PowerOil::onPowerTick(int powerTick)
 			{
 			    if(lane == 0 && c->getLine() < 2)
                     c->makeDestroy();
-                else if(lane == 1 && (c->getLine() == 1 || (powerTick % 8 == 0)))
+                else if(lane == 1 && (c->getLine() == 1 || (powerTick % 6 == 0)))
                     c->makeDestroy();
                 else if(lane == 2 && c->getLine() > 0)
                     c->makeDestroy();

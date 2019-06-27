@@ -73,5 +73,5 @@ void CarType::init()
 	game->registerCarType(CarType(Car::FIREMAN, "fireman").setRarities({5,7,3,10,8,12,4}).setMaxHealth(5));
 	game->registerCarType(CarType(Car::TANK, "tank").setRarities({10,7,15,20,25,10,20}).setMaxHealth(10));
 	game->registerCarType(CarType(Car::OLD, "default").setRarities({5,20,8,10,15,5,15}).setMaxHealth(2)); // !!! TEXTURES !!!
-	game->registerCarType(CarType(Car::ARMORED, "lorry").setRarities({20,14,30,40,50,15,40}).setMaxHealth(20)); // !!! TEXTURES !!!
+	game->registerCarType(CarType(Car::ARMORED, "lorry").setRarities({20,14,30,40,50,15,40}).setMaxHealth(15)); // !!! TEXTURES !!!
 }

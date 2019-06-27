@@ -39,9 +39,10 @@ public:
     void setColor(sf::Color color);
     void move(float gameSpeed);
     sf::Color getColor();
-    void makeDestroy();
+    void makeDestroy(float count = 1.f);
     bool tickDestroy();
     bool isCrashedWith(Car* car);
+    void setMaxHealth(float maxH);
 
 	//events
 	/// called when the car is created
@@ -76,8 +77,8 @@ public:
     void setSpeed(float speed);
 
     bool canErase;
-    int health;
-    int maxHealth;
+    float health;
+    float maxHealth;
     float pos;
     float destroyTick;
 	int animSize;

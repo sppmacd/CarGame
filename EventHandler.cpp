@@ -133,14 +133,12 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 	case Car::BOMB:
 	{
 		Car* car = new CarBomb(7.f, 1); // ALWAYS ON CENTER LANE
-		// TODO: create CarBomb
 		event.carSpawned.carToCreate = car;
 		break;
 	}
 	case Car::FIREMAN:
 	{
 		Car* car = new Car(Car::FIREMAN, 7.f, rand() % 3);
-		// TODO: create CarBomb
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(200, 0, 0));
 		break;
@@ -148,7 +146,6 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 	case Car::TANK:
 	{
 		Car* car = new Car(Car::TANK, 7.f, rand() % 3);
-		// TODO: create CarBomb
 		event.carSpawned.carToCreate = car;
         event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 		break;
@@ -156,7 +153,6 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 	case Car::OLD:
 	{
 		Car* car = new Car(Car::OLD, 7.f, rand() % 3);
-		// TODO: create CarBomb
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(35, 35, 35));
 		break;
@@ -164,7 +160,6 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
 	case Car::ARMORED:
 	{
 		Car* car = new Car(Car::ARMORED, 7.f, rand() % 3);
-		// TODO: create CarBomb
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 		break;
