@@ -120,7 +120,7 @@ public:
     bool debug;
 
     // Saved in byte format, unlocked levels for player
-    int unlockedLevels;
+    long long unlockedLevels;
 
 	// EventsHandler instance
 	EventsHandler eventHandler;

@@ -21,6 +21,8 @@
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
 
+#include <HackerMan/Util/DataFile.hpp>
+
 // error codes:
 // G00 could not load default language
 // G01 could not load language config
