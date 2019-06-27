@@ -195,7 +195,7 @@ void GameDisplay::drawGui()
         for(int i = 0; i <= 64; i++)
         {
             float deg = 360 * i / 64.f;
-            sf::Vector2f pointPos(16*sin(deg/degtorad), 16*cos(deg/degtorad));
+            sf::Vector2f pointPos(32*sin(deg/degtorad), 32*cos(deg/degtorad));
             pointPos += Vector2f(1200,58);
 
             if(game->powerTime == -1)

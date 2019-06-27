@@ -45,13 +45,13 @@ void PowerOil::drawPower(RenderWindow * wnd)
 	switch(lane)
 	{
     case 0:
-        rs.setPosition(p.x, (LevelUtility::getLanePos(0).y + LevelUtility::getLanePos(1).y) / 2.f);
+        rs.setPosition(pos.x, (LevelUtility::getLanePos(0).y + LevelUtility::getLanePos(1).y) / 2.f);
         break;
     case 1:
-        rs.setPosition(p.x, LevelUtility::getLanePos(1).y);
+        rs.setPosition(pos.x, LevelUtility::getLanePos(1).y);
         break;
     case 2:
-        rs.setPosition(p.x, (LevelUtility::getLanePos(1).y + LevelUtility::getLanePos(2).y) / 2.f);
+        rs.setPosition(pos.x, (LevelUtility::getLanePos(1).y + LevelUtility::getLanePos(2).y) / 2.f);
         break;
     default:
         return;
