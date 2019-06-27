@@ -207,7 +207,7 @@ void GameDisplay::drawGui()
             }
             else if(game->powerTime > 0)
             {
-                if(i >= game->powerTime / (game->powerHandle.maxPowerTime / 64.f))
+                if(i >= game->powerTime / (game->powerHandle->maxPowerTime / 64.f))
                     arr.append(Vertex(pointPos, Color::Red));
                 else
                     arr.append(Vertex(pointPos, Color::Blue));

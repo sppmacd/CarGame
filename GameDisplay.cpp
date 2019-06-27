@@ -5,6 +5,9 @@
 GameDisplay* GameDisplay::instance;
 String GameDisplay::loadingStr;
 
+// GameDisplay error codes:
+// D00 could not load texture
+
 GameDisplay::GameDisplay(sf::RenderWindow* wnd)
     : renderWnd(wnd)
 {
@@ -86,6 +89,7 @@ void GameDisplay::addTexture(string name, bool repeated, bool smooth)
 	bool load = tx.loadFromFile("res/" + name + ".png");
 	if (!load)
 	{
+	    cout << "GameDisplay: err D00(name='" << name << "')" << endl;
 		this->texturesByName.insert(pair<string, sf::Texture>(name, unknownTexture));
 		return;
 	}
@@ -312,7 +316,7 @@ void GameDisplay::drawEffect()
     Game* game = Game::instance;
 
 	if(game->powerTime > 1)
-		game->powerRegistry.find(game->getCurrentPower())->second.drawPower(this->renderWnd);
+		game->powerRegistry.find(game->getCurrentPower())->second->drawPower(this->renderWnd);
 	else
-		game->powerRegistry.find(game->getCurrentPower())->second.drawPowerIdle(this->renderWnd);
+		game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(this->renderWnd);
 }

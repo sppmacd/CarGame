@@ -18,9 +18,14 @@
 #include "EventHandler.h"
 #include "GameEvent.h"
 
+#include "PowerFreeze.hpp"
+#include "PowerOil.hpp"
+
 // error codes:
-// 00 could not load default language
-// 01 could not load language config
+// G00 could not load default language
+// G01 could not load language config
+// G02 registering GUI is deprecated
+// G03 second Game instance
 
 Game* Game::instance = NULL;
 
@@ -68,7 +73,7 @@ Game::Game()
 	else //fatal error
 	{
 	    cout << "Game: Tried to create second Game instance!" << endl;
-		instance->exit(-1);
+		instance->displayError("G03");
 	}
 }
 
@@ -104,14 +109,14 @@ void Game::usePower(int id)
 
 void Game::registerGUIs()
 {
-    cout << "Game: Registering GUIs is deprecated" << endl;
+    cout << "Game: Registering GUIs is deprecated (G02)" << endl;
 }
 
 void Game::registerPowers()
 {
-	powerRegistry.insert(make_pair(0, PowerHandles()));
-	powerRegistry.insert(make_pair(1, PowerHandles(PowerOil::drawPower, PowerOil::onPowerStart, PowerOil::onPowerStop, PowerOil::onPowerTick, PowerOil::drawPowerIdle).setMaxTime(1800)));
-	powerRegistry.insert(make_pair(2, PowerHandles(PowerFreeze::drawPower, PowerFreeze::onPowerStart, PowerFreeze::onPowerStop).setMaxTime(600)));
+	powerRegistry.insert(make_pair(0, (new Power)));
+	powerRegistry.insert(make_pair(1, &(new PowerOil)->setMaxTime(1800)));
+	powerRegistry.insert(make_pair(2, &(new PowerFreeze)->setMaxTime(600)));
 }
 
 void Game::registerCarType(CarType type)
@@ -302,22 +307,8 @@ void Game::loadGame(LevelData level)
     cout << "Game: Loading level " << level.getMapType() << "..." << endl;
 
     this->level = level;
-
-    this->lastTickScore = 0;
-    this->cameraPos = 0;
-    this->tickCount = 0;
-    this->gameSpeed = level.getAcceleration() / 2.2f;
-    this->score = 0;
-    this->gameOver = false;
-    this->cars.clear();
-    this->pause(false);
-    this->closeGui();
-    this->currentPower = 0;
-	this->carCreatingSpeed = level.getCarCreationSpeed();
-	this->newRecord = false; //Set new record to false
-
-	this->powerTime = 0;
-	this->powerCooldown = 0;
+    this->gameSpeed = level.getAcceleration();
+    setupGame();
 }
 
 void Game::loadGame()
@@ -326,10 +317,16 @@ void Game::loadGame()
 
     cout << "Game: Reloading current level..." << endl;
 
+    this->gameSpeed = this->level.getAcceleration();
+    setupGame();
+
+}
+void Game::setupGame()
+{
+    this->gameSpeed /= 2.2f;
     this->lastTickScore = 0;
     this->cameraPos = 0;
     this->tickCount = 0;
-    this->gameSpeed = this->level.getAcceleration() / 2.2f;
     this->score = 0;
     this->gameOver = false;
     this->cars.clear();
@@ -337,9 +334,8 @@ void Game::loadGame()
     this->closeGui();
     this->currentPower = 0;
 	this->carCreatingSpeed = this->level.getCarCreationSpeed();
-	this->newRecord = false; //Set new record to false
-
-	this->powerTime = 0;
+	this->newRecord = false;
+    this->powerTime = 0;
 	this->powerCooldown = 0;
 }
 
@@ -359,6 +355,8 @@ Game::~Game()
 	delete[] this->powers;
 
 	for(auto i: levelRegistry)
+        delete i.second;
+    for(auto i: powerRegistry)
         delete i.second;
 }
 
@@ -415,7 +413,6 @@ void Game::pause(bool s)
 
 void Game::moveCamera()
 {
-    this->cameraPos += static_cast<int>(this->gameSpeed * 4.5f);
 }
 
 void Game::displayGui(Gui* gui)
@@ -447,7 +444,7 @@ void Game::toggleFullscreen()
 
     if(this->fullscreen)
     {
-        wnd->create(sf::VideoMode(1280, 720, 32), "Car Game");
+        wnd->create(sf::VideoMode(1280, 720, 32), "Car Destroyer");
         this->fullscreen = false;
     }
     else
@@ -455,7 +452,7 @@ void Game::toggleFullscreen()
 		wnd->create(sf::VideoMode::getFullscreenModes()[0], sf::String(), sf::Style::Fullscreen);
         this->fullscreen = true;
     }
-	GameDisplay::instance->setVSync(GameDisplay::instance->getVSync()); // to fix vsync bug on toggling fullscreen
+	GameDisplay::instance->setVSync(GameDisplay::instance->getVSync()); // fix vsync bug on toggling fullscreen
 	GameDisplay::instance->setWndSize(wnd->getSize());
 }
 

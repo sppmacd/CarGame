@@ -143,17 +143,22 @@ void Game::updateEffect()
 {
     if(this->isPowerUsed && this->powerCooldown <= 0 && this->getCurrentPower() != 0)
     {
-        powerHandle = this->powerRegistry.find(this->getCurrentPower())->second;
-        this->powerTime = powerHandle.maxPowerTime;
+        auto it = this->powerRegistry.find(this->getCurrentPower());
+        if(it == this->powerRegistry.end())
+            return;
+
+        powerHandle = it->second;
+        this->powerTime = powerHandle->maxPowerTime;
         this->powerMaxTime = this->powerTime;
 		this->powerCooldown = -1;
         this->usePower(this->currentPower);
 
 		// power 'start'
-		if (!powerHandle.onPowerStart())
+		if (!powerHandle->onPowerStart())
 		{
 			this->powerTime = 0;
 			this->powerCooldown = 0;
+			this->powers[this->getCurrentPower()]++; //Reset power count to previous
 		}
     }
     if(this->powerTime > 0)
@@ -161,7 +166,7 @@ void Game::updateEffect()
         this->powerTime--;
 
 		// power 'tick'
-		powerHandle.onPowerTick(this->powerTime);
+		powerHandle->onPowerTick(this->powerTime);
 
         if(this->powerTime == 1)
         {
@@ -169,23 +174,24 @@ void Game::updateEffect()
             this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
 
 			// power 'stop'
-			powerHandle.onPowerStop();
+			powerHandle->onPowerStop();
         }
     }
 
     else if(this->powerTime == -1)
     {
 		// power 'cooldown tick'
-		powerHandle.onCooldownTick(this->powerCooldown);
+		powerHandle->onCooldownTick(this->powerCooldown);
         this->powerCooldown--;
     }
 
     if(this->powerCooldown == 1) // 1-set CUP, >1-cooldown!, -1-power is using!, 0-can use power
     {
 		// power 'cooldown stop'
-		powerHandle.onCooldownStop();
+		powerHandle->onCooldownStop();
         this->powerTime = 0;
 		this->powerCooldown = 0;
+		powerHandle = NULL;
     }
     this->isPowerUsed = false;
 }

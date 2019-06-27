@@ -57,8 +57,8 @@ public:
     // Power max time
     int powerMaxTime;
 
-    // Current power handle
-    PowerHandles powerHandle;
+    // Current power
+    Power* powerHandle;
 
 	// Current level data
     LevelData level;
@@ -284,8 +284,11 @@ public:
 	// Loads language list.
 	void loadLanguages();
 
+	// Setup game
+	void setupGame();
+
 	// Map storing power data registry
-	map<int, PowerHandles> powerRegistry;
+	map<int, Power*> powerRegistry;
 
 	// Car type registry
 	vector<CarType> carTypeRegistry;
