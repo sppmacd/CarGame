@@ -19,8 +19,12 @@ public:
         FOREST,
         ICE,
         MOUNTAINS,
+        SEA,
         BEACH,
+        SWAMPLAND,
         CITY,
+        MOTORWAY,
+        FOREST_TRAILS,
         COUNT
     };
     static void init();

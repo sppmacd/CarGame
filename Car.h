@@ -34,6 +34,7 @@ public:
         this->typeId = NORMAL;
     }
 	Car(Car::TypeId id, float speed, int line);
+	virtual ~Car() {}
     float getSpeed();
     int getLine();
     void setColor(sf::Color color);
