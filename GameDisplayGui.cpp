@@ -192,7 +192,7 @@ void GameDisplay::drawGui()
         sf::VertexArray arr(TriangleFan);
         arr.append(Vertex(Vector2f(1200,58), Color(127,127,0)));
         double degtorad = 57.2957795;
-        for(int i = 0; i <= 64; i++)
+        for(int i = 0; i <= 65; i++)
         {
             float deg = 360 * i / 64.f;
             sf::Vector2f pointPos(32*sin(deg/degtorad), 32*cos(deg/degtorad));
