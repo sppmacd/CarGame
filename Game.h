@@ -287,6 +287,12 @@ public:
 	// Setup game
 	void setupGame();
 
+	// Set and initialize current power.
+	void setCurrentPower(Power* power);
+
+	// Stop current power and start cooldown.
+	void stopCurrentPower();
+
 	// Map storing power data registry
 	map<int, Power*> powerRegistry;
 

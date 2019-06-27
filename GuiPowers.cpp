@@ -13,7 +13,7 @@ void GuiPowers::onLoad()
     GameDisplay* game = GameDisplay::instance;
 
     addButton(bPower1 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 120), Game::instance->translation.get("gui.powers.buy", {Game::instance->translation.get("powers.oil"), "400"}), 1));
-    addButton(bPower2 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), Game::instance->translation.get("gui.powers.buy", {Game::instance->translation.get("powers.ice"), "400"}), 2));
+    addButton(bPower2 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), Game::instance->translation.get("gui.powers.buy", {Game::instance->translation.get("powers.ice"), "1000"}), 2));
 
     addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), Game::instance->translation.get("gui.powers.return"), 0));
 }

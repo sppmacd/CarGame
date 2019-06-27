@@ -136,7 +136,29 @@ void Game::newTick()
 
     this->mainTickCount++;
 }
+void Game::setCurrentPower(Power* power)
+{
+    powerHandle = power;
+    this->powerTime = powerHandle->maxPowerTime;
+    this->powerMaxTime = this->powerTime;
+    this->powerCooldown = -1;
 
+    // power 'start'
+    if (!powerHandle->onPowerStart())
+    {
+        this->powerTime = 0;
+        this->powerCooldown = 0;
+        this->powers[this->getCurrentPower()]++; //Reset power count to previous
+    }
+}
+void Game::stopCurrentPower()
+{
+    this->powerCooldown = 180; // 3 seconds
+    this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
+
+    // power 'stop'
+    powerHandle->onPowerStop();
+}
 void Game::updateEffect()
 {
     if(this->isPowerUsed && this->powerCooldown <= 0 && this->getCurrentPower() != 0)
@@ -145,19 +167,8 @@ void Game::updateEffect()
         if(it == this->powerRegistry.end())
             return;
 
-        powerHandle = it->second;
-        this->powerTime = powerHandle->maxPowerTime;
-        this->powerMaxTime = this->powerTime;
-		this->powerCooldown = -1;
         this->usePower(this->currentPower);
-
-		// power 'start'
-		if (!powerHandle->onPowerStart())
-		{
-			this->powerTime = 0;
-			this->powerCooldown = 0;
-			this->powers[this->getCurrentPower()]++; //Reset power count to previous
-		}
+        this->setCurrentPower(it->second);
     }
     if(this->powerTime > 0)
     {
@@ -168,11 +179,7 @@ void Game::updateEffect()
 
         if(this->powerTime == 1)
         {
-            this->powerCooldown = 300; // 3 seconds
-            this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
-
-			// power 'stop'
-			powerHandle->onPowerStop();
+            this->stopCurrentPower();
         }
     }
 
