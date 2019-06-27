@@ -29,18 +29,25 @@ void PowerOil::onPowerTick(int powerTick)
 		for (Car* c : Game::instance->cars)
 		{
 			if(abs(c->getScreenPos().x - pos.x) < 45)
-				c->makeDestroy();
+			{
+			    if(lane == 0 && c->getLine() < 2)
+                    c->makeDestroy();
+                else if(lane == 1 && (c->getLine() == 1 || (powerTick % 8 == 0)))
+                    c->makeDestroy();
+                else if(lane == 2 && c->getLine() > 0)
+                    c->makeDestroy();
+			}
 		}
 	}
 }
 
 void PowerOil::drawPower(RenderWindow * wnd)
 {
-	RectangleShape rs(Vector2f(40.f, 167.f));
+	RectangleShape rs(Vector2f(40.f, 180.f));
 	rs.setFillColor(Color(219, 201, 65, 180));
 	rs.setOutlineColor(Color(209, 191, 55));
 	rs.setOutlineThickness(1.8f);
-	rs.setOrigin(20.f, 83.5f);
+	rs.setOrigin(20.f, 90.f);
 
 	switch(lane)
 	{

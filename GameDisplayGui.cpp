@@ -220,42 +220,10 @@ void GameDisplay::drawGui()
         this->renderWnd->draw(arr);
     }
 
-	if (game->isGuiLoaded)
-	{
-		game->displayedGui->onDraw(*this->renderWnd);
-	}
+	if(game->isGuiLoaded)
+        game->displayedGui->onDraw(*this->renderWnd);
 
     drawStat(50, 32, "coin", game->getCoins());
-
-    /*switch(game->tutorialStep)
-    {
-    case 2:
-        if(game->displayedGui == 2)
-            this->drawTutorial(sf::Vector2f(400.f, 40.f), sf::Vector2f(this->getSize().x / 2 - 200, this->getSize().y / 2 - 60), "Click here to\nstart new game.");
-        break;
-    case 3:
-        if(game->displayedGui == 4)
-            this->drawTutorial(sf::Vector2f(100.f, 40.f), sf::Vector2f(this->getSize().x / 2 + 420, this->getSize().y / 2 - 180), "Here you can\nbuy new maps.");
-        break;
-    case 4:
-        if(game->displayedGui == 4)
-            this->drawTutorial(sf::Vector2f(400.f, 40.f), sf::Vector2f(this->getSize().x / 2 - 200, this->getSize().y / 2 - 180), "Click to start new game");
-        break;
-    case 5:
-        if(!game->isGuiLoaded && game->cars.size() > 0)
-            this->drawTutorial(sf::Vector2f(100.f, 40.f), sf::Vector2f(game->cars[0].getScreenPos()), "Destroy cars by clicking him. You get points and coins by destroying cars.");
-        break;
-    case 6:
-        if(!game->isGuiLoaded)
-        {
-            if(!game->paused())
-                game->pause(true);
-            this->drawTutorial(sf::Vector2f(1000.f, 100.f), sf::Vector2f(250.f, 32.f), "This is your coins, score, highscore,\n coin multiplier and coins \nrequired to get new multiplier.\n(Click Space to delete this message)");
-        }
-        break;
-    default:
-        break;
-    }*/
 
     if(game->debug) drawDebugInfo(this->renderWnd);
 }
@@ -263,7 +231,7 @@ void GameDisplay::drawGui()
 void GameDisplay::nextFullscreenMode()
 {
 	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "Car Destroyer", sf::Style::Fullscreen);
-	if (fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
+	if(fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
 	{
 		fullscreenMode = 0;
 	}
