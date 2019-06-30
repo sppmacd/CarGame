@@ -69,7 +69,9 @@ void Game::tickNormalGame()
 		while(selectedTypes.empty())
 		for (CarType& type : carTypeRegistry)
 		{
-			if (rand() % type.getRarity(this->level.getMapType()) == 0)
+		    if(type.getRarity(this->level.getMapType()) == 0)
+                continue;
+			if(rand() % type.getRarity(this->level.getMapType()) == 0)
 				selectedTypes.push_back(&type);
 		}
 
@@ -109,8 +111,6 @@ void Game::tickNormalGame()
 
     this->updateEffect();
 
-    this->moveCamera();
-
     if(this->pointsToNewMpl <= 0)
     {
         this->coinMpl++;
@@ -130,9 +130,6 @@ void Game::newTick()
         this->gameSpeed += this->level.getAcceleration() / 5000;
         ++tickCount;
     }
-
-    if(this->guiCooldown > 0)
-        this->guiCooldown--;
 
     this->mainTickCount++;
 }

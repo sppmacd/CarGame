@@ -445,10 +445,6 @@ void Game::pause(bool s)
 		GameDisplay::instance->getRenderWnd()->setKeyRepeatEnabled(s);
 }
 
-void Game::moveCamera()
-{
-}
-
 void Game::displayGui(Gui* gui)
 {
 	this->closeGui(); //Close previous GUI

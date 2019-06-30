@@ -41,7 +41,7 @@ String TranslationEntry::getValue(initializer_list<String> values)
         if(str[0] == '%')
         {
             size_t val = str[1] - '0';
-            if(val < strings.size() && val >= 0)
+            if(val < strings.size())
                 stream << strings[val].toUtf32();
             else
             {

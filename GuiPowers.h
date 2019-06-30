@@ -1,7 +1,8 @@
-#ifndef GUIPOWERS_H
-#define GUIPOWERS_H
+#pragma once
 
 #include "Gui.h"
+#include <vector>
+#include "Power.h"
 
 class GuiPowers : public Gui
 {
@@ -13,12 +14,18 @@ public:
 protected:
 
 private:
-    Button bPower1;
-    Button bPower2;
-    Button bReturn; //go to map selection
+    struct PowerData
+    {
+        unsigned int cost;
+        unsigned int count;
+        Power* power;
+        Button bBuyPower;
+    };
+
+    virtual ~GuiPowers();
+    vector<PowerData*> powerData;
+    Button bReturn;
     int cooldown;
 };
-
-#endif // GUIPOWERS_H
 
 

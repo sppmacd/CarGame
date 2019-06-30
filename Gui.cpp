@@ -47,12 +47,12 @@ void Gui::onMouseMove(Vector2f pos)
     {
         for(Button* button: buttons)
         {
-            if(button->isClicked(pos))/////////////////HERE MOUSE////////////////////////////
+            if(button->isClicked(pos))
             {
                 button->isMouseOver = true;
             }
             else
-            {/////////////////////////////////////////////////////////////////////////////////////////
+            {
                 button->isMouseOver = false;
             }
         }
@@ -138,9 +138,9 @@ void Gui::onLoad() {}
 
 void Gui::onClose() {}
 
-void Gui::onKeyboard(Keyboard::Key key) {}
+void Gui::onKeyboard(Keyboard::Key) {}
 
-void Gui::onDialogFinished(Gui* dialog, int callId) {}
+void Gui::onDialogFinished(Gui*, int) {}
 
 bool Gui::isDialogRunning()
 {

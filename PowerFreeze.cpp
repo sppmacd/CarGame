@@ -27,3 +27,12 @@ bool PowerFreeze::onPowerStart()
 	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / 3.f);
 	return true;
 }
+int PowerFreeze::getCost()
+{
+    return 1000;
+}
+string PowerFreeze::getName()
+{
+    return "freeze";
+}
+

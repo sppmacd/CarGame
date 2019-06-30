@@ -83,7 +83,7 @@ bool Car::isCrashedWith(Car* car)
 }
 
 /// called when the car is created
-void Car::onCreate(Game* game)
+void Car::onCreate(Game* )
 {
 
 }
@@ -116,13 +116,13 @@ void Car::onDamage(Game* game)
 }
 
 /// called when the car has 0 HP
-void Car::onDestroy(Game* game)
+void Car::onDestroy(Game*)
 {
 
 }
 
 /// called every tick
-void Car::onUpdate(Game* game)
+void Car::onUpdate(Game*)
 {
     //...
 }

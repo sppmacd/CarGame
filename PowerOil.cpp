@@ -93,3 +93,11 @@ void PowerOil::drawPowerIdle(RenderWindow* wnd)
 	}
 	wnd->draw(rs);
 }
+int PowerOil::getCost()
+{
+    return 400;
+}
+string PowerOil::getName()
+{
+    return "oil";
+}

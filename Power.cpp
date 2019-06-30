@@ -16,12 +16,21 @@ bool Power::onPowerStart()
 
 void Power::onPowerStop() {}
 
-void Power::onPowerTick(int powerTick) {}
+void Power::onPowerTick(int) {}
 
-void Power::onCooldownTick(int cooldownTick) {}
+void Power::onCooldownTick(int) {}
 
 void Power::onCooldownStop() {}
 
-void Power::drawPower(RenderWindow * wnd) {}
+void Power::drawPower(RenderWindow*) {}
 
-void Power::drawPowerIdle(RenderWindow * wnd) {}
+void Power::drawPowerIdle(RenderWindow*) {}
+
+int Power::getCost()
+{
+    return 0;
+}
+string Power::getName()
+{
+    return "none";
+}

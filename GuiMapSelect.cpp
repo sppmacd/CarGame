@@ -42,7 +42,7 @@ void GuiMapSelect::onClose()
 	bMd.clear();
 }
 
-void GuiMapSelect::onDialogFinished(Gui* dialog, int callId)
+void GuiMapSelect::onDialogFinished(Gui*, int callId)
 {
 	if(callId == 0 && dialogReturnValue == 1)
 	{

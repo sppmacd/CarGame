@@ -141,7 +141,7 @@ int main()
 
                 sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
 
-                if(l > 16660 && data.game->guiCooldown == 0)
+                if(l > 16660)
                 {
                     cout << "main: Tick took " << l << endl;
                 }

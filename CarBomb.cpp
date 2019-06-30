@@ -10,7 +10,7 @@ void CarBomb::onDestroy(Game* game)
 {
     game->setGameOver();
 }
-void CarBomb::onLeave(Game* game)
+void CarBomb::onLeave(Game*)
 {
     //nothing
 }

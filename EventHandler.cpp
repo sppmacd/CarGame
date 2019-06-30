@@ -10,7 +10,7 @@
 
 EventsHandler* EventsHandler::instance;
 
-bool EventHandlers::onClose(Event event, Game* game)
+bool EventHandlers::onClose(Event, Game* game)
 {
 	game->exit(0);
 	return true;
@@ -79,7 +79,7 @@ bool EventHandlers::onKeyPressed(Event event, Game * game)
 	return true;
 }
 
-bool EventHandlers::onCarSpawning(GameEvent& event, Game * game)
+bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
 {
 	Car::TypeId carId = event.carSpawned.type->carId;
 

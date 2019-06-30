@@ -1,6 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <string>
+
+using namespace std;
 using namespace sf;
 
 class Power
@@ -18,4 +21,6 @@ public:
 	virtual void onCooldownStop();
 	virtual void drawPower(RenderWindow* wnd);
 	virtual void drawPowerIdle(RenderWindow* wnd);
+	virtual int getCost();
+	virtual string getName();
 };

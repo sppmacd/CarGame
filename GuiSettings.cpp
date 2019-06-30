@@ -35,13 +35,15 @@ void GuiSettings::onDraw(sf::RenderWindow& wnd)
     Gui::onDraw(wnd);
 }
 
-void GuiSettings::onDialogFinished(Gui* dialog, int callId)
+void GuiSettings::onDialogFinished(Gui*, int callId)
 {
 	if(callId == 0 && dialogReturnValue == 1)
 	{
 		remove("data.txt");
 		remove("highscore.txt");
+		remove("profile_1.txt");
 		Game::instance->loadPlayerData();
+		Game::instance->displayGui(new GuiMainMenu);
 	}
 }
 

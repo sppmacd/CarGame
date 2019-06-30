@@ -30,10 +30,10 @@ public:
 	// Instance of the game
     static Game* instance;
 
-	// Game tick count depended on level
+	// Game tick count (since level loaded)
     int tickCount;
 
-	// Main tick count since the game started
+	// Main tick count (since the game started)
     long mainTickCount;
 
 	// Variable storing MouseButtonReleased event status
@@ -42,11 +42,8 @@ public:
 	// Variable storing gui status
     bool isGuiLoaded;
 
-	// Variable storing currently displayed GUI
+	// Variable storing currently displayed GUI. If NULL, the GUI is not loaded.
     Gui* displayedGui;
-
-	// Gui cooldown (deprecated)
-    int guiCooldown;
 
 	// Power time
     int powerTime;
@@ -80,9 +77,6 @@ public:
 
 	// Variable storing language settings.
 	TranslationManager translation;
-
-	// Variable storing default language (English)
-	TranslationManager enUSTranslation;
 
 	///Vector storing event handlers.
 	multimap<sf::Event::EventType, EventHandler> eventHandlers;
@@ -148,9 +142,6 @@ public:
 	// Called once on LevelTick, updates cars
     void updateCars();
 
-	// Deprecated, moves camera. Currently does nothing
-    void moveCamera();
-
 	// Updates power effect
     void updateEffect();
 
@@ -166,11 +157,11 @@ public:
 	// Ticking normal game (with cars)
     void tickNormalGame();
 
-    // \brief Rename to loadPlayerData()! Loads player data
-    void loadPlayerData();
+    // Loads player data from profile or sets to default values if error.
+    void loadPlayerData(/*string profileName = "DEFAULT"*/);
 
-    // \brief Rename to savePlayerData()! Saves player data
-    void savePlayerData();
+    // Saves player data to file.
+    void savePlayerData(/*string profileName = "DEFAULT"*/);
 
 	// Start new tick, increment tickCount
     void newTick();
@@ -206,7 +197,7 @@ public:
     long getCoins();
 
 	// Displays (and loads) specified GUI.
-	/// The GUI must be created dynamically (by "new"!)
+	/// The GUI must be created dynamically!
     void displayGui(Gui* gui);
 
 	// Closes current GUI
@@ -233,7 +224,7 @@ public:
 	// Adds score to player
     void addScore(int s);
 
-	// Handles wheel event, uses to change power
+	// Handles wheel event, used to change power
     void wheelEvent(sf::Event::MouseWheelScrollEvent event);
 
 	// Returns current power ID
@@ -335,6 +326,9 @@ private:
 
 	// Player current using power (if not used, then 0)
     int currentPower;
+
+    // Variable storing default language (English)
+	TranslationManager enUSTranslation;
 
 	///// FUNCTIONS /////
 
