@@ -25,6 +25,7 @@ public:
 		OLD,
 		BOMB,
 		ARMORED,
+		TRAIN,
 		COUNT
 	};
 
@@ -46,19 +47,19 @@ public:
     void setMaxHealth(float maxH);
 
 	//events
-	/// called when the car is created
+	/// Called when the car is created
 	virtual void onCreate(Game* game);
 
-	/// called when the player clicks on the car
+	/// Called when the player clicks on the car
 	virtual void onDamage(Game* game);
 
-	/// called when the car has 0 HP
+	/// Called when the car has 0 HP
 	virtual void onDestroy(Game* game);
 
-	/// called every tick
+	/// Called every tick
 	virtual void onUpdate(Game* game);
 
-	/// called when the car leaves the screen
+	/// called when the car leaves the screen, normally indicates that the game is over.
 	virtual void onLeave(Game* game);
 
     float getPos()
@@ -96,7 +97,6 @@ private:
     float carSpeed;
     int lineIn;
     sf::Color colorMultiplier;
-    //float pos;
 };
 
 #endif // CAR_H

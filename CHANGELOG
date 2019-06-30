@@ -2,11 +2,12 @@
 + NEW MAPS: 
 + NEW CARS: RALLY, FIREMAN, TANK, OLD, BOMB
 + Changed Map Select GUI.
++ Changed Powers GUI.
 + Added car animations.
-+ Added localization support. Languages are English and Polish.
++ Added localization support. Languages are English, Polish and German.
 * Now car panes are always blue.
 * Now the cars are spawning in other timespan in different maps.
-* Now the Oil power is drawn on 2 lanes (not 3).
+* Now the Oil power is working on 2 lanes (not 3).
 * Changed textures.
 * Changed toggle button graphics (bigger slider).
 * Changed graphics (eg. power time indicator).

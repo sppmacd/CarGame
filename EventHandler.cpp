@@ -141,6 +141,8 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
 		Car* car = new Car(Car::FIREMAN, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(200, 0, 0));
+		if(rand() % 200 == 0)
+            event.carSpawned.carToCreate->setColor(Color(0, 200, 0));
 		break;
 	}
 	case Car::TANK:
@@ -164,6 +166,13 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
 		event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 		break;
 	}
+	case Car::TRAIN:
+    {
+        Car* car = new CarTrain(7.f, rand() % 3);
+		event.carSpawned.carToCreate = car;
+		event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
+		break;
+    }
 	default: return false;
 	}
 	return true;

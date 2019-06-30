@@ -11,7 +11,6 @@ Car::Car(Car::TypeId id, float speed, int line)
     , lineIn(line)
 {
     this->pos = 1080.f;
-    //this->carRelativeToScreen = 1080.f;
     this->destroyTick = -1.f;
     this->canErase = false;
 	this->animSize = 1;
@@ -21,7 +20,7 @@ Car::Car(Car::TypeId id, float speed, int line)
 	this->type = Game::instance->findCarTypeByID(id);
 	this->maxHealth = this->type->getMaxHealth();
 	this->textureName = this->type->getTextureName();
-	this->health = this->maxHealth - 1;
+	this->health = this->maxHealth;
 }
 
 bool Car::tickDestroy()
@@ -82,13 +81,11 @@ bool Car::isCrashedWith(Car* car)
     return car->getLine() == this->getLine() && abs(car->getPos() - this->getPos()) < 50.f;
 }
 
-/// called when the car is created
 void Car::onCreate(Game* )
 {
 
 }
 
-/// called when the player clicks on the car
 void Car::onDamage(Game* game)
 {
     makeDestroy();
@@ -115,19 +112,16 @@ void Car::onDamage(Game* game)
     }
 }
 
-/// called when the car has 0 HP
 void Car::onDestroy(Game*)
 {
 
 }
 
-/// called every tick
 void Car::onUpdate(Game*)
 {
     //...
 }
 
-/// called when the car leaves the screen, normally indicates that the game is over.
 void Car::onLeave(Game* game)
 {
     game->setGameOver();

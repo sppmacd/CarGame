@@ -19,7 +19,7 @@ void GuiPowers::onLoad()
             PowerData* data = new PowerData;
             data->power = s.second;
             data->cost = data->power->getCost();
-            data->count = Game::instance->powers[s.first - 1];
+            data->count = Game::instance->powers[s.first];
             powerData.push_back(data);
             addButton(data->bBuyPower = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200.f, s.first * 50.f + game->getSize().y / 4),
                                     Game::instance->translation.get("gui.powers.buy", {
@@ -52,7 +52,7 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
             data->bBuyPower.enabled = true;
         }
         data->bBuyPower.draw(wnd);
-        wnd.draw(drawString(to_string(data->count), 30, Vector2f(data->bBuyPower.getPos()) + Vector2f(420.f, 10.f)));
+        wnd.draw(drawString(to_string(data->count), 30, Vector2f(data->bBuyPower.getPos()) + Vector2f(420.f, 0.f)));
     }
     bReturn.draw(wnd);
 
@@ -82,6 +82,7 @@ void GuiPowers::onClick(long button)
                 {
                     game->removeCoins(data->cost);
                     game->getPower(powerId);
+                    data->count++;
                     cooldown = 30;
                 }
             }

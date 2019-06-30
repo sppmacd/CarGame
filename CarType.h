@@ -8,7 +8,7 @@ using namespace std;
 class CarType
 {
 	string carTexture;
-	int maxHealth;
+	float maxHealth;
 	vector<int> carRarities;
 public:
 	CarType(Car::TypeId id, string textureName);
@@ -18,9 +18,9 @@ public:
 	bool operator!=(CarType& type2);
 	bool operator!=(Car::TypeId id);
 	CarType& setRarities(initializer_list<int> list);
-	CarType& setMaxHealth(int max);
+	CarType& setMaxHealth(float max);
 	string getTextureName();
-	int getMaxHealth();
+	float getMaxHealth();
 	int getRarity(LevelData::MapType mapType);
 	static void init();
 	Car::TypeId carId;
