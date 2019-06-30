@@ -1,0 +1,12 @@
+bin/
+share/
+obj/
+Cache/
+res/
+*.log
+*.txt
+*.cscope_file_list
+*.depend
+*.layout
+*.save-failed
+*.cbp

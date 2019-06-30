@@ -1,0 +1,17 @@
+0.1 - The Big Map Update
++ NEW MAPS: 
++ NEW CARS: RALLY, FIREMAN, TANK, OLD, BOMB
++ Changed Map Select GUI.
++ Added car animations.
++ Added localization support. Languages are English and Polish.
+* Now car panes are always blue.
+* Now the cars are spawning in other timespan in different maps.
+* Now the Oil power is drawn on 2 lanes (not 3).
+* Changed textures.
+* Changed toggle button graphics (bigger slider).
+* Changed graphics (eg. power time indicator).
+* Changed rarity of some cars.
+* Fixed Ingame GUI bug (Escape not working).
+* Fixed some bugs.
+* Fixed graphics on window resize.
+* New profile file format.
