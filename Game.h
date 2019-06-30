@@ -248,9 +248,6 @@ public:
 	// Store player powers
     int* powers;
 
-	// Register GUIs
-	void registerGUIs();
-
 	// Register powers
 	void registerPowers();
 

@@ -109,11 +109,6 @@ void Game::usePower(int id)
         this->powers[id]--;
 }
 
-void Game::registerGUIs()
-{
-    //cout << "Game: Registering GUIs is deprecated (G02)" << endl;
-}
-
 void Game::registerPowers()
 {
 	powerRegistry.insert(make_pair(0, (new Power)));
