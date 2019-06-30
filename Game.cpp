@@ -65,6 +65,7 @@ Game::Game()
 		this->powerTime = 0;
 		this->isPowerUsed = false;
 		this->powerHandle = NULL;
+		this->unlockedLevels = 0LL;
 		this->registerPowers();
 
 		// Load player data
