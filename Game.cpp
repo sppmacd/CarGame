@@ -202,6 +202,7 @@ int Game::getCurrentPower()
 
 void Game::addScore(int s)
 {
+    s *= pointMultiplier;
     this->score += s;
     this->totalPlayerPoints += s;
     this->pointsToNewMpl -= s;
@@ -365,6 +366,7 @@ void Game::setupGame()
 	this->newRecord = false;
     this->powerTime = 0;
 	this->powerCooldown = 0;
+	this->setPointMultiplier((float(this->level.getMapType()) + 2.f) * 0.8f);
 }
 
 void Game::closeLevel()
@@ -557,4 +559,13 @@ void Game::loadLanguages()
     {
         cout << "Game: Could not load user-defined translation file." << endl;
     }
+}
+
+float Game::getPointMultiplier()
+{
+    return pointMultiplier;
+}
+void Game::setPointMultiplier(float ptmpl)
+{
+    pointMultiplier = ptmpl;
 }

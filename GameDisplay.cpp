@@ -73,6 +73,9 @@ void GameDisplay::reload()
     this->addTexture("stat/score");
     this->addTexture("stat/mpl");
     this->addTexture("stat/points_mpl");
+    this->addTexture("gui/start");
+    this->addTexture("gui/settings");
+    this->addTexture("gui/quit");
 
     for(size_t s = 1; s < Game::instance->powerRegistry.size(); s++)
     {

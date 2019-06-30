@@ -284,6 +284,9 @@ public:
 	// Stop current power and start cooldown.
 	void stopCurrentPower();
 
+	float getPointMultiplier();
+	void setPointMultiplier(float ptmpl);
+
 	// Map storing power data registry
 	map<int, Power*> powerRegistry;
 
@@ -323,6 +326,9 @@ private:
 
 	// Player score
     long score;
+
+    // The multiplier applied to points on adding.
+    float pointMultiplier;
 
 	// Player current using power (if not used, then 0)
     map<int,Power*>::iterator currentPower;
