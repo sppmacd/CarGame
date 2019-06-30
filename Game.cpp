@@ -25,8 +25,8 @@
 
 // error codes:
 // G00 could not load default language
-// G01 could not load language config
-// G02 registering GUI is deprecated
+// G01 could not load language config [not used]
+// G02 registering GUIs is deprecated
 // G03 second Game instance
 
 Game* Game::instance = NULL;
@@ -111,7 +111,7 @@ void Game::usePower(int id)
 
 void Game::registerGUIs()
 {
-    cout << "Game: Registering GUIs is deprecated (G02)" << endl;
+    //cout << "Game: Registering GUIs is deprecated (G02)" << endl;
 }
 
 void Game::registerPowers()
@@ -538,22 +538,27 @@ void Game::loadLanguages()
     bool b = languageConfig.loadFromFile("config");
     if(!b)
     {
-        cout << "Game: Could not load translation config!" << endl;
-        displayError("Could not load translation config (err 01)");
+        cout << "Game: Could not load translation config! Creating a new one..." << endl;
+
+        ofstream str("res/lang/config.lang");
+        if(str.good())
+            str << "current.lang=en_US" << endl;
+    } //stream is closed automatically
+
+    bool b2 = enUSTranslation.loadFromFile("en_US");
+    if(!b2)
+    {
+        cout << "Game: Could not load default translation!" << endl;
+        displayError("Could not load translation (err 00)");
+        return;
     }
 
     // Load user-defined translation
     string code = languageConfig.get("current.lang");
     bool b1 = translation.loadFromFile(code);
+    translation.setParent(&enUSTranslation);
     if(!b1)
     {
-        // Load default translation (English)
-        cout << "Game: Could not load translation file. Defaulting to en_US" << endl;
-        bool b2 = translation.loadFromFile("en_US");
-        if(!b2)
-        {
-            cout << "Game: Could not load default translation!" << endl;
-            displayError("Could not load translation (err 00)");
-        }
+        cout << "Game: Could not load user-defined translation file." << endl;
     }
 }

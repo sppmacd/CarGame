@@ -81,6 +81,9 @@ public:
 	// Variable storing language settings.
 	TranslationManager translation;
 
+	// Variable storing default language (English)
+	TranslationManager enUSTranslation;
+
 	///Vector storing event handlers.
 	multimap<sf::Event::EventType, EventHandler> eventHandlers;
 

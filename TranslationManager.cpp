@@ -8,8 +8,9 @@
 
 // error codes
 // 01 - not enough values given (too many variables in translation string)
-// 02 - cannot load language file
+// 02 - language file invalid (empty)
 // 03 - cannot found translation
+// 04 - language file not exist
 
 TranslationEntry::TranslationEntry(String in)
 {
@@ -57,6 +58,11 @@ String TranslationEntry::getValue(initializer_list<String> values)
 
 ///////////////////////////////////////
 
+TranslationManager::TranslationManager(TranslationManager* parent): parentTranslation(parent)
+{
+
+}
+
 bool TranslationManager::loadFromFile(String code)
 {
     languageCode = code;
@@ -64,7 +70,7 @@ bool TranslationManager::loadFromFile(String code)
     wifstream file("res/lang/" + code + ".lang");
     file.imbue(locale(file.getloc(), new codecvt_utf8_utf16<wchar_t>));
     if(!file.good())
-        return false;
+        return false; //err:04
 
     while(!file.eof())
     {
@@ -97,7 +103,12 @@ String TranslationManager::get(String unlocalized, initializer_list<String> valu
     auto it = translations.find(unlocalized);
 
     if(it == translations.end())
-        return unlocalized;
+    {
+        if(parentTranslation)
+            return parentTranslation->get(unlocalized, values); // Try to search in parent.
+        else
+            return unlocalized; // No parent and no translation - return default string.
+    }
 
     TranslationEntry entry = it->second;
     return entry.getValue(values);
@@ -106,4 +117,8 @@ void TranslationManager::setDisplay(String name, String country)
 {
     displayCountryName = country;
     displayLangName = name;
+}
+void TranslationManager::setParent(TranslationManager* manager)
+{
+    parentTranslation = manager;
 }
