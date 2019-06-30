@@ -272,8 +272,8 @@ void GameDisplay::drawGame()
 		int animFrame = game->mainTickCount/carobj.frameLength % carobj.animSize;
 
 		// health bars
-        rect1.setSize(sf::Vector2f((((float)carobj.health+1) / (float)carobj.maxHealth) * 30.f, 3.f));
-        rect2.setSize(sf::Vector2f(30.f - ((((float)carobj.health+1) / (float)carobj.maxHealth) * 30.f), 3.f));
+        rect1.setSize(sf::Vector2f((carobj.health / carobj.maxHealth) * 30.f, 3.f));
+        rect2.setSize(sf::Vector2f(30.f - ((carobj.health / carobj.maxHealth) * 30.f), 3.f));
 
 		// common car data
 		if (carobj.isDestroying())
