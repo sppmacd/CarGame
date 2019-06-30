@@ -55,7 +55,6 @@ Game::Game()
 		// Reset player stats
 		this->isNewPlayer = false;
 		this->tutorialStep = 0;
-		this->powers = new int[3];
 
 		// Reset level and car data
 		LevelData::init();
@@ -83,19 +82,19 @@ Game::Game()
 
 void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
 {
-    int powercount = powerRegistry.size() - 1;
-
     if(!this->isGuiLoaded && this->powerTime <= 0)
     {
         if(event.delta > 0.f)
         {
             this->currentPower++;
-            if(this->currentPower > powercount) this->currentPower = 1;
+            if(this->currentPower == powerRegistry.end() || this->currentPower->second->getName().find("generic.") == 0)
+                this->currentPower = ++powerRegistry.begin();
         }
         else if(event.delta < 0.f)
         {
             --this->currentPower;
-            if(this->currentPower < 1) this->currentPower = powercount;
+            if(this->currentPower == powerRegistry.begin())
+                this->currentPower++;
         }
     }
 }
@@ -196,9 +195,9 @@ void Game::addEventHandler(Event::EventType type, EventHandler handler)
 	eventHandlers.insert(make_pair(type, handler));
 }
 
-int  Game::getCurrentPower()
+int Game::getCurrentPower()
 {
-    return this->currentPower;
+    return this->currentPower->first;
 }
 
 void Game::addScore(int s)
@@ -240,8 +239,6 @@ void Game::loadPlayerData()
         this->coinMpl = playerProfile.getNumberKey("coinMultiplier", "main", 1);
         this->pointsToNewMpl = playerProfile.getNumberKey("pointsToNewMultiplier", "main", 0);
 
-        this->powers = new int[powerRegistry.size()];
-
         for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
         {
             int c = playerProfile.getNumberKey("count_" + to_string(it->first), "power", 0);
@@ -253,7 +250,7 @@ void Game::loadPlayerData()
         ifstream file("data.txt");
         if(file.good())
         {
-            cout << "Game: Couldn't load data from new format! Player data read from data.txt" << endl;
+            cout << "Game: Couldn't load profile! Converting from old player data format (v2)..." << endl;
 
             file
             >> this->highScore
@@ -264,6 +261,7 @@ void Game::loadPlayerData()
             >> this->pointsToNewMpl
             >> this->powers[1]
             >> this->powers[2];
+            this->powers[3] = 0;
         }
         else
         {
@@ -271,7 +269,7 @@ void Game::loadPlayerData()
 
             if(file.good())
             {
-                cout << "Game: Couldn't load data.txt! Converting from old player data format..." << endl;
+                cout << "Game: Couldn't load data.txt! Converting from old player data format (v1)..." << endl;
                 file
                 >> this->highScore
                 >> this->playerCoins
@@ -281,6 +279,7 @@ void Game::loadPlayerData()
                 >> this->pointsToNewMpl
                 >> this->powers[1]
                 >> this->powers[2];
+                this->powers[3] = 0;
             }
             else
             {
@@ -293,7 +292,6 @@ void Game::loadPlayerData()
                 this->pointsToNewMpl = 200;
                 this->isNewPlayer = true;
                 this->tutorialStep = 2;
-                this->powers = new int[3];
                 this->powers[1] = 0;
                 this->powers[2] = 0;
             }
@@ -330,16 +328,16 @@ void Game::savePlayerData()
     {
         file << "power:count_" << it->first << "=" << this->powers[it->first] << endl;
     }
+
+    file << ":version=3" << endl;
 }
 
 void Game::loadGame(LevelData level)
 {
     GameDisplay::drawLoadingProgress("Loading level " + level.getMapType(), GameDisplay::instance->getRenderWnd());
 
-    cout << "Game: Loading level " << level.getMapType() << "..." << endl;
-
+    cout << "Game: Loading level " << level.getTextureName().toAnsiString() << "..." << endl;
     this->level = level;
-    this->gameSpeed = level.getAcceleration();
     setupGame();
 }
 
@@ -348,14 +346,12 @@ void Game::loadGame()
     GameDisplay::drawLoadingProgress("Reloading current level...", GameDisplay::instance->getRenderWnd());
 
     cout << "Game: Reloading current level..." << endl;
-
-    this->gameSpeed = this->level.getAcceleration();
     setupGame();
 
 }
 void Game::setupGame()
 {
-    this->gameSpeed /= 2.2f;
+    this->gameSpeed = this->level.getAcceleration() / 2.2f;
     this->lastTickScore = 0;
     this->cameraPos = 0;
     this->tickCount = 0;
@@ -364,7 +360,7 @@ void Game::setupGame()
     this->cars.clear();
     this->pause(false);
     this->closeGui();
-    this->currentPower = 0;
+    this->currentPower = ++powerRegistry.begin();
 	this->carCreatingSpeed = this->level.getCarCreationSpeed();
 	this->newRecord = false;
     this->powerTime = 0;
@@ -389,7 +385,6 @@ Game::~Game()
 {
     cout << "Game: Deleting game engine instance..." << endl;
 //  this->closeLevel();
-	delete[] this->powers;
 
 	for(auto i: levelRegistry)
         delete i.second;

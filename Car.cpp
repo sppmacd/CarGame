@@ -21,6 +21,7 @@ Car::Car(Car::TypeId id, float speed, int line)
 	this->maxHealth = this->type->getMaxHealth();
 	this->textureName = this->type->getTextureName();
 	this->health = this->maxHealth;
+	this->colorMultiplier = Color::White;
 }
 
 bool Car::tickDestroy()

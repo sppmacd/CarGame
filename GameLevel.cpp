@@ -164,7 +164,7 @@ void Game::updateEffect()
         if(it == this->powerRegistry.end())
             return;
 
-        this->usePower(this->currentPower);
+        this->usePower(this->currentPower->first);
         this->setCurrentPower(it->second);
     }
     if(this->powerTime > 0)

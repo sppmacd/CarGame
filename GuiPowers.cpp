@@ -14,7 +14,8 @@ void GuiPowers::onLoad()
 
     for(auto s: Game::instance->powerRegistry)
     {
-        if(s.first != 0)
+        // powers > 100 -> functional powers (e.g anti-powers)
+        if(s.first != 0 && s.first < 100)
         {
             PowerData* data = new PowerData;
             data->power = s.second;

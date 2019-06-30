@@ -237,7 +237,7 @@ public:
     void usePower(int id);
 
 	// Store player powers
-    int* powers;
+    map<int,int> powers;
 
 	// Register powers
 	void registerPowers();
@@ -325,7 +325,7 @@ private:
     long score;
 
 	// Player current using power (if not used, then 0)
-    int currentPower;
+    map<int,Power*>::iterator currentPower;
 
     // Variable storing default language (English)
 	TranslationManager enUSTranslation;
