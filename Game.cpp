@@ -20,6 +20,7 @@
 
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
+#include "PowerPointBoost.hpp"
 
 #include <HackerMan/Util/Main.hpp>
 
@@ -64,6 +65,7 @@ Game::Game()
 		this->powerCooldown = 0;
 		this->powerTime = 0;
 		this->isPowerUsed = false;
+		this->powerHandle = NULL;
 		this->registerPowers();
 
 		// Load player data
@@ -81,7 +83,7 @@ Game::Game()
 
 void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
 {
-    int powercount = 2;
+    int powercount = powerRegistry.size() - 1;
 
     if(!this->isGuiLoaded && this->powerTime <= 0)
     {
@@ -111,9 +113,10 @@ void Game::usePower(int id)
 
 void Game::registerPowers()
 {
-	powerRegistry.insert(make_pair(0, (new Power)));
+	powerRegistry.insert(make_pair(0, (Power*)NULL));
 	powerRegistry.insert(make_pair(1, &(new PowerOil)->setMaxTime(1800)));
 	powerRegistry.insert(make_pair(2, &(new PowerFreeze)->setMaxTime(600)));
+	powerRegistry.insert(make_pair(3, new PowerPointBoost));
 }
 
 void Game::registerCarType(CarType type)
@@ -436,6 +439,13 @@ void Game::setGameOver()
     this->savePlayerData();
     this->pause(true);
     this->displayGui(new GuiGameOver);
+
+    if(this->powerHandle)
+    {
+        // Reset powers.
+        this->powerHandle->onPowerStop();
+        this->powerHandle->onCooldownStop();
+    }
 }
 
 void Game::pause(bool s)

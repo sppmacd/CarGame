@@ -6,6 +6,7 @@
 #include "CarBus.h"
 #include "CarBomb.hpp"
 #include "CarAmbulance.h"
+#include "CarTrain.hpp"
 #include "GuiIngame.h"
 
 EventsHandler* EventsHandler::instance;
@@ -126,8 +127,6 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
 	{
 		Car* car = new Car(Car::RALLY, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		Uint8 cc = rand() & 0b111;
-		event.carSpawned.carToCreate->setColor(Color(cc & 0x4 ? color : 0, cc & 0x2 ? color : 0, cc & 0x1 ? color : 0));
 		break;
 	}
 	case Car::BOMB:

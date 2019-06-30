@@ -1,8 +1,7 @@
 0.1 - The Big Map Update
-+ NEW MAPS: 
-+ NEW CARS: RALLY, FIREMAN, TANK, OLD, BOMB
++ NEW MAPS: SEA, BEACH, SWAMPLAND, CITY, MOTORWAY, FOREST TRAILS
++ NEW CARS: RALLY, FIREMAN, TANK, OLD, BOMB, TRAIN
 + Changed Map Select GUI.
-+ Changed Powers GUI.
 + Added car animations.
 + Added localization support. Languages are English, Polish and German.
 * Now car panes are always blue.
@@ -12,6 +11,7 @@
 * Changed toggle button graphics (bigger slider).
 * Changed graphics (eg. power time indicator).
 * Changed rarity of some cars.
+* Changed Powers GUI.
 * Fixed Ingame GUI bug (Escape not working).
 * Fixed some bugs.
 * Fixed graphics on window resize.

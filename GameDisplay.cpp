@@ -57,12 +57,12 @@ void GameDisplay::reload()
 
 	GameDisplay::loadingStr = "Reloading resources...";
 
-	for (int i = 0; i < Car::COUNT; i++)
+	for(int i = 0; i < Car::COUNT; i++)
 	{
 		this->addTexture("car/" + Game::instance->findCarTypeByID(Car::TypeId(i))->getTextureName());
 	}
 
-	for (auto ld : Game::instance->levelRegistry)
+	for(auto ld : Game::instance->levelRegistry)
 	{
 		this->addTexture("bg/" + ld.second->getTextureName(), true, true);
 		this->addTexture("map/" + ld.second->getTextureName());
@@ -73,8 +73,11 @@ void GameDisplay::reload()
     this->addTexture("stat/score");
     this->addTexture("stat/mpl");
     this->addTexture("stat/points_mpl");
-    this->addTexture("power/1");
-    this->addTexture("power/2");
+
+    for(size_t s = 1; s < Game::instance->powerRegistry.size(); s++)
+    {
+        addTexture("power/" + to_string(s));
+    }
 
     sf::Font font;
     font.loadFromFile("res/font.ttf");
@@ -317,6 +320,6 @@ void GameDisplay::drawEffect()
 
 	if(game->powerTime > 1)
 		game->powerRegistry.find(game->getCurrentPower())->second->drawPower(this->renderWnd);
-	else
+	else if(game->getCurrentPower() != 0)
 		game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(this->renderWnd);
 }
