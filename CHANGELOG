@@ -1,11 +1,18 @@
 0.1 - The Big Map Update
+
+MAIN CHANGES
+
 + NEW MAPS: SEA, BEACH, SWAMPLAND, CITY, MOTORWAY, FOREST TRAILS
 + NEW CARS: RALLY, FIREMAN, TANK, OLD, BOMB, TRAIN
-+ NEW POWERS: POINT BOOST
++ NEW POWERS: POINT BOOST, FENCE
++ BOMB - You cannot click it. It makes the game over!
 + Changed Map Select GUI.
 + Added car animations.
 + Added localization support. Languages are English, Polish and German.
 + Added point multiplier based on map.
+
+OTHER CHANGES & FIXES
+
 * Made maps 2x more expensive due to point multiplier.
 * Now game speed depends on display.
 * Now car panes are always blue.
@@ -15,8 +22,8 @@
 * Changed toggle button graphics (bigger slider).
 * Changed graphics (eg. power time indicator).
 * Changed rarity of some cars.
-* Changed Powers GUI.
+* New Powers GUI.
 * Fixed Ingame GUI bug (Escape not working).
 * Fixed some bugs.
-* Fixed graphics on window resize.
+* Fixed button bug on window resize.
 * New profile file format.

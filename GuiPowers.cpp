@@ -29,7 +29,8 @@ void GuiPowers::onLoad()
         }
     }
 
-    addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), Game::instance->translation.get("gui.powers.return"), 0));
+    addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, (Game::instance->biggestPlayerPowerID + 1) * 50.f + game->getSize().y / 4),
+                               Game::instance->translation.get("gui.powers.return"), 0));
 }
 GuiPowers::~GuiPowers()
 {

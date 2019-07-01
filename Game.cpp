@@ -1,10 +1,11 @@
-#include "Game.h"
-#include "CarLorry.h"
-#include "CarRare.h"
 #include <cmath>
 #include <iostream>
 #include <fstream>
+
+#include "Game.h"
 #include "GameDisplay.h"
+#include "CarLorry.h"
+#include "CarRare.h"
 
 #include "Gui.h"
 #include "GuiGameOver.h"
@@ -21,6 +22,7 @@
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
 #include "PowerPointBoost.hpp"
+#include "PowerFence.hpp"
 
 #include <HackerMan/Util/Main.hpp>
 
@@ -95,7 +97,12 @@ void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
         {
             --this->currentPower;
             if(this->currentPower == powerRegistry.begin())
-                this->currentPower++;
+            {
+                auto it = powerRegistry.begin();
+                for(int s = 0; s < biggestPlayerPowerID; s++) //it isn't random access iterator, so we must increment it
+                    it++;
+                this->currentPower = it;
+            }
         }
     }
 }
@@ -113,10 +120,11 @@ void Game::usePower(int id)
 
 void Game::registerPowers()
 {
-	powerRegistry.insert(make_pair(0, (Power*)NULL));
-	powerRegistry.insert(make_pair(1, &(new PowerOil)->setMaxTime(1800)));
-	powerRegistry.insert(make_pair(2, &(new PowerFreeze)->setMaxTime(600)));
-	powerRegistry.insert(make_pair(3, new PowerPointBoost));
+	registerPower(0, (Power*)NULL);
+	registerPower(1, &(new PowerOil)->setMaxTime(1800));
+	registerPower(2, &(new PowerFreeze)->setMaxTime(600));
+	registerPower(3, new PowerPointBoost);
+	registerPower(4, new PowerFence);
 }
 
 void Game::registerCarType(CarType type)
@@ -263,7 +271,13 @@ void Game::loadPlayerData()
             >> this->pointsToNewMpl
             >> this->powers[1]
             >> this->powers[2];
-            this->powers[3] = 0;
+
+            for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
+            {
+                int c = 0;
+                if(it->first > 2)
+                    this->powers[it->first] = c;
+            }
         }
         else
         {
@@ -281,21 +295,37 @@ void Game::loadPlayerData()
                 >> this->pointsToNewMpl
                 >> this->powers[1]
                 >> this->powers[2];
-                this->powers[3] = 0;
+
+                for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
+                {
+                    int c = 0;
+                    if(it->first > 2)
+                        this->powers[it->first] = c;
+                }
             }
             else
             {
                 cout << "Game: Cannot load player data! Creating new profile. You are the new player :)" << endl;
                 this->highScore = 0;
                 this->playerCoins = 0;
-                this->unlockedLevels = 0b0;
+
+                for(size_t t = 0; t < levelRegistry.size(); t++)
+                {
+                    bool unlocked = false;
+                    this->unlockedLevels |= (unlocked << t);
+                }
+
                 this->totalPlayerPoints = 0;
                 this->coinMpl = 1;
                 this->pointsToNewMpl = 200;
+
                 this->isNewPlayer = true;
                 this->tutorialStep = 2;
-                this->powers[1] = 0;
-                this->powers[2] = 0;
+
+                for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
+                {
+                    this->powers[it->first] = 0;
+                }
             }
         }
     }
@@ -353,7 +383,7 @@ void Game::loadGame()
 }
 void Game::setupGame()
 {
-    this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getSize().x);
+    this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
     this->lastTickScore = 0;
     this->cameraPos = 0;
     this->tickCount = 0;
@@ -501,7 +531,8 @@ void Game::addCoins(long v)
 
 void Game::removeCoins(long v)
 {
-    this->playerCoins -= v;
+    if(this->playerCoins - v >= 0)
+        this->playerCoins -= v;
 }
 
 long Game::getCoins()
@@ -533,6 +564,7 @@ void Game::displayError(string text)
 
 void Game::loadLanguages()
 {
+    GameDisplay::loadingStr = "Loading language...";
     cout << "Game: Loading language config..." << endl;
     bool b = languageConfig.loadFromFile("config");
     if(!b)
@@ -569,4 +601,11 @@ float Game::getPointMultiplier()
 void Game::setPointMultiplier(float ptmpl)
 {
     pointMultiplier = ptmpl;
+}
+
+void Game::registerPower(int id, Power* powerInstance)
+{
+    powerRegistry.insert(make_pair(id, powerInstance));
+    if(id < 100 && id > biggestPlayerPowerID)
+        biggestPlayerPowerID = id;
 }

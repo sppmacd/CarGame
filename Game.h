@@ -290,8 +290,14 @@ public:
 	// Sets current point multiplier.
 	void setPointMultiplier(float ptmpl);
 
+	// Register a new power, setting biggestPlayerPowerID if necessary.
+	void registerPower(int id, Power* powerInstance);
+
 	// Map storing power data registry
 	map<int, Power*> powerRegistry;
+
+	// The biggest ID of player power (displayed in Powers GUI)
+	int biggestPlayerPowerID;
 
 	// Car type registry
 	vector<CarType> carTypeRegistry;

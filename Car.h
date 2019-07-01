@@ -53,7 +53,7 @@ public:
 	/// Called when the player clicks on the car
 	virtual void onDamage(Game* game);
 
-	/// Called when the car has 0 HP
+	/// Called when the car is destroyed (by player!)
 	virtual void onDestroy(Game* game);
 
 	/// Called every tick

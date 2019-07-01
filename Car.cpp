@@ -107,7 +107,7 @@ void Car::onDamage(Game* game)
             game->addCoins(game->getCoinMultiplier());
         }
     }
-    if(health == 0.f)
+    if(health <= 0.f)
     {
         onDestroy(game);
     }
