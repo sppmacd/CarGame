@@ -198,7 +198,7 @@ void Game::addEventHandler(Event::EventType type, EventHandler handler)
 
 int Game::getCurrentPower()
 {
-    return this->currentPower->first;
+    return this->currentPower == this->powerRegistry.begin() ? 0 : this->currentPower->first;
 }
 
 void Game::addScore(int s)
@@ -353,7 +353,7 @@ void Game::loadGame()
 }
 void Game::setupGame()
 {
-    this->gameSpeed = this->level.getAcceleration() / 2.2f;
+    this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getSize().x);
     this->lastTickScore = 0;
     this->cameraPos = 0;
     this->tickCount = 0;

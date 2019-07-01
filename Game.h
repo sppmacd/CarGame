@@ -284,7 +284,10 @@ public:
 	// Stop current power and start cooldown.
 	void stopCurrentPower();
 
+	// Returns current point multiplier.
 	float getPointMultiplier();
+
+	// Sets current point multiplier.
 	void setPointMultiplier(float ptmpl);
 
 	// Map storing power data registry

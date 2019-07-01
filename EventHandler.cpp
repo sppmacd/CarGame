@@ -25,7 +25,7 @@ bool EventHandlers::onMouseButtonReleased(Event event, Game * game)
 	}
 	else if (event.mouseButton.button == sf::Mouse::Right)
 	{
-		if (game->powerCooldown <= 0 && game->powerTime <= 0 && game->powers[game->getCurrentPower()] > 0)
+		if (!game->paused() && game->powerCooldown <= 0 && game->powerTime <= 0 && game->powers[game->getCurrentPower()] > 0)
 			game->isPowerUsed = true;
 	}
 	return true;
