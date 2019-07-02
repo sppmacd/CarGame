@@ -9,7 +9,7 @@ class CarType
 {
 	string carTexture;
 	float maxHealth;
-	vector<int> carRarities;
+	map<LevelData::MapType, int> carRarities;
 public:
 	CarType(Car::TypeId id, string textureName);
 	CarType() {}
@@ -18,6 +18,7 @@ public:
 	bool operator!=(CarType& type2);
 	bool operator!=(Car::TypeId id);
 	CarType& setRarities(initializer_list<int> list);
+	CarType& setRarityFor(LevelData::MapType level, int rarity);
 	CarType& setMaxHealth(float max);
 	string getTextureName();
 	float getMaxHealth();

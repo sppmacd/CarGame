@@ -27,14 +27,23 @@ bool CarType::operator!=(CarType & type2)
 
 CarType& CarType::setRarities(std::initializer_list<int> list)
 {
-	carRarities.resize(LevelData::COUNT);
-	std::copy(list.begin(), list.end(), carRarities.begin());
-
-	if (carRarities.size() < LevelData::COUNT)
-		for (int i = list.size(); i < LevelData::COUNT; i++)
-			carRarities.push_back(1);
+    for(size_t s = 0; s < Game::instance->levelRegistry.size(); s++)
+    {
+        // Reset rarities to default values, if not set
+        carRarities[s] = 1;
+    }
+	for(auto it = list.begin(); it != list.end(); it++)
+    {
+        // Set rarity to value specified in list.
+        carRarities[it - list.begin()] = *it;
+    }
 
 	return *this;
+}
+CarType& CarType::setRarityFor(LevelData::MapType level, int rarity)
+{
+    carRarities[level] = rarity;
+    return *this;
 }
 
 CarType & CarType::setMaxHealth(float max)
