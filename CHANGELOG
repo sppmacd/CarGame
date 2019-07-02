@@ -8,7 +8,7 @@ MAIN CHANGES
 + BOMB - You cannot click it. It makes the game over!
 + NEW Map Select GUI.
 + Added car animations.
-+ Added localization support. Languages are English, Polish and German.
++ Added localization support. Languages are English, Polish and German (not fully).
 + Added point multiplier based on map.
 
 OTHER CHANGES & FIXES
