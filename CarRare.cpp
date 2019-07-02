@@ -1,9 +1,8 @@
 #include "CarRare.h"
 
-CarRare::CarRare(float s, int l)
-    : Car(s,l)
+CarRare::CarRare(Car::TypeId id, float s, int l)
+    : Car(id, s,l)
 {
-    this->maxHealth = 2;
-    this->health = 1;
+    this->setMaxHealth(2.f);
     this->typeId = RARE;
 }

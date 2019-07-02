@@ -1,24 +1,33 @@
-#ifndef GUIPOWERS_H
-#define GUIPOWERS_H
+#pragma once
 
 #include "Gui.h"
+#include <vector>
+#include "Power.h"
 
 class GuiPowers : public Gui
 {
 public:
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
+    void onDraw(sf::RenderWindow& wnd);
+    void onClick(long button);
+    void onLoad();
 
 protected:
 
 private:
-    static Button bPower1;
-    static Button bPower2;
-    static Button bReturn; //go to map selection
-    static int cooldown;
-};
+    struct PowerData
+    {
+        unsigned int cost;
+        unsigned int count;
+        //unsigned int level; // 0.2
+        Power* power;
+        Button bBuyPower;
+        //Button bUpgradePower; // 0.2
+    };
 
-#endif // GUIPOWERS_H
+    virtual ~GuiPowers();
+    vector<PowerData*> powerData;
+    Button bReturn;
+    int cooldown;
+};
 
 

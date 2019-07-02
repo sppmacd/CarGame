@@ -8,7 +8,7 @@
 #include "GuiPowers.h"
 #include <cstdlib>
 
-void GameDisplay::drawStat(int x, int y, std::string texture, long val)
+void GameDisplay::drawStat(int x, int y, String texture, long val)
 {
     sf::Sprite s1(this->getTexture("stat/" + texture));
     s1.setPosition(x, y + 10);
@@ -46,7 +46,7 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	wnd->display();
 }
 
-void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, string str)
+void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, String str)
 {
     sf::RectangleShape rs(cs);
     rs.setPosition(cp);
@@ -61,7 +61,7 @@ void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, string str)
     this->renderWnd->draw(tx);
 }
 
-void GameDisplay::drawSplash(string text)
+void GameDisplay::drawSplash(String text)
 {
 	int textSize = (this->splashTick < 30 ? this->splashTick : 60 - this->splashTick)*2 + 30;
 	sf::Text tx = drawCenteredString(text, textSize, Vector2f(getSize() / 2u), sf::Text::Bold);
@@ -69,7 +69,7 @@ void GameDisplay::drawSplash(string text)
 	this->renderWnd->draw(tx);
 }
 
-void GameDisplay::setSplash(string text)
+void GameDisplay::setSplash(String text)
 {
 	this->splashText = text;
 	this->splashSet = true;
@@ -86,11 +86,11 @@ void drawDebugPie(sf::RenderWindow* wnd)
     GameDisplay* disp = GameDisplay::instance;
     Game* game = Game::instance;
 
-    sf::RectangleShape r1(sf::Vector2f(40.f, game->times.timeEvent.asMicroseconds() / 5.f));
-    sf::RectangleShape r2(sf::Vector2f(40.f, game->times.timeGui.asMicroseconds() / 5.f));
-    sf::RectangleShape r3(sf::Vector2f(40.f, game->times.timeTick.asMicroseconds() / 5.f));
-    sf::RectangleShape r4(sf::Vector2f(40.f, game->times.timeRender.asMicroseconds() / 5.f));
-    sf::RectangleShape r5(sf::Vector2f(40.f, game->times.timeWait.asMicroseconds() / 5.f));
+    sf::RectangleShape r1(sf::Vector2f(40.f, game->times.timeEvent.asMicroseconds() / 8.f));
+    sf::RectangleShape r2(sf::Vector2f(40.f, game->times.timeGui.asMicroseconds() / 8.f));
+    sf::RectangleShape r3(sf::Vector2f(40.f, game->times.timeTick.asMicroseconds() / 8.f));
+    sf::RectangleShape r4(sf::Vector2f(40.f, game->times.timeRender.asMicroseconds() / 8.f));
+    sf::RectangleShape r5(sf::Vector2f(40.f, game->times.timeWait.asMicroseconds() / 8.f));
 
     r1.setPosition(disp->getSize().x - 40, disp->getSize().y - r1.getSize().y);
     r2.setPosition(disp->getSize().x - 80, disp->getSize().y - r2.getSize().y);
@@ -110,11 +110,11 @@ void drawDebugPie(sf::RenderWindow* wnd)
     wnd->draw(r4);
     wnd->draw(r5);
 
-    sf::Text tx1 = disp->drawString(std::string(to_string(game->times.timeEvent.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 40, disp->getSize().y - 21));
-    sf::Text tx2 = disp->drawString(std::string(to_string(game->times.timeGui.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 80, disp->getSize().y - 21));
-    sf::Text tx3 = disp->drawString(std::string(to_string(game->times.timeTick.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 120, disp->getSize().y - 21));
-    sf::Text tx4 = disp->drawString(std::string(to_string(game->times.timeRender.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 160, disp->getSize().y - 21));
-    sf::Text tx5 = disp->drawString(std::string(to_string(game->times.timeWait.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21));
+    sf::Text tx1 = disp->drawString(String(to_string(game->times.timeEvent.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 40, disp->getSize().y - 21));
+    sf::Text tx2 = disp->drawString(String(to_string(game->times.timeGui.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 80, disp->getSize().y - 21));
+    sf::Text tx3 = disp->drawString(String(to_string(game->times.timeTick.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 120, disp->getSize().y - 21));
+    sf::Text tx4 = disp->drawString(String(to_string(game->times.timeRender.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 160, disp->getSize().y - 21));
+    sf::Text tx5 = disp->drawString(String(to_string(game->times.timeWait.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21));
 
     tx1.setFillColor(sf::Color::White);
     tx1.setOutlineColor(sf::Color::Black);
@@ -148,10 +148,9 @@ void drawDebugInfo(sf::RenderWindow* wnd)
     rs.setFillColor(sf::Color::Black);
     wnd->draw(rs);
 
-	wnd->draw(disp->drawString(std::string("CarGame v0.0.5 ")
+	wnd->draw(disp->drawString(std::string("CG " + string(CG_VERSION))
 		+ std::string("|\ttick = ") + std::string(to_string(Game::instance->tickTime.asMicroseconds()))
 		+ std::string(",\trtick = ") + std::string(to_string(Game::instance->realTickTime.asMicroseconds()))
-		+ std::string(",\tgui = ") + std::string(to_string(Game::instance->displayedGui))
 		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
 		+ std::string(",\tmtc = ") + std::string(to_string(Game::instance->mainTickCount))
 		+ std::string(",\tcars = ") + std::string(to_string(Game::instance->cars.size()))
@@ -171,7 +170,7 @@ void GameDisplay::drawGui()
     text.setFillColor(sf::Color::Red);
     this->renderWnd->draw(text);*/
 
-    if(!game->paused() || game->tutorialStep == 6) //is not paused
+    if(!game->paused()/* || game->tutorialStep == 6*/)
     {
         drawStat(250, 32, "score", game->getScore());
         drawStat(450, 32, "high", game->highScore);
@@ -189,76 +188,50 @@ void GameDisplay::drawGui()
             this->renderWnd->draw(t1);
         }
 
-        sf::RectangleShape rs1(sf::Vector2f(64.f, abs(game->powerCooldown / (300.f / 64.f))));
-        rs1.setFillColor(sf::Color::Red);
+        // Draw power cooldown
+        sf::VertexArray arr(TriangleFan);
+        arr.append(Vertex(Vector2f(1200,58), Color(127,127,0)));
+        double degtorad = 57.2957795;
+        for(int i = 0; i <= 65; i++)
+        {
+            float deg = 360 * i / 64.f;
+            sf::Vector2f pointPos(32*sin(deg/degtorad), 32*cos(deg/degtorad));
+            pointPos += Vector2f(1200,58);
 
-        sf::RectangleShape rs2(sf::Vector2f(64.f, 64.f));
-        rs2.setFillColor(sf::Color::Green);
-
-        rs1.setPosition(1150, 42);
-        rs2.setPosition(1150, 42);
-
-        this->renderWnd->draw(rs2);
-        this->renderWnd->draw(rs1);
+            if(game->powerTime == -1)
+            {
+                if(i >= game->powerCooldown / (300.f / 64.f))
+                    arr.append(Vertex(pointPos, Color::Green));
+                else
+                    arr.append(Vertex(pointPos, Color::Red));
+            }
+            else if(game->powerTime > 0)
+            {
+                if(i >= game->powerTime / (game->powerHandle->maxPowerTime / 64.f))
+                    arr.append(Vertex(pointPos, Color::Red));
+                else
+                    arr.append(Vertex(pointPos, Color::Blue));
+            }
+            else
+            {
+                arr.append(Vertex(pointPos, Color::Blue));
+            }
+        }
+        this->renderWnd->draw(arr);
     }
 
-	if (game->isGuiLoaded && game->displayedGui != -1)
-	{
-		Gui::findHandlerByID(game->displayedGui).draw(this->renderWnd); //DRAW GUI
-		if(Gui::isDialogRunning())
-			Gui::drawDialog(this->renderWnd); //DRAW DIALOG
-	}
-
-    if(game->guiCooldown > 0)
-    {
-        sf::RectangleShape rect((sf::Vector2f) this->getSize());
-        rect.setFillColor(sf::Color(25, 20, 20, 250));
-        this->renderWnd->draw(rect);
-
-        sf::Text sc2 = this->drawString("Loading... ", 80, sf::Vector2f(this->getSize().x / 2, this->getSize().y / 2));
-        sc2.setFillColor(sf::Color::White);
-        this->renderWnd->draw(sc2);
-    }
+	if(game->isGuiLoaded)
+        game->displayedGui->onDraw(*this->renderWnd);
 
     drawStat(50, 32, "coin", game->getCoins());
-
-    switch(game->tutorialStep)
-    {
-    case 2:
-        if(game->displayedGui == 2)
-            this->drawTutorial(sf::Vector2f(400.f, 40.f), sf::Vector2f(this->getSize().x / 2 - 200, this->getSize().y / 2 - 60), "Click here to\nstart new game.");
-        break;
-    case 3:
-        if(game->displayedGui == 4)
-            this->drawTutorial(sf::Vector2f(100.f, 40.f), sf::Vector2f(this->getSize().x / 2 + 420, this->getSize().y / 2 - 180), "Here you can\nbuy new maps.");
-        break;
-    case 4:
-        if(game->displayedGui == 4)
-            this->drawTutorial(sf::Vector2f(400.f, 40.f), sf::Vector2f(this->getSize().x / 2 - 200, this->getSize().y / 2 - 180), "Click to start new game");
-        break;
-    case 5:
-        if(!game->isGuiLoaded && game->cars.size() > 0)
-            this->drawTutorial(sf::Vector2f(100.f, 40.f), sf::Vector2f(game->cars[0].getScreenPos()), "Destroy cars by clicking him. You get points and coins by destroying cars.");
-        break;
-    case 6:
-        if(!game->isGuiLoaded)
-        {
-            if(!game->paused())
-                game->pause(true);
-            this->drawTutorial(sf::Vector2f(1000.f, 100.f), sf::Vector2f(250.f, 32.f), "This is your coins, score, highscore,\n coin multiplier and coins \nrequired to get new multiplier.\n(Click Space to delete this message)");
-        }
-        break;
-    default:
-        break;
-    }
 
     if(game->debug) drawDebugInfo(this->renderWnd);
 }
 
 void GameDisplay::nextFullscreenMode()
 {
-	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "Car Game", sf::Style::Fullscreen);
-	if (fullscreenMode == sf::VideoMode::getFullscreenModes().size())
+	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "CG " + string(CG_VERSION), sf::Style::Fullscreen);
+	if(fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
 	{
 		fullscreenMode = 0;
 	}

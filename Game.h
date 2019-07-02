@@ -6,6 +6,10 @@
 #include "LevelData.h"
 #include "Power.h"
 #include "EventHandler.h"
+#include "CarType.h"
+#include "TranslationManager.hpp"
+#include "PowerPlayerData.hpp"
+#include "version.hpp"
 
 using namespace std;
 
@@ -25,91 +29,103 @@ public:
 	/////// MAIN DATA ///////
 	/////////////////////////
 
-	/// Instance of the game
+	// Instance of the game
     static Game* instance;
 
-	/// Game tick count depended on level
+	// Game tick count (since level loaded)
     int tickCount;
 
-	/// Main tick count since the game started
+	// Main tick count (since the game started)
     long mainTickCount;
 
-	/// Variable storing MouseButtonReleased event status
+	// Variable storing MouseButtonReleased event status
     bool wasReleased;
 
-	/// Variable storing gui status
+	// Variable storing gui status
     bool isGuiLoaded;
 
-	/// Variable storing currently displayed GUI
-    int displayedGui;
+	// Variable storing currently displayed GUI. If NULL, the GUI is not loaded.
+    Gui* displayedGui;
 
-	/// Gui cooldown (deprecated)
-    int guiCooldown;
-
-	/// Power time
+	// Power time
     int powerTime;
 
-	/// Power cooldown
+	// Power cooldown
     int powerCooldown;
 
-	/// Current level data
+    // Power max time
+    int powerMaxTime;
+
+    // Current power
+    Power* powerHandle;
+
+	// Current level data
     LevelData level;
 
-	/// Current return value for game
+	// Current return value for game
     int retVal;
 
-	/// Time values (debug!)
+	// Time values (debug!)
     Times times;
 
-	/// Is the power used? (Right click event status)
+	// Is the power used? (Right click event status)
     bool isPowerUsed;
 
-	/// Variable storing car creating speed.
+	// Variable storing car creating speed.
 	int carCreatingSpeed;
 
-	/// Variable storing, if the new record is set (used in splash screen)
+	// Variable storing, if the new record is set (used in splash screen)
 	bool newRecord;
 
-	/// Vector storing event handlers.
-	map<sf::Event::EventType, EventHandler> eventHandlers;
+	// Variable storing language settings.
+	TranslationManager translation;
+
+	///Vector storing event handlers.
+	multimap<sf::Event::EventType, EventHandler> eventHandlers;
 
 	/////////////////////////
     ////// PLAYER DATA //////
 	/////////////////////////
 
-	/// Points required to get new coin multiplier
+	// Points required to get new coin multiplier
     int pointsToNewMpl;
 
-	/// Score in the last tick. Used by the game over GUI
+	// Score in the last tick. Used by the game over GUI
     long lastTickScore;
 
-	/// Player highscore, currently used only by renderer
+	// Player highscore, currently used only by renderer
     long highScore;
 
-	/// Variable stores if the player started game first one
+	// Variable stores if the player started game first one
     bool isNewPlayer;
 
-	/// Player tutorial step. Can reset by restart
+	// Player tutorial step. Can reset by restart
     int tutorialStep;
 
 	/////////////////////////
 	////// OTHER DATA ///////
 	/////////////////////////
 
-	/// Registry of the maps, used by MapSelect GUI.
-	map<string, LevelData*> levelRegistry;
+	// Registry of the maps, used by MapSelect GUI.
+	vector<pair<string, LevelData*>> levelRegistry;
 
-	/// Tick time
+	// Tick time
     sf::Time tickTime;
 
-	/// Real tick time (with wait time)
+	// Real tick time (with wait time)
     sf::Time realTickTime;
 
-	/// Debug mode stat
+	// Debug mode stat
     bool debug;
 
-    /// Saved in byte format, unlocked levels for player
-    int unlockedLevels;
+    // Saved in byte format, unlocked levels for player
+    long long unlockedLevels;
+
+	// EventsHandler instance
+	EventsHandler eventHandler;
+
+	// Error string
+	string errStr;
 
 	///// FUNCTIONS /////
 
@@ -120,16 +136,13 @@ public:
     ~Game();
 
 	// Vector storing cars
-    vector<Car> cars;
+    vector<Car*> cars;
 
 	// Add car to game
-    void addCar(Car car);
+    void addCar(Car* car);
 
 	// Called once on LevelTick, updates cars
     void updateCars();
-
-	// Deprecated, moves camera. Currently does nothing
-    void moveCamera();
 
 	// Updates power effect
     void updateEffect();
@@ -146,11 +159,11 @@ public:
 	// Ticking normal game (with cars)
     void tickNormalGame();
 
-    // \brief Rename to loadPlayerData()! Loads player data
-    void loadPlayerData();
+    // Loads player data from profile or sets to default values if error.
+    void loadPlayerData(/*string profileName = "DEFAULT"*/);
 
-    // \brief Rename to savePlayerData()! Saves player data
-    void savePlayerData();
+    // Saves player data to file.
+    void savePlayerData(/*string profileName = "DEFAULT"*/);
 
 	// Start new tick, increment tickCount
     void newTick();
@@ -185,8 +198,9 @@ public:
 	// Returns player coins
     long getCoins();
 
-	// Displays (and loads) specified GUI
-    void displayGui(int gui);
+	// Displays (and loads) specified GUI.
+	/// The GUI must be created dynamically!
+    void displayGui(Gui* gui);
 
 	// Closes current GUI
     void closeGui();
@@ -200,7 +214,7 @@ public:
 	// Checks if the game is running
     bool isRunning();
 
-	// Sets game state to not running and sets retval to specified value
+	// Sets game state to not running and sets return value to specified value
     void exit(int ret);
 
 	// Returns player total points count. Not used yet
@@ -212,7 +226,7 @@ public:
 	// Adds score to player
     void addScore(int s);
 
-	// Handles wheel event, uses to change power
+	// Handles wheel event, used to change power
     void wheelEvent(sf::Event::MouseWheelScrollEvent event);
 
 	// Returns current power ID
@@ -225,13 +239,17 @@ public:
     void usePower(int id);
 
 	// Store player powers
-    int* powers;
-
-	// Register GUIs
-	void registerGUIs();
+    map<int, int> powers;
+    //map<int, PowerPlayerData> powers; // 0.2
 
 	// Register powers
 	void registerPowers();
+
+	// Register car type. Used in generator,renderer,...
+	void registerCarType(CarType type);
+
+	// Find car type by car ID
+	CarType* findCarTypeByID(Car::TypeId id);
 
 	// Get game speed value. Used externally by powers
 	float getGameSpeed();
@@ -242,14 +260,53 @@ public:
 	// Runs EventHandler for event.
 	void runEventHandler(Event& event);
 
+	// Runs GameEventHandler for event.
+	bool runGameEventHandler(GameEvent& event);
+
 	// Registers event handlers. Called once on loading.
 	void registerEventHandlers();
 
 	// Add event handler.
 	void addEventHandler(Event::EventType type, EventHandler handler);
 
-	// Variable storing power data registry
-	map<int, PowerHandles> powerRegistry;
+	// Find level by ID
+	LevelData findLevel(LevelData::MapType type);
+
+	// Display error screen
+	void displayError(string text);
+
+	// Loads language list.
+	void loadLanguages();
+
+	// Setup game
+	void setupGame();
+
+	// Set and initialize current power.
+	void setCurrentPower(Power* power);
+
+	// Stop current power and start cooldown.
+	void stopCurrentPower();
+
+	// Returns current point multiplier.
+	float getPointMultiplier();
+
+	// Sets current point multiplier.
+	void setPointMultiplier(float ptmpl);
+
+	// Register a new power, setting biggestPlayerPowerID if necessary.
+	void registerPower(int id, Power* powerInstance);
+
+	// Map storing power data registry
+	map<int, Power*> powerRegistry;
+
+	// The biggest ID of player power (displayed in Powers GUI)
+	int biggestPlayerPowerID;
+
+	// Car type registry
+	vector<CarType> carTypeRegistry;
+
+	// All languages.
+	TranslationManager languageConfig;
 
 private:
 	// Not used variable storing camera position
@@ -269,7 +326,7 @@ private:
 
 	// Variable storing game running stat. Almost always true.
     bool running;
-    
+
 	// Total player points, not used yet
     long totalPlayerPoints;
 
@@ -282,8 +339,14 @@ private:
 	// Player score
     long score;
 
+    // The multiplier applied to points on adding.
+    float pointMultiplier;
+
 	// Player current using power (if not used, then 0)
-    int currentPower;
+    map<int,Power*>::iterator currentPower;
+
+    // Variable storing default language (English)
+	TranslationManager enUSTranslation;
 
 	///// FUNCTIONS /////
 

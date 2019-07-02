@@ -1,29 +1,26 @@
 #include "GuiSettings.h"
 #include "Game.h"
+#include "GuiMainMenu.h"
 #include "GameDisplay.h"
+#include "GuiLanguage.hpp"
 #include "GuiYesNo.h"
 #include <iostream>
 
-Button GuiSettings::bDone;
-Button GuiSettings::bResetHS;
-Button GuiSettings::bRefreshGD;
-ButtonToggle GuiSettings::bVerticalSync;
-Button GuiSettings::bTFM;
+using namespace sf;
 
 void GuiSettings::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bDone = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), "Done", 0));
-    addButton(bResetHS = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), "Reset Game", 1));
-    addButton(bRefreshGD = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), "Refresh Resources", 2));
-    addButton(bVerticalSync = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), "Vertical Sync", 3, game->getVSync()));
-    //addButton(bTFM = ButtonToggle(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getRenderWnd()->getSize().x / 2 - 200, game->getRenderWnd()->getSize().y / 2 + 90), "Toggle Fullscreen Mode", 4));
-
+    addButton(bDone = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), Game::instance->translation.get("gui.done"), 0));
+    addButton(bResetHS = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), Game::instance->translation.get("gui.settings.resetgame"), 1));
+    addButton(bRefreshGD = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 150), Game::instance->translation.get("gui.settings.refreshres"), 2));
+    addButton(bVerticalSync = ButtonToggle(Vector2f(400.f, 40.f),::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), Game::instance->translation.get("gui.settings.verticalsync"), 3, game->getVSync()));
+    addButton(bLanguage = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), Game::instance->translation.get("gui.settings.language"), 4));
     bDone.setColor(sf::Color::Green);
 }
 
-void GuiSettings::draw(sf::RenderWindow* wnd)
+void GuiSettings::onDraw(sf::RenderWindow& wnd)
 {
     //Gui::drawGui(wnd);
 
@@ -31,52 +28,48 @@ void GuiSettings::draw(sf::RenderWindow* wnd)
     bResetHS.draw(wnd);
     bRefreshGD.draw(wnd);
     bVerticalSync.draw(wnd);
-	//bTFM.draw(wnd);
+    bLanguage.draw(wnd);
 
-    wnd->draw(GameDisplay::instance->drawCenteredString("Settings", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.settings.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+
+    Gui::onDraw(wnd);
 }
 
-void GuiSettings::onDialogFinished(int id, int rv)
+void GuiSettings::onDialogFinished(Gui*, int callId)
 {
-	if (id == 100 && rv == 1)
+	if(callId == 0 && dialogReturnValue == 1)
 	{
 		remove("data.txt");
 		remove("highscore.txt");
+		remove("profile_1.txt");
 		Game::instance->loadPlayerData();
+		Game::instance->displayGui(new GuiMainMenu);
 	}
 }
 
-void GuiSettings::onButtonClicked(long button)
+void GuiSettings::onClick(long button)
 {
-	if (!Gui::isDialogRunning())
-	{
-		Game* game = Game::instance;
+    Game* game = Game::instance;
 
-		if (button == 0)
-		{
-			game->displayGui(2); //main menu
-		}
-		else if (button == 1)
-		{
-			GuiYesNo::vstr = "Are you sure to delete all your player data?\n\nThis can't be undone!";
-			Gui::runDialog(100); //yes/no
-		}
-		else if (button == 2)
-		{
-			GameDisplay::instance->reload();
-		}
-		else if (button == 3)
-		{
-			GameDisplay::instance->setVSync(bVerticalSync.getState());
-		}
-		else if (button == 4)
-		{
-			GameDisplay::instance->nextFullscreenMode();
-		}
-	}
-	else //not yet finished
-	{
-		GuiYesNo::onButtonClicked(button);
-	}
+    if (button == 0)
+    {
+        game->displayGui(new GuiMainMenu); //main menu
+    }
+    else if (button == 1)
+    {
+        runDialog(new GuiYesNo(game->translation.get("gui.settings.resetgame.delete")+"\n\n"+game->translation.get("gui.settings.resetgame.warning")), 0); //yes/no
+    }
+    else if (button == 2)
+    {
+        GameDisplay::instance->reload();
+    }
+    else if (button == 3)
+    {
+        GameDisplay::instance->setVSync(bVerticalSync.getState());
+    }
+    else if(button == 4)
+    {
+        game->displayGui(new GuiLanguage);
+    }
 }
 

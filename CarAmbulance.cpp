@@ -1,11 +1,8 @@
 #include "CarAmbulance.h"
 
-CarAmbulance::CarAmbulance(float s, int l)
-    : Car(s,l)
+CarAmbulance::CarAmbulance(Car::TypeId id, float s, int l)
+    : Car(id,s,l)
 {
-    this->typeId = AMBULANCE;
-    this->maxHealth = 4;
-    this->health = 3;
     this->textureName = "ambulance";
 	this->animSize = 2;
 	this->frameLength = 8;

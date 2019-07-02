@@ -10,7 +10,7 @@ public:
     {
         this->typeId = RARE;
     }
-    CarRare(float, int);
+    CarRare(Car::TypeId, float, int);
 
 protected:
 

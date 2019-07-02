@@ -2,21 +2,23 @@
 #define GUIMAINMENU_H
 
 #include "Gui.h"
+#include "ButtonCircle.h"
 
+using namespace sf;
 
 class GuiMainMenu : public Gui
 {
 public:
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
+    void onDraw(sf::RenderWindow& wnd);
+    void onClick(long button);
+    void onLoad();
 
 protected:
 
 private:
-    static Button b1;
-    static Button b2;
-    static Button b3; //settings
+    ButtonCircle bStart;
+    ButtonCircle bQuit;
+    ButtonCircle bSettings; //settings
 };
 
 #endif // GUIMAINMENU_H
