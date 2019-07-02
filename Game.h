@@ -9,6 +9,7 @@
 #include "CarType.h"
 #include "TranslationManager.hpp"
 #include "PowerPlayerData.hpp"
+#include "version.hpp"
 
 using namespace std;
 

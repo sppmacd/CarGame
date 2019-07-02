@@ -134,11 +134,14 @@ void Game::registerCarType(CarType type)
 
 CarType* Game::findCarTypeByID(Car::TypeId id)
 {
-	for (CarType& type : carTypeRegistry)
-	{
-		if (type == id)
-			return &type;
-	}
+    if(!carTypeRegistry.empty())
+    {
+        for (CarType& type : carTypeRegistry)
+        {
+            if (type == id)
+                return &type;
+        }
+    }
 	return nullptr;
 }
 
@@ -512,7 +515,7 @@ void Game::toggleFullscreen()
 
     if(this->fullscreen)
     {
-        wnd->create(sf::VideoMode(1280, 720, 32), "Car Destroyer");
+        wnd->create(sf::VideoMode(1280, 720, 32), "CG " + string(CG_VERSION));
         this->fullscreen = false;
     }
     else
@@ -552,7 +555,7 @@ bool Game::isRunning()
 
 void Game::exit(int ret)
 {
-    cout << "Game: Handling exit()..." << endl;
+    cout << "Game: Preparing to exit game..." << endl;
     this->running = false;
     this->retVal = ret;
 }

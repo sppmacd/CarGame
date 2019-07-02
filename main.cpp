@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <exception>
 
 using namespace std;
 
@@ -40,17 +41,20 @@ void loadGame(LoadData* ld)
     {
         sf::Clock loadTime;
 
-        cout << "main: Starting CarDestroyer v0.1..." << endl;
+        cout << "main: Starting Car Game [" << CG_VERSION << "]" << endl;
 
-        GameDisplay::loadingStr = "Loading game engine...";
-        ld->game = new Game;
-        ld->disp = new GameDisplay(ld->wnd);
-
-        srand(time(NULL));
 
         cout << "main: Loading game engine..." << endl;
+        ld->disp = new GameDisplay(ld->wnd);
+        ld->game = new Game;
+        ld->disp->reload(); // moved from constructor to display loading screen.
 
-        //GameSound gamesound;
+        GameDisplay::loadingStr = "Loading game engine...";
+
+        if(ld->disp->isError())
+            throw runtime_error("GameDisplay loading error");
+
+        srand(time(NULL));
 
         cout << "main: Loading took " << loadTime.getElapsedTime().asMilliseconds() << "ms." << endl;
         ld->loaded = true;
@@ -80,9 +84,8 @@ int main()
 
     try
     {
-        data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "Car Destroyer v0.1", Style::Fullscreen);
+        data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "CG " + string(CG_VERSION), Style::Fullscreen);
         data.wnd->setVerticalSyncEnabled(true);
-
 
         sf::Thread loadingThread(loadGame,&data);
 
@@ -92,7 +95,6 @@ int main()
         sf::Clock guiClock;
         sf::Clock tickClock;
         sf::Clock renderClock;
-        sf::Clock waitClock;
         sf::Event ev1;
 
         bool mainLoopRunning = true;
@@ -111,19 +113,21 @@ int main()
                 if(updateDebugStats) data.game->times.timeGui = Time::Zero;
 
                 bool mouseMoveHandled = false;
+                bool guiMouseMoveHandler = false;
                 while(data.wnd->pollEvent(ev1))
                 {
-                    if(ev1.type != Event::MouseMoved || mouseMoveHandled)
+                    if(ev1.type != Event::MouseMoved || !mouseMoveHandled)
                     {
                         data.game->runEventHandler(ev1);
                         mouseMoveHandled = true;
                     }
                     // tick GUI for each event
 
-                    if (data.game->isGuiLoaded && (ev1.type == Event::MouseMoved || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
+                    if (data.game->isGuiLoaded && ((ev1.type == Event::MouseMoved && !guiMouseMoveHandler) || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
                     {
                         guiClock.restart();
                         data.game->tickGui(ev1);
+                        guiMouseMoveHandler = true;
                         if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
                     }
                 }
@@ -146,11 +150,12 @@ int main()
                     cout << "main: Tick took " << l << endl;
                 }
 
-                waitClock.restart();
-                while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
+                Time waitTime = microseconds(16660) - clock.getElapsedTime();
+                //while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
+                sleep(waitTime);
 
                 if (updateDebugStats) data.game->realTickTime = clock.getElapsedTime();
-                if (updateDebugStats) data.game->times.timeWait = waitClock.getElapsedTime();
+                if (updateDebugStats) data.game->times.timeWait = waitTime;
             }
             else
             {
@@ -163,7 +168,7 @@ int main()
             }
         }
 
-        cout << "main: Closing CarDestroyer v0.1..." << endl;
+        cout << "main: Closing..." << endl;
 
         GameDisplay::drawLoadingProgress("Closing...", data.wnd);
 
@@ -175,6 +180,12 @@ int main()
         else
             i = 0;
     }
+    catch(bad_alloc& ba)
+    {
+        cout << "main: Out of memory!" << endl;
+        if(data.game)
+            data.game->displayError(string("Out of memory!"));
+    }
     catch(exception& e)
     {
         cout << "main: Exception while running: " << e.what() << endl;
@@ -182,6 +193,7 @@ int main()
             data.game->displayError(string("Exception while running: ") + e.what());
     }
 
+    cout << "main: Unloading resources..." << endl;
     delete data.disp;
     delete data.game;
 

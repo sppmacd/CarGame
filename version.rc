@@ -1,19 +1,21 @@
-﻿1 VERSIONINFO
-FILEVERSION 0,1,0,0
-PRODUCTVERSION 0,1,0,0
+﻿#include "version.hpp"
+
+1 VERSIONINFO
+FILEVERSION CG_VERSION_NO
+PRODUCTVERSION CG_VERSION_NO
 {
     BLOCK "StringFileInfo"
     {
         BLOCK "040904B0"
         {
             VALUE "CompanyName", "Sppmacd"
-            VALUE "FileDescription", "Car Destroyer"
-            VALUE "FileVersion", "0.1"
+            VALUE "FileDescription", "Car Game"
+            VALUE "FileVersion", CG_VERSION
             VALUE "InternalName", "cg.exe"
-            VALUE "LegalCopyright", "Copyright (C) 2018"
+            VALUE "LegalCopyright", "Sppmacd 2018-2019"
             VALUE "OriginalFilename", "cg.exe"
-            VALUE "ProductName", "Car Destroyer"
-            VALUE "ProductVersion", "0.1"
+            VALUE "ProductName", "CG - Car Game"
+            VALUE "ProductVersion", CG_VERSION
         }
     }
     BLOCK "VarFileInfo"

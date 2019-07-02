@@ -169,7 +169,7 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
     {
         Car* car = new CarTrain(7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
+		event.carSpawned.carToCreate->setColor(Color(193, 205, 155));
 		break;
     }
 	default: return false;

@@ -148,7 +148,7 @@ void drawDebugInfo(sf::RenderWindow* wnd)
     rs.setFillColor(sf::Color::Black);
     wnd->draw(rs);
 
-	wnd->draw(disp->drawString(std::string("CarDestroyer v0.1 ")
+	wnd->draw(disp->drawString(std::string("CG " + string(CG_VERSION))
 		+ std::string("|\ttick = ") + std::string(to_string(Game::instance->tickTime.asMicroseconds()))
 		+ std::string(",\trtick = ") + std::string(to_string(Game::instance->realTickTime.asMicroseconds()))
 		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
@@ -230,7 +230,7 @@ void GameDisplay::drawGui()
 
 void GameDisplay::nextFullscreenMode()
 {
-	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "Car Destroyer", sf::Style::Fullscreen);
+	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "CG " + string(CG_VERSION), sf::Style::Fullscreen);
 	if(fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
 	{
 		fullscreenMode = 0;

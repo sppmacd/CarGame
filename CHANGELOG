@@ -1,4 +1,4 @@
-0.1 - The Big Map Update
+BETA 0.1 - The Big Map Update
 
 MAIN CHANGES
 
@@ -13,6 +13,7 @@ MAIN CHANGES
 
 OTHER CHANGES & FIXES
 
+* New loading screen!
 * Made maps 2x more expensive due to point multiplier.
 * Now game speed depends on display.
 * Now car panes are always blue.

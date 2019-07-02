@@ -9,7 +9,7 @@ String GameDisplay::loadingStr;
 // D00 could not load texture
 
 GameDisplay::GameDisplay(sf::RenderWindow* wnd)
-    : renderWnd(wnd)
+    : renderWnd(wnd), error(false)
 {
 	this->wndSizeDefault = renderWnd->getSize();
 	loadingStr = "Loading GameDisplay...";
@@ -19,54 +19,63 @@ GameDisplay::GameDisplay(sf::RenderWindow* wnd)
 
 	this->fullscreenMode = 0;
 	this->vsync = true;
-    this->reload();
 }
 
 void GameDisplay::clearTextures()
 {
-    cout << "GameDisplay: Clearing texture map..." << endl;
     this->texturesByName.clear();
 }
 
 void GameDisplay::reload()
 {
     cout << "GameDisplay: Reloading graphics resources..." << endl;
+    GameDisplay::loadingStr = "Reloading resources...";
+
     this->clearTextures();
 
-	// Create unknown texture
-	Image imgUnknownTexture;
-	imgUnknownTexture.create(64, 64);
+    if(unknownTexture.getSize() == Vector2u(0,0))
+    {
+        // Create unknown texture
+        Image imgUnknownTexture;
+        imgUnknownTexture.create(64, 64);
 
-	GameDisplay::loadingStr = "Creating unknown texture...";
-	for(int i = 0; i < 64; i++)
-	for(int j = 0; j < 64; j++)
-	{
-		// 0     150    300
-		// *******%%%%%%% 0
-		// *******%%%%%%%
-		// *******%%%%%%% 150
-		// %%%%%%%*******
-		// %%%%%%%*******
-		// %%%%%%%******* 300
+        for(int i = 0; i < 64; i++)
+        for(int j = 0; j < 64; j++)
+        {
+            // 0     150    300
+            // *******%%%%%%% 0
+            // *******%%%%%%%
+            // *******%%%%%%% 150
+            // %%%%%%%*******
+            // %%%%%%%*******
+            // %%%%%%%******* 300
 
-		bool isNB = ((i <= 32 && j >= 32) || (i >= 32 && j <= 32));
-		imgUnknownTexture.setPixel(i, j, isNB ? Color::Red : Color::Green);
-	}
-	this->unknownTexture.loadFromImage(imgUnknownTexture);
-	this->unknownTexture.setRepeated(true);
-
-	GameDisplay::loadingStr = "Reloading resources...";
+            bool isNB = ((i <= 32 && j >= 32) || (i >= 32 && j <= 32));
+            imgUnknownTexture.setPixel(i, j, isNB ? Color::Red : Color::Green);
+        }
+        this->unknownTexture.loadFromImage(imgUnknownTexture);
+        this->unknownTexture.setRepeated(true);
+    }
 
 	for(int i = 0; i < Car::COUNT; i++)
 	{
-		this->addTexture("car/" + Game::instance->findCarTypeByID(Car::TypeId(i))->getTextureName());
+	    CarType* type = Game::instance->findCarTypeByID(Car::TypeId(i));
+		if(type != NULL)
+            this->addTexture("car/" + type->getTextureName());
+        else
+            cout << "GameDisplay: unknown car type " << i << ", cannot load textures." << endl;
 	}
 
-	for(auto ld : Game::instance->levelRegistry)
-	{
-		this->addTexture("bg/" + ld.second->getTextureName(), true, true);
-		this->addTexture("map/" + ld.second->getTextureName());
-	}
+	if(!Game::instance->levelRegistry.empty())
+    {
+        for(auto ld : Game::instance->levelRegistry)
+        {
+            this->addTexture("bg/" + ld.second->getTextureName(), true, true);
+            this->addTexture("map/" + ld.second->getTextureName());
+        }
+    }
+    else
+        cout << "GameDisplay: cannot load map textures, no level registered." << endl;
 
     this->addTexture("stat/coin");
     this->addTexture("stat/high");
@@ -81,10 +90,6 @@ void GameDisplay::reload()
     {
         addTexture("power/" + to_string(s));
     }
-
-    sf::Font font;
-    font.loadFromFile("res/font.ttf");
-    this->guiFont = font;
 }
 
 void GameDisplay::addTexture(string name, bool repeated, bool smooth)
@@ -191,37 +196,42 @@ sf::Text GameDisplay::drawCenteredString(String tx, int height, sf::Vector2f pos
 
 void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
 {
-    static sf::Font f;
-	static bool l = false;
+    if(GameDisplay::instance)
+    {
+        if(GameDisplay::instance->guiFont.getInfo().family.empty() && !GameDisplay::instance->guiFont.loadFromFile("res/font.ttf"))
+        {
+            GameDisplay::instance->error = true;
+            return;
+        }
 
-	// Temporarily load Font
-	if (!l)
-	{
-		f.loadFromFile("res/font.ttf");
-		l = true;
-	}
+        // we can't use drawString in static function (before the GameDisplay is loaded)
+        sf::Text text("Loading...", GameDisplay::instance->guiFont, 30);
+        text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
+        text.setStyle(sf::Text::Bold);
 
-	// we can't use drawString in static function (before the GameDisplay is loaded)
-    sf::Text text("Loading...", f, 30);
-	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
-	text.setStyle(sf::Text::Bold);
+        text.setFillColor(sf::Color::White);
+        text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)));
+        wnd->draw(text);
 
-    text.setFillColor(sf::Color::White);
-    text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)));
-    wnd->draw(text);
+        text.setFillColor(sf::Color::Yellow);
+        text.setString(action);
+        text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
+        text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)) + sf::Vector2f(0.f, 100.f));
+        wnd->draw(text);
 
-    text.setFillColor(sf::Color::Yellow);
-    text.setString(action);
-	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
-    text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)) + sf::Vector2f(0.f, 100.f));
-    wnd->draw(text);
-
-    text.setString("Car Destroyer");
-    text.setCharacterSize(60);
-	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
-    text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)) - sf::Vector2f(0.f, 100.f));
-    text.setFillColor(sf::Color::Red);
-    wnd->draw(text);
+        if(GameDisplay::instance->logoTexture.getSize() != Vector2u(0, 0))
+        {
+            Sprite sprite(GameDisplay::instance->logoTexture);
+            sprite.setOrigin(Vector2f(GameDisplay::instance->logoTexture.getSize() / 2U));
+            sprite.setPosition(wnd->getSize().x / 2, wnd->getSize().y / 4);
+            wnd->draw(sprite);
+        }
+        else
+        {
+            if(!GameDisplay::instance->logoTexture.loadFromFile("res/gui/logo.png"))
+                GameDisplay::instance->error = true;
+        }
+    }
 }
 
 void GameDisplay::drawGame()
@@ -325,4 +335,9 @@ void GameDisplay::drawEffect()
 		game->powerRegistry.find(game->getCurrentPower())->second->drawPower(this->renderWnd);
 	else if(game->getCurrentPower() != 0)
 		game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(this->renderWnd);
+}
+
+bool GameDisplay::isError()
+{
+    return error;
 }

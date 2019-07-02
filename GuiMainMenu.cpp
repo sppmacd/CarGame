@@ -25,11 +25,13 @@ void GuiMainMenu::onDraw(RenderWindow& wnd)
     bQuit.draw(wnd);
     bSettings.draw(wnd);
 
-    Text text = GameDisplay::instance->drawCenteredString("Car Destroyer", 150, Vector2f(GameDisplay::instance->getSize().x / 2, 125), Text::Italic);
-    text.setFillColor(Color(100, 0, 0));
-    wnd.draw(text);
+    Sprite sprite(GameDisplay::instance->logoTexture);
+    sprite.setOrigin(Vector2f(GameDisplay::instance->logoTexture.getSize() / 2U));
+    sprite.setPosition(wnd.getSize().x / 2, wnd.getSize().y / 7);
+    wnd.draw(sprite);
 
-    Text credits = drawString("v0.1 - " + Game::instance->translation.get("gui.mainmenu.credit"), 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 30.f));
+    GameDisplay::loadingStr = "Loading game engine...";
+    Text credits = drawString(string(CG_VERSION) + " - " + Game::instance->translation.get("gui.mainmenu.credit"), 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 30.f));
 
     wnd.draw(credits);
 

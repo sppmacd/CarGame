@@ -59,12 +59,10 @@ void LevelData::init()
     Maps::mountains = &(new LevelData(LevelData::MOUNTAINS))->setAcceleration(4.f).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(85).setCost(8000);
     Maps::beach = &(new LevelData(LevelData::BEACH))->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(50).setCost(12000);
     Maps::city = &(new LevelData(LevelData::CITY))->setAcceleration(6.f).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(30).setCost(20000);
-
-    // TODO
-    Maps::motorway = &(new LevelData(LevelData::MOTORWAY))->setAcceleration(10.f).setColor(sf::Color(26, 26, 26)).setTextureName("countryside").setCarCreationSpeed(100).setCost(30000);
-    Maps::sea = &(new LevelData(LevelData::SEA))->setAcceleration(4.f).setColor(sf::Color(44, 48, 112)).setTextureName("countryside").setCarCreationSpeed(50).setCost(40000);
+    Maps::motorway = &(new LevelData(LevelData::MOTORWAY))->setAcceleration(10.f).setColor(sf::Color(26, 26, 26)).setTextureName("motorway").setCarCreationSpeed(100).setCost(30000);
+    Maps::sea = &(new LevelData(LevelData::SEA))->setAcceleration(4.f).setColor(sf::Color(44, 48, 112)).setTextureName("sea").setCarCreationSpeed(50).setCost(40000);
     Maps::swampland = &(new LevelData(LevelData::SWAMPLAND))->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("countryside").setCarCreationSpeed(80).setCost(60000);
-    Maps::forest_trails = &(new LevelData(LevelData::FOREST_TRAILS))->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("countryside").setCarCreationSpeed(30).setCost(100000);
+    Maps::forest_trails = &(new LevelData(LevelData::FOREST_TRAILS))->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(100000);
 
 	Game::instance->levelRegistry.push_back(make_pair("countryside", Maps::countryside));
 	Game::instance->levelRegistry.push_back(make_pair("desert", Maps::desert));

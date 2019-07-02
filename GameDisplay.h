@@ -1,5 +1,4 @@
-#ifndef GAMEDISPLAY_H
-#define GAMEDISPLAY_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -84,13 +83,7 @@ public:
 	// Get texture instance.
     sf::Texture& getTexture(string name);
 
-	// A default instance of GameDisplay.
-    static GameDisplay* instance;
-
-	// Texture map.
-	map<string, sf::Texture> texturesByName;
-
-	// Set vsync state to 'b'
+    // Set vsync state to 'b'
 	void setVSync(bool b);
 
 	// Retrieve vsync state.
@@ -99,8 +92,19 @@ public:
 	// Get default size of the view.
 	sf::Vector2u getSize();
 
-	// Set default size. It doesn't change real size of the window, it is only called on change VideoMode and size of the Window::View.
+	// A default instance of GameDisplay.
+    static GameDisplay* instance;
+
+	// Texture map.
+	map<string, sf::Texture> texturesByName;
+
+	Texture logoTexture;
+
+    // Set default size. It doesn't change real size of the window, it is only called on change VideoMode and size of the Window::View.
 	void setWndSize(sf::Vector2u vec);
+
+	// Check if GameDisplay encountered an error while loading. If set, the game will close immediately.
+	bool isError();
 
 protected:
 
@@ -131,6 +135,6 @@ private:
 
 	// Default wnd size, set on create.
 	sf::Vector2u wndSizeDefault;
-};
 
-#endif // GAMEDISPLAY_H
+	bool error;
+};
