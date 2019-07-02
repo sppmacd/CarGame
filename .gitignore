@@ -2,7 +2,6 @@
 *.depend
 *.layout
 share/
-res/
 obj/
 bin/
 *.save_failed
