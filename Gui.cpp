@@ -4,210 +4,150 @@
 #include <cmath>
 #include "Game.h"
 
-vector<Button*> Gui::buttons;
-map<int, GuiData> Gui::registry;
-vector<Button*>Gui::dialogButtons;
-bool Gui::runningDialog;
-int Gui::dialogId;
-int Gui::dialogRv;
-
-void Gui::addButton(Button& button)
+Gui::Gui()
 {
-    buttons.push_back(&button);
+    currentDialog = nullptr;
+    parent = nullptr;
 }
 
-void Gui::removeButton(Button & button)
+Gui::~Gui()
 {
-	for (int i = 0; i < buttons.size(); i++)
-	{
-		if (*buttons[i] == button)
-			buttons.erase(buttons.begin() + i);
-	}
+    closeDialog(0);
 }
 
-void Gui::addButtonToDialog(Button & button)
+void Gui::onDraw(RenderWindow& wnd)
 {
-	dialogButtons.push_back(&button);
+    if(isDialogRunning())
+        currentDialog->onDraw(wnd);
 }
 
-void Gui::runDialog(int id)
+Button Gui::onMouseClick(Vector2f pos)
 {
-	runningDialog = true;
-	dialogId = id;
-	dialogRv = -1;
-
-	GuiData handler = Gui::findHandlerByID(id);
-	handler.load();
-}
-
-int Gui::getDialogReturnValue()
-{
-	int rv = dialogRv;
-	dialogRv = -2; //not yet started
-	return rv;
-}
-
-void Gui::drawDialog(sf::RenderWindow * wnd)
-{
-	GuiData handler = Gui::findHandlerByID(dialogId);
-	handler.draw(wnd);
-}
-
-void Gui::onLoad()
-{
-	dialogRv = -2; //not yet started
-}
-
-Button Gui::onMouseClick(sf::Vector2f vec)
-{
-	if (!runningDialog)
-	{
-		for (unsigned int i = 0; i < buttons.size(); i++)
-		{
-			if (sf::Rect<float>(buttons[i]->getPos(), buttons[i]->getSize()).contains(vec) && buttons[i]->enabled)
-			{
-				buttons[i]->onClick();
-				return *buttons[i];
-			}
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < dialogButtons.size(); i++)
-		{
-			if (sf::Rect<float>(dialogButtons[i]->getPos(), dialogButtons[i]->getSize()).contains(vec) && dialogButtons[i]->enabled)
-			{
-				dialogButtons[i]->onClick();
-				return *dialogButtons[i];
-			}
-		}
-	}
-
+    if(!isDialogRunning())
+    {
+        for(Button* button: buttons)
+        {
+            if(button->isClicked(pos))////////////////////////////////////ES
+            {
+                button->onClick();
+                return *button;
+            }
+        }
+    }
+    else
+    {
+        return currentDialog->onMouseClick(pos);
+    }
     return Button();
 }
 
-void Gui::onClose()
+void Gui::onMouseMove(Vector2f pos)
 {
-    if (!buttons.empty())
-		buttons.clear();
-
-	if (!dialogButtons.empty())
-		dialogButtons.clear();
+    if(!isDialogRunning())
+    {
+        for(Button* button: buttons)
+        {
+            if(button->isClicked(pos))
+            {
+                button->isMouseOver = true;
+            }
+            else
+            {
+                button->isMouseOver = false;
+            }
+        }
+    }
+    else
+    {
+        currentDialog->onMouseMove(pos);
+    }
 }
 
-void Gui::onDialogFinished(int d, int rv)
+void Gui::onClick(long buttonId)
 {
-	if (!dialogButtons.empty())
-		dialogButtons.clear();
+    cout << "You'll never see this message! \n\tButton (ID " << buttonId << ")" << endl;
 }
 
-void Gui::onMouseMove(sf::Vector2f vec)
+void Gui::addButton(Button& widget)
 {
-	if (!runningDialog)
-	{
-		for (unsigned int i = 0; i < buttons.size(); i++)
-		{
-			if (sf::Rect<float>(buttons[i]->getPos(), buttons[i]->getSize()).contains(vec))
-			{
-				buttons[i]->isMouseOver = true;
-			}
-			else
-			{
-				buttons[i]->isMouseOver = false;
-			}
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < dialogButtons.size(); i++)
-		{
-			if (sf::Rect<float>(dialogButtons[i]->getPos(), dialogButtons[i]->getSize()).contains(vec))
-			{
-				dialogButtons[i]->isMouseOver = true;
-			}
-			else
-			{
-				dialogButtons[i]->isMouseOver = false;
-			}
-		}
-	}
+    buttons.push_back(&widget);
 }
 
-void Gui::onButtonClicked(long button)
+void Gui::removeButton(Button& widget)
 {
-
+    for(unsigned int i = 0; i < buttons.size(); i++)
+    {
+        if(buttons[i]->id == widget.id)
+        {
+            buttons.erase(buttons.begin() + i);
+            return;
+        }
+    }
 }
 
-void Gui::registerGuiHandlers(int guiId, GuiData gui)
+void Gui::runDialog(Gui* dialog, int callId)
 {
-	registry.insert(make_pair(guiId, gui));
+    if(isDialogRunning())
+    {
+        currentDialog->closeDialog(0);
+    }
+
+    currentDialog = dialog;
+    currentDialog->parent = this;
+    dialogCallId = callId;
+    currentDialog->onLoad();
 }
 
-void Gui::clearRegistry()
+void Gui::close(int returnValue)
 {
-	registry.clear();
+    if(parent)
+    {
+        parent->closeDialog(returnValue);
+    }
+    else
+    {
+        Game::instance->exit(0);
+    }
 }
 
-void Gui::drawNFG(sf::RenderWindow* wnd)
+void Gui::onButton(int buttonId)
 {
-	Gui::drawGui(wnd);
-
-	sf::Text t = GameDisplay::instance->drawCenteredString("Sorry, we can't find this GUI ID. Please report this problem to game developers.", 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2), sf::Text::Bold);
-	wnd->draw(t);
+    if(isDialogRunning())
+    {
+        currentDialog->onButton(buttonId);
+    }
+    else
+    {
+        this->onClick(buttonId);
+    }
 }
 
-Button Gui::mouseNFG(sf::Vector2f pos)
+void Gui::closeDialog(int returnValue)
 {
-	Game::instance->displayGui(2);
-	return Button();
+    if(isDialogRunning())
+    {
+        dialogReturnValue = returnValue;
+        currentDialog->onClose();
+        this->onDialogFinished(currentDialog, dialogCallId);
+        delete currentDialog;
+        currentDialog = nullptr;
+    }
 }
 
-const GuiData Gui::findHandlerByID(int id)
-{
-	GuiData gd;
+void Gui::onLoad() {}
 
-	try
-	{
-		 gd = registry.find(id)->second;
-	}
-	catch (out_of_range)
-	{
-		cout << "Cannot find GUI with id " << id << endl;
-		gd = GuiData( Gui::drawNFG, Gui::mouseNFG, Gui::onMouseMove, Gui::onButtonClicked, Gui::onLoad, Gui::onClose, Gui::onDialogFinished);
-		return gd;
-	}
-	return gd;
+void Gui::onClose() {}
+
+void Gui::onKeyboard(Keyboard::Key) {}
+
+void Gui::onDialogFinished(Gui*, int) {}
+
+bool Gui::isDialogRunning()
+{
+    return currentDialog != nullptr;
 }
 
-void Gui::drawGui(sf::RenderWindow* wnd)
-{
-    sf::RectangleShape rect((sf::Vector2f) GameDisplay::instance->getSize());
-    rect.setFillColor(sf::Color(25, 20, 20, 200));
-    wnd->draw(rect);
-}
-
-sf::Text Gui::drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style)
+Text Gui::drawString(String tx, int height, Vector2f pos, Text::Style style)
 {
     return GameDisplay::instance->drawString(tx, height, pos, style);
 }
-
-void Gui::setDialogReturnValue(int rv)
-{
-	dialogRv = rv;
-	runningDialog = false;
-
-	Gui::findHandlerByID(Game::instance->displayedGui).onDialogFinished(dialogId, dialogRv);
-	Gui::onDialogFinished(dialogId, dialogRv);
-
-	dialogId = -1;
-}
-
-GuiData::GuiData(GUIDrawFunc drawFunc1, GUIMouseClickHandler mouseClickHandler1, GUIMouseMoveHandler mouseMoveHandler1, GUIButtonHandler buttonHandler1, GUILoadHandler loadHandler1, GUICloseHandler closeHandler1, GUIDialogFinishHandler dialogFinishHandler1) :
-draw(drawFunc1),
-onMouseClick(mouseClickHandler1),
-onMouseMove(mouseMoveHandler1),
-onButtonClick(buttonHandler1),
-load(loadHandler1),
-close(closeHandler1),
-onDialogFinished(dialogFinishHandler1)
-{}

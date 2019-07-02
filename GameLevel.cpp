@@ -6,7 +6,7 @@
 #include "GameSound.h"
 #include "GameDisplay.h"
 
-void Game::addCar(Car car)
+void Game::addCar(Car* car)
 {
     this->cars.push_back(car);
 }
@@ -19,46 +19,29 @@ void Game::updateCars()
     {
         for(unsigned int i = 0; i < this->cars.size(); i++)
         {
-            Car* car = &(this->cars[i]);
+            Car* car = this->cars[i];
             car->move(this->gameSpeed / 0.176);
-			car->onUpdate();
+			car->onUpdate(this);
 
             if(car->isDestroying())
             {
                 if(car->tickDestroy())
                 {
                     car->setToErase();
-					car->onDestroy();
                 }
             }
             else
             {
-                if(car->carRelativeToScreen < -50.f)
+                if(car->pos < -50.f)
                 {
+                    car->onLeave(this);
                     car->setToErase();
-                    this->setGameOver();
-                    this->closeLevel();
                     continue;
                 }
 
                 if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
-                    car->makeDestroy();
-					car->onDamage();
-
-                    if(car->typeId == Car::RARE)
-                    {
-                        this->addScore(2);
-                    }
-                    else
-                    {
-                        this->addScore(1);
-                    }
-
-                    if(this->score % 2 == 0)
-                    {
-                        this->addCoins(this->getCoinMultiplier());
-                    }
+					car->onDamage(this);
 
                     if(this->tutorialStep == 5)
                     {
@@ -82,39 +65,31 @@ void Game::tickNormalGame()
 {
     if(this->tickCount % this->carCreatingSpeed == 0)
     {
-        Car car;
+		vector<CarType*> selectedTypes;
+		while(selectedTypes.empty())
+		for (CarType& type : carTypeRegistry)
+		{
+		    if(type.getRarity(this->level.getMapType()) == 0)
+                continue;
+			if(rand() % type.getRarity(this->level.getMapType()) == 0)
+				selectedTypes.push_back(&type);
+		}
 
-        if(rand() % this->level.getCarRarity(Car::LORRY) == 0)
-        {
-            car = CarLorry(1.7f, rand() % 3);
-            int c = rand() % 56 + 200;
-            car.setColor(sf::Color(c, c, c));
-        }
-        else if(rand() % this->level.getCarRarity(Car::RARE) == 0)
-        {
-            car = CarRare(1.7f, rand() % 3);
-            int c = rand() % 56 + 200;
-            car.setColor(sf::Color(c, 50, 50));
-        }
-        else if(rand() % this->level.getCarRarity(Car::BUS) == 0)
-        {
-            car = CarBus(1.7f, rand() % 3);
-            int c = rand() % 200 + 56;
-            car.setColor(sf::Color(c, c, 50));
-        }
-        else if(rand() % this->level.getCarRarity(Car::AMBULANCE) == 0)
-        {
-            car = CarAmbulance(1.7f, rand() % 3);
-            car.setColor(sf::Color(230, 230, 230));
-        }
-        else
-        {
-            car = Car(1.7f, rand() % 3);
-            car.setColor(sf::Color(((rand() % 8)*32)-1, ((rand() % 8)*32)-1, ((rand() % 8)*32)-1));
-        }
+		CarType* carType = selectedTypes[rand() % selectedTypes.size()];
 
-		car.onCreate();
-        this->addCar(car);
+		// Create event
+		GameEvent event;
+		event.type = GameEvent::CarSpawning;
+		event.carSpawned.carToCreate = NULL;
+		event.carSpawned.type = carType;
+		bool createCar = runGameEventHandler(event);
+
+		if (createCar && event.carSpawned.carToCreate)
+		{
+			addCar(event.carSpawned.carToCreate);
+			event.carSpawned.carToCreate->onCreate(this);
+			//delete &car; //deallocate memory allocated in EventHandler
+		}
     }
 
     this->updateCars();
@@ -127,7 +102,7 @@ void Game::tickNormalGame()
 			//Create splash screen
 
 			if(this->highScore != 0)
-				GameDisplay::instance->setSplash("New Record!");
+				GameDisplay::instance->setSplash(translation.get("splash.newrecord"));
 		}
 
 		//Update highscore to score
@@ -136,12 +111,15 @@ void Game::tickNormalGame()
 
     this->updateEffect();
 
-    this->moveCamera();
-
     if(this->pointsToNewMpl <= 0)
     {
         this->coinMpl++;
         this->pointsToNewMpl = this->getCoinMultiplier() * 200;
+    }
+
+    if(this->gameOver && !this->paused())
+    {
+        this->pause(true);
     }
 }
 
@@ -150,61 +128,72 @@ void Game::newTick()
     if(!this->isGuiLoaded)
     {
         this->gameSpeed += this->level.getAcceleration() / 5000;
-
         ++tickCount;
     }
 
-    if(this->guiCooldown > 0)
-        this->guiCooldown--;
-
     this->mainTickCount++;
 }
+void Game::setCurrentPower(Power* power)
+{
+    powerHandle = power;
+    this->powerTime = powerHandle->maxPowerTime;
+    this->powerMaxTime = this->powerTime;
+    this->powerCooldown = -1;
 
+    // power 'start'
+    if (!powerHandle->onPowerStart())
+    {
+        this->powerTime = 0;
+        this->powerCooldown = 0;
+        this->powers[this->getCurrentPower()]++; //Reset power count to previous
+    }
+}
+void Game::stopCurrentPower()
+{
+    this->powerCooldown = 180; // 3 seconds
+    this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
+
+    // power 'stop'
+    powerHandle->onPowerStop();
+}
 void Game::updateEffect()
 {
-    if(this->isPowerUsed && this->powerCooldown <= 0)
+    if(this->isPowerUsed && this->powerCooldown <= 0 && this->getCurrentPower() != 0)
     {
-        this->powerTime = 200;
-		this->powerCooldown = -1;
-        this->usePower(this->currentPower);
+        auto it = this->powerRegistry.find(this->getCurrentPower());
+        if(it == this->powerRegistry.end())
+            return;
 
-		// power 'start'
-		if (!this->powerRegistry.find(this->getCurrentPower())->second.onPowerStart())
-		{
-			this->powerTime = 0;
-			this->powerCooldown = 0;
-		}
+        this->usePower(this->currentPower->first);
+        this->setCurrentPower(it->second);
     }
     if(this->powerTime > 0)
     {
         this->powerTime--;
 
 		// power 'tick'
-		this->powerRegistry.find(this->getCurrentPower())->second.onPowerTick(this->powerTime);
+		powerHandle->onPowerTick(this->powerTime);
 
         if(this->powerTime == 1)
         {
-            this->powerCooldown = 300; // 3 seconds
-            this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
-
-			// power 'stop'
-			this->powerRegistry.find(this->getCurrentPower())->second.onPowerStop();
+            this->stopCurrentPower();
         }
     }
 
     else if(this->powerTime == -1)
     {
 		// power 'cooldown tick'
-		this->powerRegistry.find(this->getCurrentPower())->second.onCooldownTick(this->powerCooldown);
+		powerHandle->onCooldownTick(this->powerCooldown);
         this->powerCooldown--;
     }
 
     if(this->powerCooldown == 1) // 1-set CUP, >1-cooldown!, -1-power is using!, 0-can use power
     {
 		// power 'cooldown stop'
-		this->powerRegistry.find(this->getCurrentPower())->second.onCooldownStop();
+		powerHandle->onCooldownStop();
         this->powerTime = 0;
 		this->powerCooldown = 0;
+		powerHandle = NULL;
     }
     this->isPowerUsed = false;
 }

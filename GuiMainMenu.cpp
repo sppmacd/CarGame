@@ -1,42 +1,50 @@
 #include "GuiMainMenu.h"
 #include "Game.h"
 #include "GameDisplay.h"
+#include "GuiSettings.h"
+#include "GuiMapSelect.h"
 #include <iostream>
 
 using namespace std;
-
-Button GuiMainMenu::b1;
-Button GuiMainMenu::b2;
-Button GuiMainMenu::b3;
 
 void GuiMainMenu::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(b1 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 60), "New Game", 0));
-    addButton(b2 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), "Settings", 2));
-    addButton(b3 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), "Quit Game", 1));
-    b3.setColor(sf::Color::Red);
+    addButton(bStart = ButtonCircle(180.f, Vector2f(game->getSize().x / 2, game->getSize().y / 2), "gui/start", 0));
+    addButton(bSettings = ButtonCircle(100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "gui/settings", 2));
+    addButton(bQuit = ButtonCircle(100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "gui/quit", 1));
+
+    bStart.setColor(Color::Green);
+    bQuit.setColor(Color::Red);
 }
 
-void GuiMainMenu::draw(sf::RenderWindow* wnd)
+void GuiMainMenu::onDraw(RenderWindow& wnd)
 {
-    b1.draw(wnd);
-    b2.draw(wnd);
-    b3.draw(wnd);
+    bStart.draw(wnd);
+    bQuit.draw(wnd);
+    bSettings.draw(wnd);
 
-    sf::Text text = GameDisplay::instance->drawCenteredString("Car Game", 200, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200), sf::Text::Italic);
-    text.setFillColor(sf::Color(100, 0, 0));
-    wnd->draw(text);
+    Sprite sprite(GameDisplay::instance->logoTexture);
+    sprite.setOrigin(Vector2f(GameDisplay::instance->logoTexture.getSize() / 2U));
+    sprite.setPosition(wnd.getSize().x / 2, wnd.getSize().y / 7);
+    wnd.draw(sprite);
+
+    GameDisplay::loadingStr = "Loading game engine...";
+    Text credits = drawString(string(CG_VERSION) + " - " + Game::instance->translation.get("gui.mainmenu.credit"), 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 30.f));
+
+    wnd.draw(credits);
+
+    Gui::onDraw(wnd);
 }
 
-void GuiMainMenu::onButtonClicked(long button)
+void GuiMainMenu::onClick(long button)
 {
     Game* game = Game::instance;
 
     if(button == 0)
     {
-        game->displayGui(4); //level selection
+        game->displayGui(new GuiMapSelect); //level selection
         if(game->isNewPlayer && game->tutorialStep == 2)
         {
             game->tutorialStep = 3;
@@ -50,7 +58,7 @@ void GuiMainMenu::onButtonClicked(long button)
 
     if(button == 2)
     {
-        game->displayGui(3); //settings
+        game->displayGui(new GuiSettings); //settings
     }
 }
 

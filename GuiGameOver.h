@@ -7,15 +7,15 @@
 class GuiGameOver : public Gui
 {
 public:
-    static void draw(sf::RenderWindow* wnd);
-    static void onButtonClicked(long button);
-    static void onLoad();
+    void onDraw(RenderWindow& wnd);
+    void onClick(long buttonId);
+    void onLoad();
 
 protected:
 
 private:
-    static Button b1;
-    static Button bMainMenu;
+    Button b1;
+    Button bMainMenu;
 };
 
 #endif // GUIGAMEOVER_H

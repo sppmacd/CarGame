@@ -1,21 +1,27 @@
 #include "Car.h"
 #include <iostream>
 #include "GameDisplay.h"
+#include "Game.h"
+#include "CarType.h"
+#include "Level.h"
 
-Car::Car(float speed, int line)
-    : typeId(NORMAL)
+Car::Car(Car::TypeId id, float speed, int line)
+    : typeId(id)
     , carSpeed(speed)
     , lineIn(line)
 {
     this->pos = 1080.f;
-    this->carRelativeToScreen = 1080.f;
     this->destroyTick = -1.f;
     this->canErase = false;
-    this->maxHealth = 1;
-    this->health = this->maxHealth - 1;
-    this->textureName = "default";
 	this->animSize = 1;
-	this->frameLength = 1;
+	this->frameLength = 60;
+
+	// Create car type for car
+	this->type = Game::instance->findCarTypeByID(id);
+	this->maxHealth = this->type->getMaxHealth();
+	this->textureName = this->type->getTextureName();
+	this->health = this->maxHealth;
+	this->colorMultiplier = Color::White;
 }
 
 bool Car::tickDestroy()
@@ -49,9 +55,9 @@ void Car::setColor(sf::Color color)
 
 void Car::move(float gameSpeed)
 {
-    this->pos -= this->carSpeed;
-    this->carRelativeToScreen -= this->carSpeed / 6.f;
-    this->carRelativeToScreen -= gameSpeed / 6.f;
+    //this->pos -= this->carSpeed;
+    this->pos -= this->carSpeed / 6.f;
+    this->pos -= gameSpeed / 6.f;
 }
 
 sf::Color Car::getColor()
@@ -59,16 +65,15 @@ sf::Color Car::getColor()
     return this->colorMultiplier;
 }
 
-void Car::makeDestroy()
+void Car::makeDestroy(float count)
 {
+    this->health -= count;
+
     if(this->health <= 0)
     {
+        this->health = 0.f;
         this->destroyTick = 20;
         this->carSpeed /= 2.5;
-    }
-    else
-    {
-        this->health--;
     }
 }
 
@@ -77,26 +82,55 @@ bool Car::isCrashedWith(Car* car)
     return car->getLine() == this->getLine() && abs(car->getPos() - this->getPos()) < 50.f;
 }
 
-void Car::onCreate()
+void Car::onCreate(Game* )
 {
-	//...
+
 }
 
-void Car::onDamage()
+void Car::onDamage(Game* game)
 {
+    makeDestroy();
+
+    if(typeId != Car::BOMB)
+    {
+        if(typeId == Car::RARE)
+        {
+            game->addScore(2);
+        }
+        else
+        {
+            game->addScore(1);
+        }
+
+        if(game->getScore() % 2 == 0)
+        {
+            game->addCoins(game->getCoinMultiplier());
+        }
+    }
+    if(health <= 0.f)
+    {
+        onDestroy(game);
+    }
 }
 
-void Car::onDestroy()
+void Car::onDestroy(Game*)
 {
+
 }
 
-void Car::onUpdate()
+void Car::onUpdate(Game*)
 {
+    //...
+}
+
+void Car::onLeave(Game* game)
+{
+    game->setGameOver();
 }
 
 sf::Vector2f Car::getScreenPos()
 {
-    return sf::Vector2f(this->carRelativeToScreen * 2, (this->getLine() * 83) + GameDisplay::instance->getSize().y/2 - 85);
+    return sf::Vector2f(this->pos * 2, LevelUtility::getLanePos(this->getLine()).y/*+laneChangeTick*/);
 }
 
 string Car::getTextureName()
@@ -107,4 +141,10 @@ string Car::getTextureName()
 void Car::setSpeed(float speed)
 {
     this->carSpeed = speed;
+}
+
+void Car::setMaxHealth(float maxH)
+{
+    this->maxHealth = maxH;
+    this->health = maxH;
 }

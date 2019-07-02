@@ -10,7 +10,7 @@ using namespace sf;
 class Button
 {
 public:
-    Button(sf::Vector2f size, sf::Vector2f pos, string text, int id);
+    Button(sf::Vector2f size, sf::Vector2f pos, String text, int id);
 	Button() : Button(Vector2f(0, 0), Vector2f(100, 30), "Button", -1) {}
 
     sf::Vector2f getPos()
@@ -21,23 +21,24 @@ public:
     {
         return this->bSize;
     }
-    string getText()
+    String getText()
     {
         return this->bText;
     }
 
     void setColor(sf::Color color);
 
-    sf::Text drawString(string, int, sf::Vector2f, sf::Text::Style);
+    sf::Text drawString(String, int, sf::Vector2f, sf::Text::Style);
 
-    virtual void draw(sf::RenderWindow* wnd);
+    virtual void draw(sf::RenderWindow& wnd);
 	virtual void onClick();
+	virtual bool isClicked(Vector2f pos);
 
     bool isMouseOver;
     bool enabled;
     long id;
 
-    bool operator==(Button r)
+    bool operator==(Button& r)
     {
         return r.id == this->id;
     }
@@ -45,7 +46,7 @@ public:
 protected:
 	sf::Vector2f bSize;
 	sf::Vector2f bPos;
-	string bText;
+	String bText;
 	sf::Color bColor;
 private:
 };

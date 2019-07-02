@@ -1,8 +1,11 @@
-*.cbp
-*.depend
-*.layout
+bin/
 share/
 obj/
-bin/
-*.save_failed
+Cache/
+*.log
+*.txt
 *.cscope_file_list
+*.depend
+*.layout
+*.save-failed
+*.cbp

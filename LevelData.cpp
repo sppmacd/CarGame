@@ -7,23 +7,16 @@ LevelData* Maps::desert;
 LevelData* Maps::forest;
 LevelData* Maps::ice;
 LevelData* Maps::mountains;
-
-void LevelData::addRarity(Car::TypeId car, int value)
-{
-    this->carRarity.at(car) = value;
-}
+LevelData* Maps::beach;
+LevelData* Maps::city;
+LevelData* Maps::sea;
+LevelData* Maps::swampland;
+LevelData* Maps::motorway;
+LevelData* Maps::forest_trails;
 
 float LevelData::getAcceleration()
 {
     return this->acc;
-}
-
-int LevelData::getCarRarity(Car::TypeId car)
-{
-    if(this->carRarity[car] != 0)
-        return this->carRarity[car];
-    else
-        return 10; //default rarity
 }
 
 int LevelData::getCarCreationSpeed()
@@ -46,86 +39,70 @@ sf::String LevelData::getTextureName()
     return this->textureName;
 }
 
+int LevelData::getCost()
+{
+    return this->mapCost;
+}
+
 LevelData::LevelData(MapType type)
 {
     this->mapType = type;
+    setCost(0);
 }
 
 void LevelData::init()
 {
-    Maps::countryside = new LevelData(COUNTRYSIDE);
-    Maps::countryside->addRarity(Car::LORRY, 3);
-    Maps::countryside->addRarity(Car::RARE, 5);
-    Maps::countryside->addRarity(Car::BUS, 10);
-    Maps::countryside->addRarity(Car::AMBULANCE, 10);
-    Maps::countryside->setAcceleration(4.f);
-    Maps::countryside->setColor(sf::Color(82, 133, 75));
-    Maps::countryside->setTextureName("countryside");
-	Maps::countryside->setCarCreationSpeed(70);
+    Maps::countryside = &(new LevelData(COUNTRYSIDE))->setAcceleration(5.f).setColor(sf::Color(82, 133, 75)).setTextureName("countryside").setCarCreationSpeed(70);
+	Maps::desert = &(new LevelData(LevelData::DESERT))->setAcceleration(4.4f).setColor(sf::Color(255, 255, 0)).setTextureName("desert").setCarCreationSpeed(80).setCost(400);
+    Maps::forest = &(new LevelData(LevelData::FOREST))->setAcceleration(6.f).setColor(sf::Color(0, 140, 0)).setTextureName("forest").setCarCreationSpeed(60).setCost(1600);
+    Maps::ice = &(new LevelData(LevelData::ICE))->setAcceleration(7.f).setColor(sf::Color(230, 230, 230)).setTextureName("ice").setCarCreationSpeed(90).setCost(4000);
+    Maps::mountains = &(new LevelData(LevelData::MOUNTAINS))->setAcceleration(4.f).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(85).setCost(16000);
+    Maps::beach = &(new LevelData(LevelData::BEACH))->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(50).setCost(24000);
+    Maps::city = &(new LevelData(LevelData::CITY))->setAcceleration(6.f).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(30).setCost(40000);
+    Maps::motorway = &(new LevelData(LevelData::MOTORWAY))->setAcceleration(10.f).setColor(sf::Color(26, 26, 26)).setTextureName("motorway").setCarCreationSpeed(100).setCost(60000);
+    Maps::sea = &(new LevelData(LevelData::SEA))->setAcceleration(4.f).setColor(sf::Color(44, 48, 112)).setTextureName("sea").setCarCreationSpeed(50).setCost(80000);
+    Maps::swampland = &(new LevelData(LevelData::SWAMPLAND))->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(80).setCost(120000);
+    Maps::forest_trails = &(new LevelData(LevelData::FOREST_TRAILS))->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(200000);
 
-	Maps::desert = new LevelData(LevelData::DESERT);
-    Maps::desert->addRarity(Car::LORRY, 3);
-    Maps::desert->addRarity(Car::RARE, 2);
-    Maps::desert->addRarity(Car::BUS, 3);
-    Maps::desert->addRarity(Car::AMBULANCE, 3);
-    Maps::desert->setAcceleration(3.4f);
-    Maps::desert->setColor(sf::Color::Yellow);
-    Maps::desert->setTextureName("desert");
-	Maps::desert->setCarCreationSpeed(80);
-
-    Maps::forest = new LevelData(LevelData::FOREST);
-    Maps::forest->addRarity(Car::LORRY, 3);
-    Maps::forest->addRarity(Car::RARE, 2);
-    Maps::forest->addRarity(Car::BUS, 15);
-    Maps::forest->addRarity(Car::AMBULANCE, 10);
-    Maps::forest->setAcceleration(5.f);
-    Maps::forest->setColor(sf::Color(0, 140, 0));
-    Maps::forest->setTextureName("forest");
-	Maps::forest->setCarCreationSpeed(60);
-
-    Maps::ice = new LevelData(LevelData::ICE);
-    Maps::ice->addRarity(Car::LORRY, 15);
-    Maps::ice->addRarity(Car::RARE, 3);
-    Maps::ice->addRarity(Car::BUS, 8);
-    Maps::ice->addRarity(Car::AMBULANCE, 15);
-    Maps::ice->setAcceleration(6.f);
-    Maps::ice->setColor(sf::Color(230, 230, 230));
-    Maps::ice->setTextureName("ice");
-	Maps::ice->setCarCreationSpeed(90);
-
-    Maps::mountains = new LevelData(LevelData::MOUNTAINS);
-    Maps::mountains->addRarity(Car::LORRY, 13);
-    Maps::mountains->addRarity(Car::RARE, 7);
-    Maps::mountains->addRarity(Car::BUS, 3);
-    Maps::mountains->addRarity(Car::AMBULANCE, 20);
-    Maps::mountains->setAcceleration(3.f);
-    Maps::mountains->setColor(sf::Color(85, 86, 85));
-    Maps::mountains->setTextureName("mountains");
-	Maps::mountains->setCarCreationSpeed(85);
-
-	Game::instance->levelRegistry.insert(make_pair("Countryside", Maps::countryside));
-	Game::instance->levelRegistry.insert(make_pair("Desert", Maps::desert));
-	Game::instance->levelRegistry.insert(make_pair("Forest", Maps::forest));
-	Game::instance->levelRegistry.insert(make_pair("Ice", Maps::ice));
-	Game::instance->levelRegistry.insert(make_pair("Mountains", Maps::mountains));
+	Game::instance->levelRegistry.push_back(make_pair("countryside", Maps::countryside));
+	Game::instance->levelRegistry.push_back(make_pair("desert", Maps::desert));
+	Game::instance->levelRegistry.push_back(make_pair("forest", Maps::forest));
+	Game::instance->levelRegistry.push_back(make_pair("ice", Maps::ice));
+	Game::instance->levelRegistry.push_back(make_pair("mountains", Maps::mountains));
+	Game::instance->levelRegistry.push_back(make_pair("beach", Maps::beach));
+	Game::instance->levelRegistry.push_back(make_pair("city", Maps::city));
+	Game::instance->levelRegistry.push_back(make_pair("motorway", Maps::motorway));
+	Game::instance->levelRegistry.push_back(make_pair("sea", Maps::sea));
+	Game::instance->levelRegistry.push_back(make_pair("swampland", Maps::swampland));
+	Game::instance->levelRegistry.push_back(make_pair("forest_trails", Maps::forest_trails));
 }
 
-void LevelData::setAcceleration(float f)
+LevelData& LevelData::setAcceleration(float f)
 {
     this->acc = f;
+    return *this;
 }
 
-void LevelData::setCarCreationSpeed(int ccs)
+LevelData& LevelData::setCarCreationSpeed(int ccs)
 {
 	this->carCreationSpd = ccs;
+	return *this;
 }
 
-void LevelData::setColor(sf::Color c)
+LevelData& LevelData::setColor(sf::Color c)
 {
     this->mapColor = c;
+    return *this;
 }
 
-void LevelData::setTextureName(sf::String name)
+LevelData& LevelData::setTextureName(sf::String name)
 {
     this->textureName = name;
+    return *this;
+}
+
+LevelData& LevelData::setCost(int cost)
+{
+    this->mapCost = cost;
+    return *this;
 }

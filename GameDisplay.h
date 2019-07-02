@@ -1,5 +1,4 @@
-#ifndef GAMEDISPLAY_H
-#define GAMEDISPLAY_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <string>
@@ -7,13 +6,14 @@
 #include <iostream>
 
 using namespace std;
+using namespace sf;
 
 class GameDisplay
 {
 public:
 	// Default constructor with wnd.
     GameDisplay(sf::RenderWindow* wnd);
-	
+
 	// Default constructor.
 	GameDisplay() {}
 
@@ -28,7 +28,7 @@ public:
 
 	// Display [in loop].
     void display();
-	
+
 	// Draw game: cars, background, powers etc [in loop].
     void drawGame();
 
@@ -42,34 +42,34 @@ public:
     void clearTextures();
 
 	// Draw stat. Params: statX, statY, stat texture name, value of stat.
-    void drawStat(int x, int y, string name, long val);
+    void drawStat(int x, int y, String name, long val);
 
 	// Draw loading screen [in loading loop].
 	static void drawLoading(sf::RenderWindow* wnd);
 
 	// The string displayed on loading screen.
-	static string loadingStr;
+	static String loadingStr;
 
 	// Draw simple loading screen.
-    static void drawLoadingProgress(string action, sf::RenderWindow* wnd);
+    static void drawLoadingProgress(String action, sf::RenderWindow* wnd);
 
 	// Draw tutorial text and rectangle.
-    void drawTutorial(sf::Vector2f, sf::Vector2f, string str);
+    void drawTutorial(sf::Vector2f pos, sf::Vector2f size, String str);
 
 	// Draw splash with specified text.
-	void drawSplash(string text);
+	void drawSplash(String text);
 
 	// Set splash text.
-	void setSplash(string text);
+	void setSplash(String text);
 
 	// Retrieve mouse position.
 	sf::Vector2i mousePos();
 
 	// Get drawable string prepared to draw. Params: string,size,position,style. Returns: instance of sf::Text.
-    sf::Text drawString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
+    sf::Text drawString(String tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
 
 	// Get drawable centered string prepared to draw. Params: string,size,position,style. Returns: instance of sf::Text.
-    sf::Text drawCenteredString(string tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
+    sf::Text drawCenteredString(String tx, int height, sf::Vector2f pos, sf::Text::Style style = sf::Text::Regular);
 
 	// Retrieve current RenderWindow.
     sf::RenderWindow* getRenderWnd()
@@ -78,18 +78,12 @@ public:
     }
 
 	// Add/register texture to GameDisplay.
-    void addTexture(string name);
+    void addTexture(string name, bool repeated = false, bool smooth = false);
 
 	// Get texture instance.
     sf::Texture& getTexture(string name);
 
-	// A default instance of GameDisplay.
-    static GameDisplay* instance;
-
-	// Texture map.
-	map<string, sf::Texture> texturesByName;
-
-	// Set vsync state to 'b'
+    // Set vsync state to 'b'
 	void setVSync(bool b);
 
 	// Retrieve vsync state.
@@ -98,8 +92,19 @@ public:
 	// Get default size of the view.
 	sf::Vector2u getSize();
 
-	// Set default size. It doesn't change real size of the window, it is only called on change VideoMode and size of the Window::View.
+	// A default instance of GameDisplay.
+    static GameDisplay* instance;
+
+	// Texture map.
+	map<string, sf::Texture> texturesByName;
+
+	Texture logoTexture;
+
+    // Set default size. It doesn't change real size of the window, it is only called on change VideoMode and size of the Window::View.
 	void setWndSize(sf::Vector2u vec);
+
+	// Check if GameDisplay encountered an error while loading. If set, the game will close immediately.
+	bool isError();
 
 protected:
 
@@ -114,7 +119,7 @@ private:
     sf::Font guiFont;
 
 	// Splash data - text
-	string splashText;
+	String splashText;
 
 	// Splash data - is the splash set?
 	bool splashSet;
@@ -130,6 +135,6 @@ private:
 
 	// Default wnd size, set on create.
 	sf::Vector2u wndSizeDefault;
-};
 
-#endif // GAMEDISPLAY_H
+	bool error;
+};

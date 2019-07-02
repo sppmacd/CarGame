@@ -6,6 +6,7 @@
 #include "Car.h"
 
 using namespace std;
+using namespace sf;
 
 /// Class used with loading game, stores main level data.
 class LevelData
@@ -18,6 +19,12 @@ public:
         FOREST,
         ICE,
         MOUNTAINS,
+        SEA,
+        BEACH,
+        SWAMPLAND,
+        CITY,
+        MOTORWAY,
+        FOREST_TRAILS,
         COUNT
     };
     static void init();
@@ -26,26 +33,25 @@ public:
     LevelData() {}
     MapType getMapType();
 
-    void addRarity(Car::TypeId car, int value);
-    void setColor(sf::Color c);
-    void setTextureName(sf::String name);
-    void setAcceleration(float f);
-	void setCarCreationSpeed(int ccs);
+    LevelData& setColor(sf::Color c);
+    LevelData& setTextureName(sf::String name);
+    LevelData& setAcceleration(float f);
+	LevelData& setCarCreationSpeed(int ccs);
+	LevelData& setCost(int cost);
 
-    sf::Color getColor();
-    sf::String getTextureName();
+    Color getColor();
+    String getTextureName();
     float getAcceleration();
-    int getCarRarity(Car::TypeId car);
 	int getCarCreationSpeed();
+	int getCost();
 
 private:
-    /// Internal array to store car rarity.
-    std::array<int, Car::COUNT> carRarity;
-    sf::Color mapColor;
-    sf::String textureName;
+    Color mapColor;
+    String textureName;
     float acc;
     MapType mapType;
 	int carCreationSpd;
+	int mapCost;
 };
 
 
