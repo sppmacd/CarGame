@@ -1,8 +1,8 @@
---- Car Game ---
+# Car Game
 
 Current Version: beta 0.1 [The New Map Update]
 
-Simple Tutorial
+## Simple Tutorial
 
 * Destroy cars by clicking on it.
 * Any successful "attack" gives you points. The point count depends on map.
@@ -12,14 +12,14 @@ Simple Tutorial
 * You cannot click at Bomb! It explodes and makes your game over.
 * You can reset your game in Settings.
 
-Changing Language
+## Changing Language
 
-* To change language go to (installation directory)/bin/res/lang/
+* To change language go to (installation directory)/res/lang/
 * Open file 'config.lang'
 * Change 'current.lang' to your language code (e.g en_US -> English, United States).
 	current.lang=en_US -> current.lang=(language code)
 * Restart your game.
 
-Help us translating the game!
+## Help us translating the game!
 
-* In the (installation directory)/bin/res/lang/ are more files with names of the language code. You can create new file and send at address sppmacd@gmail.com.
+* In the (installation directory)/res/lang/ are more files with names of the language code. You can create new file and send at address sppmacd@gmail.com.
