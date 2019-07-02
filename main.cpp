@@ -150,7 +150,7 @@ int main()
                     cout << "main: Tick took " << l << endl;
                 }
 
-                Time waitTime = microseconds(16660) - clock.getElapsedTime();
+                Time waitTime = microseconds(15000) - clock.getElapsedTime();
                 //while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
                 sleep(waitTime);
 

@@ -311,12 +311,7 @@ void Game::loadPlayerData()
                 cout << "Game: Cannot load player data! Creating new profile. You are the new player :)" << endl;
                 this->highScore = 0;
                 this->playerCoins = 0;
-
-                for(size_t t = 0; t < levelRegistry.size(); t++)
-                {
-                    bool unlocked = false;
-                    this->unlockedLevels |= (unlocked << t);
-                }
+                this->unlockedLevels  = 0;
 
                 this->totalPlayerPoints = 0;
                 this->coinMpl = 1;
