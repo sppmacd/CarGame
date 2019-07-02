@@ -8,6 +8,7 @@
 #include "EventHandler.h"
 #include "CarType.h"
 #include "TranslationManager.hpp"
+#include "PowerPlayerData.hpp"
 
 using namespace std;
 
@@ -237,7 +238,8 @@ public:
     void usePower(int id);
 
 	// Store player powers
-    map<int,int> powers;
+    map<int, int> powers;
+    //map<int, PowerPlayerData> powers; // 0.2
 
 	// Register powers
 	void registerPowers();

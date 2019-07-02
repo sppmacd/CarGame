@@ -18,8 +18,10 @@ private:
     {
         unsigned int cost;
         unsigned int count;
+        //unsigned int level; // 0.2
         Power* power;
         Button bBuyPower;
+        //Button bUpgradePower; // 0.2
     };
 
     virtual ~GuiPowers();

@@ -21,6 +21,7 @@ void GuiPowers::onLoad()
             data->power = s.second;
             data->cost = data->power->getCost();
             data->count = Game::instance->powers[s.first];
+            // data->level = Game::instance->power; // 0.2
             powerData.push_back(data);
             addButton(data->bBuyPower = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200.f, s.first * 50.f + game->getSize().y / 4),
                                     Game::instance->translation.get("gui.powers.buy", {
