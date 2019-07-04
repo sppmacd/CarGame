@@ -12,26 +12,33 @@ using namespace sf;
 class LevelData
 {
 public:
-    enum MapType
+    class MapType
     {
-        COUNTRYSIDE,
-        DESERT,
-        FOREST,
-        ICE,
-        MOUNTAINS,
-        SEA,
-        BEACH,
-        SWAMPLAND,
-        CITY,
-        MOTORWAY,
-        FOREST_TRAILS,
-        COUNT
+        int mapId;
+        static int nextId;
+    public:
+        MapType(int id = nextId++);
+        operator int() const;
     };
+
+    static MapType COUNTRYSIDE;
+    static MapType DESERT;
+    static MapType FOREST;
+    static MapType ICE;
+    static MapType MOUNTAINS;
+    static MapType SEA;
+    static MapType BEACH;
+    static MapType SWAMPLAND;
+    static MapType CITY;
+    static MapType MOTORWAY;
+    static MapType FOREST_TRAILS;
+    static MapType COUNT;
+
     static void init();
 
-    LevelData(MapType type);
-    LevelData() {}
-    MapType getMapType();
+    LevelData(const MapType& type);
+    LevelData(): mapType(COUNT) {}
+    const MapType& getMapType() const;
 
     LevelData& setColor(sf::Color c);
     LevelData& setTextureName(sf::String name);
@@ -39,11 +46,11 @@ public:
 	LevelData& setCarCreationSpeed(int ccs);
 	LevelData& setCost(int cost);
 
-    Color getColor();
-    String getTextureName();
-    float getAcceleration();
-	int getCarCreationSpeed();
-	int getCost();
+    Color getColor() const;
+    String getTextureName() const;
+    float getAcceleration() const;
+	int getCarCreationSpeed() const;
+	int getCost() const;
 
 private:
     Color mapColor;

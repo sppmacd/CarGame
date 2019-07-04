@@ -88,13 +88,14 @@ int main()
         data.wnd->setVerticalSyncEnabled(true);
 
         sf::Thread loadingThread(loadGame,&data);
-
         loadingThread.launch();
+
         sf::Clock clock;
         sf::Clock eventClock;
         sf::Clock guiClock;
         sf::Clock tickClock;
         sf::Clock renderClock;
+        sf::Clock lastWarningClock;
         sf::Event ev1;
 
         bool mainLoopRunning = true;
@@ -144,10 +145,10 @@ int main()
                 if (updateDebugStats) data.game->tickTime = clock.getElapsedTime();
 
                 sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
-
-                if(l > 16660)
+                if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
                 {
                     cout << "main: Tick took " << l << endl;
+                    lastWarningClock.restart();
                 }
 
                 Time waitTime = microseconds(15000) - clock.getElapsedTime();

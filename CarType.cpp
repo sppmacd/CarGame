@@ -30,12 +30,12 @@ CarType& CarType::setRarities(std::initializer_list<int> list)
     for(size_t s = 0; s < Game::instance->levelRegistry.size(); s++)
     {
         // Reset rarities to default values, if not set
-        carRarities[s] = 1;
+        carRarities[(LevelData::MapType)s] = 1;
     }
 	for(auto it = list.begin(); it != list.end(); it++)
     {
         // Set rarity to value specified in list.
-        carRarities[it - list.begin()] = *it;
+        carRarities[(LevelData::MapType)(it - list.begin())] = *it;
     }
 
 	return *this;

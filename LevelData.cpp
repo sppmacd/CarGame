@@ -14,39 +14,61 @@ LevelData* Maps::swampland;
 LevelData* Maps::motorway;
 LevelData* Maps::forest_trails;
 
-float LevelData::getAcceleration()
+int LevelData::MapType::nextId = 0;
+LevelData::MapType LevelData::COUNTRYSIDE;
+LevelData::MapType LevelData::DESERT;
+LevelData::MapType LevelData::FOREST;
+LevelData::MapType LevelData::ICE;
+LevelData::MapType LevelData::MOUNTAINS;
+LevelData::MapType LevelData::SEA;
+LevelData::MapType LevelData::BEACH;
+LevelData::MapType LevelData::SWAMPLAND;
+LevelData::MapType LevelData::CITY;
+LevelData::MapType LevelData::MOTORWAY;
+LevelData::MapType LevelData::FOREST_TRAILS;
+LevelData::MapType LevelData::COUNT;
+
+LevelData::MapType::MapType(int id): mapId(id)
+{
+
+}
+LevelData::MapType::operator int() const
+{
+    return mapId;
+}
+
+float LevelData::getAcceleration() const
 {
     return this->acc;
 }
 
-int LevelData::getCarCreationSpeed()
+int LevelData::getCarCreationSpeed() const
 {
 	return carCreationSpd == 0 ? 70 : carCreationSpd;
 }
 
-sf::Color LevelData::getColor()
+sf::Color LevelData::getColor() const
 {
     return this->mapColor;
 }
 
-LevelData::MapType LevelData::getMapType()
+const LevelData::MapType& LevelData::getMapType() const
 {
     return this->mapType;
 }
 
-sf::String LevelData::getTextureName()
+sf::String LevelData::getTextureName() const
 {
     return this->textureName;
 }
 
-int LevelData::getCost()
+int LevelData::getCost() const
 {
     return this->mapCost;
 }
 
-LevelData::LevelData(MapType type)
+LevelData::LevelData(const MapType& type): mapType(type)
 {
-    this->mapType = type;
     setCost(0);
 }
 

@@ -198,7 +198,7 @@ void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
 {
     if(GameDisplay::instance)
     {
-        if(GameDisplay::instance->guiFont.getInfo().family.empty() && !GameDisplay::instance->guiFont.loadFromFile("res/font.ttf"))
+        if(GameDisplay::instance->guiFont.getInfo().family.empty() && !GameDisplay::instance->error && !GameDisplay::instance->guiFont.loadFromFile("res/font.ttf"))
         {
             GameDisplay::instance->error = true;
             return;
