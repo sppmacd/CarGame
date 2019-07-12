@@ -1,0 +1,64 @@
+gui.done=Done
+gui.return=Return...
+gui.cancel=Cancel
+gui.up=Auf
+gui.down=Ab
+
+gui.toggle.on=On
+gui.toggle.off=Off
+
+gui.yesno.yes=Yes
+gui.yesno.no=No
+
+gui.mainmenu.credit=Sppmacd 2018. Benutzt SFML.
+
+gui.settings.title=Settings
+gui.settings.refreshres=Refresh Resources
+gui.settings.verticalsync=Vertical Sync
+gui.settings.resetgame=Reset Game
+gui.settings.language=Sprache
+gui.settings.resetgame.warning=This cannot be undone!
+gui.settings.resetgame.delete=Are you sure to delete all your player data?
+
+gui.language.title=Language...
+
+gui.selectmap.title=Map & Powers
+gui.selectmap.powers=Powers...
+gui.selectmap.buyconfirm=Willst du %0 kaufen?
+gui.selectmap.buyfor=Kaufen für %0$
+gui.selectmap.notenoughcoins=Nicht genug Geld
+
+gui.powers.buy=Kaufen %0: %1$
+gui.powers.title=Kaufen Powers
+gui.powers.return=Return to Maps
+
+gui.ingame.returngame=Return zu Spiel
+gui.ingame.returnmainmenu=Return zum Hauptmenü
+gui.ingame.quit=Spiel beenden
+gui.ingame.title=Spiel menu
+
+gui.gameover.title=Game Over!
+gui.gameover.score=Deine Punkte war %0
+gui.gameover.return=Return zu Menu
+gui.gameover.newgame=Neue Spiel
+
+power.none=Kein Power
+power.oil=Öl
+power.freeze=Freeze
+power.point_boost=Point Boost
+power.fence=Fence
+power.ball=Ball
+
+map.countryside=Countryside
+map.desert=Küste
+map.forest=Wald
+map.ice=Ice
+map.mountains=Gebirge
+map.beach=Strand
+map.city=Stadt
+map.motorway=Motorway
+map.sea=Meer
+map.swampland=Swampland
+map.forest_trails=Wald Trails
+
+splash.newrecord=Neue Rekord!
