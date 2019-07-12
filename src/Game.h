@@ -2,7 +2,6 @@
 
 #include <vector>
 #include "Car.h"
-#include "Gui.h"
 #include "LevelData.h"
 #include "Power.h"
 #include "EventHandler.h"
@@ -11,9 +10,13 @@
 #include "PowerPlayerData.hpp"
 #include "version.hpp"
 
-using namespace std;
+#include <CG/CG.h>
 
-class Game
+using namespace std;
+using namespace sf;
+using namespace cg;
+
+class Game: public GuiHandler
 {
 public:
     struct Times
@@ -42,10 +45,10 @@ public:
     bool wasReleased;
 
 	// Variable storing gui status
-    bool isGuiLoaded;
+    //bool isGuiLoaded;
 
 	// Variable storing currently displayed GUI. If NULL, the GUI is not loaded.
-    Gui* displayedGui;
+    //Gui* displayedGui;
 
 	// Power time
     int powerTime;
@@ -81,7 +84,7 @@ public:
 	TranslationManager translation;
 
 	///Vector storing event handlers.
-	multimap<sf::Event::EventType, EventHandler> eventHandlers;
+	multimap<sf::Event::EventType, CGEventHandler> eventHandlers;
 
 	/////////////////////////
     ////// PLAYER DATA //////
@@ -122,7 +125,7 @@ public:
     long long unlockedLevels;
 
 	// EventsHandler instance
-	EventsHandler eventHandler;
+	EventsHandler eventHandlerInst;
 
 	// Error string
 	string errStr;
@@ -200,10 +203,10 @@ public:
 
 	// Displays (and loads) specified GUI.
 	/// The GUI must be created dynamically!
-    void displayGui(Gui* gui);
+    //void displayGui(Gui* gui);
 
 	// Closes current GUI
-    void closeGui();
+    //void closeGui();
 
 	// Returns level color, used by renderer
     sf::Color getLevelColor() { return this->level.getColor(); }
@@ -267,7 +270,7 @@ public:
 	void registerEventHandlers();
 
 	// Add event handler.
-	void addEventHandler(Event::EventType type, EventHandler handler);
+	void addEventHandler(Event::EventType type, CGEventHandler handler);
 
 	// Find level by ID
 	LevelData findLevel(LevelData::MapType type);
@@ -310,7 +313,7 @@ public:
 
 private:
 	// Not used variable storing camera position
-    int cameraPos;
+    //int cameraPos;
 
 	// Current game speed
     float gameSpeed;
@@ -351,8 +354,8 @@ private:
 	///// FUNCTIONS /////
 
 	// Tick mouse move event internally (gui loop)
-    void tickEventMouseMove(sf::Vector2f pos);
+    //void tickEventMouseMove(sf::Vector2f pos);
 
 	// Tick mouse click event internally (gui loop)
-    void tickEventMouseClick(sf::Vector2f pos);
+    //void tickEventMouseClick(sf::Vector2f pos);
 };

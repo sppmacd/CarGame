@@ -10,7 +10,7 @@ class ButtonCircle : public ButtonImage
     float bRadius;
 public:
     ButtonCircle() {}
-    ButtonCircle(float radius, Vector2f pos, string imageName, int id);
+    ButtonCircle(Gui* gui, float radius, Vector2f pos, string imageName, int id);
     void setRadius(float radius);
     void draw(RenderWindow& wnd);
     bool isClicked(Vector2f pos);

@@ -1,7 +1,8 @@
-#ifndef GUIMAINMENU_H
-#define GUIMAINMENU_H
+#pragma once
 
-#include "Gui.h"
+#include <CG/CG.h>
+using namespace cg;
+
 #include "ButtonCircle.h"
 
 using namespace sf;
@@ -10,7 +11,7 @@ class GuiMainMenu : public Gui
 {
 public:
     void onDraw(sf::RenderWindow& wnd);
-    void onClick(long button);
+    void onClick(int button);
     void onLoad();
 
 protected:
@@ -20,6 +21,3 @@ private:
     ButtonCircle bQuit;
     ButtonCircle bSettings; //settings
 };
-
-#endif // GUIMAINMENU_H
-

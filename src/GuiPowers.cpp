@@ -23,15 +23,15 @@ void GuiPowers::onLoad()
             data->count = Game::instance->powers[s.first];
             // data->level = Game::instance->power; // 0.2
             powerData.push_back(data);
-            addButton(data->bBuyPower = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200.f, s.first * 50.f + game->getSize().y / 4),
+            addWidget(&(data->bBuyPower = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200.f, s.first * 50.f + game->getSize().y / 4),
                                     Game::instance->translation.get("gui.powers.buy", {
                                     Game::instance->translation.get("power." + data->power->getName()), String(to_string(data->cost))
-                                    }), s.first + 100));
+                                    }), s.first + 100)));
         }
     }
 
-    addButton(bReturn = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y * 3 / 4),
-                               Game::instance->translation.get("gui.powers.return"), 0));
+    addWidget(&(bReturn = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y * 3 / 4),
+                               Game::instance->translation.get("gui.powers.return"), 0)));
 }
 GuiPowers::~GuiPowers()
 {
@@ -48,14 +48,14 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
     {
         if(unsigned(game->getCoins()) < data->cost || cooldown > 0)
         {
-            data->bBuyPower.enabled = false;
+            data->bBuyPower.setEnabled(false);
         }
         else
         {
-            data->bBuyPower.enabled = true;
+            data->bBuyPower.setEnabled(true);
         }
         data->bBuyPower.draw(wnd);
-        wnd.draw(drawString(to_string(data->count), 30, Vector2f(data->bBuyPower.getPos()) + Vector2f(420.f, 0.f)));
+        wnd.draw(drawString(to_string(data->count), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
     }
     bReturn.draw(wnd);
 
@@ -66,7 +66,7 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
     Gui::onDraw(wnd);
 }
 
-void GuiPowers::onClick(long button)
+void GuiPowers::onClick(int button)
 {
     Game* game = Game::instance;
 
@@ -79,7 +79,7 @@ void GuiPowers::onClick(long button)
         int powerId = button - 100;
         for(PowerData* data: powerData)
         {
-            if(data->bBuyPower.id == button)
+            if(data->bBuyPower.getID() == button)
             {
                 if(unsigned(game->getCoins()) >= data->cost)
                 {

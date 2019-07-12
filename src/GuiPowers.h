@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Gui.h"
+#include <CG/CG.h>
+using namespace cg;
+
 #include <vector>
 #include "Power.h"
 
@@ -8,7 +10,7 @@ class GuiPowers : public Gui
 {
 public:
     void onDraw(sf::RenderWindow& wnd);
-    void onClick(long button);
+    void onClick(int button);
     void onLoad();
 
 protected:

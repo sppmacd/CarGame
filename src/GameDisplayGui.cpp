@@ -1,12 +1,8 @@
 #include "GameDisplay.h"
 #include "Game.h"
-#include "GuiIngame.h"
-#include "GuiGameOver.h"
-#include "GuiMainMenu.h"
-#include "GuiSettings.h"
-#include "GuiMapSelect.h"
-#include "GuiPowers.h"
+
 #include <cstdlib>
+#include <cmath>
 
 void GameDisplay::drawStat(int x, int y, String texture, long val)
 {
@@ -220,8 +216,8 @@ void GameDisplay::drawGui()
         this->renderWnd->draw(arr);
     }
 
-	if(game->isGuiLoaded)
-        game->displayedGui->onDraw(*this->renderWnd);
+	if(game->isGuiLoaded())
+        game->drawGui(false);
 
     drawStat(50, 32, "coin", game->getCoins());
 

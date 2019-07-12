@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "GameDisplay.h"
 #include "GuiMainMenu.h"
-#include "GuiYesNo.h"
 #include "GameSound.h"
 #include <cstdlib>
 #include <iostream>
@@ -25,6 +24,7 @@ void loop(Game* game)
         game->tickNormalGame();
 
     game->newTick();
+    game->initializeGui();
 }
 
 struct LoadData
@@ -42,8 +42,6 @@ void loadGame(LoadData* ld)
         sf::Clock loadTime;
 
         cout << "main: Starting Car Game [" << CG_VERSION << "]" << endl;
-
-
         cout << "main: Loading game engine..." << endl;
         ld->disp = new GameDisplay(ld->wnd);
         ld->game = new Game;
@@ -124,10 +122,10 @@ int main()
                     }
                     // tick GUI for each event
 
-                    if (data.game->isGuiLoaded && ((ev1.type == Event::MouseMoved && !guiMouseMoveHandler) || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
+                    if (data.game->isGuiLoaded() && ((ev1.type == Event::MouseMoved && !guiMouseMoveHandler) || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
                     {
                         guiClock.restart();
-                        data.game->tickGui(ev1);
+                        data.game->handleEvent(ev1); // run CGUI handler
                         guiMouseMoveHandler = true;
                         if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
                     }

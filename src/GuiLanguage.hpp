@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Gui.h"
-#include "Button.h"
+#include <CG/CG.h>
+using namespace cg;
 
 class GuiLanguage : public Gui
 {
@@ -14,5 +14,5 @@ class GuiLanguage : public Gui
 public:
     void onLoad();
     void onDraw(RenderWindow& wnd);
-    void onClick(long buttonId);
+    void onClick(int buttonId);
 };

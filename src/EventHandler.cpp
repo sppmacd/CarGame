@@ -8,6 +8,7 @@
 #include "CarAmbulance.h"
 #include "CarTrain.hpp"
 #include "GuiIngame.h"
+#include <iostream>
 
 EventsHandler* EventsHandler::instance;
 
@@ -19,15 +20,18 @@ bool EventHandlers::onClose(Event, Game* game)
 
 bool EventHandlers::onMouseButtonReleased(Event event, Game * game)
 {
-	if (event.mouseButton.button == sf::Mouse::Left)
-	{
-		game->wasReleased = true;
-	}
-	else if (event.mouseButton.button == sf::Mouse::Right)
-	{
-		if (!game->paused() && game->powerCooldown <= 0 && game->powerTime <= 0 && game->powers[game->getCurrentPower()] > 0)
-			game->isPowerUsed = true;
-	}
+    if(!game->paused())
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            game->wasReleased = true;
+        }
+        else if (event.mouseButton.button == sf::Mouse::Right)
+        {
+            if (game->powerCooldown <= 0 && game->powerTime <= 0 && game->powers[game->getCurrentPower()] > 0)
+                game->isPowerUsed = true;
+        }
+    }
 	return true;
 }
 
@@ -37,10 +41,12 @@ bool EventHandlers::onMouseWheelScrolled(Event event, Game * game)
 	return true;
 }
 
-bool EventHandlers::onGUIKeyPressed(Event event, Game* game)
+bool EventHandlers::onGUIKeyPressed(Event, Game*)
 {
-    if(game->isGuiLoaded)
-        game->displayedGui->onKeyboard(event.key.code);
+    /*
+    if(game->isGuiLoaded())
+        game->getCurrentGUI()->onKeyboard(event.key.code);
+    */
     return true;
 }
 
@@ -71,11 +77,6 @@ bool EventHandlers::onKeyPressed(Event event, Game * game)
 	else if (event.key.code == sf::Keyboard::F3 && event.key.shift)
 	{
 		game->debug = !game->debug;
-	}
-	else if (event.key.code == sf::Keyboard::Escape && game->displayedGui == 0) //close ingame GUI on Esc (0.0.5)
-	{
-		game->closeGui();
-		game->pause(false);
 	}
 	return true;
 }

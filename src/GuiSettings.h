@@ -1,14 +1,13 @@
-#ifndef GUISETTINGS_H
-#define GUISETTINGS_H
+#pragma once
 
-#include "Gui.h"
-#include "ButtonToggle.h"
+#include <CG/CG.h>
+using namespace cg;
 
 class GuiSettings : public Gui
 {
 public:
     void onDraw(sf::RenderWindow& wnd);
-    void onClick(long button);
+    void onClick(int button);
     void onLoad();
 	void onDialogFinished(Gui* dialog, int callId);
 
@@ -22,6 +21,4 @@ private:
     Button bLanguage;
     //Button bTFM;
 };
-
-#endif // GUISETTINGS_H
 

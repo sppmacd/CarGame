@@ -12,8 +12,8 @@ void GuiGameOver::onLoad()
     GameDisplay* game = GameDisplay::instance;
     Game* game2 = Game::instance;
 
-    addButton(b1 = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), game2->translation.get("gui.gameover.newgame"), 0));
-    addButton(bMainMenu = Button(Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), game2->translation.get("gui.gameover.return"), 1));
+    addWidget(&(b1 = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), game2->translation.get("gui.gameover.newgame"), 0)));
+    addWidget(&(bMainMenu = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), game2->translation.get("gui.gameover.return"), 1)));
 
     b1.setColor(sf::Color::Green);
     bMainMenu.setColor(sf::Color::Red);
@@ -39,7 +39,7 @@ void GuiGameOver::onDraw(sf::RenderWindow& wnd)
     Gui::onDraw(wnd);
 }
 
-void GuiGameOver::onClick(long button)
+void GuiGameOver::onClick(int button)
 {
     Game* game = Game::instance;
     if(button == 0)

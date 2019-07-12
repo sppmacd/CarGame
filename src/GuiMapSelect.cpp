@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "GameDisplay.h"
 #include "GuiMainMenu.h"
-#include "GuiYesNo.h"
 #include <iostream>
 #include "GuiPowers.h"
 #include "maptype.h"
@@ -13,10 +12,10 @@ void GuiMapSelect::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bReturn = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.return"), 0));
-    addButton(bPowers = Button(sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.selectmap.powers"), 1));
-    addButton(bNext = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f), ">", 2));
-    addButton(bPrev = Button(sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f), "<", 3));
+    addWidget(&(bReturn = Button(this, sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.return"), 0)));
+    addWidget(&(bPowers = Button(this, sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.selectmap.powers"), 1)));
+    addWidget(&(bNext = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f), ">", 2)));
+    addWidget(&(bPrev = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f), "<", 3)));
 
 	id = 0;
 
@@ -24,14 +23,14 @@ void GuiMapSelect::onLoad()
 	for (auto ld : Game::instance->levelRegistry)
 	{
 		LevelData* lvld = ld.second;
-		ButtonImage bimg("map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first, 100);
+		ButtonImage bimg(this, "map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first, 100);
 		bimg.setColor(lvld->getColor());
 		MapData md{ld.first, bimg, lvld->getCost()};
 		bMd.push_back(md);
 		i++;
 	}
 
-	addButton(bMd[id].bImg);
+	addWidget(&bMd[id].bImg);
 
     bReturn.setColor(sf::Color::Red);
     bPowers.setColor(sf::Color::Cyan);
@@ -85,7 +84,7 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
     Gui::onDraw(wnd);
 }
 
-void GuiMapSelect::onClick(long button)
+void GuiMapSelect::onClick(int button)
 {
     Game* game = Game::instance;
 
@@ -101,19 +100,19 @@ void GuiMapSelect::onClick(long button)
     }
     else if (button == 2)
     {
-        removeButton(bMd[id].bImg);
+        removeWidget(bMd[id].bImg);
         id++;
         if (id >= int(game->levelRegistry.size()))
             id = 0;
-        addButton(bMd[id].bImg);
+        addWidget(&bMd[id].bImg);
     }
     else if (button == 3)
     {
-        removeButton(bMd[id].bImg);
+        removeWidget(bMd[id].bImg);
         id--;
         if (id < 0)
             id = game->levelRegistry.size() - 1;
-        addButton(bMd[id].bImg);
+        addWidget(&bMd[id].bImg);
     }
     else
     {
@@ -136,13 +135,13 @@ void GuiMapSelect::onClick(long button)
                     runDialog(new GuiYesNo(Game::instance->translation.get("gui.selectmap.buyconfirm", {Game::instance->translation.get("map." + bMd[id].name)})), 0);
                 }
                 else
-                    bMd[id].bImg.enabled = false;
+                    bMd[id].bImg.setEnabled(false);
             }
         }
     }
 
 	if (!(game->getCoins() >= bMd[id].cost) && !game->isLevelUnlocked((LevelData::MapType)id))
-		bMd[id].bImg.enabled = false;
+		bMd[id].bImg.setEnabled(false);
 	else
-		bMd[id].bImg.enabled = true;
+		bMd[id].bImg.setEnabled(true);
 }

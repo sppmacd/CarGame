@@ -106,6 +106,9 @@ public:
 	// Check if GameDisplay encountered an error while loading. If set, the game will close immediately.
 	bool isError();
 
+	// Returns default GUI font.
+    Font* getGuiFont();
+
 protected:
 
 private:

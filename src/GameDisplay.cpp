@@ -150,7 +150,7 @@ void GameDisplay::display()
 {
     Game* game = Game::instance;
 
-    if(!game->isGuiLoaded)
+    if(!game->isGuiLoaded())
     {
         this->drawGame();
     }
@@ -331,13 +331,21 @@ void GameDisplay::drawEffect()
 {
     Game* game = Game::instance;
 
-	if(game->powerTime > 1)
-		game->powerRegistry.find(game->getCurrentPower())->second->drawPower(this->renderWnd);
-	else if(game->getCurrentPower() != 0)
-		game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(this->renderWnd);
+    if(!game->paused())
+    {
+        if(game->powerTime > 1)
+            game->powerRegistry.find(game->getCurrentPower())->second->drawPower(this->renderWnd);
+        else if(game->getCurrentPower() != 0)
+            game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(this->renderWnd);
+    }
 }
 
 bool GameDisplay::isError()
 {
     return error;
+}
+
+Font* GameDisplay::getGuiFont()
+{
+    return &guiFont;
 }

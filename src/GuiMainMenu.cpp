@@ -11,9 +11,9 @@ void GuiMainMenu::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(bStart = ButtonCircle(180.f, Vector2f(game->getSize().x / 2, game->getSize().y / 2), "gui/start", 0));
-    addButton(bSettings = ButtonCircle(100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "gui/settings", 2));
-    addButton(bQuit = ButtonCircle(100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "gui/quit", 1));
+    addWidget(&(bStart = ButtonCircle(this, 180.f, Vector2f(game->getSize().x / 2, game->getSize().y / 2), "gui/start", 0)));
+    addWidget(&(bSettings = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "gui/settings", 2)));
+    addWidget(&(bQuit = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "gui/quit", 1)));
 
     bStart.setColor(Color::Green);
     bQuit.setColor(Color::Red);
@@ -38,7 +38,7 @@ void GuiMainMenu::onDraw(RenderWindow& wnd)
     Gui::onDraw(wnd);
 }
 
-void GuiMainMenu::onClick(long button)
+void GuiMainMenu::onClick(int button)
 {
     Game* game = Game::instance;
 

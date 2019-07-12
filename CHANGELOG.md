@@ -1,6 +1,18 @@
-BETA 0.1 - The Big Map Update
+# BETA 0.2 - The Power Update 
 
-MAIN CHANGES
+## MAIN CHANGES
+
++ NEW POWERS: BALL [todo]
++ New translations: full German.
+
+## OTHER CHANGES & FIXES
+
++ Finally fixed Ingame GUI Escape bug!
+
+
+# BETA 0.1 - The Big Map Update
+
+## MAIN CHANGES
 
 + NEW MAPS: SEA, BEACH, SWAMPLAND, CITY, MOTORWAY, FOREST TRAILS
 + NEW CARS: RALLY, FIREMAN, TANK, OLD, BOMB, TRAIN
@@ -11,7 +23,7 @@ MAIN CHANGES
 + Added localization support. Languages are English, Polish and German (not fully).
 + Added point multiplier based on map.
 
-OTHER CHANGES & FIXES
+## OTHER CHANGES & FIXES
 
 * New loading screen!
 * New textures.
@@ -24,7 +36,6 @@ OTHER CHANGES & FIXES
 * Changed graphics (eg. power time indicator).
 * Changed rarity of some cars.
 * New Powers GUI.
-* Fixed Ingame GUI bug (Escape not working).
 * Fixed some bugs.
 * Fixed button bug on window resize.
 * New profile file format.

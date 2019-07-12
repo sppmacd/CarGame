@@ -125,7 +125,7 @@ void Game::tickNormalGame()
 
 void Game::newTick()
 {
-    if(!this->isGuiLoaded)
+    if(!this->isGuiLoaded())
     {
         this->gameSpeed += this->level.getAcceleration() / 5000;
         ++tickCount;

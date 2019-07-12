@@ -7,17 +7,10 @@
 #include "CarLorry.h"
 #include "CarRare.h"
 
-#include "Gui.h"
-#include "GuiGameOver.h"
-#include "GuiIngame.h"
-#include "GuiMainMenu.h"
-#include "GuiSettings.h"
-#include "GuiMapSelect.h"
-#include "GuiPowers.h"
-#include "GuiYesNo.h"
-
 #include "EventHandler.h"
 #include "GameEvent.h"
+
+#include "GuiGameOver.h"
 
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
@@ -34,8 +27,7 @@
 
 Game* Game::instance = NULL;
 
-Game::Game()
-    : displayedGui(nullptr)
+Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::instance->getGuiFont())
 {
     cout << "Game: Started loading game engine..." << endl;
 
@@ -51,7 +43,7 @@ Game::Game()
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
 		this->fullscreen = true;
-		this->isGuiLoaded = false; //DISABLE GUI!
+		//this->isGuiLoaded() = false; //DISABLE GUI!
 		this->registerEventHandlers();
 
 		// Reset player stats
@@ -85,7 +77,7 @@ Game::Game()
 
 void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
 {
-    if(!this->isGuiLoaded && this->powerTime <= 0)
+    if(!this->isGuiLoaded() && this->powerTime <= 0)
     {
         if(event.delta > 0.f)
         {
@@ -158,7 +150,7 @@ void Game::setGameSpeed(float speed)
 void Game::runEventHandler(Event& event)
 {
 	int counter = 0;
-	for (pair<const Event::EventType, EventHandler>& pair : eventHandlers)
+	for (pair<const Event::EventType, CGEventHandler>& pair : eventHandlers) //must call all event handlers, not only first
 	{
 		if (pair.first == event.type)
 		{
@@ -177,7 +169,7 @@ bool Game::runGameEventHandler(GameEvent & event)
 {
 	int counter = 0;
 	bool stat = true;
-	for (pair<const GameEvent::Type, GameEventHandler>& pair : eventHandler.registry)
+	for (pair<const GameEvent::Type, GameEventHandler>& pair : eventHandlerInst.registry)
 	{
 		if (pair.first == event.type)
 		{
@@ -198,11 +190,11 @@ void Game::registerEventHandlers()
 	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
 	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
 	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
-	addEventHandler(Event::KeyPressed, EventHandlers::onGUIKeyPressed);
-	eventHandler.registerGameEvent(GameEvent::CarSpawning, EventHandlers::onCarSpawning);
+	//addEventHandler(Event::KeyPressed, EventHandlers::onGUIKeyPressed);
+	eventHandlerInst.registerGameEvent(GameEvent::CarSpawning, EventHandlers::onCarSpawning);
 }
 
-void Game::addEventHandler(Event::EventType type, EventHandler handler)
+void Game::addEventHandler(Event::EventType type, CGEventHandler handler)
 {
 	eventHandlers.insert(make_pair(type, handler));
 }
@@ -383,7 +375,6 @@ void Game::setupGame()
 {
     this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
     this->lastTickScore = 0;
-    this->cameraPos = 0;
     this->tickCount = 0;
     this->score = 0;
     this->gameOver = false;
@@ -423,41 +414,6 @@ Game::~Game()
         delete i.second;
 }
 
-void Game::tickGui(sf::Event& event)
-{
-	if (event.type == sf::Event::MouseMoved)
-	{
-		sf::Vector2i mousepos(event.mouseMove.x, event.mouseMove.y);
-		this->tickEventMouseMove(GameDisplay::instance->getRenderWnd()->mapPixelToCoords(mousepos));
-	}
-
-    if(event.type == sf::Event::MouseButtonReleased)
-    {
-		sf::Vector2i mousepos(event.mouseButton.x, event.mouseButton.y);
-        this->tickEventMouseClick(GameDisplay::instance->getRenderWnd()->mapPixelToCoords(mousepos));
-    }
-}
-
-void Game::tickEventMouseMove(sf::Vector2f pos)
-{
-    if(this->isGuiLoaded)
-    {
-		this->displayedGui->onMouseMove(pos);
-    }
-}
-
-void Game::tickEventMouseClick(sf::Vector2f pos)
-{
-    if(this->isGuiLoaded)
-    {
-		Button b = this->displayedGui->onMouseClick(pos);
-		if(!(Button() == b))
-        {
-            this->displayedGui->onButton(b.id);
-        }
-    }
-}
-
 void Game::setGameOver()
 {
     cout << "Game: Setting game over..." << endl;
@@ -479,29 +435,6 @@ void Game::pause(bool s)
 	this->gamePaused = s;
 	if(GameDisplay::instance)
 		GameDisplay::instance->getRenderWnd()->setKeyRepeatEnabled(s);
-}
-
-void Game::displayGui(Gui* gui)
-{
-	this->closeGui(); //Close previous GUI
-
-	if(gui != nullptr)
-	{
-	    this->isGuiLoaded = true;
-	    this->displayedGui = gui;
-	    this->displayedGui->onLoad();
-	}
-}
-
-void Game::closeGui()
-{
-	if (this->isGuiLoaded)
-	{
-	    this->displayedGui->onClose();
-	    delete this->displayedGui;
-		this->displayedGui = nullptr;
-		this->isGuiLoaded = false;
-	}
 }
 
 void Game::toggleFullscreen()
@@ -553,6 +486,7 @@ void Game::exit(int ret)
     cout << "Game: Preparing to exit game..." << endl;
     this->running = false;
     this->retVal = ret;
+    close(ret);
 }
 
 void Game::displayError(string text)

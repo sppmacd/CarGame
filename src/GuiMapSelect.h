@@ -1,14 +1,16 @@
 #ifndef GUIMAPSELECT_H
 #define GUIMAPSELECT_H
 
-#include "Gui.h"
+#include <CG/CG.h>
+using namespace cg;
+
 #include "ButtonImage.h"
 
 class GuiMapSelect : public Gui
 {
 public:
     void onDraw(sf::RenderWindow& wnd);
-    void onClick(long button);
+    void onClick(int button);
     void onLoad();
 	void onClose();
 	void onDialogFinished(Gui* dialog, int callId);

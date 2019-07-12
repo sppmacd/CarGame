@@ -8,9 +8,9 @@ void GuiIngame::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addButton(b1 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), Game::instance->translation.get("gui.ingame.returngame"), 0));
-    addButton(b2 = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), Game::instance->translation.get("gui.ingame.returnmainmenu"), 1));
-    addButton(bQuit = Button(sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), Game::instance->translation.get("gui.ingame.quit"), 2));
+    addWidget(&(b1 = Button(this, sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), Game::instance->translation.get("gui.ingame.returngame"), 0)));
+    addWidget(&(b2 = Button(this, sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), Game::instance->translation.get("gui.ingame.returnmainmenu"), 1)));
+    addWidget(&(bQuit = Button(this, sf::Vector2f(400.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), Game::instance->translation.get("gui.ingame.quit"), 2)));
     b2.setColor(sf::Color::Yellow);
     bQuit.setColor(sf::Color::Red);
 }
@@ -28,7 +28,7 @@ void GuiIngame::onDraw(sf::RenderWindow& wnd)
     Gui::onDraw(wnd);
 }
 
-void GuiIngame::onClick(long button)
+void GuiIngame::onClick(int button)
 {
     Game* game = Game::instance;
 
@@ -46,4 +46,10 @@ void GuiIngame::onClick(long button)
     {
         game->exit(0);
     }
+}
+
+void GuiIngame::onKeyboardEvent(Keyboard::Key key, bool released, bool, bool, bool, bool)
+{
+    if(key == Keyboard::Escape && released == false)
+        close(0);
 }

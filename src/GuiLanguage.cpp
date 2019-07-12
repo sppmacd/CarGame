@@ -5,14 +5,14 @@
 
 void GuiLanguage::onLoad()
 {
-    addButton(bCancel = Button(Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 200.f),
-                               Game::instance->translation.get("gui.cancel"), 0));
-    addButton(bDone = Button(Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 150.f),
-                               Game::instance->translation.get("gui.done"), 1));
-    addButton(bUp = Button(Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 100.f),
-                               Game::instance->translation.get("gui.up"), 2));
-    addButton(bDown = Button(Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 50.f),
-                               Game::instance->translation.get("gui.down"), 3));
+    addWidget(&(bCancel = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 200.f),
+                               Game::instance->translation.get("gui.cancel"), 0)));
+    addWidget(&(bDone = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 150.f),
+                               Game::instance->translation.get("gui.done"), 1)));
+    addWidget(&(bUp = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 100.f),
+                               Game::instance->translation.get("gui.up"), 2)));
+    addWidget(&(bDown = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 50.f),
+                               Game::instance->translation.get("gui.down"), 3)));
 
     // TODO
 
@@ -29,7 +29,7 @@ void GuiLanguage::onDraw(RenderWindow& wnd)
     wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.language.title"), 30, Vector2f(GameDisplay::instance->getSize().x / 2, 200.f)));
     wnd.draw(GameDisplay::instance->drawCenteredString("(Currently only reloading language settings)", 30, Vector2f(GameDisplay::instance->getSize().x / 2, 250.f)));
 }
-void GuiLanguage::onClick(long buttonId)
+void GuiLanguage::onClick(int buttonId)
 {
     // TODO
     switch(buttonId)
