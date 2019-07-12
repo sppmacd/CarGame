@@ -1,64 +1,64 @@
-gui.done=Done
-gui.return=Return...
-gui.cancel=Cancel
+gui.done=OK
+gui.return=Zurückkommen...
+gui.cancel=Stornieren
 gui.up=Auf
 gui.down=Ab
 
-gui.toggle.on=On
-gui.toggle.off=Off
+gui.toggle.on=An
+gui.toggle.off=Aus
 
-gui.yesno.yes=Yes
-gui.yesno.no=No
+gui.yesno.yes=Ja
+gui.yesno.no=Nein
 
 gui.mainmenu.credit=Sppmacd 2018. Benutzt SFML.
 
-gui.settings.title=Settings
-gui.settings.refreshres=Refresh Resources
-gui.settings.verticalsync=Vertical Sync
-gui.settings.resetgame=Reset Game
+gui.settings.title=Einstellungen
+gui.settings.refreshres=Ressourcen aktualisieren
+gui.settings.verticalsync=V-Sync
+gui.settings.resetgame=Spiel Zurücksetzen
 gui.settings.language=Sprache
-gui.settings.resetgame.warning=This cannot be undone!
-gui.settings.resetgame.delete=Are you sure to delete all your player data?
+gui.settings.resetgame.warning=Das kann man nicht rückgängig machen
+gui.settings.resetgame.delete=Bist du sicher, um alle Spieldatei to löschen?
 
-gui.language.title=Language...
+gui.language.title=Sprache...
 
-gui.selectmap.title=Map & Powers
-gui.selectmap.powers=Powers...
+gui.selectmap.title=Landschaften & Leistungen
+gui.selectmap.powers=Leistungen...
 gui.selectmap.buyconfirm=Willst du %0 kaufen?
 gui.selectmap.buyfor=Kaufen für %0$
 gui.selectmap.notenoughcoins=Nicht genug Geld
 
 gui.powers.buy=Kaufen %0: %1$
-gui.powers.title=Kaufen Powers
-gui.powers.return=Return to Maps
+gui.powers.title=Kaufen Leistungen
+gui.powers.return=Zu Landschaften Zurückkommen
 
-gui.ingame.returngame=Return zu Spiel
+gui.ingame.returngame=Zu Spiel zurückkommen
 gui.ingame.returnmainmenu=Return zum Hauptmenü
 gui.ingame.quit=Spiel beenden
-gui.ingame.title=Spiel menu
+gui.ingame.title=Spielmenü
 
-gui.gameover.title=Game Over!
+gui.gameover.title=Spiel ist aus!
 gui.gameover.score=Deine Punkte war %0
-gui.gameover.return=Return zu Menu
+gui.gameover.return=Zu Menü zurückkommen
 gui.gameover.newgame=Neue Spiel
 
-power.none=Kein Power
+power.none=Kein Leistung
 power.oil=Öl
-power.freeze=Freeze
-power.point_boost=Point Boost
-power.fence=Fence
+power.freeze=Einfrierung
+power.point_boost=Punktesteigerung
+power.fence=Zaun
 power.ball=Ball
 
-map.countryside=Countryside
+map.countryside=Land
 map.desert=Küste
 map.forest=Wald
-map.ice=Ice
+map.ice=Eis
 map.mountains=Gebirge
 map.beach=Strand
 map.city=Stadt
-map.motorway=Motorway
+map.motorway=Autobahn
 map.sea=Meer
-map.swampland=Swampland
-map.forest_trails=Wald Trails
+map.swampland=Sumpfland
+map.forest_trails=Waldwege
 
 splash.newrecord=Neue Rekord!
