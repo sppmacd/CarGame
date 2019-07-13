@@ -452,6 +452,9 @@ void Game::toggleFullscreen()
         this->fullscreen = true;
     }
     guiView = View(wnd->getDefaultView()); //bugfix
+    if(isGuiLoaded())
+        getCurrentGUI()->onResize(); //bugfix v2
+
 	GameDisplay::instance->setVSync(GameDisplay::instance->getVSync()); // fix vsync bug on toggling fullscreen
 	GameDisplay::instance->setWndSize(wnd->getSize());
 }
