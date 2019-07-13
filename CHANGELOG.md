@@ -1,4 +1,4 @@
-# BETA 0.2 - The Power Update 
+# BETA 0.2 - The Power Update (Planned)
 
 ## MAIN CHANGES
 
@@ -9,6 +9,13 @@
 
 * Finally fixed Ingame GUI Escape bug!
 * Finally fixed window resizing bugs.
+
+# BETA 0.2 SNAPSHOTS
+## v190703
+* Finally fixed Ingame GUI Escape bug!
+* Finally fixed window resizing bugs.
+## v190702
++ New translations: full German.
 
 # BETA 0.1 - The Big Map Update
 

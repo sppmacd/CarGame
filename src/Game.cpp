@@ -452,6 +452,7 @@ void Game::toggleFullscreen()
         this->fullscreen = true;
     }
     guiView = View(wnd->getDefaultView()); //bugfix
+
     if(isGuiLoaded())
         getCurrentGUI()->onResize(); //bugfix v2
 
