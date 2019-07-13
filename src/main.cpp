@@ -113,6 +113,8 @@ int main()
 
                 bool mouseMoveHandled = false;
                 bool guiMouseMoveHandler = false;
+
+
                 while(data.wnd->pollEvent(ev1))
                 {
                     if(ev1.type != Event::MouseMoved || !mouseMoveHandled)
@@ -120,15 +122,11 @@ int main()
                         data.game->runEventHandler(ev1);
                         mouseMoveHandled = true;
                     }
-                    // tick GUI for each event
 
-                    if (data.game->isGuiLoaded() && ((ev1.type == Event::MouseMoved && !guiMouseMoveHandler) || ev1.type == Event::MouseButtonReleased || ev1.type == Event::KeyPressed))
-                    {
-                        guiClock.restart();
-                        data.game->handleEvent(ev1); // run CGUI handler
-                        guiMouseMoveHandler = true;
-                        if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
-                    }
+                    // tick GUI for each event
+                    guiClock.restart();
+                    data.game->handleEvent(ev1); // run CGUI handler
+                    if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
                 }
                 if (updateDebugStats) data.game->times.timeEvent = eventClock.getElapsedTime();
 

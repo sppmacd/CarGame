@@ -18,6 +18,15 @@ void GuiLanguage::onLoad()
 
     current = 0;
 }
+
+void GuiLanguage::onResize()
+{
+    bCancel.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 200.f));
+    bDone.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 150.f));
+    bUp.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 100.f));
+    bDown.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 50.f));
+}
+
 void GuiLanguage::onDraw(RenderWindow& wnd)
 {
     // TODO

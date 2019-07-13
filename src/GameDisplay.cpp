@@ -133,9 +133,10 @@ bool GameDisplay::getVSync()
 
 Vector2u GameDisplay::getSize()
 {
-	return wndSizeDefault;
+	return Vector2u(Game::instance->getSize());
 }
 
+// TODO: set as deprecated
 void GameDisplay::setWndSize(Vector2u vec)
 {
 	wndSizeDefault = vec;

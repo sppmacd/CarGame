@@ -162,10 +162,6 @@ void GameDisplay::drawGui()
 {
     Game* game = Game::instance;
 
-    /*sf::Text text = this->drawString("Click Esc to pause", 40, sf::Vector2f(6.f, 6.f), sf::Text::Bold);
-    text.setFillColor(sf::Color::Red);
-    this->renderWnd->draw(text);*/
-
     if(!game->paused()/* || game->tutorialStep == 6*/)
     {
         drawStat(250, 32, "score", game->getScore());

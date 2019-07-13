@@ -36,6 +36,16 @@ void GuiMapSelect::onLoad()
     bPowers.setColor(sf::Color::Cyan);
 }
 
+void GuiMapSelect::onResize()
+{
+    GameDisplay* game = GameDisplay::instance;
+    bReturn.setPosition(Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f));
+    bPowers.setPosition(Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f));
+    bNext.setPosition(Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f));
+    bPrev.setPosition(Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f));
+    bMd[id].bImg.setPosition(Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f));
+}
+
 void GuiMapSelect::onClose()
 {
 	bMd.clear();

@@ -12,6 +12,7 @@ public:
     void onDraw(sf::RenderWindow& wnd);
     void onClick(int button);
     void onLoad();
+    void onResize();
 
 protected:
 

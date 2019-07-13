@@ -9,6 +9,7 @@ public:
     void onDraw(RenderWindow& wnd);
     void onClick(int buttonId);
     void onLoad();
+    void onResize();
 
 protected:
 

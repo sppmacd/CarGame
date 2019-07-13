@@ -19,6 +19,13 @@ void GuiGameOver::onLoad()
     bMainMenu.setColor(sf::Color::Red);
 }
 
+void GuiGameOver::onResize()
+{
+    GameDisplay* game = GameDisplay::instance;
+    b1.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2));
+    bMainMenu.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60));
+}
+
 void GuiGameOver::onDraw(sf::RenderWindow& wnd)
 {
     //Gui::drawGui(wnd);

@@ -451,6 +451,7 @@ void Game::toggleFullscreen()
 		wnd->create(sf::VideoMode::getFullscreenModes()[0], sf::String(), sf::Style::Fullscreen);
         this->fullscreen = true;
     }
+    guiView = View(wnd->getDefaultView()); //bugfix
 	GameDisplay::instance->setVSync(GameDisplay::instance->getVSync()); // fix vsync bug on toggling fullscreen
 	GameDisplay::instance->setWndSize(wnd->getSize());
 }

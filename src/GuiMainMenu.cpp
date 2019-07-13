@@ -19,6 +19,14 @@ void GuiMainMenu::onLoad()
     bQuit.setColor(Color::Red);
 }
 
+void GuiMainMenu::onResize()
+{
+    GameDisplay* game = GameDisplay::instance;
+    bStart.setPosition(Vector2f(game->getSize().x / 2, game->getSize().y / 2));
+    bSettings.setPosition(Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2));
+    bQuit.setPosition(Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2));
+}
+
 void GuiMainMenu::onDraw(RenderWindow& wnd)
 {
     bStart.draw(wnd);
@@ -27,7 +35,7 @@ void GuiMainMenu::onDraw(RenderWindow& wnd)
 
     Sprite sprite(GameDisplay::instance->logoTexture);
     sprite.setOrigin(Vector2f(GameDisplay::instance->logoTexture.getSize() / 2U));
-    sprite.setPosition(wnd.getSize().x / 2, wnd.getSize().y / 7);
+    sprite.setPosition(guiHandler->getSize().x / 2, guiHandler->getSize().y / 7);
     wnd.draw(sprite);
 
     GameDisplay::loadingStr = "Loading game engine...";

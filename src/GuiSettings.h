@@ -10,6 +10,7 @@ public:
     void onClick(int button);
     void onLoad();
 	void onDialogFinished(Gui* dialog, int callId);
+	void onResize();
 
 protected:
 

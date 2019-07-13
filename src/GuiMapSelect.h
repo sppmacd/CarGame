@@ -14,6 +14,7 @@ public:
     void onLoad();
 	void onClose();
 	void onDialogFinished(Gui* dialog, int callId);
+	void onResize();
 
 private:
 	int id;

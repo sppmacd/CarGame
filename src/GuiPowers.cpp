@@ -33,6 +33,15 @@ void GuiPowers::onLoad()
     addWidget(&(bReturn = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y * 3 / 4),
                                Game::instance->translation.get("gui.powers.return"), 0)));
 }
+void GuiPowers::onResize()
+{
+    GameDisplay* game = GameDisplay::instance;
+    bReturn.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y * 3 / 4));
+    for(PowerData* data: powerData)
+    {
+        data->bBuyPower.setPosition(Vector2f(game->getSize().x / 2 - 200.f, (data->bBuyPower.getID() - 100) * 50.f + game->getSize().y / 4));
+    }
+}
 GuiPowers::~GuiPowers()
 {
     for(PowerData* data: powerData)

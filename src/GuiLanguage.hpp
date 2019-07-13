@@ -15,4 +15,5 @@ public:
     void onLoad();
     void onDraw(RenderWindow& wnd);
     void onClick(int buttonId);
+    void onResize();
 };

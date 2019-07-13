@@ -14,9 +14,19 @@ void GuiSettings::onLoad()
     addWidget(&(bDone = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120), Game::instance->translation.get("gui.done"), 0)));
     addWidget(&(bResetHS = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30), Game::instance->translation.get("gui.settings.resetgame"), 1)));
     addWidget(&(bRefreshGD = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 150), Game::instance->translation.get("gui.settings.refreshres"), 2)));
-    addWidget(&(bVerticalSync = ButtonToggle(this, Vector2f(400.f, 40.f),::Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), Game::instance->translation.get("gui.settings.verticalsync"), 3, game->getVSync())));
+    addWidget(&(bVerticalSync = ButtonToggle(this, Vector2f(400.f, 40.f),Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90), Game::instance->translation.get("gui.settings.verticalsync"), 3, game->getVSync())));
     addWidget(&(bLanguage = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30), Game::instance->translation.get("gui.settings.language"), 4)));
     bDone.setColor(sf::Color::Green);
+}
+
+void GuiSettings::onResize()
+{
+    GameDisplay* game = GameDisplay::instance;
+    bDone.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120));
+    bResetHS.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 30));
+    bRefreshGD.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 150));
+    bVerticalSync.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 - 90));
+    bLanguage.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 30));
 }
 
 void GuiSettings::onDraw(sf::RenderWindow& wnd)

@@ -7,8 +7,8 @@
 
 ## OTHER CHANGES & FIXES
 
-+ Finally fixed Ingame GUI Escape bug!
-
+* Finally fixed Ingame GUI Escape bug!
+* Finally fixed window resizing bugs.
 
 # BETA 0.1 - The Big Map Update
 

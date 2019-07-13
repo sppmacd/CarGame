@@ -10,6 +10,7 @@ public:
     void onClick(int button);
     void onLoad();
     void onKeyboardEvent(Keyboard::Key key, bool released, bool alt, bool shift, bool ctrl, bool sys);
+    void onResize();
 
 protected:
 

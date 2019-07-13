@@ -28,6 +28,14 @@ void GuiIngame::onDraw(sf::RenderWindow& wnd)
     Gui::onDraw(wnd);
 }
 
+void GuiIngame::onResize()
+{
+    GameDisplay* game = GameDisplay::instance;
+    b1.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2));
+    b2.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60));
+    bQuit.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 120));
+}
+
 void GuiIngame::onClick(int button)
 {
     Game* game = Game::instance;
