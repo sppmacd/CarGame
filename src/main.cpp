@@ -112,8 +112,7 @@ int main()
                 if(updateDebugStats) data.game->times.timeGui = Time::Zero;
 
                 bool mouseMoveHandled = false;
-                bool guiMouseMoveHandler = false;
-
+                //bool guiMouseMoveHandler = false;
 
                 while(data.wnd->pollEvent(ev1))
                 {
