@@ -134,7 +134,7 @@ void GuiHandler::handleEvent(Event& event)
     else if(event.type == Event::MouseButtonPressed && !eventHandler(event))
     {
         Vector2i mousepos(event.mouseButton.x, event.mouseButton.y);
-        tickEventMouseClick(window->mapPixelToCoords(mousepos, guiView), true, event.mouseButton.button);
+        tickEventMouseClick(window->mapPixelToCoords(mousepos, guiView), false, event.mouseButton.button);
     }
     else if(event.type == Event::MouseButtonReleased && !eventHandler(event))
     {

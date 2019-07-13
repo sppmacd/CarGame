@@ -16,15 +16,18 @@ Widget* WidgetContainer::onMouseClick(Vector2f pos)
 }
 Widget* WidgetContainer::onMouseClick(Vector2f pos, bool release, Mouse::Button button)
 {
-    for(Widget* widget: widgets)
+    if(release)
     {
-        widget->onMouseClick(pos);
-        if(widget->isClicked(pos) && release) //fix double event
+        for(Widget* widget: widgets)
         {
-            bool b = widget->onClick();
+            widget->onMouseClick(pos);
+            if(widget->isClicked(pos))
+            {
+                bool b = widget->onClick();
 
-            if(b)
-                return widget;
+                if(b)
+                    return widget;
+            }
         }
     }
     return NULL;
