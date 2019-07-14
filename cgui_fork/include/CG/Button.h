@@ -35,6 +35,8 @@ public:
 
     virtual void setSize(Vector2f size);
 
+    virtual void setText(String text);
+
 protected:
 	String bText;
 	Color bColor;

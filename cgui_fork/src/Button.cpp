@@ -66,4 +66,9 @@ Text Button::drawString(String tx, int height, Vector2f pos, Text::Style style)
 {
     return Gui::drawString(tx, height, pos, style);
 }
+
+void Button::setText(String text)
+{
+    bText = text;
+}
 }

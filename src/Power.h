@@ -8,12 +8,15 @@ using namespace sf;
 
 class Power
 {
+protected:
+    int currentLevel;
 public:
     int maxPowerTime;
 
     Power();
     virtual ~Power() {}
     virtual Power& setMaxTime(int time);
+    void setLevel(int level);
 	virtual bool onPowerStart();
 	virtual void onPowerStop();
 	virtual void onPowerTick(int powerTick);
@@ -23,4 +26,5 @@ public:
 	virtual void drawPowerIdle(RenderWindow* wnd);
 	virtual int getCost();
 	virtual string getName();
+	static int getCurrentPowerLevel();
 };

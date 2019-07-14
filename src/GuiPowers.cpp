@@ -99,6 +99,9 @@ void GuiPowers::onClick(int button)
                     {
                         data->cost = Game::instance->powers[powerId].getUpgradeCost();
                         data->count++;
+                        data->bBuyPower.setText(Game::instance->translation.get("gui.powers.upgrade", {
+                                    Game::instance->translation.get("power." + data->power->getName()), String(to_string(data->cost))
+                                    }));
                         cooldown = 30;
                     }
                 }

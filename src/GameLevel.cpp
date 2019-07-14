@@ -140,6 +140,7 @@ void Game::setCurrentPower(Power* power)
     this->powerMaxTime = this->powerTime;
     this->powerCooldown = -1;
 
+    powerHandle->setLevel(Power::getCurrentPowerLevel());
     // power 'start'
     if (!powerHandle->onPowerStart())
     {

@@ -34,3 +34,12 @@ string Power::getName()
 {
     return "none";
 }
+int Power::getCurrentPowerLevel()
+{
+    return Game::instance->powers[Game::instance->getCurrentPower()].getLevel();
+}
+
+void Power::setLevel(int level)
+{
+    currentLevel = level;
+}

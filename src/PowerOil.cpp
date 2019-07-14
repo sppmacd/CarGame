@@ -3,18 +3,19 @@
 #include "GameDisplay.h"
 #include "Game.h"
 #include "Level.h"
+#include <cmath>
 
 //// OIL ////
 
 PowerOil::PowerOil() : Power() {}
 void PowerOil::onPowerStop()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / 1.3f);
+	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (1.3f / currentLevel));
 }
 
 bool PowerOil::onPowerStart()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() * 1.3f);
+	Game::instance->setGameSpeed(Game::instance->getGameSpeed() * 1.3f / currentLevel);
 	pos = Vector2f(Mouse::getPosition(*GameDisplay::instance->getRenderWnd()));
 	lane = LevelUtility::getLaneFromPos(pos);
 	if(lane < 0 || lane > 2)
@@ -24,11 +25,12 @@ bool PowerOil::onPowerStart()
 
 void PowerOil::onPowerTick(int powerTick)
 {
+    int size = sqrt(currentLevel) * 45;
 	if (powerTick % 3 == 0)
 	{
 		for (Car* c : Game::instance->cars)
 		{
-			if(abs(c->getScreenPos().x - pos.x) < 45)
+			if(abs(c->getScreenPos().x - pos.x) < size)
 			{
 			    if(lane == 0 && c->getLine() < 2)
                     c->makeDestroy();
@@ -44,7 +46,7 @@ void PowerOil::onPowerTick(int powerTick)
 void PowerOil::drawPower(RenderWindow * wnd)
 {
 	RectangleShape rs(Vector2f(40.f, 180.f));
-	rs.setFillColor(Color(219, 201, 65, 180));
+	rs.setFillColor(Color(219, 201 / currentLevel * 10, 65, 180));
 	rs.setOutlineColor(Color(209, 191, 55));
 	rs.setOutlineThickness(1.8f);
 	rs.setOrigin(20.f, 90.f);

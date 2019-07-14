@@ -14,7 +14,7 @@ void PowerPointBoost::drawPower(RenderWindow* wnd)
 void PowerPointBoost::onPowerTick(int tick)
 {
     if(tick % 20 == 0)
-        Game::instance->addScore(tick / 240 + 1);
+        Game::instance->addScore(tick / (240 / currentLevel) + 1);
 }
 int PowerPointBoost::getCost()
 {

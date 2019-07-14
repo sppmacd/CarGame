@@ -42,7 +42,7 @@ void PowerFence::onPowerTick(int powerTick)
             {
                 c->pos = (pos.x + 110.f) / 2.f;
                 if((lane != 1 || powerTick % 2 == 0) && !c->isDestroying())
-                    c->makeDestroy(0.2f);
+                    c->makeDestroy(0.01f * currentLevel * currentLevel);
                 c->setSpeed(0.f);
             }
         }
