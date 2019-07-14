@@ -19,12 +19,12 @@ void GuiPowers::onLoad()
         {
             PowerData* data = new PowerData;
             data->power = s.second;
-            data->cost = data->power->getCost();
-            data->count = Game::instance->powers[s.first];
+            data->cost = Game::instance->powers[s.first].getUpgradeCost();
+            data->count = Game::instance->powers[s.first].getLevel();
             // data->level = Game::instance->power; // 0.2
             powerData.push_back(data);
             addWidget(&(data->bBuyPower = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200.f, s.first * 50.f + game->getSize().y / 4),
-                                    Game::instance->translation.get("gui.powers.buy", {
+                                    Game::instance->translation.get("gui.powers.upgrade", {
                                     Game::instance->translation.get("power." + data->power->getName()), String(to_string(data->cost))
                                     }), s.first + 100)));
         }
@@ -64,7 +64,10 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
             data->bBuyPower.setEnabled(true);
         }
         data->bBuyPower.draw(wnd);
-        wnd.draw(drawString(to_string(data->count), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
+        if(data->count == 0)
+            wnd.draw(drawString(Game::instance->translation.get("gui.powers.notbought"), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
+        else
+            wnd.draw(drawString(Game::instance->translation.get("gui.powers.powerlvl", {to_string(data->count)}), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
     }
     bReturn.draw(wnd);
 
@@ -92,10 +95,12 @@ void GuiPowers::onClick(int button)
             {
                 if(unsigned(game->getCoins()) >= data->cost)
                 {
-                    game->removeCoins(data->cost);
-                    game->getPower(powerId);
-                    data->count++;
-                    cooldown = 30;
+                    if(game->getPower(powerId))
+                    {
+                        data->cost = Game::instance->powers[powerId].getUpgradeCost();
+                        data->count++;
+                        cooldown = 30;
+                    }
                 }
             }
         }

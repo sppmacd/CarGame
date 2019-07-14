@@ -145,7 +145,7 @@ void Game::setCurrentPower(Power* power)
     {
         this->powerTime = 0;
         this->powerCooldown = 0;
-        this->powers[this->getCurrentPower()]++; //Reset power count to previous
+        //this->powers[this->getCurrentPower()]++; //Reset power count to previous
     }
 }
 void Game::stopCurrentPower()

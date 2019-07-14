@@ -1,16 +1,18 @@
 #pragma once
 
-// TODO 0.2
+#include "Power.h"
+
+class Game;
 
 class PowerPlayerData
 {
-    unsigned int count;
     unsigned int level;
+    Power* powerInst;
 public:
-    unsigned int getCount();
+    PowerPlayerData(Power* power = NULL, unsigned int levelIn = 0);
     unsigned int getLevel();
-    unsigned int getUpgradeCost();
-    unsigned int getBuyCost();
-    bool buy();
-    bool upgrade();
+    unsigned int getUpgradeCost(unsigned int nextLvl = 0);
+    bool upgrade(Game* game);
 };
+
+bool operator>(PowerPlayerData& data, int )

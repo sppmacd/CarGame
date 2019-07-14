@@ -11,6 +11,7 @@
 #include "version.hpp"
 
 #include <CG/CG.h>
+;
 
 using namespace std;
 using namespace sf;
@@ -236,19 +237,19 @@ public:
     int getCurrentPower();
 
 	// Adds power to player (++)
-    void getPower(int id);
+    bool getPower(int id);
 
 	// Use player power (--)
-    void usePower(int id);
+    bool usePower(int id);
 
 	// Store player powers
-    map<int, int> powers;
-    //map<int, PowerPlayerData> powers; // 0.2
+   // map<int, int> powers;
+    map<int, PowerPlayerData> powers;
 
 	// Register powers
 	void registerPowers();
 
-	// Register car type. Used in generator,renderer,...
+	// Register car type.
 	void registerCarType(CarType type);
 
 	// Find car type by car ID

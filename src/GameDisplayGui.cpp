@@ -175,20 +175,21 @@ void GameDisplay::drawGui()
             spr.setPosition(1050, 42);
             this->renderWnd->draw(spr);
 
-            sf::Text t1 = this->drawString(to_string(game->powers[game->getCurrentPower()]), 45, sf::Vector2f(1100, 32), sf::Text::Bold);
+            sf::Text t1 = this->drawString(game->translation.get("gui.powers.powerlvl", {to_string(game->powers[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1100, 32), sf::Text::Bold);
             t1.setFillColor(sf::Color::Blue);
             this->renderWnd->draw(t1);
         }
 
         // Draw power cooldown
         sf::VertexArray arr(TriangleFan);
-        arr.append(Vertex(Vector2f(1200,58), Color(127,127,0)));
+        Vector2f ccPos = Vector2f(1250,58);
+        arr.append(Vertex(ccPos, Color(127,127,0)));
         double degtorad = 57.2957795;
         for(int i = 0; i <= 65; i++)
         {
             float deg = 360 * i / 64.f;
             sf::Vector2f pointPos(32*sin(deg/degtorad), 32*cos(deg/degtorad));
-            pointPos += Vector2f(1200,58);
+            pointPos += ccPos;
 
             if(game->powerTime == -1)
             {

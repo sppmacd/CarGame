@@ -29,8 +29,11 @@ gui.selectmap.buyfor=Buy for %0$
 gui.selectmap.notenoughcoins=Not Enough Coins
 
 gui.powers.buy=Buy %0: %1$
+gui.powers.upgrade=Upgrade %0: %1$
 gui.powers.title=Buy Powers
 gui.powers.return=Return to Maps
+gui.powers.notbought=Not Bought
+gui.powers.powerlvl=LVL %0
 
 gui.ingame.returngame=Return to game
 gui.ingame.returnmainmenu=Return to main menu
