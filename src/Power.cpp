@@ -1,4 +1,5 @@
 #include "Power.h"
+#include "Game.h"
 
 Power::Power()
 {
