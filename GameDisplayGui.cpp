@@ -228,7 +228,7 @@ void GameDisplay::drawGui()
     if(game->debug) drawDebugInfo(this->renderWnd);
 }
 
-void GameDisplay::nextFullscreenMode()
+/*void GameDisplay::nextFullscreenMode()
 {
 	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "CG " + string(CG_VERSION), sf::Style::Fullscreen);
 	if(fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
@@ -237,4 +237,4 @@ void GameDisplay::nextFullscreenMode()
 	}
 	this->setVSync(this->getVSync());
 	wndSizeDefault = this->renderWnd->getSize();
-}
+}*/
