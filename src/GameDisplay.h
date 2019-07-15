@@ -23,8 +23,8 @@ public:
 	// Draw GUI [in loop].
     void drawGui();
 
-	// Change fullscreen mode.
-	void nextFullscreenMode();
+	// Create window with fullscreen mode.
+	void createFullscreenWnd();
 
 	// Display [in loop].
     void display();

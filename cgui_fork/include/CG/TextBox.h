@@ -30,7 +30,7 @@ public:
 
     virtual void draw(sf::RenderWindow& wnd);
 
-    virtual void onMouseClick(Vector2f pos);
+    virtual void onMouseClick(Vector2f pos, bool release, Mouse::Button button);
 
     virtual void onText(wchar_t c);
 

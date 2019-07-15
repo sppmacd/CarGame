@@ -27,8 +27,8 @@ public:
     /// Returns true if the onButton function should be called.
 	virtual bool onClick() {return false;}
 
-	/// Called when the mouse is clicked. Used in lists to check which element is clicked.
-	virtual void onMouseClick(Vector2f pos);
+	/// Called when the mouse is clicked. (Will be) used in lists to check which element is clicked.
+	virtual void onMouseClick(Vector2f pos, bool release, Mouse::Button button);
 
 	/// Called when the keyboard key is clicked.
 	virtual void onKeyboard(Keyboard::Key key);
@@ -36,7 +36,7 @@ public:
 	/// Called when the text is entered. Used by text boxes.
 	virtual void onText(char c);
 
-	/// Checks if the mouse is over on specified position.
+	/// Checks if the mouse is over on specified position. Called also when the mouse is moved so widget can handle this event here.
 	virtual bool isClicked(Vector2f pos) = 0;
 
 	/// Returns true when the widget is enabled (can use)

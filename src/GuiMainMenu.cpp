@@ -14,6 +14,7 @@ void GuiMainMenu::onLoad()
     addWidget(&(bStart = ButtonCircle(this, 180.f, Vector2f(game->getSize().x / 2, game->getSize().y / 2), "gui/start", 0)));
     addWidget(&(bSettings = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "gui/settings", 2)));
     addWidget(&(bQuit = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "gui/quit", 1)));
+    addWidget(&(sTest = Slider(this, Vector2f(10.f, 10.f), 100.f, 5.f, 100)));
 
     bStart.setColor(Color::Green);
     bQuit.setColor(Color::Red);
@@ -32,6 +33,7 @@ void GuiMainMenu::onDraw(RenderWindow& wnd)
     bStart.draw(wnd);
     bQuit.draw(wnd);
     bSettings.draw(wnd);
+    //sTest.draw(wnd);
 
     Sprite sprite(GameDisplay::instance->logoTexture);
     sprite.setOrigin(Vector2f(GameDisplay::instance->logoTexture.getSize() / 2U));
@@ -52,7 +54,7 @@ void GuiMainMenu::onClick(int button)
 
     if(button == 0)
     {
-        game->displayGui(new GuiMapSelect); //level selection
+        game->displayGui(new GuiMapSelect);
         if(game->isNewPlayer && game->tutorialStep == 2)
         {
             game->tutorialStep = 3;
@@ -66,7 +68,7 @@ void GuiMainMenu::onClick(int button)
 
     if(button == 2)
     {
-        game->displayGui(new GuiSettings); //settings
+        game->displayGui(new GuiSettings);
     }
 }
 

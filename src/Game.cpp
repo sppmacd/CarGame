@@ -21,7 +21,7 @@
 
 // error codes:
 // G00 could not load default language
-// G01 could not load language config [not used]
+// [not used] G01 could not load language config
 // G02 registering GUIs is deprecated
 // G03 second Game instance
 
@@ -455,7 +455,7 @@ void Game::toggleFullscreen()
     }
     else
     {
-		wnd->create(sf::VideoMode::getFullscreenModes()[0], sf::String(), sf::Style::Fullscreen);
+		GameDisplay::instance->createFullscreenWnd();
         this->fullscreen = true;
     }
     guiView = View(wnd->getDefaultView()); //bugfix

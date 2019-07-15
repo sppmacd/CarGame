@@ -101,9 +101,9 @@ void TextBox::setText(String text)
 {
     bText = text;
 }
-void TextBox::onMouseClick(Vector2f pos)
+void TextBox::onMouseClick(Vector2f pos, bool release, Mouse::Button button)
 {
-    Widget::onMouseClick(pos);
+    Widget::onMouseClick(pos, release, button);
     // Currently I don't want to implement this.
 }
 void TextBox::onText(wchar_t c)

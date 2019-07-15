@@ -14,8 +14,11 @@ using namespace std;
 void loop(Game* game)
 {
 	if (game->mainTickCount == 0)
+    {
+        GameDisplay::instance->createFullscreenWnd();
 		// Display the main menu
 		game->displayGui(new GuiMainMenu);
+    }
 
     if(!game->errStr.empty())
             game->displayGui(new GuiYesNo("An error occured: " + game->errStr));
@@ -82,8 +85,7 @@ int main()
 
     try
     {
-        data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "CG " + string(CG_VERSION), Style::Fullscreen);
-        data.wnd->setVerticalSyncEnabled(true);
+        data.wnd = new RenderWindow(VideoMode(600, 500), "CarGame loading...", Style::None);
 
         sf::Thread loadingThread(loadGame,&data);
         loadingThread.launch();

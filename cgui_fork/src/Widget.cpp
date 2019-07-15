@@ -5,9 +5,9 @@ namespace cg
 {
 Widget::Widget() : Widget(nullptr, Vector2f(), -1) {}
 
-void Widget::onMouseClick(Vector2f pos)
+void Widget::onMouseClick(Vector2f pos, bool release, Mouse::Button button)
 {
-    if(isClicked(pos))
+    if(isClicked(pos) && !release && button == Mouse::Left)
         parent->setFocus(this);
 }
 void Widget::onKeyboard(Keyboard::Key)

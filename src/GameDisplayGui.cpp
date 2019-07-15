@@ -22,7 +22,7 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	GameDisplay::drawLoadingProgress(loadingStr, wnd);
 	animC++;
 
-	int aX = animC % 40;
+	int aX = animC % 400;
 	sf::RectangleShape rsbg(Vector2f(100.f, 20.f));
 	rsbg.setFillColor(Color(20, 20, 20));
 	rsbg.setOutlineColor(Color(70, 70, 70));
@@ -32,7 +32,7 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	wnd->draw(rsbg);
 
 	sf::RectangleShape rs(Vector2f(3.f, 20.f));
-	rs.setPosition(wnd->getSize().x / 2 + aX*2.5f - 50, wnd->getSize().y / 2 + 200);
+	rs.setPosition(wnd->getSize().x / 2 + aX*0.25f - 50, wnd->getSize().y / 2 + 200);
 	rs.setOrigin(1.5f, 10.f);
 	rs.setFillColor(Color(230, 230, 230));
 	rs.setOutlineColor(Color(50,50,50));
@@ -175,14 +175,14 @@ void GameDisplay::drawGui()
             spr.setPosition(1050, 42);
             this->renderWnd->draw(spr);
 
-            sf::Text t1 = this->drawString(game->translation.get("gui.powers.powerlvl", {to_string(game->powers[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1100, 32), sf::Text::Bold);
+            sf::Text t1 = this->drawCenteredString(game->translation.get("gui.powers.powerlvl", {to_string(game->powers[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1050, 70), sf::Text::Bold);
             t1.setFillColor(sf::Color::Blue);
             this->renderWnd->draw(t1);
         }
 
         // Draw power cooldown
         sf::VertexArray arr(TriangleFan);
-        Vector2f ccPos = Vector2f(1250,58);
+        Vector2f ccPos = Vector2f(1200,58);
         arr.append(Vertex(ccPos, Color(127,127,0)));
         double degtorad = 57.2957795;
         for(int i = 0; i <= 65; i++)
@@ -193,7 +193,7 @@ void GameDisplay::drawGui()
 
             if(game->powerTime == -1)
             {
-                if(i >= game->powerCooldown / (300.f / 64.f))
+                if(i >= game->powerCooldown / (1800.f / 64.f))
                     arr.append(Vertex(pointPos, Color::Green));
                 else
                     arr.append(Vertex(pointPos, Color::Red));
@@ -221,7 +221,7 @@ void GameDisplay::drawGui()
     if(game->debug) drawDebugInfo(this->renderWnd);
 }
 
-void GameDisplay::nextFullscreenMode()
+/*void GameDisplay::nextFullscreenMode()
 {
 	this->renderWnd->create(sf::VideoMode::getFullscreenModes()[fullscreenMode++], "CG " + string(CG_VERSION), sf::Style::Fullscreen);
 	if(fullscreenMode == int(sf::VideoMode::getFullscreenModes().size()))
@@ -230,4 +230,4 @@ void GameDisplay::nextFullscreenMode()
 	}
 	this->setVSync(this->getVSync());
 	wndSizeDefault = this->renderWnd->getSize();
-}
+}*/

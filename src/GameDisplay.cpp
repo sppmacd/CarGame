@@ -350,3 +350,23 @@ Font* GameDisplay::getGuiFont()
 {
     return &guiFont;
 }
+
+void GameDisplay::createFullscreenWnd()
+{
+    vector<VideoMode> fullscreenModes = sf::VideoMode::getFullscreenModes();
+    cout << "GameDisplay: Trying to create fullscreen window... (Modes=" << fullscreenModes.size() << ")" << endl;
+    if(fullscreenModes.empty())
+    {
+        cout << "GameDisplay: Fullscreen mode not supported, switching to window mode" << endl;
+        renderWnd->create(VideoMode(1280, 720), sf::String());
+    }
+
+    for(size_t i = 0; i < fullscreenModes.size(); i++)
+    {
+        renderWnd->create(fullscreenModes[0], sf::String(), sf::Style::Fullscreen);
+        Game::instance->setWindow(renderWnd); //update guihandler view
+        if(renderWnd->isOpen())
+            return;
+    }
+    renderWnd->setVerticalSyncEnabled(true);
+}

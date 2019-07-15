@@ -20,6 +20,13 @@ namespace colors
     Color textBoxFocusOutline(170, 170, 170);
     Color textBoxDisabledColor(60, 51, 25);
     Color textBoxTooltipColor(250, 250, 250);
+
+    float sliderHeight = 40.f;
+    Color sliderColor(112, 112, 112);
+    Color sliderOutline(153, 153, 153);
+    Color sliderDisabledColor(66, 66, 66);
+    Color sliderSliderColor(153, 102, 43);
+    Color sliderSliderOutline(194, 136, 70);
 }
 
 namespace cg
@@ -286,6 +293,20 @@ void GuiHandler::initializeGui()
 	    displayedGui->onResize();
 	    newGuiSet = false;
 	}
+}
+
+void GuiHandler::setWindow(RenderWindow* wnd)
+{
+    if(!externalWindow)
+        delete window;
+    window = wnd;
+    if(window == NULL)
+        externalWindow = false;
+    else
+    {
+        externalWindow = true;
+        guiView = window->getDefaultView();
+    }
 }
 
 int GuiHandler::run()

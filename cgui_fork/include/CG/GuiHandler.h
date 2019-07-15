@@ -24,6 +24,13 @@ namespace colors
     extern Color textBoxFocusOutline;
     extern Color textBoxDisabledColor;
     extern Color textBoxTooltipColor;
+
+    extern float sliderHeight;
+    extern Color sliderColor;
+    extern Color sliderOutline;
+    extern Color sliderDisabledColor;
+    extern Color sliderSliderColor;
+    extern Color sliderSliderOutline;
 }
 
 namespace cg
@@ -64,6 +71,9 @@ public:
 
     /// Creates the window with the new parameters. If fullscreen, the xSize and ySize are not used.
     virtual RenderWindow* createWindow(int xSize, int ySize, String title, bool fullscreen = false);
+
+    /// Sets the window. If NULL, the window must be created by createWindow().
+    virtual void setWindow(RenderWindow* wnd = NULL);
 
     /// Loads the new font used with rendering.
     virtual bool loadFont(String fileName);

@@ -10,4 +10,5 @@
 #include "Static.h"
 #include "GuiOk.h"
 #include "CompoundWidget.h"
+#include "Slider.h"
 #include <SFML/Graphics.hpp>

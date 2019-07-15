@@ -20,5 +20,6 @@ protected:
 private:
     ButtonCircle bStart;
     ButtonCircle bQuit;
-    ButtonCircle bSettings; //settings
+    ButtonCircle bSettings;
+    Slider sTest;
 };

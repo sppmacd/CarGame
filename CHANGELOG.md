@@ -1,16 +1,11 @@
 # BETA 0.2 - The Power Update (Planned)
 
-## MAIN CHANGES
-
-+ NEW POWERS: BALL [todo]
-+ New translations: full German.
-
-## OTHER CHANGES & FIXES
-
-* Finally fixed Ingame GUI Escape bug!
-* Finally fixed window resizing bugs.
++ New powers: Ball [TODO]
 
 # BETA 0.2 SNAPSHOTS
+
+## v190704
+* Powers aren't bought, but upgraded.
 ## v190703
 * Finally fixed Ingame GUI Escape bug!
 * Finally fixed window resizing bugs.
