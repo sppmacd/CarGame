@@ -1,0 +1,64 @@
+gui.done=Gotowe
+gui.return=Wróć...
+gui.cancel=Anuluj
+gui.up=Do góry
+gui.down=Na dół
+
+gui.toggle.on=Wł.
+gui.toggle.off=Wył.
+
+gui.yesno.yes=Tak
+gui.yesno.no=Nie
+
+gui.mainmenu.credit=Sppmacd 2018. Używa SFML.
+
+gui.settings.title=Ustawienia
+gui.settings.refreshres=Przeładuj zasoby
+gui.settings.verticalsync=Synchr. pionowa
+gui.settings.resetgame=Zresetuj grę
+gui.settings.language=Język
+gui.settings.resetgame.warning=Tego nie można cofnąć!
+gui.settings.resetgame.delete=Czy jesteś pewien, żeby usunąć wszystkie dane gracza?
+
+gui.language.title=Język...
+
+gui.selectmap.title=Mapy i Moce
+gui.selectmap.powers=Moce...
+gui.selectmap.buyconfirm=Czy chcesz kupić %0?
+gui.selectmap.buyfor=Kup za %0$
+gui.selectmap.notenoughcoins=Za mało pieniędzy
+
+gui.powers.buy=Kup %0: %1$
+gui.powers.title=Kup moce
+gui.powers.return=Wróć do Map
+
+gui.ingame.returngame=Wróć do gry
+gui.ingame.returnmainmenu=Wróć do menu głównego
+gui.ingame.quit=Wyjdź z gry
+gui.ingame.title=Menu gry
+
+gui.gameover.title=Koniec gry!
+gui.gameover.score=Zdobyłeś %0 punktów
+gui.gameover.return=Wróć do Menu
+gui.gameover.newgame=Nowa gra
+
+power.none=Brak mocy
+power.oil=Olej
+power.ice=Lód
+power.point_boost=Dopalacz punktowy
+power.fence=Płot
+power.ball=Piłka
+
+map.countryside=Wieś
+map.desert=Pustynia
+map.forest=Las
+map.ice=Lód
+map.mountains=Góry
+map.beach=Plaża
+map.city=Miasto
+map.motorway=Autostrada
+map.sea=Morze
+map.swampland=Bagna
+map.forest_trails=Leśne ścieżki
+
+splash.newrecord=Nowy Rekord!

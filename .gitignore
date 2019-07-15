@@ -1,7 +1,7 @@
-bin/
-share/
-obj/
-Cache/
+/share/
+/obj/
+/Cache/
+/res/
 *.log
 *.txt
 *.cscope_file_list
@@ -9,3 +9,6 @@ Cache/
 *.layout
 *.save-failed
 *.cbp
+*.ini
+*.exe
+*.bat
