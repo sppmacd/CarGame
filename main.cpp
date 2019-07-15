@@ -84,7 +84,7 @@ int main()
 
     try
     {
-        data.wnd = new RenderWindow(sf::VideoMode::getFullscreenModes()[0], "CG " + string(CG_VERSION), Style::Fullscreen);
+        data.wnd = new RenderWindow(VideoMode(600, 500), "CarGame loading...", Style::None);
         data.wnd->setVerticalSyncEnabled(true);
 
         sf::Thread loadingThread(loadGame,&data);
