@@ -15,8 +15,13 @@ using namespace std;
 void loop(Game* game)
 {
 	if (game->mainTickCount == 0)
+    {
+        GameDisplay::instance->createFullscreenWnd();
+		GameDisplay::instance->setWndSize(GameDisplay::instance->getRenderWnd()->getSize());
+
 		// Display the main menu
 		game->displayGui(new GuiMainMenu);
+    }
 
     if(!game->errStr.empty())
             game->displayGui(new GuiYesNo("An error occured: " + game->errStr));
