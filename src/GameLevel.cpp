@@ -159,13 +159,13 @@ void Game::stopCurrentPower()
 }
 void Game::updateEffect()
 {
-    if(this->isPowerUsed && this->powerCooldown <= 0 && this->getCurrentPower() != 0)
+    if(this->isPowerUsed && this->powerCooldown <= 0 && this->getCurrentPower() != -1)
     {
         auto it = this->powerRegistry.find(this->getCurrentPower());
         if(it == this->powerRegistry.end())
             return;
 
-        this->usePower(this->currentPower->first);
+        this->usePower(this->getCurrentPower());
         this->setCurrentPower(it->second);
     }
     if(this->powerTime > 0)

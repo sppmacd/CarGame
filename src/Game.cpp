@@ -59,6 +59,7 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 		this->powerTime = 0;
 		this->isPowerUsed = false;
 		this->powerHandle = NULL;
+		this->currentPower = 0;
 		this->unlockedLevels = 0LL;
 		this->registerPowers();
 
@@ -77,24 +78,19 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 
 void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
 {
-    if(!this->isGuiLoaded() && this->powerTime <= 0)
+    if(!this->isGuiLoaded() && this->powerTime <= 0 && !usablePowerIds.empty())
     {
         if(event.delta > 0.f)
         {
             this->currentPower++;
-            if(this->currentPower == powerRegistry.end() || this->currentPower->second->getName().find("generic.") == 0)
-                this->currentPower = ++powerRegistry.begin();
+            if(this->currentPower == usablePowerIds.size())
+                this->currentPower = 0;
         }
         else if(event.delta < 0.f)
         {
             --this->currentPower;
-            if(this->currentPower == powerRegistry.begin())
-            {
-                auto it = powerRegistry.begin();
-                for(int s = 0; s < biggestPlayerPowerID; s++) //it isn't random access iterator, so we must increment it
-                    it++;
-                this->currentPower = it;
-            }
+            if(this->currentPower == -1)
+                this->currentPower = usablePowerIds.size() - 1;
         }
     }
 }
@@ -117,7 +113,7 @@ bool Game::usePower(int id)
 
 void Game::registerPowers()
 {
-	registerPower(0, (Power*)NULL);
+	//registerPower(0, (Power*)NULL);
 	registerPower(1, &(new PowerOil)->setMaxTime(1800));
 	registerPower(2, &(new PowerFreeze)->setMaxTime(600));
 	registerPower(3, new PowerPointBoost);
@@ -206,7 +202,7 @@ void Game::addEventHandler(Event::EventType type, CGEventHandler handler)
 
 int Game::getCurrentPower()
 {
-    return this->currentPower == this->powerRegistry.begin() ? 0 : this->currentPower->first;
+    return usablePowerIds.size() > 0 ? usablePowerIds[this->currentPower] : -1;
 }
 
 void Game::addScore(int s)
@@ -233,6 +229,8 @@ void Game::loadPlayerData()
 
     cout << "Game: Loading player data..." << endl;
 
+    this->usablePowerIds.clear();
+
     HMDataMap playerProfile;
     if(playerProfile.loadFromFile("profile_1.txt"))
     {
@@ -257,6 +255,8 @@ void Game::loadPlayerData()
             {
                 int c = playerProfile.getNumberKey("count_" + to_string(it->first), "power", 0);
                 this->powers[it->first] = PowerPlayerData(it->second, sqrt(c));
+                if(c > 0)
+                    usablePowerIds.push_back(it->first);
             }
         }
         else if(ver == 4)
@@ -265,6 +265,8 @@ void Game::loadPlayerData()
             {
                 int c = playerProfile.getNumberKey("level_" + to_string(it->first), "power", 0);
                 this->powers[it->first] = PowerPlayerData(it->second, c);
+                if(c > 0)
+                    usablePowerIds.push_back(it->first);
             }
         }
         else
@@ -286,7 +288,14 @@ void Game::loadPlayerData()
             >> this->totalPlayerPoints
             >> this->coinMpl
             >> this->pointsToNewMpl;
-            cout << "Game: Powers are incompatible with old format on " + string(CG_VERSION) + "!" << endl;
+            int i1, i2;
+            file
+            >> i1 >> i2;
+            this->powers[1] = PowerPlayerData(this->powerRegistry[1], sqrt(i1));
+            this->powers[2] = PowerPlayerData(this->powerRegistry[2], sqrt(i2));
+            usablePowerIds.push_back(1);
+            usablePowerIds.push_back(2);
+            //cout << "Game: Powers are incompatible with old format on " + string(CG_VERSION) + "!" << endl;
         }
         else
         {
@@ -388,7 +397,7 @@ void Game::setupGame()
     this->cars.clear();
     this->pause(false);
     this->closeGui();
-    this->currentPower = ++powerRegistry.begin();
+    this->currentPower = 0;
 	this->carCreatingSpeed = this->level.getCarCreationSpeed();
 	this->newRecord = false;
     this->powerTime = 0;
@@ -552,6 +561,9 @@ void Game::setPointMultiplier(float ptmpl)
 void Game::registerPower(int id, Power* powerInstance)
 {
     powerRegistry.insert(make_pair(id, powerInstance));
-    if(id < 100 && id > biggestPlayerPowerID)
-        biggestPlayerPowerID = id;
+    if(id < 100)
+    {
+        if(id > biggestPlayerPowerID)
+            biggestPlayerPowerID = id;
+    }
 }

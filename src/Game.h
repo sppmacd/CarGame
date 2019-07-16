@@ -131,6 +131,12 @@ public:
 	// Error string
 	string errStr;
 
+    // Store player powers (level etc.)
+    map<int, PowerPlayerData> powers;
+
+    // Current player powers
+    vector<int> usablePowerIds;
+
 	///// FUNCTIONS /////
 
 	/// Default constructor
@@ -242,10 +248,6 @@ public:
 	// Use player power (--)
     bool usePower(int id);
 
-	// Store player powers
-   // map<int, int> powers;
-    map<int, PowerPlayerData> powers;
-
 	// Register powers
 	void registerPowers();
 
@@ -347,7 +349,7 @@ private:
     float pointMultiplier;
 
 	// Player current using power (if not used, then 0)
-    map<int,Power*>::iterator currentPower;
+    int currentPower;
 
     // Variable storing default language (English)
 	TranslationManager enUSTranslation;

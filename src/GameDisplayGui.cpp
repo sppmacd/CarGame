@@ -150,8 +150,6 @@ void drawDebugInfo(sf::RenderWindow* wnd)
 		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
 		+ std::string(",\tmtc = ") + std::string(to_string(Game::instance->mainTickCount))
 		+ std::string(",\tcars = ") + std::string(to_string(Game::instance->cars.size()))
-		+ std::string(",\tpwc = ") + std::string(to_string(Game::instance->powerCooldown))
-		+ std::string(",\tpwt = ") + std::string(to_string(Game::instance->powerTime))
 		+ std::string(",\tg = ") + std::string(GameDisplay::instance->getVSync() ? "vsync" : "")
     , 15, sf::Vector2f(6.f, disp->getSize().y - 21)));
 
@@ -169,13 +167,13 @@ void GameDisplay::drawGui()
         drawStat(650, 32, "mpl", game->getCoinMultiplier());
         drawStat(850, 32, "points_mpl", game->pointsToNewMpl);
 
-        if(game->getCurrentPower() >= 1)
+        if(game->getCurrentPower() >= 0)
         {
             sf::Sprite spr(this->getTexture("power/" + to_string(game->getCurrentPower())));
             spr.setPosition(1050, 42);
             this->renderWnd->draw(spr);
 
-            sf::Text t1 = this->drawCenteredString(game->translation.get("gui.powers.powerlvl", {to_string(game->powers[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1050, 70), sf::Text::Bold);
+            sf::Text t1 = this->drawCenteredString(game->translation.get("gui.powers.powerlvl", {to_string(game->powers[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1050, 80), sf::Text::Bold);
             t1.setFillColor(sf::Color::Blue);
             this->renderWnd->draw(t1);
         }

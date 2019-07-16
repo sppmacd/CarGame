@@ -86,9 +86,9 @@ void GameDisplay::reload()
     this->addTexture("gui/settings");
     this->addTexture("gui/quit");
 
-    for(size_t s = 1; s < Game::instance->powerRegistry.size(); s++)
+    for(auto it = Game::instance->powerRegistry.begin(); it != Game::instance->powerRegistry.end(); it++)
     {
-        addTexture("power/" + to_string(s));
+        addTexture("power/" + to_string(it->first));
     }
 }
 
@@ -336,7 +336,7 @@ void GameDisplay::drawEffect()
     {
         if(game->powerTime > 1)
             game->powerRegistry.find(game->getCurrentPower())->second->drawPower(this->renderWnd);
-        else if(game->getCurrentPower() != 0)
+        else if(game->getCurrentPower() != -1)
             game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(this->renderWnd);
     }
 }
@@ -366,7 +366,7 @@ void GameDisplay::createFullscreenWnd()
         renderWnd->create(fullscreenModes[0], sf::String(), sf::Style::Fullscreen);
         Game::instance->setWindow(renderWnd); //update guihandler view
         if(renderWnd->isOpen())
-            return;
+            break;
     }
     renderWnd->setVerticalSyncEnabled(true);
 }
