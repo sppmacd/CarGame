@@ -7,7 +7,7 @@ Current Version: beta 0.1 [The New Map Update]
 * Destroy cars by clicking on it.
 * Any successful "attack" gives you points. The point count depends on map.
 * Every 2 attacks you get coins.
-* You can improve your Coin Multiplier by getting more points.*
+* You can improve your Coin Multiplier by getting more points.
 * To use power click RMB. To change power use mouse wheel.
 * You cannot click at Bomb! It explodes and makes your game over.
 * You can reset your game in Settings.
