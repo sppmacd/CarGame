@@ -18,4 +18,5 @@ private:
     Button b1;
     Button b2;
     Button bQuit;
+    Button bSettings;
 };

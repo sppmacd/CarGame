@@ -33,6 +33,7 @@ void GuiSettings::onResize()
 
 void GuiSettings::onDraw(sf::RenderWindow& wnd)
 {
+    wnd.clear(colors::bgColor);
     bDone.draw(wnd);
     bResetHS.draw(wnd);
     bRefreshGD.draw(wnd);
@@ -64,7 +65,7 @@ void GuiSettings::onClick(int button)
 
     if (button == 0)
     {
-        game->displayGui(new GuiMainMenu); //main menu
+        close(0);
     }
     else if (button == 1)
     {
@@ -80,11 +81,7 @@ void GuiSettings::onClick(int button)
     }
     else if(button == 4)
     {
-        game->displayGui(new GuiLanguage);
-    }
-    else if(button == 5)
-    {
-        runDialog(new GuiOk("test"), 1);
+        runDialog(new GuiLanguage, -1);
     }
 }
 

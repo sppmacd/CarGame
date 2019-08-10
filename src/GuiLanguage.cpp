@@ -29,6 +29,7 @@ void GuiLanguage::onResize()
 
 void GuiLanguage::onDraw(RenderWindow& wnd)
 {
+    wnd.clear(colors::bgColor);
     // TODO
     bCancel.draw(wnd);
     bDone.draw(wnd);
@@ -44,7 +45,7 @@ void GuiLanguage::onClick(int buttonId)
     switch(buttonId)
     {
     case 0:
-        Game::instance->displayGui(new GuiSettings);
+        close(0);
         break;
     case 1:
         Game::instance->loadLanguages();

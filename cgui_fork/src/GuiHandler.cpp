@@ -1,6 +1,8 @@
 #include <CG/GuiHandler.h>
 #include <CG/Widget.h>
 
+namespace cg
+{
 namespace colors
 {
     Color buttonColor(119, 103, 50);
@@ -28,9 +30,6 @@ namespace colors
     Color sliderSliderColor(153, 102, 43);
     Color sliderSliderOutline(194, 136, 70);
 }
-
-namespace cg
-{
 GuiHandler::GuiHandler() : GuiHandler(NULL, NULL)
 {
 

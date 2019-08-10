@@ -4,6 +4,11 @@
 
 # BETA 0.2 SNAPSHOTS
 
+## v190801
+* Settings can be accessed from ingame menu
++ Added credits screen.
++ Added volume slider (not used)
+* Changed Powers GUI apperrance.
 ## v190704
 * Powers aren't bought, but upgraded.
 ## v190703

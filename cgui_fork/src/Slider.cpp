@@ -50,7 +50,7 @@ void Slider::draw(sf::RenderWindow& wnd)
     rs.setFillColor(colors::sliderSliderColor);
     rs.setOutlineColor(colors::sliderSliderOutline);
     rs.setOrigin(rs.getSize().x / 2.f, 0.f);
-    rs.setPosition(getPosition() + Vector2f(bCurrentPos * bDisplaySize / bMaxPos + 2.5f, 0.f));
+    rs.setPosition(getPosition() + Vector2f(bCurrentPos * bDisplaySize / bMaxPos, 0.f));
     wnd.draw(rs);
 }
 bool Slider::isClicked(Vector2f pos)

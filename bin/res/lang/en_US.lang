@@ -12,7 +12,7 @@ gui.yesno.no=No
 
 gui.mainmenu.credit=Sppmacd 2018. Using SFML.
 
-gui.settings.title=Settings
+gui.settings.title=Settings...
 gui.settings.refreshres=Refresh Resources
 gui.settings.verticalsync=Vertical Sync
 gui.settings.resetgame=Reset Game
@@ -35,6 +35,7 @@ gui.powers.title=Buy Powers
 gui.powers.return=Return to Maps
 gui.powers.notbought=Not Bought
 gui.powers.powerlvl=LVL %0
+gui.powers.tip=Use powers by Right Click.
 
 gui.ingame.returngame=Return to game
 gui.ingame.returnmainmenu=Return to main menu

@@ -43,8 +43,8 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = false; //Disable debug mode
 		this->fullscreen = true;
-		//this->isGuiLoaded() = false; //DISABLE GUI!
 		this->registerEventHandlers();
+		cg::colors::bgColor = sf::Color(50, 40, 40);
 
 		// Reset player stats
 		this->isNewPlayer = false;

@@ -21,5 +21,6 @@ private:
     ButtonCircle bStart;
     ButtonCircle bQuit;
     ButtonCircle bSettings;
+    Button bCredits;
     Slider sTest;
 };

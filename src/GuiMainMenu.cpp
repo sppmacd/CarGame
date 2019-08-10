@@ -4,6 +4,7 @@
 #include "GuiSettings.h"
 #include "GuiMapSelect.h"
 #include <iostream>
+#include "GuiCredits.hpp"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ void GuiMainMenu::onLoad()
     addWidget(&(bSettings = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "gui/settings", 2)));
     addWidget(&(bQuit = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "gui/quit", 1)));
     addWidget(&(sTest = Slider(this, Vector2f(10.f, 10.f), 100.f, 5.f, 100)));
+    addWidget(&(bCredits = Button(this, Vector2f(), Vector2f(), "", 3)));
 
     bStart.setColor(Color::Green);
     bQuit.setColor(Color::Red);
@@ -26,6 +28,8 @@ void GuiMainMenu::onResize()
     bStart.setPosition(Vector2f(game->getSize().x / 2, game->getSize().y / 2));
     bSettings.setPosition(Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2));
     bQuit.setPosition(Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2));
+    bCredits.setSize(Vector2f(game->getSize().x, 30.f));
+    bCredits.setPosition(Vector2f(0.f, game->getSize().y - 30.f));
 }
 
 void GuiMainMenu::onDraw(RenderWindow& wnd)
@@ -60,15 +64,17 @@ void GuiMainMenu::onClick(int button)
             game->tutorialStep = 3;
         }
     }
-
-    if(button == 1)
+    else if(button == 1)
     {
         game->exit(0);
     }
-
-    if(button == 2)
+    else if(button == 2)
     {
-        game->displayGui(new GuiSettings);
+        runDialog(new GuiSettings, -1);
+    }
+    else if(button == 3)
+    {
+        game->displayGui(new GuiCredits);
     }
 }
 

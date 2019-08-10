@@ -44,8 +44,8 @@ gui.gameover.newgame=Nowa gra
 
 power.none=Brak mocy
 power.oil=Olej
-power.ice=Lód
-power.point_boost=Dopalacz punktowy
+power.freeze=Lód
+power.point_boost=Dopalacz
 power.fence=Płot
 power.ball=Piłka
 

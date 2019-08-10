@@ -10,12 +10,12 @@
 PowerOil::PowerOil() : Power() {}
 void PowerOil::onPowerStop()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (1.3f / ((-1 / currentLevel) + 1)));
+	//Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (1.3f / ((-1 / currentLevel) + 1)));
 }
 
 bool PowerOil::onPowerStart()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() * (1.3f / ((-1 / currentLevel) + 1)));
+	//Game::instance->setGameSpeed(Game::instance->getGameSpeed() * (1.3f / ((-1 / currentLevel) + 1)));
 	pos = Vector2f(Mouse::getPosition(*GameDisplay::instance->getRenderWnd()));
 	lane = LevelUtility::getLaneFromPos(pos);
 	if(lane < 0 || lane > 2)
@@ -26,18 +26,18 @@ bool PowerOil::onPowerStart()
 void PowerOil::onPowerTick(int powerTick)
 {
     int size = currentLevel * 45;
-	if (powerTick % 3 == 0)
+	if(powerTick % 3 == 0)
 	{
-		for (Car* c : Game::instance->cars)
+		for(Car* c : Game::instance->cars)
 		{
 			if(abs(c->getScreenPos().x - pos.x) < size)
 			{
 			    if(lane == 0 && c->getLine() < 2)
-                    c->makeDestroy();
+                    c->makeDestroy(0.4 * currentLevel);
                 else if(lane == 1 && (c->getLine() == 1 || (powerTick % 6 == 0)))
-                    c->makeDestroy();
+                    c->makeDestroy(0.4 * currentLevel);
                 else if(lane == 2 && c->getLine() > 0)
-                    c->makeDestroy();
+                    c->makeDestroy(0.4 * currentLevel);
 			}
 		}
 	}

@@ -5,6 +5,8 @@
 
 using namespace sf;
 
+namespace cg
+{
 namespace colors
 {
     extern Color buttonColor;
@@ -32,9 +34,6 @@ namespace colors
     extern Color sliderSliderColor;
     extern Color sliderSliderOutline;
 }
-
-namespace cg
-{
 /// Define the SFML Event handler. \return True if the event was handled (we don't want to handle GUI events), false otherwise
 typedef bool(*EventHandler)(Event);
 

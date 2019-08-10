@@ -71,7 +71,8 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
     }
     bReturn.draw(wnd);
 
-    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.powers.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 200)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.powers.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.powers.tip"), 15, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 190)));
     if(cooldown > 0)
         cooldown--;
 
