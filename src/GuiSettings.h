@@ -20,6 +20,7 @@ private:
     Button bRefreshGD;
     ButtonToggle bVerticalSync;
     Button bLanguage;
+    Slider sVolume;
     //Button bTFM;
 };
 

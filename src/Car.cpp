@@ -72,8 +72,11 @@ void Car::makeDestroy(float count)
     if(this->health <= 0)
     {
         this->health = 0.f;
-        this->destroyTick = 20;
-        this->carSpeed /= 2.5;
+        if(this->destroyTick == -1)
+        {
+            this->destroyTick = 20;
+            this->carSpeed /= 2.5;
+        }
     }
 }
 

@@ -8,7 +8,7 @@
 PowerFreeze::PowerFreeze() : Power() {}
 void PowerFreeze::onPowerStop()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() * (3.f * sqrt(currentLevel)));
+	Game::instance->setGameSpeed(Game::instance->getGameSpeed() * (4.f * sqrt(currentLevel)));
 }
 
 void PowerFreeze::drawPower(RenderWindow * wnd)
@@ -24,7 +24,7 @@ void PowerFreeze::drawPower(RenderWindow * wnd)
 
 bool PowerFreeze::onPowerStart()
 {
-	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (3.f * sqrt(currentLevel)));
+	Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (4.f * sqrt(currentLevel)));
 	return true;
 }
 int PowerFreeze::getCost()

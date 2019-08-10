@@ -10,7 +10,7 @@ Slider::Slider(): Widget()
 Slider::Slider(Gui* gui, Vector2f pos, float dispSize, float max, int bId): Widget(gui, pos, bId), bMaxPos(max), bCurrentPos(0), bDisplaySize(dispSize)
 {
     bColor = colors::sliderOutline;
-    mouseClicked = true;
+    mouseClicked = false;
 }
 void Slider::setColor(Color color)
 {
@@ -56,7 +56,7 @@ void Slider::draw(sf::RenderWindow& wnd)
 bool Slider::isClicked(Vector2f pos)
 {
     bool b = FloatRect(0.f, getPosition().y, parent->guiHandler->getSize().x, colors::sliderHeight).contains(pos);
-    if(b)
+    //if(b)
         updateSlider(pos - getPosition());
     return b;
 }
@@ -64,16 +64,20 @@ void Slider::onMouseClick(Vector2f pos, bool rel, Mouse::Button button)
 {
     if(button == Mouse::Left && FloatRect(getPosition().x, getPosition().y, bDisplaySize, colors::sliderHeight).contains(pos))
     {
-        if(rel)
-            mouseClicked = false;
-        else
+        if(!rel)
             mouseClicked = true;
     }
+    if(rel)
+        mouseClicked = false;
 }
 void Slider::updateSlider(Vector2f clickPos)
 {
     float relPos = clickPos.x / bDisplaySize;
-    if(relPos >= 0 && relPos <= 1 && mouseClicked)
+    if(relPos < 0)
+        relPos = 0;
+    else if(relPos > 1)
+        relPos = 1;
+    if(mouseClicked)
         bCurrentPos = relPos * bMaxPos;
 }
 }

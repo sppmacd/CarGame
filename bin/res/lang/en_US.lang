@@ -19,6 +19,7 @@ gui.settings.resetgame=Reset Game
 gui.settings.language=Language
 gui.settings.resetgame.warning=This cannot be undone!
 gui.settings.resetgame.delete=Are you sure to delete all your player data?
+gui.settings.volume=Sound Volume
 
 gui.language.title=Language...
 

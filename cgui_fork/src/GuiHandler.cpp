@@ -31,9 +31,7 @@ namespace colors
 
 namespace cg
 {
-bool ev(Event) {return false;}
-
-GuiHandler::GuiHandler() : GuiHandler(NULL,NULL)
+GuiHandler::GuiHandler() : GuiHandler(NULL, NULL)
 {
 
 }
@@ -52,24 +50,24 @@ GuiHandler::GuiHandler(RenderWindow* wnd, Font* font)
     window = NULL;
     guiFont = NULL;
     returnValue = 0;
-    externalWindow = true;
-    externalFont = true;
+    externalWindow = false;
+    externalFont = false;
     displayedGui = NULL;
     guiToDisplay = NULL;
     Gui::setGUIHandler(this);
-    setEventHandler(ev);
+    setEventHandler([](Event)->bool {return false;});
 
     if(wnd != NULL)
     {
         window = wnd;
+        externalWindow = true;
     }
 
     if(font != NULL)
     {
         guiFont = font;
+        externalFont = true;
     }
-
-    guiView = wnd->getDefaultView();
 }
 
 bool GuiHandler::loadFont(String fileName)
@@ -230,9 +228,7 @@ RenderWindow* GuiHandler::createWindow(int xSize, int ySize, String title, bool 
 
     externalWindow = false;
     window = new RenderWindow(fullscreen ? VideoMode::getFullscreenModes()[0] : VideoMode(xSize, ySize, 32), title, fullscreen ? Style::Fullscreen : Style::Default);
-
-    FloatRect visibleArea(0.f, 0.f, window->getSize().x, window->getSize().y);
-    guiView = View(visibleArea);
+    guiView = window->getDefaultView();
 
     return window;
 }

@@ -115,7 +115,7 @@ void Game::registerPowers()
 {
 	//registerPower(0, (Power*)NULL);
 	registerPower(1, &(new PowerOil)->setMaxTime(1800));
-	registerPower(2, &(new PowerFreeze)->setMaxTime(600));
+	registerPower(2, &(new PowerFreeze)->setMaxTime(3600));
 	registerPower(3, new PowerPointBoost);
 	registerPower(4, new PowerFence);
 }
@@ -158,7 +158,7 @@ void Game::runEventHandler(Event& event)
 			counter++;
 			bool stat = pair.second(event, this);
 			if (!stat)
-				cout << "Event canceling is not implemented in CG 0.1 MPI!" << endl;
+				cout << "Game: Cannot cancel system events!!!" << endl;
 		}
 	}
 
@@ -170,14 +170,16 @@ bool Game::runGameEventHandler(GameEvent & event)
 {
 	int counter = 0;
 	bool stat = true;
-	for (pair<const GameEvent::Type, GameEventHandler>& pair : eventHandlerInst.registry)
+	for(pair<const GameEvent::Type, GameEventHandler>& pair : eventHandlerInst.registry)
 	{
-		if (pair.first == event.type)
+		if(pair.first == event.type)
 		{
 			counter++;
 			stat &= pair.second(event, this);
 		}
 	}
+	if(!stat)
+        cout << "Game: Canceled event " << int(event.type) << endl;
 
 	//if (counter < 1)
 		//cout << "Game Event Handler not found for event " << event.type << endl;
@@ -411,7 +413,7 @@ void Game::closeLevel()
     GameDisplay::drawLoadingProgress("Closing level...", GameDisplay::instance->getRenderWnd());
     if(!this->cars.empty())
     {
-        for(Car* car: cars) //fixed memory leak?
+        for(Car* car: cars)
             delete car;
         this->cars.clear();
     }
