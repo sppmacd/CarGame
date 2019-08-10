@@ -20,7 +20,7 @@ void GuiMapSelect::onLoad()
 	id = 0;
 
 	int i = 0;
-	for (auto ld : Game::instance->levelRegistry)
+	for(auto ld : Game::instance->levelRegistry)
 	{
 		LevelData* lvld = ld.second;
 		ButtonImage bimg(this, "map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first, 100);
@@ -39,11 +39,22 @@ void GuiMapSelect::onLoad()
 void GuiMapSelect::onResize()
 {
     GameDisplay* game = GameDisplay::instance;
-    bReturn.setPosition(Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f));
-    bPowers.setPosition(Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f));
-    bNext.setPosition(Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f));
-    bPrev.setPosition(Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f));
-    bMd[id].bImg.setPosition(Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f));
+
+    float bSize = min(game->getSize().y / 2, game->getSize().x / 2);
+    bReturn.setPosition(Vector2f(game->getSize().x / 2 - bSize / 2, game->getSize().y / 2 + bSize / 2 + 20));
+    bReturn.setSize(Vector2f(bSize / 2 - 20.f, 40.f));
+    bPowers.setPosition(Vector2f(game->getSize().x / 2 + 20.f, game->getSize().y / 2 + bSize / 2 + 20));
+    bPowers.setSize(Vector2f(bSize / 2 - 20.f, 40.f));
+    bNext.setPosition(Vector2f(game->getSize().x / 2 + bSize / 2 + 10.f, game->getSize().y / 2 - bSize / 2));
+    bNext.setSize(Vector2f(40.f, bSize));
+    bPrev.setPosition(Vector2f(game->getSize().x / 2 - bSize / 2 - 50.f, game->getSize().y / 2 - bSize / 2));
+    bPrev.setSize(Vector2f(40.f, bSize));
+
+    for(GuiMapSelect::MapData& b: bMd)
+    {
+        b.bImg.setPosition(Vector2f(game->getSize().x / 2 - bSize / 2, game->getSize().y / 2 - bSize / 2));
+        b.bImg.setSize(Vector2f(bSize, bSize));
+    }
 }
 
 void GuiMapSelect::onClose()
@@ -75,10 +86,11 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 	bNext.draw(wnd);
 	bPrev.draw(wnd);
 	Game* game = Game::instance;
+    float bSize = min(game->getSize().y / 2, game->getSize().x / 2);
 
-    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.selectmap.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 100)));
-	String mapstr = Game::instance->translation.get("map." + bMd[id].name);
-	String mapstr2;
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.selectmap.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, game->getSize().y / 12)));
+	String mapstr = Game::instance->translation.get("map." + bMd[id].name); //map name
+	String mapstr2; //map info
 
 	if (!game->isLevelUnlocked((LevelData::MapType)id))
 	{
@@ -88,8 +100,8 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 		mapstr += (" - " + Game::instance->translation.get("gui.selectmap.buyfor", {to_string(bMd[id].cost)}));
 	}
 
-    wnd.draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));
-    wnd.draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 175)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(mapstr, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, game->getSize().y * 1 / 8 + 10.f)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(mapstr2, 25, sf::Vector2f(GameDisplay::instance->getSize().x / 2, game->getSize().y * 1 / 6 + 10.f)));
 
     Gui::onDraw(wnd);
 }

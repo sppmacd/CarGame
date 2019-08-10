@@ -4,10 +4,11 @@
 
 # BETA 0.2 SNAPSHOTS
 
+* Fixed Map Select GUI apperrance (the map button size depends on screen size)
 ## v190801
-* Settings can be accessed from ingame menu
 + Added credits screen.
-+ Added volume slider (not used)
++ Added volume slider (not used).
+* Settings can be accessed from ingame menu.
 * Changed Powers GUI apperrance.
 ## v190704
 * Powers aren't bought, but upgraded.

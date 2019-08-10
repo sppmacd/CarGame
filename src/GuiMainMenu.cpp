@@ -45,7 +45,7 @@ void GuiMainMenu::onDraw(RenderWindow& wnd)
     wnd.draw(sprite);
 
     GameDisplay::loadingStr = "Loading game engine...";
-    Text credits = drawString(string(CG_VERSION) + " - " + Game::instance->translation.get("gui.mainmenu.credit"), 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 30.f));
+    Text credits = drawString(string(CG_VERSION) + " - SITS Gamedev 2018-2019. " + Game::instance->translation.get("gui.mainmenu.credit"), 20, Vector2f(10.f, GameDisplay::instance->getSize().y - 30.f));
 
     wnd.draw(credits);
 

@@ -10,7 +10,7 @@ gui.toggle.off=Off
 gui.yesno.yes=Yes
 gui.yesno.no=No
 
-gui.mainmenu.credit=Sppmacd 2018. Using SFML.
+gui.mainmenu.credit=Using SFML.
 
 gui.settings.title=Settings...
 gui.settings.refreshres=Refresh Resources
