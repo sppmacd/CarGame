@@ -32,8 +32,8 @@ void SettingsManager::loadSettings(string fileName)
 
     for(Pair _pair: settingsMap)
     {
-        string space = _pair.first.second;
-        string key = _pair.first.first;
+        string space = _pair.first.first;
+        string key = _pair.first.second;
         string val = _pair.second;
         setSetting(key, val, space);
     }
@@ -102,7 +102,7 @@ void SettingsManager::setSetting(string setting, string val, string space)
     if(d == settings.end())
     {
         cout << "SettingsManager: The setting " << key << " is not registered!" << endl;
-        return ;
+        return;
     }
     d->second.currentVal = val;
 }

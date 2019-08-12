@@ -115,24 +115,25 @@ void GuiSettings::onClick(int button)
 }
 
 #define instanceof(x,type) (dynamic_cast<type*>(&x))
+#define instanceof_ptr(x,type) (dynamic_cast<type*>(x))
 void GuiSettings::onClose()
 {
     for(Widget* widget: widgets)
     {
-        auto p = idToSetting[bt->getID()];
-        if(instanceof(widget, ButtonToggle))
+        auto p = idToSetting[widget->getID()];
+        if(instanceof_ptr(widget, ButtonToggle))
         {
-            ButtonToggle* bt = widget;
+            ButtonToggle* bt = (ButtonToggle*)widget;
             manager->setSetting(p.second, to_string(bt->getState()), p.first);
         }
-        else if(instanceof(widget, Slider))
+        else if(instanceof_ptr(widget, Slider))
         {
-            Slider* bt = widget;
+            Slider* bt = (Slider*)widget;
             manager->setSetting(p.second, to_string(bt->getSliderPosition()), p.first);
         }
-        else if(instanceof(widget, TextBox))
+        else if(instanceof_ptr(widget, TextBox))
         {
-            TextBox* bt = widget;
+            TextBox* bt = (TextBox*)widget;
             manager->setSetting(p.second, bt->getText().toAnsiString(), p.first);
         }
     }
