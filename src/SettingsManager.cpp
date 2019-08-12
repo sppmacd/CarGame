@@ -11,7 +11,7 @@ void SettingsManager::registerSetting(string name, SettingsManager::SettingType 
     setting.space = space;
     setting.type = type;
     setting.currentVal = defaultVal;
-    string key = name + ":" + space;
+    string key = space + ":" + name;
     bool exists = settingRegistered(name, space);
 
     if(exists)
@@ -32,8 +32,8 @@ void SettingsManager::loadSettings(string fileName)
 
     for(Pair _pair: settingsMap)
     {
-        string space = _pair.first.first;
-        string key = _pair.first.second;
+        string space = _pair.first.second;
+        string key = _pair.first.first;
         string val = _pair.second;
         setSetting(key, val, space);
     }
@@ -155,7 +155,7 @@ GuiSettings* SettingsManager::generateWidgets()
     {
         SettingsManager::SettingType type = it.second.type;
         pair<string,string> ns = toNameAndSpace(it.first);
-        string spaceUnlocalized = ns.second + "." + ns.first;
+        string spaceUnlocalized = ns.first + "." + ns.second;
         String spaceLocal = Game::instance->translation.get("settings." + spaceUnlocalized);
         guisettings->idToSetting.insert(make_pair(counter, ns));
 

@@ -620,7 +620,7 @@ void Game::registerSettings()
     settings.registerSetting("fullscreen", SettingsManager::BOOLEAN, "graphics", "1");
     settings.registerSetting("resetgame", SettingsManager::CONFIRM_TRIGGER, "game");
     settings.registerSetting("language", SettingsManager::TRIGGER, "global");
-    settings.registerSetting("volume", SettingsManager::NUMERIC, "sound");
+    settings.registerSetting("volume", SettingsManager::NUMERIC, "sound", "0.5");
 
     settings.registerTrigger("refreshres", Triggers::s_refreshres, "graphics");
     settings.registerTrigger("verticalsync", Triggers::s_verticalsync, "graphics");

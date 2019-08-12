@@ -91,9 +91,9 @@ void GuiSettings::onClick(int button)
     SettingsManager::SettingType type = manager->getSettingType(it->second.second, it->second.first);
 
     if(type == SettingsManager::TRIGGER)
-        manager->triggerSetting(it->second.first, it->second.second);
+        manager->triggerSetting(it->second.second, it->second.first);
     else if(type == SettingsManager::CONFIRM_TRIGGER)
-        runDialog(new GuiYesNo(Game::instance->translation.get("settings." + it->second.second + "." + it->second.first + ".msg")), triggerToCallId[it->second]);
+        runDialog(new GuiYesNo(Game::instance->translation.get("settings." + it->second.first + "." + it->second.second + ".msg")), triggerToCallId[it->second]);
 
 
     /*else if(button == 1)
@@ -113,8 +113,29 @@ void GuiSettings::onClick(int button)
 
     }*/
 }
+
+#define instanceof(x,type) (dynamic_cast<type*>(&x))
 void GuiSettings::onClose()
 {
+    for(Widget* widget: widgets)
+    {
+        auto p = idToSetting[bt->getID()];
+        if(instanceof(widget, ButtonToggle))
+        {
+            ButtonToggle* bt = widget;
+            manager->setSetting(p.second, to_string(bt->getState()), p.first);
+        }
+        else if(instanceof(widget, Slider))
+        {
+            Slider* bt = widget;
+            manager->setSetting(p.second, to_string(bt->getSliderPosition()), p.first);
+        }
+        else if(instanceof(widget, TextBox))
+        {
+            TextBox* bt = widget;
+            manager->setSetting(p.second, bt->getText().toAnsiString(), p.first);
+        }
+    }
     manager->triggerAllClose();
     manager->saveSettings("settings.txt");
 }
