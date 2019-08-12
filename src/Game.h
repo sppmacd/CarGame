@@ -9,6 +9,7 @@
 #include "TranslationManager.hpp"
 #include "PowerPlayerData.hpp"
 #include "version.hpp"
+#include "SettingsManager.hpp"
 
 #include <CG/CG.h>
 ;
@@ -45,11 +46,8 @@ public:
 	// Variable storing MouseButtonReleased event status
     bool wasReleased;
 
-	// Variable storing gui status
-    //bool isGuiLoaded;
-
-	// Variable storing currently displayed GUI. If NULL, the GUI is not loaded.
-    //Gui* displayedGui;
+    // The settings manager
+	SettingsManager settings;
 
 	// Power time
     int powerTime;
@@ -302,6 +300,12 @@ public:
 	// Register a new power, setting biggestPlayerPowerID if necessary.
 	void registerPower(int id, Power* powerInstance);
 
+	// Called on load settings registration and load.
+	void registerSettings();
+
+	// Open settings GUI.
+	void openSettings();
+
 	// Map storing power data registry
 	map<int, Power*> powerRegistry;
 
@@ -313,6 +317,8 @@ public:
 
 	// All languages.
 	TranslationManager languageConfig;
+
+	friend class Triggers;
 
 private:
 	// Not used variable storing camera position

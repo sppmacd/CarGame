@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 #include "Button.h"
 #include "ButtonToggle.h"
 #include "Gui.h"
@@ -11,4 +13,6 @@
 #include "GuiOk.h"
 #include "CompoundWidget.h"
 #include "Slider.h"
-#include <SFML/Graphics.hpp>
+#include "ScrollBar.h"
+#include "ScrollableCompound.h"
+

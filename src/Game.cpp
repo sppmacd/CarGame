@@ -11,6 +11,9 @@
 #include "GameEvent.h"
 
 #include "GuiGameOver.h"
+#include "GuiMainMenu.h"
+#include "GuiLanguage.hpp"
+#include "GuiSettings.h"
 
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
@@ -44,6 +47,7 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 		this->debug = false; //Disable debug mode
 		this->fullscreen = true;
 		this->registerEventHandlers();
+		this->registerSettings();
 		cg::colors::bgColor = sf::Color(50, 40, 40);
 
 		// Reset player stats
@@ -568,4 +572,67 @@ void Game::registerPower(int id, Power* powerInstance)
         if(id > biggestPlayerPowerID)
             biggestPlayerPowerID = id;
     }
+}
+
+class Triggers
+{
+public:
+    static bool s_refreshres(string val)
+    {
+        GameDisplay::instance->reload();
+        return true;
+    }
+    static bool s_verticalsync(string val)
+    {
+        GameDisplay::instance->setVSync(stoi(val));
+        return true;
+    }
+    static bool s_fullscreen(string val)
+    {
+        if(Game::instance->fullscreen != stoi(val))
+            Game::instance->toggleFullscreen();
+        return true;
+    }
+    static bool s_resetgame(string val)
+    {
+		remove("data.txt");
+		remove("highscore.txt");
+		remove("profile_1.txt");
+		Game::instance->loadPlayerData();
+		Game::instance->displayGui(new GuiMainMenu);
+		return true;
+    }
+    static bool s_language(string val)
+    {
+        Game::instance->displayedGui->runDialog(new GuiLanguage, -1);
+        return true;
+    }
+    static bool s_volume(string val)
+    {
+        return false; //not implemented
+    }
+};
+
+void Game::registerSettings()
+{
+    settings.registerSetting("refreshres", SettingsManager::TRIGGER, "graphics");
+    settings.registerSetting("verticalsync", SettingsManager::BOOLEAN, "graphics", "1");
+    settings.registerSetting("fullscreen", SettingsManager::BOOLEAN, "graphics", "1");
+    settings.registerSetting("resetgame", SettingsManager::CONFIRM_TRIGGER, "game");
+    settings.registerSetting("language", SettingsManager::TRIGGER, "global");
+    settings.registerSetting("volume", SettingsManager::NUMERIC, "sound");
+
+    settings.registerTrigger("refreshres", Triggers::s_refreshres, "graphics");
+    settings.registerTrigger("verticalsync", Triggers::s_verticalsync, "graphics");
+    settings.registerTrigger("fullscreen", Triggers::s_fullscreen, "graphics");
+    settings.registerTrigger("resetgame", Triggers::s_resetgame, "game");
+    settings.registerTrigger("language", Triggers::s_language, "global");
+    settings.registerTrigger("volume", Triggers::s_volume, "sound");
+
+    settings.loadSettings("settings.txt");
+}
+
+void Game::openSettings()
+{
+    displayedGui->runDialog(settings.generateWidgets(), -1);
 }

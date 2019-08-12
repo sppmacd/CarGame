@@ -30,6 +30,10 @@ bool Static::isClicked(Vector2f)
 {
     return true;
 }
+FloatRect Static::getBoundingBox()
+{
+    return FloatRect(Vector2f(0.f, 0.f), parent->guiHandler->getSize());
+}
 }
 
 

@@ -4,6 +4,7 @@
 
 # BETA 0.2 SNAPSHOTS
 
+* Settings GUI - new apperrance
 * Fixed Map Select GUI apperrance (the map button size depends on screen size)
 ## v190801
 + Added credits screen.
@@ -11,7 +12,7 @@
 * Settings can be accessed from ingame menu.
 * Changed Powers GUI apperrance.
 ## v190704
-* Powers aren't bought, but upgraded.
++ Powers aren't bought, but upgraded.
 ## v190703
 * Finally fixed Ingame GUI Escape bug!
 * Finally fixed window resizing bugs.

@@ -18,7 +18,7 @@ Widget* WidgetContainer::onMouseClick(Vector2f pos, bool release, Mouse::Button 
 {
     for(Widget* widget: widgets)
     {
-        widget->onMouseClick(pos, release, button);
+        widget->onMouseClickW(pos, release, button);
         if(widget->isClicked(pos) && release)
         {
             bool b = widget->onClick();

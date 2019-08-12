@@ -101,9 +101,9 @@ void TextBox::setText(String text)
 {
     bText = text;
 }
-void TextBox::onMouseClick(Vector2f pos, bool release, Mouse::Button button)
+void TextBox::onMouseClickW(Vector2f pos, bool release, Mouse::Button button)
 {
-    Widget::onMouseClick(pos, release, button);
+    Widget::onMouseClickW(pos, release, button);
     // Currently I don't want to implement this.
 }
 void TextBox::onText(wchar_t c)
@@ -151,5 +151,10 @@ void TextBox::setMultiline(bool ml)
 void TextBox::setAutoScroll(bool h)
 {
     autoHScroll = h;
+}
+
+FloatRect TextBox::getBoundingBox()
+{
+    return FloatRect(getPosition(), getSize());
 }
 }

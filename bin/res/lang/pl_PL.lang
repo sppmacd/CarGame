@@ -10,7 +10,7 @@ gui.toggle.off=Wył.
 gui.yesno.yes=Tak
 gui.yesno.no=Nie
 
-gui.mainmenu.credit=Używa SFML.
+gui.mainmenu.credit=
 
 gui.settings.title=Ustawienia
 gui.settings.refreshres=Przeładuj zasoby

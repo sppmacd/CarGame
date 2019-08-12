@@ -37,6 +37,8 @@ public:
 
     virtual void setText(String text);
 
+    virtual FloatRect getBoundingBox();
+
 protected:
 	String bText;
 	Color bColor;

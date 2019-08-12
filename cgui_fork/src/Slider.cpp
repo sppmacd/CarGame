@@ -52,6 +52,9 @@ void Slider::draw(sf::RenderWindow& wnd)
     rs.setOrigin(rs.getSize().x / 2.f, 0.f);
     rs.setPosition(getPosition() + Vector2f(bCurrentPos * bDisplaySize / bMaxPos, 0.f));
     wnd.draw(rs);
+
+    if(!label.isEmpty())
+        wnd.draw(Gui::drawCenteredString(label, 20, Vector2f(getPosition() + Vector2f(bDisplaySize / 2, colors::sliderHeight / 2))));
 }
 bool Slider::isClicked(Vector2f pos)
 {
@@ -60,7 +63,7 @@ bool Slider::isClicked(Vector2f pos)
         updateSlider(pos - getPosition());
     return b;
 }
-void Slider::onMouseClick(Vector2f pos, bool rel, Mouse::Button button)
+void Slider::onMouseClickW(Vector2f pos, bool rel, Mouse::Button button)
 {
     if(button == Mouse::Left && FloatRect(getPosition().x, getPosition().y, bDisplaySize, colors::sliderHeight).contains(pos))
     {
@@ -79,5 +82,13 @@ void Slider::updateSlider(Vector2f clickPos)
         relPos = 1;
     if(mouseClicked)
         bCurrentPos = relPos * bMaxPos;
+}
+FloatRect Slider::getBoundingBox()
+{
+    return FloatRect(bPos, Vector2f(bDisplaySize, colors::sliderHeight));
+}
+void Slider::setLabel(String l)
+{
+    label = l;
 }
 }

@@ -29,6 +29,17 @@ TranslationEntry::TranslationEntry(String in)
             translation.push_back(in.substring(lastp, i - lastp + 1));
             translation.back().replace("%%", "%");
         }
+        /*else if(in[i] == '\\' && i != in.getSize() - 1)
+        {
+            in.erase(i, 1);
+            switch(in[i+1])
+            {
+                case '\\': in[i] = '\\'; break;
+                case 'n': in[i] = '\n'; break;
+                case 't': in[i] = '\t'; break;
+                default: break;
+            }
+        }*/
     }
 }
 String TranslationEntry::getValue(initializer_list<String> values)
@@ -68,7 +79,8 @@ bool TranslationManager::loadFromFile(String code)
     languageCode = code;
 
     wifstream file("res/lang/" + code + ".lang");
-    file.imbue(locale(file.getloc(), new codecvt_utf8_utf16<wchar_t>));
+    codecvt_utf8_utf16<wchar_t>* c = new codecvt_utf8_utf16<wchar_t>;
+    file.imbue(locale(file.getloc(), c));
     if(!file.good())
         return false; //err:04
 

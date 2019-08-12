@@ -1,31 +1,29 @@
 #pragma once
 
 #include <CG/Widget.h>
-#include <CG/Gui.h>
 
 namespace cg
 {
-class Slider : public Widget
+class ScrollBar : public Widget
 {
     float bMaxPos;
     float bCurrentPos;
     float bDisplaySize;
     Color bColor;
-    String label;
+    bool vertical;
 public:
-    Slider();
-    Slider(Gui* gui, Vector2f pos, float dispSize, float max, int bId);
+    ScrollBar();
+    ScrollBar(Gui* gui, Vector2f pos, float dispSize, float max, bool vert, int bId);
     virtual void setColor(Color color);
-    virtual void setSliderPosition(float pos);
-    virtual void setMaxSliderPosition(float pos);
-    virtual float getSliderPosition();
-    virtual float getMaxSliderPosition();
+    virtual void setScrollPosition(float pos);
+    virtual void setMaxScrollPosition(float pos);
+    virtual float getScrollPosition();
+    virtual float getMaxScrollPosition();
     virtual void draw(sf::RenderWindow& wnd);
     virtual bool isClicked(Vector2f pos);
     virtual void onMouseClickW(Vector2f pos, bool release, Mouse::Button button);
     virtual FloatRect getBoundingBox();
-    virtual void setLabel(String l);
 private:
-    void updateSlider(Vector2f clickPos);
+    void updateScroll(Vector2f clickPos);
 };
 }

@@ -53,7 +53,7 @@ GuiHandler::GuiHandler(RenderWindow* wnd, Font* font)
     externalFont = false;
     displayedGui = NULL;
     guiToDisplay = NULL;
-    Gui::setGUIHandler(this);
+    //Gui::setGUIHandler(this);
     setEventHandler([](Event)->bool {return false;});
 
     if(wnd != NULL)
@@ -98,6 +98,7 @@ void GuiHandler::setFont(Font* font)
 
 int GuiHandler::runTick()
 {
+    Gui::setGUIHandler(this);
     returnValue = -1;
     if(window->isOpen())
     {
@@ -184,6 +185,7 @@ bool GuiHandler::isGuiLoaded()
 
 void GuiHandler::drawGui(bool fullRender, View gameView)
 {
+    Gui::setGUIHandler(this);
     if(fullRender)
     {
         window->clear(colors::bgColor);

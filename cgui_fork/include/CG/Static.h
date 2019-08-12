@@ -25,5 +25,7 @@ public:
 
     /// \see Widget::isClicked
     virtual bool isClicked(Vector2f pos);
+
+    virtual FloatRect getBoundingBox();
 };
 }

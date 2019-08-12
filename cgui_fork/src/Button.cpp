@@ -71,4 +71,8 @@ void Button::setText(String text)
 {
     bText = text;
 }
+FloatRect Button::getBoundingBox()
+{
+    return FloatRect(bPos, bSize);
+}
 }

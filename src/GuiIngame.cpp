@@ -60,7 +60,7 @@ void GuiIngame::onClick(int button)
     }
     else if(button == 3)
     {
-        runDialog(new GuiSettings, -1);
+        game->openSettings();
     }
 }
 

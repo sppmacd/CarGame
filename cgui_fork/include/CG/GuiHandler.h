@@ -39,13 +39,12 @@ typedef bool(*EventHandler)(Event);
 
 class GuiHandler
 {
-    Gui* displayedGui;
-    Gui* guiToDisplay;
-
 protected:
     View guiView;
+    Gui* displayedGui;
 
 private:
+    Gui* guiToDisplay;
     RenderWindow* window;
     EventHandler eventHandler;
     int returnValue;

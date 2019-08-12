@@ -5,7 +5,7 @@ namespace cg
 {
 Widget::Widget() : Widget(nullptr, Vector2f(), -1) {}
 
-void Widget::onMouseClick(Vector2f pos, bool release, Mouse::Button button)
+void Widget::onMouseClickW(Vector2f pos, bool release, Mouse::Button button)
 {
     if(isClicked(pos) && !release && button == Mouse::Left)
         parent->setFocus(this);
@@ -74,5 +74,9 @@ Gui* Widget::getParent()
 void Widget::setEnabled(bool b)
 {
     enabled = b;
+}
+FloatRect Widget::getBoundingBox()
+{
+    return FloatRect(bPos, Vector2f(0.f, 0.f));
 }
 }

@@ -24,7 +24,7 @@ public:
 	/// Called if the user clicks button with specified ID.
 	virtual void onClick(int buttonId);
 
-	/// Adds specified Widget pointer to GUI.
+	/// Adds specified Widget pointer to GUI. The widgets are not copied so you must keep it as long as container exists.
 	virtual void addWidget(Widget* widget);
 
 	/// Removes specified Widget from GUI.
