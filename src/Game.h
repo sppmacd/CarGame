@@ -306,6 +306,8 @@ public:
 	// Open settings GUI.
 	void openSettings();
 
+	bool isFullscreen();
+
 	// Map storing power data registry
 	map<int, Power*> powerRegistry;
 

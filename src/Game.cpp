@@ -39,15 +39,15 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 	if (!instance)
 	{
 		instance = this; //Set main game instance to this
+		this->running = true; //Set game running
 
 		// Perform first initializations
-		this->mainTickCount = 0; //Reset ticking
-		this->running = true; //Set game running
-		this->pause(true); //Pause game (to not spawn cars!)
-		this->debug = false; //Disable debug mode
-		this->fullscreen = true;
-		this->registerEventHandlers();
 		this->registerSettings();
+		this->mainTickCount = 0; //Reset ticking
+		this->pause(true); //Pause game (to not spawn cars!)
+		this->debug = stoi(settings.getSetting("debug", "global")); //Disable debug mode
+		this->fullscreen = stoi(settings.getSetting("fullscreen", "graphics"));
+		this->registerEventHandlers();
 		cg::colors::bgColor = sf::Color(50, 40, 40);
 
 		// Reset player stats
@@ -611,6 +611,11 @@ public:
     {
         return false; //not implemented
     }
+    static bool s_debug(string val)
+    {
+        Game::instance->debug = stoi(val);
+        return true;
+    }
 };
 
 void Game::registerSettings()
@@ -620,6 +625,7 @@ void Game::registerSettings()
     settings.registerSetting("fullscreen", SettingsManager::BOOLEAN, "graphics", "1");
     settings.registerSetting("resetgame", SettingsManager::CONFIRM_TRIGGER, "game");
     settings.registerSetting("language", SettingsManager::TRIGGER, "global");
+    settings.registerSetting("debug", SettingsManager::BOOLEAN, "global", "0");
     settings.registerSetting("volume", SettingsManager::NUMERIC, "sound", "0.5");
 
     settings.registerTrigger("refreshres", Triggers::s_refreshres, "graphics");
@@ -627,7 +633,9 @@ void Game::registerSettings()
     settings.registerTrigger("fullscreen", Triggers::s_fullscreen, "graphics");
     settings.registerTrigger("resetgame", Triggers::s_resetgame, "game");
     settings.registerTrigger("language", Triggers::s_language, "global");
+    settings.registerTrigger("debug", Triggers::s_debug, "global");
     settings.registerTrigger("volume", Triggers::s_volume, "sound");
+
 
     settings.loadSettings("settings.txt");
 }
@@ -635,4 +643,9 @@ void Game::registerSettings()
 void Game::openSettings()
 {
     displayedGui->runDialog(settings.generateWidgets(), -1);
+}
+
+bool Game::isFullscreen()
+{
+    return fullscreen;
 }

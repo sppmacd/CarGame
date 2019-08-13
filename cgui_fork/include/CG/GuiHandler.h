@@ -3,6 +3,9 @@
 #include <CG/Gui.h>
 #include <SFML/Graphics.hpp>
 
+#define instanceof(x,type) (dynamic_cast<type*>(&x))
+#define instanceof_ptr(x,type) (dynamic_cast<type*>(x))
+
 using namespace sf;
 
 namespace cg

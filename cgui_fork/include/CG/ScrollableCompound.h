@@ -12,6 +12,7 @@ class ScrollableCompound : public CompoundWidget
     ScrollBar scrollY;
     Vector2f currentSize;
     Vector2f size;
+    vector<Vector2f> widgetInitialPositions;
 public:
     ScrollableCompound(Gui* gui, Vector2f initialPos, Vector2f initialSize, int id);
     ScrollableCompound();

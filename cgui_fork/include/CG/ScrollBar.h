@@ -23,6 +23,7 @@ public:
     virtual bool isClicked(Vector2f pos);
     virtual void onMouseClickW(Vector2f pos, bool release, Mouse::Button button);
     virtual FloatRect getBoundingBox();
+    virtual void setSize(float size);
 private:
     void updateScroll(Vector2f clickPos);
 };

@@ -15,7 +15,11 @@ void loop(Game* game)
 {
 	if (game->mainTickCount == 0)
     {
-        GameDisplay::instance->createFullscreenWnd();
+        if(game->isFullscreen())
+            GameDisplay::instance->createFullscreenWnd();
+        else
+            GameDisplay::instance->getRenderWnd()->create(VideoMode(700, 700), string("CG ") + CG_VERSION);
+
 		// Display the main menu
 		game->displayGui(new GuiMainMenu);
     }
@@ -46,6 +50,8 @@ void loadGame(LoadData* ld)
 
         cout << "main: Starting Car Game [" << CG_VERSION << "]" << endl;
         cout << "main: Loading game engine..." << endl;
+
+        srand(time(NULL));
         ld->disp = new GameDisplay(ld->wnd);
         ld->game = new Game;
         ld->disp->reload(); // moved from constructor to display loading screen.
@@ -54,8 +60,6 @@ void loadGame(LoadData* ld)
 
         if(ld->disp->isError())
             throw runtime_error("GameDisplay loading error");
-
-        srand(time(NULL));
 
         cout << "main: Loading took " << loadTime.getElapsedTime().asMilliseconds() << "ms." << endl;
         ld->loaded = true;
@@ -104,56 +108,77 @@ int main()
         {
             if(data.loaded)
             {
-                bool updateDebugStats = data.game->mainTickCount % 6 == 0;
-                if (!data.game->isRunning())
-                    mainLoopRunning = false;
-
-                clock.restart();
-                eventClock.restart();
-
-                if(updateDebugStats) data.game->times.timeGui = Time::Zero;
-
-                bool mouseMoveHandled = false;
-                //bool guiMouseMoveHandler = false;
-
-                while(data.wnd->pollEvent(ev1))
+                try
                 {
-                    if(ev1.type != Event::MouseMoved || !mouseMoveHandled)
+                    bool updateDebugStats = data.game->mainTickCount % 6 == 0;
+                    if (!data.game->isRunning())
+                        mainLoopRunning = false;
+
+                    clock.restart();
+                    eventClock.restart();
+
+                    if(updateDebugStats) data.game->times.timeGui = Time::Zero;
+
+                    bool mouseMoveHandled = false;
+                    //bool guiMouseMoveHandler = false;
+
+                    while(data.wnd->pollEvent(ev1))
                     {
-                        data.game->runEventHandler(ev1);
-                        mouseMoveHandled = true;
+                        if(ev1.type != Event::MouseMoved || !mouseMoveHandled)
+                        {
+                            data.game->runEventHandler(ev1);
+                            mouseMoveHandled = true;
+                        }
+
+                        // tick GUI for each event
+                        guiClock.restart();
+                        data.game->handleEvent(ev1); // run CGUI handler
+                        if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
+                    }
+                    if (updateDebugStats) data.game->times.timeEvent = eventClock.getElapsedTime();
+
+                    tickClock.restart();
+                    loop(data.game);
+                    if (updateDebugStats) data.game->times.timeTick = tickClock.getElapsedTime();
+
+                    renderClock.restart();
+                    data.disp->display();
+                    if (updateDebugStats) data.game->times.timeRender = renderClock.getElapsedTime();
+
+                    if (updateDebugStats) data.game->tickTime = clock.getElapsedTime();
+
+                    sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
+                    if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
+                    {
+                        cout << "main: Tick took " << l << endl;
+                        lastWarningClock.restart();
                     }
 
-                    // tick GUI for each event
-                    guiClock.restart();
-                    data.game->handleEvent(ev1); // run CGUI handler
-                    if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
+                    Time waitTime = microseconds(15000) - clock.getElapsedTime();
+                    //while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
+                    sleep(waitTime);
+
+                    if (updateDebugStats) data.game->realTickTime = clock.getElapsedTime();
+                    if (updateDebugStats) data.game->times.timeWait = waitTime;
                 }
-                if (updateDebugStats) data.game->times.timeEvent = eventClock.getElapsedTime();
-
-                tickClock.restart();
-                loop(data.game);
-                if (updateDebugStats) data.game->times.timeTick = tickClock.getElapsedTime();
-
-                renderClock.restart();
-                data.disp->display();
-                if (updateDebugStats) data.game->times.timeRender = renderClock.getElapsedTime();
-
-                if (updateDebugStats) data.game->tickTime = clock.getElapsedTime();
-
-                sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
-                if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
+                catch(bad_alloc& ba)
                 {
-                    cout << "main: Tick took " << l << endl;
-                    lastWarningClock.restart();
+                    cout << "main: Out of memory!" << endl;
+                    if(data.game)
+                        data.game->displayError(string("Out of memory!"));
                 }
-
-                Time waitTime = microseconds(15000) - clock.getElapsedTime();
-                //while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
-                sleep(waitTime);
-
-                if (updateDebugStats) data.game->realTickTime = clock.getElapsedTime();
-                if (updateDebugStats) data.game->times.timeWait = waitTime;
+                catch(exception& e)
+                {
+                    cout << "main: Exception while running: " << e.what() << endl;
+                    if(data.game)
+                        data.game->displayError(string("Exception while running: ") + e.what());
+                }
+                catch(...)
+                {
+                    cout << "main: Unexpected error while running!" << endl;
+                    if(data.game)
+                        data.game->displayError(string("Unexpected error"));
+                }
             }
             else
             {
@@ -178,17 +203,9 @@ int main()
         else
             i = 0;
     }
-    catch(bad_alloc& ba)
+    catch(...)
     {
-        cout << "main: Out of memory!" << endl;
-        if(data.game)
-            data.game->displayError(string("Out of memory!"));
-    }
-    catch(exception& e)
-    {
-        cout << "main: Exception while running: " << e.what() << endl;
-        if(data.game)
-            data.game->displayError(string("Exception while running: ") + e.what());
+        cout << "main: Unexpected main thread error while loading!" << endl;
     }
 
     cout << "main: Unloading resources..." << endl;

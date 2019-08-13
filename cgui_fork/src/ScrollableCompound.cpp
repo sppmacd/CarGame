@@ -5,11 +5,11 @@ namespace cg
 {
 ScrollableCompound::ScrollableCompound(Gui* gui, Vector2f initialPos, Vector2f initialSize, int id) : CompoundWidget(gui, initialPos, id), currentSize(initialSize)
 {
-    scrollX = ScrollBar(gui, Vector2f(initialPos.x, initialPos.y + initialSize.y - colors::sliderHeight), initialSize.x - colors::sliderHeight, 1.f, false, -1);
-    scrollY = ScrollBar(gui, Vector2f(initialPos.x + initialSize.x - colors::sliderHeight, initialPos.y), initialSize.y - colors::sliderHeight, 1.f, true, -2);
+    scrollX = ScrollBar(gui, Vector2f(), 0.f, 1.f, false, -1);
+    scrollY = ScrollBar(gui, Vector2f(), 0.f, 1.f, true, -2);
+    setSize(initialSize);
     WidgetContainer::addWidget(&scrollX);
     WidgetContainer::addWidget(&scrollY);
-    size = initialSize;
 }
 ScrollableCompound::ScrollableCompound() : ScrollableCompound(NULL, Vector2f(), Vector2f(), 0)
 {
@@ -57,28 +57,39 @@ void ScrollableCompound::draw(RenderWindow& wnd)
     //View view = parent->guiHandler->getWindow()->getView();
     //view.setViewport(FloatRect(posX, posY, sizeX, sizeY)); //set viewport to widget area
     //wnd.setView(view);
-    for(Widget* widget: widgets) //draw all widgets
+    for(size_t s = 0; s < widgets.size(); s++) //draw all widgets
     {
-        widget->setPosition(widget->getPosition() - Vector2f(scrollXOffset, scrollYOffset)); //set scrolled position
+        Widget* widget = widgets[s];
+
+        if(instanceof_ptr(widget, ScrollBar))
+            continue;
+
+        widget->setPosition(widgetInitialPositions[s] - Vector2f(scrollXOffset, scrollYOffset) + getPosition()); //set scrolled position (relative to container)
         widget->draw(wnd);
-        widget->setPosition(widget->getPosition() + Vector2f(scrollXOffset, scrollYOffset)); //restore position
     }
     //view.setViewport(FloatRect(0.f, 0.f, 1.f, 1.f)); //restore viewport
     //wnd.setView(view);
 }
 void ScrollableCompound::addWidget(Widget* widget)
 {
-    FloatRect rect(widget->getBoundingBox());
+    FloatRect rect = widget->getBoundingBox();
+
     Vector2f maxWidgetPos = Vector2f(rect.left + rect.width, rect.top + rect.height);
     if(maxWidgetPos.x > currentSize.x)
         currentSize.x = maxWidgetPos.x;
     if(maxWidgetPos.y > currentSize.y)
         currentSize.y = maxWidgetPos.y;
+
+    widgetInitialPositions.push_back(widget->getPosition());
     parent->addWidget(widget);
     WidgetContainer::addWidget(widget);
 }
 void ScrollableCompound::setSize(Vector2f s)
 {
     size = s;
+    scrollX.setPosition(Vector2f(getPosition().x, getPosition().y + s.y - colors::sliderHeight));
+    scrollX.setSize(s.x - colors::sliderHeight - 2.f);
+    scrollY.setPosition(Vector2f(getPosition().x + s.x - colors::sliderHeight, getPosition().y));
+    scrollY.setSize(s.y - colors::sliderHeight - 2.f);
 }
 }

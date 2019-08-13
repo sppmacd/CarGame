@@ -114,8 +114,6 @@ void GuiSettings::onClick(int button)
     }*/
 }
 
-#define instanceof(x,type) (dynamic_cast<type*>(&x))
-#define instanceof_ptr(x,type) (dynamic_cast<type*>(x))
 void GuiSettings::onClose()
 {
     for(Widget* widget: widgets)

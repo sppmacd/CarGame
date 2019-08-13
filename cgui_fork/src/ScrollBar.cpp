@@ -124,4 +124,8 @@ FloatRect ScrollBar::getBoundingBox()
     else
         return FloatRect(getPosition().x, getPosition().y, bDisplaySize, colors::sliderHeight);
 }
+void ScrollBar::setSize(float size)
+{
+    bDisplaySize = size;
+}
 }

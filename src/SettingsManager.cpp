@@ -159,17 +159,19 @@ GuiSettings* SettingsManager::generateWidgets()
         String spaceLocal = Game::instance->translation.get("settings." + spaceUnlocalized);
         guisettings->idToSetting.insert(make_pair(counter, ns));
 
+        Vector2f pos = Vector2f(10.f, counter * 50.f + 10.f);
+
         switch(type)
         {
             case SettingsManager::BOOLEAN:
             {
-                cg::ButtonToggle* bt = new cg::ButtonToggle(guisettings, Vector2f(400.f, 40.f), Vector2f(10.f, counter * 50.f + guisettings->scSettings->getPosition().y + 10.f), spaceLocal, counter, getSettingNumeric(ns.second, ns.first));
+                cg::ButtonToggle* bt = new cg::ButtonToggle(guisettings, Vector2f(400.f, 40.f), pos, spaceLocal, counter, getSettingNumeric(ns.second, ns.first));
                 guisettings->scSettings->addWidget(bt);
                 break;
             }
             case SettingsManager::NUMERIC:
             {
-                cg::Slider* bt = new cg::Slider(guisettings, Vector2f(10.f, counter * 50.f + guisettings->scSettings->getPosition().y + 10.f), 400.f, 1.f, counter);
+                cg::Slider* bt = new cg::Slider(guisettings, pos, 400.f, 1.f, counter);
                 bt->setSliderPosition(getSettingNumeric(ns.second, ns.first));
                 bt->setLabel(spaceLocal);
                 guisettings->scSettings->addWidget(bt);
@@ -178,13 +180,13 @@ GuiSettings* SettingsManager::generateWidgets()
             case SettingsManager::CONFIRM_TRIGGER:
             case SettingsManager::TRIGGER:
             {
-                cg::Button* bt = new cg::Button(guisettings, Vector2f(400.f, 40.f), Vector2f(10.f, counter * 50.f + guisettings->scSettings->getPosition().y + 10.f), spaceLocal, counter);
+                cg::Button* bt = new cg::Button(guisettings, Vector2f(400.f, 40.f), pos, spaceLocal, counter);
                 guisettings->scSettings->addWidget(bt);
                 break;
             }
             case SettingsManager::TEXTVALUE:
             {
-                cg::TextBox* bt = new cg::TextBox(guisettings, Vector2f(10.f, counter * 50.f + guisettings->scSettings->getPosition().y + 10.f), Vector2f(400.f, 40.f), counter);
+                cg::TextBox* bt = new cg::TextBox(guisettings, pos, Vector2f(400.f, 40.f), counter);
                 bt->setTooltip(spaceLocal);
                 bt->setText(getSetting(ns.second, ns.first));
                 guisettings->scSettings->addWidget(bt);
