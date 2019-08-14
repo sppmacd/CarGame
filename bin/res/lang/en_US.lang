@@ -3,6 +3,8 @@ gui.return=Return...
 gui.cancel=Cancel
 gui.up=Up
 gui.down=Down
+gui.next=Next
+gui.prev=Prev.
 
 gui.toggle.on=On
 gui.toggle.off=Off
@@ -13,13 +15,6 @@ gui.yesno.no=No
 gui.mainmenu.credit=
 
 gui.settings.title=Settings...
-gui.settings.refreshres=Refresh Resources
-gui.settings.verticalsync=Vertical Sync
-gui.settings.resetgame=Reset Game
-gui.settings.language=Language
-gui.settings.resetgame.warning=This cannot be undone!
-gui.settings.resetgame.delete=Are you sure to delete all your player data?
-gui.settings.volume=Sound Volume
 
 settings.graphics.refreshres=Refresh Resources
 settings.graphics.verticalsync=Vertical Sync
@@ -27,6 +22,7 @@ settings.graphics.fullscreen=Fullscreen
 settings.game.resetgame=Reset Game
 settings.game.resetgame.msg=Are you sure to delete all your player data?\n\nThis cannot be undone!
 settings.global.language=Language
+settings.global.debug=Debug Mode
 settings.sound.volume=Sound Volume
 
 gui.language.title=Language...
@@ -45,6 +41,12 @@ gui.powers.notbought=Not Bought
 gui.powers.powerlvl=LVL %0
 gui.powers.tip=Use powers by using Right mouse button.
 
+gui.shop.degrade=Degrade %0: %1$
+gui.shop.upgrade=Upgrade %0: %1$
+gui.shop.labels.power=Powers...
+gui.shop.labels.antiPowers=Degrade Anti-Powers
+gui.shop.labels.cars=Degrade Cars
+
 gui.ingame.returngame=Return to game
 gui.ingame.returnmainmenu=Return to main menu
 gui.ingame.quit=Quit Game
@@ -61,6 +63,11 @@ power.freeze=Freeze
 power.point_boost=Point Boost
 power.fence=Fence
 power.ball=Ball
+
+power.anti.ramp=Ramp
+power.anti.damageDecrease=Damage Decrease
+power.anti.carSpeedIncrease=Car Speed Increase
+
 
 map.countryside=Countryside
 map.desert=Desert

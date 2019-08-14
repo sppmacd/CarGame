@@ -29,7 +29,7 @@ TranslationEntry::TranslationEntry(String in)
             translation.push_back(in.substring(lastp, i - lastp + 1));
             translation.back().replace("%%", "%");
         }
-        /*else if(in[i] == '\\' && i != in.getSize() - 1)
+        else if(in[i] == '\\' && i != in.getSize() - 1)
         {
             in.erase(i, 1);
             switch(in[i+1])
@@ -39,7 +39,7 @@ TranslationEntry::TranslationEntry(String in)
                 case 't': in[i] = '\t'; break;
                 default: break;
             }
-        }*/
+        }
     }
 }
 String TranslationEntry::getValue(initializer_list<String> values)
