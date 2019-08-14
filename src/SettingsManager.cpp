@@ -159,7 +159,7 @@ GuiSettings* SettingsManager::generateWidgets()
         String spaceLocal = Game::instance->translation.get("settings." + spaceUnlocalized);
         guisettings->idToSetting.insert(make_pair(counter, ns));
 
-        Vector2f pos = Vector2f(10.f, (counter - 100) * 50.f + 10.f);
+        Vector2f pos = Vector2f(guisettings->scSettings->getSize().x / 2.f - 200.f, (counter - 100) * 60.f + 20.f);
 
         switch(type)
         {

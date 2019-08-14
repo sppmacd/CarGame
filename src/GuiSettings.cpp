@@ -44,6 +44,15 @@ void GuiSettings::onResize()
 
     scSettings->setSize(Vector2f(game->getSize().x, game->getSize().y * 6 / 8));
     scSettings->setPosition(Vector2f(0.f, game->getSize().y / 8.f));
+
+    for(size_t s = 0; s < widgets.size(); s++)
+    {
+        if(widgets[s]->getID() > 0)
+        {   //                                                    [omit first widget: scSettings]
+            Vector2f pos = Vector2f(scSettings->getSize().x / 2.f - 200.f, (s - 1) * 60.f + 20.f);
+            widgets[s]->setPosition(pos);
+        }
+    }
 }
 
 void GuiSettings::onDraw(sf::RenderWindow& wnd)

@@ -19,5 +19,6 @@ public:
     virtual void draw(RenderWindow& wnd);
     virtual void addWidget(Widget* widget);
     virtual void setSize(Vector2f size);
+    virtual Vector2f getSize();
 };
 }

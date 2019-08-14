@@ -92,4 +92,8 @@ void ScrollableCompound::setSize(Vector2f s)
     scrollY.setPosition(Vector2f(getPosition().x + s.x - colors::sliderHeight, getPosition().y));
     scrollY.setSize(s.y - colors::sliderHeight - 2.f);
 }
+Vector2f ScrollableCompound::getSize()
+{
+    return size;
+}
 }
