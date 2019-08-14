@@ -12,6 +12,7 @@ public:
     map<pair<string,string>, int> triggerToCallId;
     map<int, pair<string,string>> callIdToSetting;
     SettingsManager* manager;
+    Gui* returnGui;
 
     GuiSettings();
     ~GuiSettings();

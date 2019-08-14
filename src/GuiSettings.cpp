@@ -65,9 +65,12 @@ void GuiSettings::onDraw(sf::RenderWindow& wnd)
 
 void GuiSettings::onDialogFinished(Gui*, int callId)
 {
-    pair<string,string>& p = callIdToSetting[callId];
-    if(dialogReturnValue == 1)
-        manager->triggerSetting(p.second, p.first);
+    if(callId != -1)
+    {
+        pair<string,string>& p = callIdToSetting[callId];
+        if(dialogReturnValue == 1)
+            manager->triggerSetting(p.second, p.first);
+    }
 	/*if(callId == 0 && dialogReturnValue == 1)
 	{
 		remove("data.txt");
@@ -80,13 +83,14 @@ void GuiSettings::onDialogFinished(Gui*, int callId)
 
 void GuiSettings::onClick(int button)
 {
+    Game* game = Game::instance;
+
     if(button == -2)
     {
-        close(0);
+        game->displayGui(returnGui);
         return;
     }
 
-    Game* game = Game::instance;
     auto it = idToSetting.find(button);
     SettingsManager::SettingType type = manager->getSettingType(it->second.second, it->second.first);
 

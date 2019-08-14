@@ -14,6 +14,7 @@
 #include "GuiMainMenu.h"
 #include "GuiLanguage.hpp"
 #include "GuiSettings.h"
+#include "GuiIngame.h"
 
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
@@ -636,13 +637,19 @@ void Game::registerSettings()
     settings.registerTrigger("debug", Triggers::s_debug, "global");
     settings.registerTrigger("volume", Triggers::s_volume, "sound");
 
-
     settings.loadSettings("settings.txt");
 }
 
 void Game::openSettings()
 {
-    displayedGui->runDialog(settings.generateWidgets(), -1);
+    GuiSettings* settingsGui = settings.generateWidgets();
+
+    if(instanceof_ptr(displayedGui, GuiMainMenu))
+        settingsGui->returnGui = new GuiMainMenu;
+    else if(instanceof_ptr(displayedGui, GuiIngame))
+        settingsGui->returnGui = new GuiIngame;
+
+    displayGui(settingsGui, -1);
 }
 
 bool Game::isFullscreen()

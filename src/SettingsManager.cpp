@@ -150,7 +150,7 @@ void SettingsManager::saveSettings(string file)
 GuiSettings* SettingsManager::generateWidgets()
 {
     GuiSettings* guisettings = new GuiSettings;
-    int counter = 0;
+    int counter = 100;
     for(auto it: settings)
     {
         SettingsManager::SettingType type = it.second.type;
@@ -159,7 +159,7 @@ GuiSettings* SettingsManager::generateWidgets()
         String spaceLocal = Game::instance->translation.get("settings." + spaceUnlocalized);
         guisettings->idToSetting.insert(make_pair(counter, ns));
 
-        Vector2f pos = Vector2f(10.f, counter * 50.f + 10.f);
+        Vector2f pos = Vector2f(10.f, (counter - 100) * 50.f + 10.f);
 
         switch(type)
         {
@@ -200,7 +200,7 @@ GuiSettings* SettingsManager::generateWidgets()
         }
         counter++;
     }
-    counter = 0;
+    counter = 101;
     for(auto it: triggers)
     {
         pair<string,string> ns = toNameAndSpace(it.first);

@@ -61,10 +61,10 @@ void ScrollableCompound::draw(RenderWindow& wnd)
     {
         Widget* widget = widgets[s];
 
-        if(instanceof_ptr(widget, ScrollBar))
+        if(s < 2)
             continue;
 
-        widget->setPosition(widgetInitialPositions[s] - Vector2f(scrollXOffset, scrollYOffset) + getPosition()); //set scrolled position (relative to container)
+        widget->setPosition(widgetInitialPositions[s - 2] - Vector2f(scrollXOffset, scrollYOffset) + getPosition()); //set scrolled position (relative to container)
         widget->draw(wnd);
     }
     //view.setViewport(FloatRect(0.f, 0.f, 1.f, 1.f)); //restore viewport
