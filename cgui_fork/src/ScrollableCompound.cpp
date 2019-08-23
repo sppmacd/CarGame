@@ -45,8 +45,8 @@ void ScrollableCompound::draw(RenderWindow& wnd)
     else
         scrollY.setEnabled(true);
 
-    scrollX.draw(wnd);
-    scrollY.draw(wnd);
+    if(currentSize.x > size.x) scrollX.draw(wnd);
+    if(currentSize.y > size.y) scrollY.draw(wnd);
 
     //calculate viewport
     float posX = getPosition().x / parent->guiHandler->getSize().x;

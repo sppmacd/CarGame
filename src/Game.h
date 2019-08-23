@@ -206,7 +206,7 @@ public:
 	// Returns player coins
     long getCoins();
 
-	// Displays (and loads) specified GUI.
+	// Displays specified GUI.
 	/// The GUI must be created dynamically!
     //void displayGui(Gui* gui);
 

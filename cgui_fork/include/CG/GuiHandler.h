@@ -45,9 +45,9 @@ class GuiHandler
 protected:
     View guiView;
     Gui* displayedGui;
+    Gui* guiToDisplay;
 
 private:
-    Gui* guiToDisplay;
     RenderWindow* window;
     EventHandler eventHandler;
     int returnValue;
