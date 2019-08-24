@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "GameDisplay.h"
 #include "GuiMainMenu.h"
+#include "GuiUpdates.hpp"
 #include "GameSound.h"
 #include <cstdlib>
 #include <iostream>
@@ -21,7 +22,14 @@ void loop(Game* game)
             GameDisplay::instance->getRenderWnd()->create(VideoMode(700, 700), string("CG ") + CG_VERSION);
 
 		// Display the main menu
-		game->displayGui(new GuiMainMenu);
+		if(game->updateFound)
+        {
+            game->displayGui(new GuiUpdates(&game->updateChecker));
+        }
+        else
+		{
+            game->displayGui(new GuiMainMenu);
+		}
     }
 
     if(!game->errStr.empty())
@@ -53,10 +61,13 @@ void loadGame(LoadData* ld)
 
         srand(time(NULL));
         ld->disp = new GameDisplay(ld->wnd);
-        ld->game = new Game;
-        ld->disp->reload(); // moved from constructor to display loading screen.
-
         GameDisplay::loadingStr = "Loading game engine...";
+        ld->game = new Game;
+
+        if(!ld->game->updateFound)
+        {
+            ld->disp->reload(); // moved from constructor to display loading screen.
+        }
 
         if(ld->disp->isError())
             throw runtime_error("GameDisplay loading error");

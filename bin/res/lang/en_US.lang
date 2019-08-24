@@ -57,6 +57,8 @@ gui.gameover.score=Your score was %0
 gui.gameover.return=Return to Menu
 gui.gameover.newgame=New Game
 
+gui.updates.found=Found update: %0. \nDo you want to install it now?
+
 power.none=No Power
 power.oil=Oil
 power.freeze=Freeze

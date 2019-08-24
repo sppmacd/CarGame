@@ -10,6 +10,7 @@
 #include "PowerPlayerData.hpp"
 #include "version.hpp"
 #include "SettingsManager.hpp"
+#include "UpdateChecker.hpp"
 
 #include <CG/CG.h>
 ;
@@ -48,6 +49,10 @@ public:
 
     // The settings manager
 	SettingsManager settings;
+
+	// The update checker.
+	UpdateChecker updateChecker;
+	bool updateFound;
 
 	// Power time
     int powerTime;

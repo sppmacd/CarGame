@@ -43,6 +43,10 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 		this->running = true; //Set game running
 
 		// Perform first initializations
+		GameDisplay::loadingStr = "Checking for updates...";
+		this->updateFound = this->updateChecker.checkUpdates();
+
+		GameDisplay::loadingStr = "Loading game engine...";
 		this->registerSettings();
 		this->mainTickCount = 0; //Reset ticking
 		this->pause(true); //Pause game (to not spawn cars!)
@@ -649,7 +653,7 @@ void Game::openSettings()
     else if(instanceof_ptr(displayedGui, GuiIngame))
         settingsGui->returnGui = new GuiIngame;
 
-    displayGui(settingsGui, -1);
+    displayGui(settingsGui);
 }
 
 bool Game::isFullscreen()
