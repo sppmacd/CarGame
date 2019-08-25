@@ -400,6 +400,7 @@ void Game::loadGame()
 }
 void Game::setupGame()
 {
+    this->sound.playSound("start", 100.f);
     this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
     this->lastTickScore = 0;
     this->tickCount = 0;
@@ -585,6 +586,7 @@ public:
     static bool s_refreshres(string val)
     {
         GameDisplay::instance->reload();
+        Game::instance->sound.reload();
         return true;
     }
     static bool s_verticalsync(string val)
@@ -614,6 +616,7 @@ public:
     }
     static bool s_volume(string val)
     {
+        Game::instance->sound.soundVolume = stof(val);
         return false; //not implemented
     }
     static bool s_debug(string val)

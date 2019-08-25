@@ -3,7 +3,7 @@
 #include "CarRare.h"
 #include "CarBus.h"
 #include "CarAmbulance.h"
-#include "GameSound.h"
+#include "GameSound.hpp"
 #include "GameDisplay.h"
 
 void Game::addCar(Car* car)
@@ -41,7 +41,10 @@ void Game::updateCars()
 
                 if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
+                    sound.playSound("damage", 100.f);
 					car->onDamage(this);
+					if(car->health <= 0.f)
+                        sound.playSound("destroy", 50.f);
 
                     if(this->tutorialStep == 5)
                     {
@@ -125,6 +128,7 @@ void Game::tickNormalGame()
 
 void Game::newTick()
 {
+    sound.update();
     if(!this->isGuiLoaded())
     {
         this->gameSpeed += this->level.getAcceleration() / 5000;

@@ -32,6 +32,10 @@ bool EventHandlers::onMouseButtonReleased(Event event, Game * game)
                 game->isPowerUsed = true;
         }
     }
+    else
+    {
+        game->sound.playSound("click", 100.f);
+    }
 	return true;
 }
 

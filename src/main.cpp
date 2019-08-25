@@ -3,7 +3,7 @@
 #include "GameDisplay.h"
 #include "GuiMainMenu.h"
 #include "GuiUpdates.hpp"
-#include "GameSound.h"
+#include "GameSound.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -67,6 +67,7 @@ void loadGame(LoadData* ld)
         if(!ld->game->updateFound)
         {
             ld->disp->reload(); // moved from constructor to display loading screen.
+            ld->game->sound.reload();
         }
 
         if(ld->disp->isError())

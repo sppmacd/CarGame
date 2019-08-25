@@ -11,6 +11,7 @@
 #include "version.hpp"
 #include "SettingsManager.hpp"
 #include "UpdateChecker.hpp"
+#include "GameSound.hpp"
 
 #include <CG/CG.h>
 ;
@@ -53,6 +54,7 @@ public:
 	// The update checker.
 	UpdateChecker updateChecker;
 	bool updateFound;
+	GameSound sound;
 
 	// Power time
     int powerTime;

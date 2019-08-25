@@ -13,14 +13,16 @@ public:
     SoundBase(std::vector<sf::SoundBuffer> buffs);
 
     // Starts playing this sound and returns SFML handle. If random, returns random-created sound.
-    sf::Sound playSound(float volume);
+    sf::Sound* playSound(float volume);
 };
 
 class GameSound
 {
     std::map<std::string, SoundBase> soundBuffers;
-    std::vector<std::pair<std::string, sf::Sound>> playedSounds;
+    std::vector<std::pair<std::string, sf::Sound*>> playedSounds;
 public:
+    float soundVolume;
+
     GameSound();
 
     // Adds sound to map.
