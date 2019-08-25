@@ -228,6 +228,6 @@ namespace Loader
     void reloadAllResources()
     {
         GameDisplay::instance->reload();
-        Game::instance->
+        Game::instance->sound.reload();
     }
 }

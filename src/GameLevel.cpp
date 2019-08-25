@@ -3,7 +3,7 @@
 #include "CarRare.h"
 #include "CarBus.h"
 #include "CarAmbulance.h"
-//#include "GameSound.h"
+#include "GameSound.h"
 #include "GameDisplay.h"
 
 void Game::addCar(Car* car)

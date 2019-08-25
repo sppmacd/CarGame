@@ -10,7 +10,6 @@ class GuiUpdates: public Gui
     UpdateChecker* updateChecker;
     sf::Thread updateThread;
     int animTick;
-    bool updated;
 public:
     GuiUpdates(UpdateChecker* checker);
     void onLoad();

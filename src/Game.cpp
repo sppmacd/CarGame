@@ -614,7 +614,7 @@ public:
     }
     static bool s_volume(string val)
     {
-        return true; //not implemented
+        return false; //not implemented
     }
     static bool s_debug(string val)
     {
@@ -642,7 +642,6 @@ void Game::registerSettings()
     settings.registerTrigger("volume", Triggers::s_volume, "sound");
 
     settings.loadSettings("settings.txt");
-    settings.triggerAllClose();
 }
 
 void Game::openSettings()

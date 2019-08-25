@@ -4,9 +4,6 @@
 
 # BETA 0.2 SNAPSHOTS
 
-+ Added Sound Manager!
-+ Added Update Checker (not working due to not existing update server)
-## v190802
 * Settings GUI - new apperrance
 * Fixed Map Select GUI apperrance (the map button size depends on screen size)
 ## v190801

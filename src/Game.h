@@ -52,8 +52,6 @@ public:
 
 	// The update checker.
 	UpdateChecker updateChecker;
-
-	// True if update was found.
 	bool updateFound;
 
 	// Power time
