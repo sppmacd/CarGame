@@ -30,7 +30,7 @@ namespace Loader
 
             if(!ld->game->updateFound)
             {
-                ld->disp->reload(); // moved from constructor to display loading screen.
+                reloadAllResources();
             }
 
             if(ld->disp->isError())
@@ -224,5 +224,10 @@ namespace Loader
             GameDisplay::drawLoading(data.wnd);
         }
         return -1;
+    }
+    void reloadAllResources()
+    {
+        GameDisplay::instance->reload();
+        Game::instance->
     }
 }

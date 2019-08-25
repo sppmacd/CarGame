@@ -5,6 +5,7 @@
 GuiUpdates::GuiUpdates(UpdateChecker* checker): updateChecker(checker), updateThread(UpdateChecker::makeUpdate, updateChecker)
 {
     animTick = 0;
+    updated = false;
 }
 void GuiUpdates::onLoad()
 {
@@ -12,13 +13,21 @@ void GuiUpdates::onLoad()
 }
 void GuiUpdates::onClose()
 {
-    Game::instance->exit(0);
+    if(updated)
+        Game::instance->exit(0);
 }
 void GuiUpdates::onDialogFinished(Gui* dialog, int callId)
 {
     if(dialogReturnValue == 1)
     {
+        updated = true;
         updateThread.launch();
+    }
+    else
+    {
+        updated = false;
+        Loader::reloadAllResources();
+        Game::instance->displayGui(new GuiMainMenu);
     }
 }
 void GuiUpdates::onDraw(RenderWindow& wnd)
