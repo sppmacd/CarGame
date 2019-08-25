@@ -97,7 +97,7 @@ void GameDisplay::addTexture(string name, bool repeated, bool smooth)
     //cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
     sf::Texture tx;
-	bool load = tx.loadFromFile("res/" + name + ".png");
+	bool load = tx.loadFromFile("res/textures/" + name + ".png");
 	if (!load)
 	{
 	    cout << "GameDisplay: err D00(name='" << name << "')" << endl;
@@ -229,7 +229,7 @@ void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
         }
         else
         {
-            if(!GameDisplay::instance->logoTexture.loadFromFile("res/gui/logo.png"))
+            if(!GameDisplay::instance->logoTexture.loadFromFile("res/textures/gui/logo.png"))
                 GameDisplay::instance->error = true;
         }
     }
