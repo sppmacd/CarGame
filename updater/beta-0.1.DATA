@@ -2,5 +2,4 @@
 KEEPFILE profile_1.txt
 KEEPFILE data.txt
 KEEPFILE highscore.txt
-KEEPFILE settings.txt
-KEEPFILE config.lang
+KEEPFILE res/lang/config.lang
