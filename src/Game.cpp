@@ -533,12 +533,12 @@ void Game::loadLanguages()
 {
     GameDisplay::loadingStr = "Loading language...";
     cout << "Game: Loading language config..." << endl;
-    bool b = languageConfig.loadFromFile("config");
+    bool b = languageConfig.loadFromFile("../../config");
     if(!b)
     {
         cout << "Game: Could not load translation config! Creating a new one..." << endl;
 
-        ofstream str("res/lang/config.lang");
+        ofstream str("config.lang");
         if(str.good())
             str << "current.lang=en_US" << endl;
     } //stream is closed automatically
@@ -645,6 +645,7 @@ void Game::registerSettings()
     settings.registerTrigger("volume", Triggers::s_volume, "sound");
 
     settings.loadSettings("settings.txt");
+    settings.triggerAllClose();
 }
 
 void Game::openSettings()
