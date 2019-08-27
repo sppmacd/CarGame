@@ -1,0 +1,8 @@
+// CG version 0.1.1
+KEEPFILE profile_1.txt
+KEEPFILE data.txt
+KEEPFILE highscore.txt
+KEEPFILE res/lang/config.lang
+EXEC32 cg32.exe
+EXEC64 cg64.exe
+EXECDBG cgd.exe
