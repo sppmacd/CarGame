@@ -28,16 +28,16 @@ void GuiPowers::onLoad()
 
             if(data->count == 5)
             {
-                data->bBuyPower.setText(Game::instance->translation.get("gui.powers.upgrade", {
-                        Game::instance->translation.get("power." + data->power->getName()), String(to_string(data->cost))
+                data->bBuyPower.setText(Game::instance->translation.get("gui.powers.maxlvl", {
+                        Game::instance->translation.get("power." + data->power->getName())
                         }));
                 data->bBuyPower.setEnabled(false);
             }
             else
             {
-                data->bBuyPower.setText(Game::instance->translation.get("gui.powers.maxlvl", {
-                        Game::instance->translation.get("power." + data->power->getName())}  )
-                        );
+                data->bBuyPower.setText(Game::instance->translation.get("gui.powers.upgrade", {
+                        Game::instance->translation.get("power." + data->power->getName()), String(to_string(data->cost)) }
+                        ));
             }
 
             addWidget(&(data->bBuyPower));
@@ -117,16 +117,16 @@ void GuiPowers::onClick(int button)
 
                         if(data->count == 5)
                         {
-                            data->bBuyPower.setText(Game::instance->translation.get("gui.powers.upgrade", {
-                                    Game::instance->translation.get("power." + data->power->getName()), String(to_string(data->cost))
-                                    }));
+                            data->bBuyPower.setText(Game::instance->translation.get("gui.powers.maxlvl", {
+                                Game::instance->translation.get("power." + data->power->getName())
+                                }));
                             data->bBuyPower.setEnabled(false);
                         }
                         else
                         {
-                            data->bBuyPower.setText(Game::instance->translation.get("gui.powers.maxlvl", {
-                            Game::instance->translation.get("power." + data->power->getName())}  )
-                            );
+                            data->bBuyPower.setText(Game::instance->translation.get("gui.powers.upgrade", {
+                                    Game::instance->translation.get("power." + data->power->getName()), String(to_string(data->cost)) }
+                                    ));
                         }
 
                         if(data->count == 1)

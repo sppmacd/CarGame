@@ -7,6 +7,7 @@
 ## v190804
 * Added some sounds: upgrade, game_over, coin_mpl.
 * Changed freeze behaviour - its effect is now faded.
+* Executables moved to folders ->  x86,x64 due to openal32.dll compability
 ## v190803
 + Added Sounds!!!
 * Added point stat animations.
@@ -14,6 +15,7 @@
 ## v190802
 * Settings GUI - new apperrance.
 * Fixed Map Select GUI apperrance (the map button size depends on screen size).
+* Settings are now saved!
 ## v190801
 + Added credits screen.
 + Added volume slider (not used).

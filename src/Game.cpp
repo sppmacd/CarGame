@@ -551,13 +551,20 @@ void Game::loadLanguages()
         ofstream str("config.lang");
         if(str.good())
             str << "current.lang=en_US" << endl;
+        str.close();
+
+        b = languageConfig.loadFromFile("../../config");
+        if(!b)
+        {
+            displayError("Error: G01: Could not load language config");
+        }
     } //stream is closed automatically
 
     bool b2 = enUSTranslation.loadFromFile("en_US");
     if(!b2)
     {
         cout << "Game: Could not load default translation!" << endl;
-        displayError("Could not load translation (err 00)");
+        displayError("Error: G00: Could not load translation");
         return;
     }
 
