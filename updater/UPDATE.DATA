@@ -7,10 +7,9 @@
 // KEEPFILE <filePath> - marks file with this name as common (is copied before launch to game dir)
 // KEEPFILEX <regex> - marks files matching pattern as common.
 CURRENTVERSION 1
-AVAILABLEVERSION 	5	BETA 	v0.2s	beta-0.2-v190804-snapshot
-AVAILABLEVERSION 	4	BETA 	v0.2s	beta-0.2-v190803-snapshot
-AVAILABLEVERSION 	3	BETA 	v0.2s	beta-0.2-v190802-snapshot
-AVAILABLEVERSION 	2	BETA 	v0.2s	beta-0.2-v190801-snapshot
+AVAILABLEVERSION 	4	BETA 	v0.2s	beta-0.2-v190804-snapshot
+AVAILABLEVERSION 	3	BETA 	v0.2s	beta-0.2-v190803-snapshot
+AVAILABLEVERSION 	2	BETA 	v0.2s	beta-0.2-v190802-snapshot
 AVAILABLEVERSION 	1	BETA 	v0.1.1	beta-0.1.1
 AVAILABLEVERSION 	0	BETA 	v0.1	beta-0.1
 AVAILABLEVERSION 	-1	ALPHA 	valpha	alpha-0.0.5
