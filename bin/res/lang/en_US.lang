@@ -38,6 +38,7 @@ gui.powers.upgrade=Upgrade %0: %1$
 gui.powers.title=Buy Powers
 gui.powers.return=Return to Maps
 gui.powers.notbought=Not Bought
+gui.powers.powerinfo=LVL %0 TIME %1s
 gui.powers.powerlvl=LVL %0
 gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
 gui.powers.maxlvl=%0: MAX LEVEL

@@ -219,12 +219,15 @@ int Game::getCurrentPower()
 
 void Game::addScore(int s)
 {
-    s *= pointMultiplier;
-    this->score += s;
-    this->totalPlayerPoints += s;
-    this->pointsToNewMpl -= s;
-    sound.playSound("point_add", 75.f);
-    GameDisplay::instance->resetPointAnim();
+    if(s > 0)
+    {
+        s *= pointMultiplier;
+        this->score += s;
+        this->totalPlayerPoints += s;
+        this->pointsToNewMpl -= s;
+        sound.playSound("point_add", 75.f);
+        GameDisplay::instance->resetPointAnim();
+    }
 }
 
 long Game::getTotalPoints()

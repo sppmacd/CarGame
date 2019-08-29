@@ -4,6 +4,12 @@
 
 # BETA 0.2 SNAPSHOTS
 
+* Map Selection now is set on last unlocked map (not always on Coutryside)
+* Freeze makes game a bit quicker when running out - 0.0625%/tick -> 0.0725%/tick
+* Point Boost is shorter - 20 s -> 16.7 s and makes game quicker - 0.005U/tick
+* Changed Point Boost behaviour - now adds 2 x [current level] points every 10 ticks.
+* Fence is a bit better - 0.01 HP/tick -> 0.025 HP/tick and longer - 10s -> 15s
+* Power duration is now shown in Shop.
 ## v190804
 * Added some sounds: upgrade, game_over, coin_mpl.
 * Changed freeze behaviour - its effect is now faded.

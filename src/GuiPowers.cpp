@@ -3,6 +3,8 @@
 #include "GameDisplay.h"
 #include "GuiMapSelect.h"
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 using namespace std;
 using namespace sf;
@@ -77,11 +79,14 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
         {
             data->bBuyPower.setEnabled(true);
         }
+
+        ostringstream oss;
+        oss << setiosflags(std::ios::fixed) << setprecision(1) << data->power->maxPowerTime / 60.f;
         data->bBuyPower.draw(wnd);
         if(data->count == 0)
             wnd.draw(drawString(Game::instance->translation.get("gui.powers.notbought"), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
         else
-            wnd.draw(drawString(Game::instance->translation.get("gui.powers.powerlvl", {to_string(data->count)}), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
+            wnd.draw(drawString(Game::instance->translation.get("gui.powers.powerinfo", {to_string(data->count), oss.str()}), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
     }
     bReturn.draw(wnd);
 

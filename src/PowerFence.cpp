@@ -8,7 +8,7 @@
 
 PowerFence::PowerFence() : Power()
 {
-    setMaxTime(600);
+    setMaxTime(900);
 }
 void PowerFence::onPowerStop()
 {
@@ -42,7 +42,7 @@ void PowerFence::onPowerTick(int powerTick)
             {
                 c->pos = (pos.x + 110.f) / 2.f;
                 if((lane != 1 || powerTick % 2 == 0) && !c->isDestroying())
-                    c->makeDestroy(0.01f * currentLevel * currentLevel);
+                    c->makeDestroy(0.025f * currentLevel * currentLevel);
                 c->setSpeed(0.f);
             }
         }

@@ -3,7 +3,7 @@
 
 PowerPointBoost::PowerPointBoost(): Power()
 {
-    setMaxTime(1200);
+    setMaxTime(1000);
 }
 void PowerPointBoost::drawPower(RenderWindow* wnd)
 {
@@ -13,8 +13,9 @@ void PowerPointBoost::drawPower(RenderWindow* wnd)
 }
 void PowerPointBoost::onPowerTick(int tick)
 {
-    if(tick % 20 == 0)
-        Game::instance->addScore(tick / (240 / currentLevel) + 1);
+    if(tick % 10 == 0)
+        Game::instance->addScore(2 * currentLevel);
+    Game::instance->setGameSpeed(Game::instance->getGameSpeed() + 0.005f);
 }
 int PowerPointBoost::getCost()
 {
