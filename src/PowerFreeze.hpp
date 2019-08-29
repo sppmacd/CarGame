@@ -11,4 +11,5 @@ public:
 	virtual void drawPower(RenderWindow* wnd);
 	virtual int getCost();
     virtual string getName();
+    virtual void onPowerTick(int tc);
 };

@@ -39,7 +39,8 @@ gui.powers.title=Buy Powers
 gui.powers.return=Return to Maps
 gui.powers.notbought=Not Bought
 gui.powers.powerlvl=LVL %0
-gui.powers.tip=Use powers by using Right mouse button.
+gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
+gui.powers.maxlvl=%0: MAX LEVEL
 
 gui.shop.degrade=Degrade %0: %1$
 gui.shop.upgrade=Upgrade %0: %1$
@@ -67,9 +68,8 @@ power.fence=Fence
 power.ball=Ball
 
 power.anti.ramp=Ramp
-power.anti.damageDecrease=Damage Decrease
-power.anti.carSpeedIncrease=Car Speed Increase
-
+power.anti.damage_decrease=Damage Decrease
+power.anti.car_speed_increase=Car Speed Increase
 
 map.countryside=Countryside
 map.desert=Desert

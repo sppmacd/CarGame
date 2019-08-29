@@ -16,13 +16,16 @@ unsigned int PowerPlayerData::getUpgradeCost(unsigned int nextLvl)
 }
 bool PowerPlayerData::upgrade(Game* game)
 {
-    int cash = game->getCoins() - getUpgradeCost();
-    if(cash >= 0)
+    if(level < 5)
     {
-        game->removeCoins(getUpgradeCost());
-        level++;
-        game->sound.playSound("upgrade", 100.f);
-        return true;
+        int cash = game->getCoins() - getUpgradeCost();
+        if(cash >= 0)
+        {
+            game->removeCoins(getUpgradeCost());
+            level++;
+            game->sound.playSound("upgrade", 100.f);
+            return true;
+        }
     }
     return false;
 }

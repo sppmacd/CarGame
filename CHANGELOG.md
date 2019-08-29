@@ -5,7 +5,8 @@
 # BETA 0.2 SNAPSHOTS
 
 ## v190804
-* Added some sounds: upgrade, game_over, coin_mpl
+* Added some sounds: upgrade, game_over, coin_mpl.
+* Changed freeze behaviour - its effect is now faded.
 ## v190803
 + Added Sounds!!!
 * Added point stat animations.
