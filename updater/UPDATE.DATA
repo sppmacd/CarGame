@@ -7,7 +7,7 @@
 // KEEPFILE <filePath> - marks file with this name as common (is copied before launch to game dir)
 // KEEPFILEX <regex> - marks files matching pattern as common.
 CURRENTVERSION 2
-AVAILABLEVERSION 	2	BETA 	v0.2	beta-0.2
+AVAILABLEVERSION 	2	BETA 	v0.2s	beta-0.2-v190804-snapshot
 AVAILABLEVERSION 	1	BETA 	v0.1.1	beta-0.1.1
 AVAILABLEVERSION 	0	BETA 	v0.1	beta-0.1
 EXEC32 cg32.exe
