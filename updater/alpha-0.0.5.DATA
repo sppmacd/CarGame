@@ -1,0 +1,6 @@
+// CG alpha
+KEEPFILE highscore.txt
+KEEPFILE data.txt
+EXEC64 cg64.exe
+EXEC32 cg32.exe
+EXECDBG cg64d.exe

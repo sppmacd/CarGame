@@ -1,0 +1,5 @@
+// CG alpha
+KEEPFILE highscore.txt
+EXEC64 CarGame.exe
+EXEC32 CarGame.exe
+EXECDBG CarGameD.exe

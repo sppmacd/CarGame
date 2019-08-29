@@ -1,0 +1,9 @@
+// CG snapshot
+KEEPFILE profile_1.txt
+KEEPFILE highscore.txt
+KEEPFILE data.txt
+KEEPFILE settings.txt
+KEEPFILE res/lang/config.lang
+EXEC64 cg64.exe
+EXEC32 cg32.exe
+EXECDBG cgd.exe
