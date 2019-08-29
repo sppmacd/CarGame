@@ -36,11 +36,11 @@ void GuiPowers::onLoad()
             else
             {
                 data->bBuyPower.setText(Game::instance->translation.get("gui.powers.maxlvl", {
-                        Game::instance->translation.get("power." + data->power->getName()))
-                        });
+                        Game::instance->translation.get("power." + data->power->getName())}  )
+                        );
             }
 
-            addWidget(&());
+            addWidget(&(data->bBuyPower));
         }
     }
 
@@ -125,8 +125,8 @@ void GuiPowers::onClick(int button)
                         else
                         {
                             data->bBuyPower.setText(Game::instance->translation.get("gui.powers.maxlvl", {
-                                    Game::instance->translation.get("power." + data->power->getName()))
-                                    });
+                            Game::instance->translation.get("power." + data->power->getName())}  )
+                            );
                         }
 
                         if(data->count == 1)
