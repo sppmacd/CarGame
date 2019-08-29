@@ -1,8 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include "GameDisplay.h"
-#include "GuiMainMenu.h"
-#include "GuiUpdates.hpp"
 #include "GameSound.hpp"
 #include <cstdlib>
 #include <iostream>
@@ -14,23 +12,9 @@ using namespace std;
 
 void loop(Game* game)
 {
-	if (game->mainTickCount == 0)
-    {
-        if(game->isFullscreen())
-            GameDisplay::instance->createFullscreenWnd();
-        else
-            GameDisplay::instance->getRenderWnd()->create(VideoMode(700, 700), string("CG ") + CG_VERSION);
-
-		// Display the main menu
-		if(game->updateFound)
-        {
-            game->displayGui(new GuiUpdates(&game->updateChecker));
-        }
-        else
-		{
-            game->displayGui(new GuiMainMenu);
-		}
-    }
+    GameEvent event;
+    event.type = GameEvent::PreTick;
+    game->runGameEventHandler(event);
 
     if(!game->errStr.empty())
             game->displayGui(new GuiYesNo("An error occured: " + game->errStr));
@@ -40,6 +24,9 @@ void loop(Game* game)
 
     game->newTick();
     game->initializeGui();
+
+    event.type = GameEvent::PostTick;
+    game->runGameEventHandler(event);
 }
 
 struct LoadData
@@ -93,6 +80,7 @@ void loadGame(LoadData* ld)
 
 int main()
 {
+    //sf::err().rdbuf(NULL);
     LoadData data;
     data.loaded = false;
     data.game = NULL;
@@ -105,6 +93,8 @@ int main()
 
         sf::Thread loadingThread(loadGame,&data);
         loadingThread.launch();
+
+        data.wnd->setActive(true);
 
         sf::Clock clock;
         sf::Clock eventClock;
@@ -122,43 +112,53 @@ int main()
             {
                 try
                 {
+                    // Initialize loop and check if it should run
                     bool updateDebugStats = data.game->mainTickCount % 6 == 0;
                     if (!data.game->isRunning())
                         mainLoopRunning = false;
+                    bool mouseMoveHandled = false;
 
+                    // Restart clocks
                     clock.restart();
                     eventClock.restart();
-
                     if(updateDebugStats) data.game->times.timeGui = Time::Zero;
 
-                    bool mouseMoveHandled = false;
-                    //bool guiMouseMoveHandler = false;
+                    // Call postInit()
+                    if(data.game->mainTickCount == 0)
+                    {
+                        data.game->postInit();
+                    }
 
+                    // Check all events
                     while(data.wnd->pollEvent(ev1))
                     {
+                        // Call event handler
                         if(ev1.type != Event::MouseMoved || !mouseMoveHandled)
                         {
                             data.game->runEventHandler(ev1);
                             mouseMoveHandled = true;
                         }
 
-                        // tick GUI for each event
+                        // Tick GUI for each event
                         guiClock.restart();
                         data.game->handleEvent(ev1); // run CGUI handler
                         if (updateDebugStats) data.game->times.timeGui += guiClock.getElapsedTime();
                     }
                     if (updateDebugStats) data.game->times.timeEvent = eventClock.getElapsedTime();
 
+                    // Update game logic
                     tickClock.restart();
                     loop(data.game);
                     if (updateDebugStats) data.game->times.timeTick = tickClock.getElapsedTime();
 
+                    // Render game
                     renderClock.restart();
                     data.disp->display();
                     if (updateDebugStats) data.game->times.timeRender = renderClock.getElapsedTime();
 
                     if (updateDebugStats) data.game->tickTime = clock.getElapsedTime();
 
+                    // Check and notify about lags
                     sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
                     if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
                     {
@@ -166,12 +166,13 @@ int main()
                         lastWarningClock.restart();
                     }
 
+                    // Wait
                     Time waitTime = microseconds(15000) - clock.getElapsedTime();
-                    //while(clock.getElapsedTime().asMicroseconds() < 16660) {} // 60 ticks/s, max framerate
                     sleep(waitTime);
 
+                    // Post-tick cleanup
                     if (updateDebugStats) data.game->realTickTime = clock.getElapsedTime();
-                    if (updateDebugStats) data.game->times.timeWait = waitTime;
+                    if (updateDebugStats) data.game->times.timeWait = waitTime + microseconds(1666);
                 }
                 catch(bad_alloc& ba)
                 {

@@ -364,10 +364,15 @@ void GameDisplay::createFullscreenWnd()
 
     for(size_t i = 0; i < fullscreenModes.size(); i++)
     {
-        renderWnd->create(fullscreenModes[0], sf::String(), sf::Style::Fullscreen);
+        renderWnd->create(fullscreenModes[i], sf::String(), sf::Style::Fullscreen);
         Game::instance->setWindow(renderWnd); //update guihandler view
         if(renderWnd->isOpen())
             break;
     }
     renderWnd->setVerticalSyncEnabled(true);
+}
+
+void GameDisplay::resetPointAnim()
+{
+    pointAnimTick = 15;
 }

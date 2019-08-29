@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 
-void GameDisplay::drawStat(int x, int y, String texture, long val)
+void GameDisplay::drawStat(int x, int y, String texture, long val, int animTick)
 {
     sf::Sprite s1(this->getTexture("stat/" + texture));
     s1.setPosition(x, y + 10);
@@ -12,6 +12,9 @@ void GameDisplay::drawStat(int x, int y, String texture, long val)
 
     sf::Text t1 = this->drawString(to_string(val), 45, sf::Vector2f(x + 50, y), sf::Text::Bold);
     t1.setFillColor(sf::Color::Blue);
+    t1.setOrigin(t1.getLocalBounds().width / 2.f, t1.getLocalBounds().height / 2.f);
+    t1.move(t1.getLocalBounds().width / 2.f, t1.getLocalBounds().height / 2.f);
+    t1.setScale(animTick / 30.f + 1.f, animTick / 30.f + 1.f);
     this->renderWnd->draw(t1);
 }
 
@@ -162,7 +165,10 @@ void GameDisplay::drawGui()
 
     if(!game->paused()/* || game->tutorialStep == 6*/)
     {
-        drawStat(250, 32, "score", game->getScore());
+        drawStat(250, 32, "score", game->getScore(), pointAnimTick);
+        if(pointAnimTick > 0)
+            pointAnimTick--;
+
         drawStat(450, 32, "high", game->highScore);
         drawStat(650, 32, "mpl", game->getCoinMultiplier());
         drawStat(850, 32, "points_mpl", game->pointsToNewMpl);

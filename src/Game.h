@@ -313,7 +313,11 @@ public:
 	// Open settings GUI.
 	void openSettings();
 
+    // Check if
 	bool isFullscreen();
+
+	// Called in the first tick, after loading but before any action is performed.
+	void postInit();
 
 	// Map storing power data registry
 	map<int, Power*> powerRegistry;

@@ -31,8 +31,8 @@ TranslationEntry::TranslationEntry(String in)
         }
         else if(in[i] == '\\' && i != in.getSize() - 1)
         {
-            in.erase(i, 1);
-            switch(in[i+1])
+            in.erase(i);
+            switch(in[i])
             {
                 case '\\': in[i] = '\\'; break;
                 case 'n': in[i] = '\n'; break;

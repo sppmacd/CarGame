@@ -41,8 +41,8 @@ public:
 	// Delete all textures, called before reloading.
     void clearTextures();
 
-	// Draw stat. Params: statX, statY, stat texture name, value of stat.
-    void drawStat(int x, int y, String name, long val);
+	// Draw stat. Params: statX, statY, stat texture name, displayed value, animation tick.
+    void drawStat(int x, int y, String name, long val, int animTick = 0);
 
 	// Draw loading screen [in loading loop].
 	static void drawLoading(sf::RenderWindow* wnd);
@@ -109,6 +109,9 @@ public:
 	// Returns default GUI font.
     Font* getGuiFont();
 
+    // Starts point animation. Called when the player gets points.
+    void resetPointAnim();
+
 protected:
 
 private:
@@ -140,4 +143,7 @@ private:
 	sf::Vector2u wndSizeDefault;
 
 	bool error;
+
+	// Animation tick of point stat.
+	int pointAnimTick;
 };

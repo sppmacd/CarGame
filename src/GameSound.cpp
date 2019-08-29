@@ -57,7 +57,7 @@ bool GameSound::loadSound(std::string name, bool random)
         }
     }
     SoundBase base(buffers);
-    std::cout << "Adding sound " << name << std::endl;
+    //std::cout << "Adding sound " << name << std::endl;
     soundBuffers.insert(make_pair(name, base));
     return true;
 }
@@ -75,6 +75,9 @@ void GameSound::reload()
     err |= ! loadSound("damage", true);
     err |= ! loadSound("destroy");
     err |= ! loadSound("start");
+    err |= ! loadSound("coin_add");
+    err |= ! loadSound("coin_remove");
+    err |= ! loadSound("point_add");
 
     if(err)
     {
@@ -88,7 +91,7 @@ void GameSound::playSound(std::string name, float volume)
     if(it != soundBuffers.end())
     {
         sf::Sound* sound = it->second.playSound(volume * soundVolume);
-        std::cout << "n=" << name << "v=" << volume * soundVolume << std::endl;
+        //std::cout << "n=" << name << "v=" << volume * soundVolume << std::endl;
         sound->play();
         playedSounds.push_back(make_pair(name, sound));
     }

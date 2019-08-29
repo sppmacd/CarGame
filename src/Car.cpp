@@ -67,13 +67,24 @@ sf::Color Car::getColor()
 
 void Car::makeDestroy(float count)
 {
+    GameEvent event;
+    event.type = GameEvent::CarDamaged;
+    event.car.car = this;
+    if(!Game::instance->runGameEventHandler(event)) return;
+
     this->health -= count;
+    Game::instance->sound.playSound("damage", 100.f);
 
     if(this->health <= 0)
     {
         this->health = 0.f;
+
+        event.type = GameEvent::CarDestroyed;
+        if(!Game::instance->runGameEventHandler(event)) return;
+
         if(this->destroyTick == -1)
         {
+            Game::instance->sound.playSound("destroy", 50.f);
             this->destroyTick = 20;
             this->carSpeed /= 2.5;
         }

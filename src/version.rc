@@ -8,11 +8,11 @@ PRODUCTVERSION CG_VERSION_NO
     {
         BLOCK "040904B0"
         {
-            VALUE "CompanyName", "Sppmacd"
+            VALUE "CompanyName", "SITS Gamedev"
             VALUE "FileDescription", "Car Game"
             VALUE "FileVersion", CG_VERSION
             VALUE "InternalName", "cg.exe"
-            VALUE "LegalCopyright", "Sppmacd 2018-2019"
+            VALUE "LegalCopyright", "SITS Gamedev 2018-2019"
             VALUE "OriginalFilename", "cg.exe"
             VALUE "ProductName", "CG - Car Game"
             VALUE "ProductVersion", CG_VERSION

@@ -11,10 +11,11 @@
 #include "GameEvent.h"
 
 #include "GuiGameOver.h"
-#include "GuiMainMenu.h"
 #include "GuiLanguage.hpp"
 #include "GuiSettings.h"
 #include "GuiIngame.h"
+#include "GuiMainMenu.h"
+#include "GuiUpdates.hpp"
 
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
@@ -175,7 +176,7 @@ void Game::runEventHandler(Event& event)
 		//cout << "Event Handler not found for event " << event.type << endl;
 }
 
-bool Game::runGameEventHandler(GameEvent & event)
+bool Game::runGameEventHandler(GameEvent& event)
 {
 	int counter = 0;
 	bool stat = true;
@@ -222,6 +223,8 @@ void Game::addScore(int s)
     this->score += s;
     this->totalPlayerPoints += s;
     this->pointsToNewMpl -= s;
+    sound.playSound("point_add", 75.f);
+    GameDisplay::instance->resetPointAnim();
 }
 
 long Game::getTotalPoints()
@@ -326,7 +329,7 @@ void Game::loadPlayerData()
             }
             else
             {
-                cout << "Game: Cannot load player data! Creating new profile. You are the new player :)" << endl;
+                cout << "Game: Cannot load player data! Creating a new profile. You are the new player :)" << endl;
                 this->highScore = 0;
                 this->playerCoins = 0;
                 this->unlockedLevels  = 0;
@@ -400,6 +403,11 @@ void Game::loadGame()
 }
 void Game::setupGame()
 {
+    GameEvent event;
+    event.type = GameEvent::LevelLoadingStart;
+    event.level.level = &this->level;
+    runGameEventHandler(event);
+
     this->sound.playSound("start", 100.f);
     this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
     this->lastTickScore = 0;
@@ -493,6 +501,7 @@ void Game::toggleFullscreen()
 void Game::addCoins(long v)
 {
     this->playerCoins += v;
+    sound.playSound("coin_add", 75.f);
 }
 
 void Game::removeCoins(long v)
@@ -645,7 +654,6 @@ void Game::registerSettings()
     settings.registerTrigger("volume", Triggers::s_volume, "sound");
 
     settings.loadSettings("settings.txt");
-    settings.triggerAllClose();
 }
 
 void Game::openSettings()
@@ -663,4 +671,23 @@ void Game::openSettings()
 bool Game::isFullscreen()
 {
     return fullscreen;
+}
+
+void Game::postInit()
+{
+    if(isFullscreen())
+        GameDisplay::instance->createFullscreenWnd();
+    else
+        GameDisplay::instance->getRenderWnd()->create(VideoMode(700, 700), string("CG ") + CG_VERSION);
+
+    // Display the main menu
+    if(updateFound)
+    {
+        displayGui(new GuiUpdates(&updateChecker));
+    }
+    else
+    {
+        displayGui(new GuiMainMenu);
+    }
+    settings.triggerAllClose();
 }

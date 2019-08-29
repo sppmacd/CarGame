@@ -34,18 +34,22 @@ void Game::updateCars()
             {
                 if(car->pos < -50.f)
                 {
-                    car->onLeave(this);
+                    GameEvent event;
+                    event.type = GameEvent::CarLeaved;
+                    event.car.car = car;
+
+                    if(runGameEventHandler(event))
+                    {
+                        car->onLeave(this);
+                    }
                     car->setToErase();
+
                     continue;
                 }
 
                 if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
-                    sound.playSound("damage", 100.f);
 					car->onDamage(this);
-					if(car->health <= 0.f)
-                        sound.playSound("destroy", 50.f);
-
                     if(this->tutorialStep == 5)
                     {
                         this->tutorialStep = 6;
@@ -57,6 +61,14 @@ void Game::updateCars()
 
             if(car->canErase)
             {
+                GameEvent event;
+                event.type = GameEvent::CarDeleted;
+                event.car.car = car;
+                if(!runGameEventHandler(event))
+                {
+                    car->canErase = false;
+                    continue;
+                }
                 this->cars.erase(this->cars.begin() + i);
             }
         }
@@ -87,11 +99,15 @@ void Game::tickNormalGame()
 		event.carSpawned.type = carType;
 		bool createCar = runGameEventHandler(event);
 
-		if (createCar && event.carSpawned.carToCreate)
+		if(createCar && event.carSpawned.carToCreate)
 		{
-			addCar(event.carSpawned.carToCreate);
-			event.carSpawned.carToCreate->onCreate(this);
-			//delete &car; //deallocate memory allocated in EventHandler
+			event.type = GameEvent::CarSpawned;
+			event.car.car = event.carSpawned.carToCreate;
+			if(runGameEventHandler(event))
+            {
+                addCar(event.carSpawned.carToCreate);
+                event.carSpawned.carToCreate->onCreate(this);
+            }
 		}
     }
 
