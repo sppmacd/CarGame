@@ -132,6 +132,7 @@ void Game::tickNormalGame()
 
     if(this->pointsToNewMpl <= 0)
     {
+        this->sound.playSound("point_mpl", 100.f);
         this->coinMpl++;
         this->pointsToNewMpl = this->getCoinMultiplier() * 200;
     }

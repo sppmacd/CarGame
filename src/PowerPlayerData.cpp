@@ -21,6 +21,7 @@ bool PowerPlayerData::upgrade(Game* game)
     {
         game->removeCoins(getUpgradeCost());
         level++;
+        game->sound.playSound("upgrade", 100.f);
         return true;
     }
     return false;

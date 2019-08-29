@@ -78,6 +78,9 @@ void GameSound::reload()
     err |= ! loadSound("coin_add");
     err |= ! loadSound("coin_remove");
     err |= ! loadSound("point_add");
+    err |= ! loadSound("coin_mpl");
+    err |= ! loadSound("game_over");
+    err |= ! loadSound("upgrade");
 
     if(err)
     {

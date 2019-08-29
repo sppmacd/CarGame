@@ -4,8 +4,15 @@
 
 # BETA 0.2 SNAPSHOTS
 
-* Settings GUI - new apperrance
-* Fixed Map Select GUI apperrance (the map button size depends on screen size)
+## v190804
+* Added some sounds: upgrade, game_over, coin_mpl
+## v190803
++ Added Sounds!!!
+* Added point stat animations.
+* Settings are loaded on launch!
+## v190802
+* Settings GUI - new apperrance.
+* Fixed Map Select GUI apperrance (the map button size depends on screen size).
 ## v190801
 + Added credits screen.
 + Added volume slider (not used).
@@ -18,6 +25,10 @@
 * Finally fixed window resizing bugs.
 ## v190702
 + New translations: full German.
+
+# BETA 0.1.1
+
+* Loading screen is now splash screen.
 
 # BETA 0.1 - The Big Map Update
 

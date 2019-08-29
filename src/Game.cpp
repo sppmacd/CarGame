@@ -457,6 +457,7 @@ void Game::setGameOver()
     this->savePlayerData();
     this->pause(true);
     this->displayGui(new GuiGameOver);
+    this->sound.playSound("game_over", 100.f);
 
     if(this->powerHandle)
     {
