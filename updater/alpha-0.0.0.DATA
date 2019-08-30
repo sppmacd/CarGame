@@ -1,0 +1,4 @@
+// CG alpha
+EXEC64 CarGame.exe
+EXEC32 CarGame.exe
+EXECDBG CarGame.exe
