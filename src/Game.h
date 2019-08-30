@@ -13,6 +13,7 @@
 #include "UpdateChecker.hpp"
 #include "GameSound.hpp"
 
+#include <HackerMan/Util/Main.hpp>
 #include <CG/CG.h>
 ;
 
@@ -110,6 +111,9 @@ public:
 
 	// Player tutorial step. Can reset by restart
     int tutorialStep;
+
+    // Loaded from file hmUtil data map.
+    HMDataMap otherData;
 
 	/////////////////////////
 	////// OTHER DATA ///////

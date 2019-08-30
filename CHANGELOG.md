@@ -4,11 +4,13 @@
 
 # BETA 0.2 SNAPSHOTS
 
+* Made profile format compatible with other profile format versions. Your powers won't be longer removed!
 * Fixed Map Selection bug.
 * Coins are earned by full destruction of car (not only damage).
 * Cars destroyed by power will give coins.
 * Armored Car won't be longer spawned double.
 * Oil is better on first level but its force rises slower.
+* Changed apperrance of Oil power.
 ## v190805
 * Changed background color of some maps
 * Map Selection now is set on last unlocked map (not always on Coutryside)
