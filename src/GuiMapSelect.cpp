@@ -27,8 +27,9 @@ void GuiMapSelect::onLoad()
 		bimg.setColor(lvld->getColor());
 		MapData md{ld.first, bimg, lvld->getCost()};
 		bMd.push_back(md);
+
 		if(Game::instance->isLevelUnlocked(lvld->getMapType()))
-            id = i;
+            id = lvld->getMapType();
 
         i++;
 	}

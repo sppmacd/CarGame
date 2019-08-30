@@ -4,6 +4,13 @@
 
 # BETA 0.2 SNAPSHOTS
 
+* Fixed Map Selection bug.
+* Coins are earned by full destruction of car (not only damage).
+* Cars destroyed by power will give coins.
+* Armored Car won't be longer spawned double.
+* Oil is better on first level but its force rises slower.
+## v190805
+* Changed background color of some maps
 * Map Selection now is set on last unlocked map (not always on Coutryside)
 * Freeze makes game a bit quicker when running out - 0.0625%/tick -> 0.0725%/tick
 * Point Boost is shorter - 20 s -> 16.7 s and makes game quicker - 0.005U/tick

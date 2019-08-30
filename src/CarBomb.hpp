@@ -7,6 +7,6 @@ class CarBomb : public Car
 {
 public:
     CarBomb(float spd, int lane);
-    void onDestroy(Game* game);
+    void onDamage(Game* game);
     void onLeave(Game* game);
 };

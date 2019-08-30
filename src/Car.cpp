@@ -79,14 +79,16 @@ void Car::makeDestroy(float count)
     {
         this->health = 0.f;
 
-        event.type = GameEvent::CarDestroyed;
-        if(!Game::instance->runGameEventHandler(event)) return;
-
         if(this->destroyTick == -1)
         {
+            event.type = GameEvent::CarDestroyed;
+            if(!Game::instance->runGameEventHandler(event)) return;
+
             Game::instance->sound.playSound("destroy", 50.f);
             this->destroyTick = 20;
             this->carSpeed /= 2.5;
+
+            onDestroy(Game::instance);
         }
     }
 }
@@ -103,8 +105,6 @@ void Car::onCreate(Game* )
 
 void Car::onDamage(Game* game)
 {
-    makeDestroy();
-
     if(typeId != Car::BOMB)
     {
         if(typeId == Car::RARE)
@@ -115,21 +115,14 @@ void Car::onDamage(Game* game)
         {
             game->addScore(1);
         }
+    }
 
-        if(game->getScore() % 2 == 0)
-        {
-            game->addCoins(game->getCoinMultiplier());
-        }
-    }
-    if(health <= 0.f)
-    {
-        onDestroy(game);
-    }
+    makeDestroy();
 }
 
-void Car::onDestroy(Game*)
+void Car::onDestroy(Game* game)
 {
-
+    game->addCoins(game->getCoinMultiplier());
 }
 
 void Car::onUpdate(Game*)

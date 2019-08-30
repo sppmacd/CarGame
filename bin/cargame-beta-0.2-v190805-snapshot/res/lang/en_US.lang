@@ -1,0 +1,87 @@
+gui.done=Done
+gui.return=Return...
+gui.cancel=Cancel
+gui.up=Up
+gui.down=Down
+gui.next=Next
+gui.prev=Prev.
+
+gui.toggle.on=On
+gui.toggle.off=Off
+
+gui.yesno.yes=Yes
+gui.yesno.no=No
+
+gui.mainmenu.credit=
+
+gui.settings.title=Settings...
+
+settings.graphics.refreshres=Refresh Resources
+settings.graphics.verticalsync=Vertical Sync
+settings.graphics.fullscreen=Fullscreen
+settings.game.resetgame=Reset Game
+settings.game.resetgame.msg=Are you sure to delete all your player data?\n\nThis cannot be undone!
+settings.global.language=Language
+settings.global.debug=Debug Mode
+settings.sound.volume=Sound Volume
+
+gui.language.title=Language...
+
+gui.selectmap.title=Map & Powers
+gui.selectmap.powers=Powers...
+gui.selectmap.buyconfirm=Do you want to buy %0?
+gui.selectmap.buyfor=Buy for %0$
+gui.selectmap.notenoughcoins=Not Enough Coins
+
+gui.powers.buy=Buy %0: %1$
+gui.powers.upgrade=Upgrade %0: %1$
+gui.powers.title=Buy Powers
+gui.powers.return=Return to Maps
+gui.powers.notbought=Not Bought
+gui.powers.powerinfo=LVL %0 TIME %1s
+gui.powers.powerlvl=LVL %0
+gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
+gui.powers.maxlvl=%0: MAX LEVEL
+
+gui.shop.degrade=Degrade %0: %1$
+gui.shop.upgrade=Upgrade %0: %1$
+gui.shop.labels.power=Powers...
+gui.shop.labels.antiPowers=Degrade Anti-Powers
+gui.shop.labels.cars=Degrade Cars
+
+gui.ingame.returngame=Return to game
+gui.ingame.returnmainmenu=Return to main menu
+gui.ingame.quit=Quit Game
+gui.ingame.title=Game menu
+
+gui.gameover.title=Game Over!
+gui.gameover.score=Your score was %0
+gui.gameover.return=Return to Menu
+gui.gameover.newgame=New Game
+
+gui.updates.found=Found update: %0. \nDo you want to install it now?
+
+power.none=No Power
+power.oil=Oil
+power.freeze=Freeze
+power.point_boost=Point Boost
+power.fence=Fence
+power.ball=Ball
+
+power.anti.ramp=Ramp
+power.anti.damage_decrease=Damage Decrease
+power.anti.car_speed_increase=Car Speed Increase
+
+map.countryside=Countryside
+map.desert=Desert
+map.forest=Forest
+map.ice=Ice
+map.mountains=Mountains
+map.beach=Beach
+map.city=City
+map.motorway=Motorway
+map.sea=Sea
+map.swampland=Swampland
+map.forest_trails=Forest Trails
+
+splash.newrecord=New Record!

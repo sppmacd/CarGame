@@ -33,11 +33,11 @@ void PowerOil::onPowerTick(int powerTick)
 			if(abs(c->getScreenPos().x - pos.x) < size)
 			{
 			    if(lane == 0 && c->getLine() < 2)
-                    c->makeDestroy(0.4 * currentLevel);
+                    c->makeDestroy(0.2 * currentLevel + 0.3);
                 else if(lane == 1 && (c->getLine() == 1 || (powerTick % 6 == 0)))
-                    c->makeDestroy(0.4 * currentLevel);
+                    c->makeDestroy(0.2 * currentLevel + 0.3);
                 else if(lane == 2 && c->getLine() > 0)
-                    c->makeDestroy(0.4 * currentLevel);
+                    c->makeDestroy(0.2 * currentLevel + 0.3);
 			}
 		}
 	}
@@ -46,7 +46,7 @@ void PowerOil::onPowerTick(int powerTick)
 void PowerOil::drawPower(RenderWindow * wnd)
 {
 	RectangleShape rs(Vector2f(40.f, 180.f));
-	rs.setFillColor(Color(219, 201 / currentLevel * 10, 65, 180));
+	rs.setFillColor(Color(219, 201 / (currentLevel / 2.f), 65, 180));
 	rs.setOutlineColor(Color(209, 191, 55));
 	rs.setOutlineThickness(1.8f);
 	rs.setOrigin(20.f, 90.f);

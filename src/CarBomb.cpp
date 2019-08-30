@@ -6,7 +6,7 @@ CarBomb::CarBomb(float spd, int lane) : Car(Car::BOMB, spd, lane)
     animSize = 10;
     frameLength = 3;
 }
-void CarBomb::onDestroy(Game* game)
+void CarBomb::onDamage(Game* game)
 {
     game->setGameOver();
 }
