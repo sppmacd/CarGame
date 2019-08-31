@@ -26,7 +26,7 @@ private:
         unsigned int count;
         Power* power;
         Button bBuyPower;
-        Button bEquipPower;
+        ButtonImage bEquipPower;
     };
     struct EquippedPowerData
     {

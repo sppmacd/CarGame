@@ -1,10 +1,14 @@
 #include "GuiMapSelect.h"
+
 #include "Game.h"
+
 #include "GameDisplay.h"
 #include "GuiMainMenu.h"
-#include <iostream>
 #include "GuiPowers.h"
+#include "GuiShop.hpp"
 #include "maptype.h"
+
+#include <iostream>
 
 using namespace std;
 
@@ -13,7 +17,7 @@ void GuiMapSelect::onLoad()
     GameDisplay* game = GameDisplay::instance;
 
     addWidget(&(bReturn = Button(this, sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.return"), 0)));
-    addWidget(&(bPowers = Button(this, sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.selectmap.powers"), 1)));
+    addWidget(&(bPowers = Button(this, sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.selectmap.shop"), 1)));
     addWidget(&(bNext = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f), ">", 2)));
     addWidget(&(bPrev = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f), "<", 3)));
 
@@ -122,7 +126,7 @@ void GuiMapSelect::onClick(int button)
     }
     else if (button == 1)
     {
-        game->displayGui(new GuiPowers);
+        game->displayGui(new GuiShop);
         return;
     }
     else if (button == 2)

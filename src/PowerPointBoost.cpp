@@ -3,7 +3,7 @@
 
 PowerPointBoost::PowerPointBoost(): Power()
 {
-    setMaxTime(1000);
+    setMaxTime(300);
 }
 void PowerPointBoost::drawPower(RenderWindow* wnd)
 {

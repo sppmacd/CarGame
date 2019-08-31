@@ -10,6 +10,7 @@
 #include "CarType.h"
 
 #include "LevelData.h"
+#include "PlayerAbilityManager.hpp"
 
 #include "Power.h"
 #include "PowerPlayerData.hpp"
@@ -45,19 +46,19 @@ public:
 	/////// MAIN DATA ///////
 	/////////////////////////
 
-	// Instance of the game
+	// Instance of the game.
     static Game* instance;
 
-	// Game tick count (since level loaded)
+	// Game tick count (since level loaded).
     int tickCount;
 
-	// Main tick count (since the game started)
+	// Main tick count (since the game started).
     long mainTickCount;
 
-	// Variable storing MouseButtonReleased event status
+	// Variable storing MouseButtonReleased event status.
     bool wasReleased;
 
-    // The settings manager
+    // The settings manager.
 	SettingsManager settings;
 
 	// The update checker.
@@ -67,34 +68,34 @@ public:
 	// GameSound (sound manager) instance.
 	GameSound sound;
 
-	// Power time
+	// Power time.
     int powerTime;
 
-	// Power cooldown
+	// Power cooldown.
     int powerCooldown;
 
-    // Power max time
+    // Power max time.
     int powerMaxTime;
 
-    // Current power
+    // Current power.
     Power* powerHandle;
 
-	// Current level data
+	// Current level data.
     LevelData level;
 
-	// Current return value for game
+	// Current return value for game.
     int retVal;
 
-	// Time values (debug!)
+	// Time values (debug!).
     Times times;
 
-	// Is the power used? (Right click event status)
+	// Is the power used? (Right click event status).
     bool isPowerUsed;
 
 	// Variable storing car creating speed.
 	int carCreatingSpeed;
 
-	// Variable storing, if the new record is set (used in splash screen)
+	// Variable storing, if the new record is set (used in splash screen).
 	bool newRecord;
 
 	// Variable storing language settings.
@@ -107,26 +108,29 @@ public:
     ////// PLAYER DATA //////
 	/////////////////////////
 
-	// Points required to get new coin multiplier
+	// Points required to get new coin multiplier.
     int pointsToNewMpl;
 
-	// Score in the last tick. Used by the game over GUI
+	// Score in the last tick. Used by the game over GUI.
     long lastTickScore;
 
-	// Player highscore, currently used only by renderer
+	// Player highscore, currently used only by renderer.
     long highScore;
 
-	// Variable stores if the player started game first one
+	// Variable stores if the player started game first one.
     bool isNewPlayer;
 
-	// Player tutorial step. Can reset by restart
+	// Player tutorial step. Can reset by restart.
     int tutorialStep;
 
     // Equipped powers. 0 means no power.
-    std::array<int, 2> equippedPowers;
+    array<int, 2> equippedPowers;
 
     // Store player powers (level etc.)
     map<int, PowerPlayerData> powers;
+
+    // Player ability manager - stores abilities.
+    PlayerAbilityManager abilities;
 
     // Loaded from file hmUtil data map.
     HMDataMap otherData;

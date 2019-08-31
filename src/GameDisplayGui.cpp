@@ -184,37 +184,40 @@ void GameDisplay::drawGui()
             this->renderWnd->draw(t1);
         }
 
-        // Draw power cooldown
-        sf::VertexArray arr(TriangleFan);
-        Vector2f ccPos = Vector2f(1200,58);
-        arr.append(Vertex(ccPos, Color(127,127,0)));
-        double degtorad = 57.2957795;
-        for(int i = 0; i <= 65; i++)
+        if(!game->usablePowerIds.empty())
         {
-            float deg = 360 * i / 64.f;
-            sf::Vector2f pointPos(32*sin(deg/degtorad), 32*cos(deg/degtorad));
-            pointPos += ccPos;
+            // Draw power cooldown / time
+            sf::VertexArray arr(TriangleFan);
+            Vector2f ccPos = Vector2f(1200,58);
+            arr.append(Vertex(ccPos, Color(127,127,0)));
+            double degtorad = 57.2957795;
+            for(int i = 0; i <= 65; i++)
+            {
+                float deg = 360 * i / 64.f;
+                sf::Vector2f pointPos(32*sin(deg/degtorad), 32*cos(deg/degtorad));
+                pointPos += ccPos;
 
-            if(game->powerTime == -1)
-            {
-                if(i >= game->powerCooldown / (1800.f / 64.f))
-                    arr.append(Vertex(pointPos, Color::Green));
+                if(game->powerTime == -1)
+                {
+                    if(i >= game->powerCooldown / ((1800.f / game->abilities.calculateValue(PlayerAbilityManager::DAMAGE)) / 64.f))
+                        arr.append(Vertex(pointPos, Color::Green));
+                    else
+                        arr.append(Vertex(pointPos, Color::Red));
+                }
+                else if(game->powerTime > 0)
+                {
+                    if(i >= game->powerTime / (game->powerMaxTime / 64.f))
+                        arr.append(Vertex(pointPos, Color::Red));
+                    else
+                        arr.append(Vertex(pointPos, Color::Blue));
+                }
                 else
-                    arr.append(Vertex(pointPos, Color::Red));
-            }
-            else if(game->powerTime > 0)
-            {
-                if(i >= game->powerTime / (game->powerHandle->maxPowerTime / 64.f))
-                    arr.append(Vertex(pointPos, Color::Red));
-                else
+                {
                     arr.append(Vertex(pointPos, Color::Blue));
+                }
             }
-            else
-            {
-                arr.append(Vertex(pointPos, Color::Blue));
-            }
+            this->renderWnd->draw(arr);
         }
-        this->renderWnd->draw(arr);
     }
 
 	if(game->isGuiLoaded())

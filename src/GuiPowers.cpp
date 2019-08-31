@@ -1,7 +1,7 @@
 #include "GuiPowers.h"
 #include "Game.h"
 #include "GameDisplay.h"
-#include "GuiMapSelect.h"
+#include "GuiShop.hpp"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -27,8 +27,8 @@ void GuiPowers::onLoad()
             // data->level = Game::instance->power; // 0.2
             powerData.push_back(data);
 
-            data->bBuyPower = Button(this, Vector2f(350.f, 40.f), Vector2f(game->getSize().x / 2 - 200.f, s.first * 50.f + game->getSize().y / 4), "", s.first + 100);
-            data->bEquipPower = Button(this, Vector2f(40.f, 40.f), Vector2f(), "E", s.first + 200);
+            data->bBuyPower = Button(this, Vector2f(550.f, 40.f), Vector2f(game->getSize().x / 2 - 300.f, s.first * 50.f + game->getSize().y / 4), "", s.first + 100);
+            data->bEquipPower = ButtonImage(this, "power/" + to_string(s.first), Vector2f(40.f, 40.f), Vector2f(), "E", s.first + 200);
 
             if(data->count > 0)
             {
@@ -75,8 +75,8 @@ void GuiPowers::onResize()
     bReturn.setPosition(Vector2f(game->getSize().x / 2 - 200, game->getSize().y * 3 / 4));
     for(PowerData* data: powerData)
     {
-        data->bBuyPower.setPosition(Vector2f(game->getSize().x / 2 - 200.f, (data->bBuyPower.getID() - 100) * 50.f + game->getSize().y / 4));
-        data->bEquipPower.setPosition(Vector2f(game->getSize().x / 2 + 160.f, (data->bBuyPower.getID() - 100) * 50.f + game->getSize().y / 4));
+        data->bBuyPower.setPosition(Vector2f(game->getSize().x / 2 - 300.f, (data->bBuyPower.getID() - 100) * 50.f + game->getSize().y / 4));
+        data->bEquipPower.setPosition(Vector2f(game->getSize().x / 2 + 260.f, (data->bBuyPower.getID() - 100) * 50.f + game->getSize().y / 4));
     }
     for(size_t s = 0; s < equippedPowerIds.size(); s++)
     {
@@ -118,9 +118,9 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
         data->bBuyPower.draw(wnd);
         data->bEquipPower.draw(wnd);
         if(data->count == 0)
-            wnd.draw(drawString(Game::instance->translation.get("gui.powers.notbought"), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
+            wnd.draw(drawString(Game::instance->translation.get("gui.powers.notbought"), 15, Vector2f(data->bBuyPower.getPosition()) + Vector2f(620.f, 0.f)));
         else
-            wnd.draw(drawString(Game::instance->translation.get("gui.powers.powerinfo", {to_string(data->count), oss.str()}), 30, Vector2f(data->bBuyPower.getPosition()) + Vector2f(420.f, 0.f)));
+            wnd.draw(drawString(Game::instance->translation.get("gui.powers.powerinfo", {to_string(data->count), oss.str()}), 15, Vector2f(data->bBuyPower.getPosition()) + Vector2f(620.f, 0.f)));
     }
     for(size_t s = 0; s < equippedPowerIds.size(); s++)
     {
@@ -149,7 +149,7 @@ void GuiPowers::onClick(int button)
 
     if(button == 0)
     {
-        game->displayGui(new GuiMapSelect);
+        game->displayGui(new GuiShop);
     }
     else if(button > 100 && button <= 200)
     {

@@ -28,7 +28,7 @@ settings.sound.volume=Sound Volume
 gui.language.title=Language...
 
 gui.selectmap.title=Map & Powers
-gui.selectmap.powers=Powers...
+gui.selectmap.shop=Shop...
 gui.selectmap.buyconfirm=Do you want to buy %0?
 gui.selectmap.buyfor=Buy for %0$
 gui.selectmap.notenoughcoins=Not Enough Coins
@@ -43,11 +43,15 @@ gui.powers.powerlvl=LVL %0
 gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
 gui.powers.maxlvl=%0: MAX LEVEL
 
-gui.shop.degrade=Degrade %0: %1$
-gui.shop.upgrade=Upgrade %0: %1$
+gui.shop.title=Shop
+gui.shop.labels.ability=Abilities
 gui.shop.labels.power=Powers...
-gui.shop.labels.antiPowers=Degrade Anti-Powers
-gui.shop.labels.cars=Degrade Cars
+gui.shop.upgrade_ability=Upgrade %0: %1$
+gui.shop.ability=LVL %0 = %1
+
+ability.power_cooldown_time=Power Reload
+ability.power_time=Power Time
+ability.damage=Damage
 
 gui.ingame.returngame=Return to game
 gui.ingame.returnmainmenu=Return to main menu
@@ -64,7 +68,7 @@ gui.updates.found=Found update: %0. \nDo you want to install it now?
 power.none=No Power
 power.oil=Oil
 power.freeze=Freeze
-power.point_boost=Point Boost
+power.point_boost=Boost
 power.fence=Fence
 power.ball=Ball
 

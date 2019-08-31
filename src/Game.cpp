@@ -55,14 +55,16 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 		this->fullscreen = stoi(settings.getSetting("fullscreen", "graphics"));
 		this->registerEventHandlers();
 		cg::colors::bgColor = sf::Color(50, 40, 40);
+		cg::colors::textSize = 28;
 
 		// Reset player stats
 		this->isNewPlayer = false;
 		this->tutorialStep = 0;
 
-		// Reset level and car data
+		// Initialize registries
 		LevelData::init();
 		CarType::init();
+		this->abilities.init();
 
 		// Reset powers
 		this->powerCooldown = 0;
@@ -125,7 +127,7 @@ void Game::registerPowers()
 {
 	//registerPower(0, (Power*)NULL);
 	registerPower(1, &(new PowerOil)->setMaxTime(1800));
-	registerPower(2, &(new PowerFreeze)->setMaxTime(3600));
+	registerPower(2, &(new PowerFreeze)->setMaxTime(3000));
 	registerPower(3, new PowerPointBoost);
 	registerPower(4, new PowerFence);
 }
@@ -139,9 +141,9 @@ CarType* Game::findCarTypeByID(Car::TypeId id)
 {
     if(!carTypeRegistry.empty())
     {
-        for (CarType& type : carTypeRegistry)
+        for(CarType& type : carTypeRegistry)
         {
-            if (type == id)
+            if(type == id)
                 return &type;
         }
     }
@@ -161,13 +163,13 @@ void Game::setGameSpeed(float speed)
 void Game::runEventHandler(Event& event)
 {
 	int counter = 0;
-	for (pair<const Event::EventType, CGEventHandler>& pair : eventHandlers) //must call all event handlers, not only first
+	for(pair<const Event::EventType, CGEventHandler>& pair : eventHandlers) //must call all event handlers, not only first
 	{
-		if (pair.first == event.type)
+		if(pair.first == event.type)
 		{
 			counter++;
 			bool stat = pair.second(event, this);
-			if (!stat)
+			if(!stat)
 				cout << "Game: Cannot cancel system events!!!" << endl;
 		}
 	}
@@ -286,6 +288,7 @@ void Game::loadPlayerData()
                 if(equippedPowers[t] != 0)
                     usablePowerIds.push_back(equippedPowers[t]);
             }
+            this->abilities.read(otherData);
         }
         else
         {
@@ -368,11 +371,11 @@ void Game::savePlayerData()
     // Save using hmUtil
     otherData.setNumberKey("version", 4, "");
 
-    otherData.setNumberKey("highScore", this->highScore, "main");
-    otherData.setNumberKey("coins", this->playerCoins, "main");
-    otherData.setNumberKey("totalPoints", this->totalPlayerPoints, "main");
-    otherData.setNumberKey("coinMultiplier", this->coinMpl, "main");
-    otherData.setNumberKey("pointsToNewMultiplier", this->pointsToNewMpl, "main");
+    otherData.setNumberKey("highScore", highScore, "main");
+    otherData.setNumberKey("coins", playerCoins, "main");
+    otherData.setNumberKey("totalPoints", totalPlayerPoints, "main");
+    otherData.setNumberKey("coinMultiplier", coinMpl, "main");
+    otherData.setNumberKey("pointsToNewMultiplier", pointsToNewMpl, "main");
 
     for(size_t t = 0; t < equippedPowers.size(); t++)
     {
@@ -380,12 +383,13 @@ void Game::savePlayerData()
     }
     for(size_t t = 0; t < levelRegistry.size(); t++)
     {
-        otherData.setKey("unlocked_" + levelRegistry[t].first, (this->isLevelUnlocked((LevelData::MapType)t) ? "true" : "false"), "level");
+        otherData.setKey("unlocked_" + levelRegistry[t].first, (isLevelUnlocked((LevelData::MapType)t) ? "true" : "false"), "level");
     }
     for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
     {
-        otherData.setNumberKey("level_" + to_string(it->first), this->powers[it->first].getLevel(), "power");
+        otherData.setNumberKey("level_" + to_string(it->first), powers[it->first].getLevel(), "power");
     }
+    abilities.write(otherData);
 
     otherData.saveToFile("profile_1.txt");
 }
