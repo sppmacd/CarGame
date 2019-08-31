@@ -4,6 +4,7 @@
 
 # BETA 0.2 SNAPSHOTS
 
++ You can have now only 2 powers at once.
 * Made profile format compatible with other profile format versions. Your powers won't be longer removed!
 * Fixed Map Selection bug.
 * Coins are earned by full destruction of car (not only damage).

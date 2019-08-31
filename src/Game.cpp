@@ -271,8 +271,6 @@ void Game::loadPlayerData()
             {
                 int c = otherData.getNumberKey("count_" + to_string(it->first), "power", 0);
                 this->powers[it->first] = PowerPlayerData(it->second, sqrt(c));
-                if(c > 0)
-                    usablePowerIds.push_back(it->first);
             }
         }
         else if(ver == 4)
@@ -281,14 +279,18 @@ void Game::loadPlayerData()
             {
                 int c = otherData.getNumberKey("level_" + to_string(it->first), "power", 0);
                 this->powers[it->first] = PowerPlayerData(it->second, c);
-                if(c > 0)
-                    usablePowerIds.push_back(it->first);
+            }
+            for(size_t t = 0; t < equippedPowers.size(); t++)
+            {
+                equippedPowers[t] = otherData.getNumberKey("power_" + to_string(t), "equipment", 0);
+                if(equippedPowers[t] != 0)
+                    usablePowerIds.push_back(equippedPowers[t]);
             }
         }
         else
         {
             cout << "Game: Unsupported profile version!" << endl;
-            displayError("Tried to load newer profile version. Try installing a new version of Car Game.");
+            displayError("Tried to load newer/invalid profile version. Try installing a new version of Car Game.");
         }
     }
     else
@@ -310,8 +312,8 @@ void Game::loadPlayerData()
             >> i1 >> i2;
             this->powers[1] = PowerPlayerData(this->powerRegistry[1], sqrt(i1));
             this->powers[2] = PowerPlayerData(this->powerRegistry[2], sqrt(i2));
-            usablePowerIds.push_back(1);
-            usablePowerIds.push_back(2);
+            //usablePowerIds.push_back(1);
+            //usablePowerIds.push_back(2);
             //cout << "Game: Powers are incompatible with old format on " + string(CG_VERSION) + "!" << endl;
         }
         else
@@ -364,18 +366,22 @@ void Game::savePlayerData()
     GameDisplay::drawLoadingProgress("Saving player data...", GameDisplay::instance->getRenderWnd());
 
     // Save using hmUtil
+    otherData.setNumberKey("version", 4, "");
+
     otherData.setNumberKey("highScore", this->highScore, "main");
     otherData.setNumberKey("coins", this->playerCoins, "main");
     otherData.setNumberKey("totalPoints", this->totalPlayerPoints, "main");
     otherData.setNumberKey("coinMultiplier", this->coinMpl, "main");
     otherData.setNumberKey("pointsToNewMultiplier", this->pointsToNewMpl, "main");
-    otherData.setNumberKey("version", 4, "");
 
+    for(size_t t = 0; t < equippedPowers.size(); t++)
+    {
+        otherData.setNumberKey("power_" + to_string(t), equippedPowers[t], "equipment");
+    }
     for(size_t t = 0; t < levelRegistry.size(); t++)
     {
         otherData.setKey("unlocked_" + levelRegistry[t].first, (this->isLevelUnlocked((LevelData::MapType)t) ? "true" : "false"), "level");
     }
-
     for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
     {
         otherData.setNumberKey("level_" + to_string(it->first), this->powers[it->first].getLevel(), "power");
@@ -442,7 +448,6 @@ void Game::closeLevel()
 Game::~Game()
 {
     cout << "Game: Deleting game engine instance..." << endl;
-//  this->closeLevel();
 
 	for(auto i: levelRegistry)
         delete i.second;
@@ -698,4 +703,16 @@ void Game::postInit()
         displayGui(new GuiMainMenu);
     }
     settings.triggerAllClose();
+}
+
+bool Game::isPowerEquipped(int id)
+{
+    for(size_t s = 0; s < equippedPowers.size(); s++)
+    {
+        if(equippedPowers[s] == id)
+        {
+            return true;
+        }
+    }
+    return false;
 }

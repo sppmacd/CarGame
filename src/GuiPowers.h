@@ -4,7 +4,9 @@
 using namespace cg;
 
 #include <vector>
+#include <array>
 #include "Power.h"
+#include <ButtonImage.h>
 
 class GuiPowers : public Gui
 {
@@ -13,6 +15,7 @@ public:
     void onClick(int button);
     void onLoad();
     void onResize();
+    void onClose();
 
 protected:
 
@@ -21,14 +24,19 @@ private:
     {
         unsigned int cost;
         unsigned int count;
-        //unsigned int level; // 0.2
         Power* power;
         Button bBuyPower;
-        //Button bUpgradePower; // 0.2
+        Button bEquipPower;
+    };
+    struct EquippedPowerData
+    {
+        int powerId;
+        ButtonImage bImg;
     };
 
     virtual ~GuiPowers();
     vector<PowerData*> powerData;
+    array<EquippedPowerData, 2> equippedPowerIds;
     Button bReturn;
     int cooldown;
 };

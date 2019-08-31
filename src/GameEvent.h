@@ -2,7 +2,7 @@
 
 #include "Car.h"
 #include "LevelData.h"
-
+;
 class CarType;
 
 class GameEvent

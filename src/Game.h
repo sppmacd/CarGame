@@ -1,17 +1,25 @@
 #pragma once
 
 #include <vector>
-#include "Car.h"
-#include "LevelData.h"
-#include "Power.h"
-#include "EventHandler.h"
-#include "CarType.h"
-#include "TranslationManager.hpp"
-#include "PowerPlayerData.hpp"
+#include <array>
+
 #include "version.hpp"
-#include "SettingsManager.hpp"
 #include "UpdateChecker.hpp"
+
+#include "Car.h"
+#include "CarType.h"
+
+#include "LevelData.h"
+
+#include "Power.h"
+#include "PowerPlayerData.hpp"
+
+#include "EventHandler.h"
+
+#include "TranslationManager.hpp"
 #include "GameSound.hpp"
+
+#include "SettingsManager.hpp"
 
 #include <HackerMan/Util/Main.hpp>
 #include <CG/CG.h>
@@ -55,6 +63,8 @@ public:
 	// The update checker.
 	UpdateChecker updateChecker;
 	bool updateFound;
+
+	// GameSound (sound manager) instance.
 	GameSound sound;
 
 	// Power time
@@ -112,6 +122,12 @@ public:
 	// Player tutorial step. Can reset by restart
     int tutorialStep;
 
+    // Equipped powers. 0 means no power.
+    std::array<int, 2> equippedPowers;
+
+    // Store player powers (level etc.)
+    map<int, PowerPlayerData> powers;
+
     // Loaded from file hmUtil data map.
     HMDataMap otherData;
 
@@ -140,13 +156,12 @@ public:
 	// Error string
 	string errStr;
 
-    // Store player powers (level etc.)
-    map<int, PowerPlayerData> powers;
-
     // Current player powers
     vector<int> usablePowerIds;
 
+    /////////////////////
 	///// FUNCTIONS /////
+	/////////////////////
 
 	/// Default constructor
     Game();
@@ -216,13 +231,6 @@ public:
 
 	// Returns player coins
     long getCoins();
-
-	// Displays specified GUI.
-	/// The GUI must be created dynamically!
-    //void displayGui(Gui* gui);
-
-	// Closes current GUI
-    //void closeGui();
 
 	// Returns level color, used by renderer
     sf::Color getLevelColor() { return this->level.getColor(); }
@@ -322,6 +330,13 @@ public:
 
 	// Called in the first tick, after loading but before any action is performed.
 	void postInit();
+
+    // Returns true if specified power is equipped (can use)
+	bool isPowerEquipped(int id);
+
+	/////////////////////////////////
+	/////////////////////////////////
+	/////////////////////////////////
 
 	// Map storing power data registry
 	map<int, Power*> powerRegistry;
