@@ -4,6 +4,7 @@
 
 # BETA 0.2 SNAPSHOTS
 
+## v190806
 + You can have now only 2 powers at once.
 * Made profile format compatible with other profile format versions. Your powers won't be longer removed!
 * Fixed Map Selection bug.
