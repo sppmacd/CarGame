@@ -1,3 +1,7 @@
+# 
+
+DPT - Default Power Time (power time without upgrades / abilities)
+
 # BETA 0.2 - The Power Update (Planned)
 
 + New powers: Ball [TODO]
@@ -5,12 +9,14 @@
 # BETA 0.2 SNAPSHOTS
 
 + Added Shop GUI with powers and abilities.
-+ Added abilities: Power Cooldown Time, Power Time, Damage
++ Added abilities: Power Reload Time, Power Time, Damage
+* Game Over GUI and Ingame GUI returns to Map Select GUI when clicked "Return to Menu".
 * Power indicator won't be displayed if any power wasn't equipped.
 * Made GUI font a bit smaller - 30 pt -> 28 pt
 * Made Freeze a bit shorter - 60 s -> 50 s
 * Changed Powers' GUI apperrance.
 * Point Boost time is shorter - 16.7 s -> 5 s
+* Freeze freezes less - 2.5% Speed/tick -> 0.5% Speed/tick and the speed rises shorter - 1/9 DPT -> 1/16 DPT
 ## v190806
 + You can have now only 2 powers at once.
 * Made profile format compatible with other profile format versions. Your powers won't be longer removed!
@@ -23,8 +29,8 @@
 ## v190805
 * Changed background color of some maps
 * Map Selection now is set on last unlocked map (not always on Coutryside)
-* Freeze makes game a bit quicker when running out - 0.0625%/tick -> 0.0725%/tick
-* Point Boost is shorter - 20 s -> 16.7 s and makes game quicker - 0.005U/tick
+* Freeze makes game a bit quicker when running out - 0.0625% Speed/tick -> 0.0725% Speed/tick
+* Point Boost is shorter - 20 s -> 16.7 s and makes game quicker - 0.005 Speed/tick
 * Changed Point Boost behaviour - now adds 2 x [current level] points every 10 ticks.
 * Fence is a bit better - 0.01 HP/tick -> 0.025 HP/tick and longer - 10s -> 15s
 * Power duration is now shown in Shop.

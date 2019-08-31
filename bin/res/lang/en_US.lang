@@ -54,7 +54,7 @@ ability.power_time=Power Time
 ability.damage=Damage
 
 gui.ingame.returngame=Return to game
-gui.ingame.returnmainmenu=Return to main menu
+gui.ingame.returnmainmenu=Return to menu
 gui.ingame.quit=Quit Game
 gui.ingame.title=Game menu
 

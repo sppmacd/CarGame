@@ -199,7 +199,7 @@ void GameDisplay::drawGui()
 
                 if(game->powerTime == -1)
                 {
-                    if(i >= game->powerCooldown / ((1800.f / game->abilities.calculateValue(PlayerAbilityManager::DAMAGE)) / 64.f))
+                    if(i >= game->powerCooldown / ((1800.f / game->abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME)) / 64.f))
                         arr.append(Vertex(pointPos, Color::Green));
                     else
                         arr.append(Vertex(pointPos, Color::Red));

@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "GameDisplay.h"
 #include <iostream>
-#include "GuiMainMenu.h"
+#include "GuiMapSelect.h"
 
 using namespace std;
 using namespace sf;
@@ -55,6 +55,6 @@ void GuiGameOver::onClick(int button)
     }
     else if(button == 1)
     {
-        game->displayGui(new GuiMainMenu); //main menu
+        game->displayGui(new GuiMapSelect);
     }
 }

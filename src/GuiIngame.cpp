@@ -1,7 +1,7 @@
 #include "GuiIngame.h"
 #include "Game.h"
 #include "GameDisplay.h"
-#include "GuiMainMenu.h"
+#include "GuiMapSelect.h"
 #include "GuiSettings.h"
 #include <iostream>
 
@@ -51,7 +51,7 @@ void GuiIngame::onClick(int button)
 	}
     else if(button == 1)
     {
-        game->displayGui(new GuiMainMenu); //main menu
+        game->displayGui(new GuiMapSelect);
         game->closeLevel();
     }
     else if(button == 2)
