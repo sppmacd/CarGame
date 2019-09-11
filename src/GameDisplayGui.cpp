@@ -16,7 +16,7 @@ void GameDisplay::drawStat(int x, int y, String texture, long val, int animTick)
     t1.move(t1.getLocalBounds().width / 2.f, t1.getLocalBounds().height / 2.f);
     t1.setScale(animTick / 30.f + 1.f, animTick / 30.f + 1.f);
     this->renderWnd->draw(t1);
-if(Game::instance->isNewPlayer) 
+if(/*Game::instance->isNewPlayer*/) 
 {
 t1.move(0.f, 30.f);
 t1.setOrigin(0.f, 0.f);
@@ -24,6 +24,7 @@ t1.setFillColor(Color::Cyan);
 t1.setCharacterSize(20);
 t1.setScale(1.f, 1.f);
 t1.setString(Game::instance->translation.get("stat."+texture));
+t1.setRotation(45.f);
 renderWnd->draw(t1);
 }
 }
