@@ -11,22 +11,25 @@ void GameDisplay::drawStat(int x, int y, String texture, long val, int animTick)
     this->renderWnd->draw(s1);
 
     sf::Text t1 = this->drawString(to_string(val), 45, sf::Vector2f(x + 50, y), sf::Text::Bold);
-    t1.setFillColor(sf::Color::Blue);
+    t1.setFillColor(sf::Color::Cyan);
+    t1.setOutlineColor(sf::Color::Black);
+    t1.setOutlineThickness(1.f);
     t1.setOrigin(t1.getLocalBounds().width / 2.f, t1.getLocalBounds().height / 2.f);
     t1.move(t1.getLocalBounds().width / 2.f, t1.getLocalBounds().height / 2.f);
     t1.setScale(animTick / 30.f + 1.f, animTick / 30.f + 1.f);
     this->renderWnd->draw(t1);
-if(/*Game::instance->isNewPlayer*/) 
-{
-t1.move(0.f, 30.f);
-t1.setOrigin(0.f, 0.f);
-t1.setFillColor(Color::Cyan);
-t1.setCharacterSize(20);
-t1.setScale(1.f, 1.f);
-t1.setString(Game::instance->translation.get("stat."+texture));
-t1.setRotation(45.f);
-renderWnd->draw(t1);
-}
+
+    if(sf::IntRect(x, y, 50, 50).contains(Mouse::getPosition(*renderWnd)) || Game::instance->isNewPlayer)
+    {
+        t1.move(0.f, 30.f);
+        t1.setOrigin(0.f, 0.f);
+        t1.setFillColor(Color::Cyan);
+        t1.setCharacterSize(20);
+        t1.setScale(1.f, 1.f);
+        t1.setString(Game::instance->translation.get("stat."+texture));
+
+        renderWnd->draw(t1);
+    }
 }
 
 void GameDisplay::drawLoading(sf::RenderWindow* wnd)
@@ -174,16 +177,8 @@ void GameDisplay::drawGui()
 {
     Game* game = Game::instance;
 
-    if(!game->paused()/* || game->tutorialStep == 6*/)
+    if(game->tickCount > 0/* || game->tutorialStep == 6*/)
     {
-        drawStat(250, 32, "score", game->getScore(), pointAnimTick);
-        if(pointAnimTick > 0)
-            pointAnimTick--;
-
-        drawStat(450, 32, "high", game->highScore);
-        drawStat(650, 32, "mpl", game->getCoinMultiplier());
-        drawStat(850, 32, "points_mpl", game->pointsToNewMpl);
-
         if(game->getCurrentPower() >= 0)
         {
             sf::Sprite spr(this->getTexture("power/" + to_string(game->getCurrentPower())));
@@ -194,6 +189,14 @@ void GameDisplay::drawGui()
             t1.setFillColor(sf::Color::Blue);
             this->renderWnd->draw(t1);
         }
+
+        drawStat(250, 32, "score", game->getScore(), pointAnimTick);
+        if(pointAnimTick > 0)
+            pointAnimTick--;
+
+        drawStat(450, 32, "high", game->highScore);
+        drawStat(650, 32, "mpl", game->getCoinMultiplier());
+        drawStat(850, 32, "points_mpl", game->pointsToNewMpl);
 
         if(!game->usablePowerIds.empty())
         {

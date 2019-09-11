@@ -78,8 +78,10 @@ void Game::updateCars()
 
 void Game::tickNormalGame()
 {
-    if(this->tickCount % this->carCreatingSpeed == 0)
+    // [[      time from last spawn     ]]                            [[         game speed multiplier         ]]
+    if(this->tickCount - this->lastCarTime > this->carCreatingSpeed / (this->gameSpeed / this->initialGameSpeed) || this->tickCount == 1)
     {
+        lastCarTime = tickCount;
 		vector<CarType*> selectedTypes;
 		while(selectedTypes.empty())
 		for (CarType& type : carTypeRegistry)
@@ -146,9 +148,9 @@ void Game::tickNormalGame()
 void Game::newTick()
 {
     sound.update();
-    if(!this->isGuiLoaded())
+    if(!this->paused())
     {
-        this->gameSpeed += this->level.getAcceleration() / 5000;
+        this->gameSpeed += this->level.getAcceleration() / 10000;
         ++tickCount;
     }
 

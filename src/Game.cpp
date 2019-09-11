@@ -80,6 +80,8 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 
         // Load language configuration
 		this->loadLanguages();
+
+		this->tickCount = 0;
 	}
 	else //fatal error
 	{
@@ -420,8 +422,10 @@ void Game::setupGame()
 
     this->sound.playSound("start", 100.f);
     this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
+    this->initialGameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
     this->lastTickScore = 0;
-    this->tickCount = 0;
+    this->lastCarTime = 1;
+    this->tickCount = 1;
     this->score = 0;
     this->gameOver = false;
     this->cars.clear();
@@ -446,6 +450,13 @@ void Game::closeLevel()
         this->cars.clear();
     }
     this->tickCount = 0;
+
+    if(this->powerHandle)
+    {
+        // Reset powers.
+        this->powerHandle->onPowerStop();
+        this->powerHandle->onCooldownStop();
+    }
     this->pause(true);
 }
 
@@ -464,16 +475,9 @@ void Game::setGameOver()
     cout << "Game: Setting game over..." << endl;
     this->gameOver = true;
     this->savePlayerData();
-    this->pause(true);
     this->displayGui(new GuiGameOver);
     this->sound.playSound("game_over", 100.f);
-
-    if(this->powerHandle)
-    {
-        // Reset powers.
-        this->powerHandle->onPowerStop();
-        this->powerHandle->onCooldownStop();
-    }
+    this->closeLevel();
 }
 
 void Game::pause(bool s)

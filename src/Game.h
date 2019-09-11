@@ -98,6 +98,9 @@ public:
 	// Variable storing, if the new record is set (used in splash screen).
 	bool newRecord;
 
+	// Time that elapsed from last car spawn.
+    int lastCarTime;
+
 	// Variable storing language settings.
 	TranslationManager translation;
 
@@ -362,6 +365,9 @@ private:
 
 	// Current game speed
     float gameSpeed;
+
+    // Game speed, with which you started the game.
+    float initialGameSpeed;
 
 	// Variable storing game over stat
     bool gameOver;
