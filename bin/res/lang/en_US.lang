@@ -89,3 +89,9 @@ map.swampland=Swampland
 map.forest_trails=Forest Trails
 
 splash.newrecord=New Record!
+
+stat.coins=Coins
+stat.points=Points
+stat.high=Highscore
+stat.mpl=Point Multiplier
+stat.points_mpl=Points remaining to get next Point Multiplier.
