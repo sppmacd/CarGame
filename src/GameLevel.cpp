@@ -45,15 +45,27 @@ void Game::updateCars()
                     }
                     car->setToErase();
 
+                    if(isNewPlayer)
+                    {
+                        if(car->typeId == Car::BOMB && this->tutorialStep == TUT_AVOIDBOMB)
+                        {
+                            this->tutorialStep = TUT_SHOP;
+                        }
+                    }
+
                     continue;
                 }
 
                 if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
 					car->onDamage(this);
-                    if(this->tutorialStep == 5)
+                    if(this->tutorialStep == TUT_DESTROYCAR)
                     {
-                        this->tutorialStep = 6;
+                        this->tutorialStep = TUT_DONTLEAVE;
+                    }
+                    else if(this->tutorialStep == TUT_DONTLEAVE)
+                    {
+                        this->tutorialStep = TUT_AVOIDBOMB;
                     }
 
                     continue;

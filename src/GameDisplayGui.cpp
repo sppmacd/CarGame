@@ -59,7 +59,7 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	wnd->display();
 }
 
-void GameDisplay::drawTutorial(sf::Vector2f cs, sf::Vector2f cp, String str)
+void GameDisplay::drawTutorial(sf::Vector2f cp, sf::Vector2f cs, String str)
 {
     sf::RectangleShape rs(cs);
     rs.setPosition(cp);

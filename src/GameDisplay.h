@@ -54,6 +54,9 @@ public:
     static void drawLoadingProgress(String action, sf::RenderWindow* wnd);
 
 	// Draw tutorial text and rectangle.
+	// %pos - Tutorial rectangle position.
+	// %size - Tutorial rectangle size.
+	// %str - Tutorial string (localized).
     void drawTutorial(sf::Vector2f pos, sf::Vector2f size, String str);
 
 	// Draw splash with specified text.

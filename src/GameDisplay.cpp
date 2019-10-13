@@ -273,6 +273,11 @@ void GameDisplay::drawGame()
     arr.append(Vertex(Vector2f(0,getSize().y/2+200), Color::Transparent));
     renderWnd->draw(arr);
 
+    if(game->isNewPlayer && game->tutorialStep == TUT_DONTLEAVE)
+    {
+        drawTutorial(bg.getPosition() - Vector2f(0.f, bg.getTextureRect().height), Vector2f(50.f, bg.getTextureRect().height * 2), game->translation.get("tutorial.dontleave"));
+    }
+
     // CARS
     sf::Sprite car(getTexture("car/default"));
     car.setOrigin(50.f, 20.f);
@@ -283,7 +288,7 @@ void GameDisplay::drawGame()
     sf::RectangleShape rect2;
     rect2.setFillColor(sf::Color::Red);
 
-    for(unsigned int i = 0; i < game->cars.size(); i++)
+    for(int i = game->cars.size() - 1; i >= 0; i--)
     {
         Car& carobj = *game->cars[i];
 		int animFrame = game->mainTickCount/carobj.frameLength % carobj.animSize;
@@ -323,6 +328,26 @@ void GameDisplay::drawGame()
         {
             renderWnd->draw(rect1);
             renderWnd->draw(rect2);
+        }
+
+        // tutorial
+        if(game->isNewPlayer)
+        {
+            if(game->tutorialStep == TUT_DONTLEAVE && i == 0)
+            {
+                if(carobj.typeId == Car::BOMB)
+                {
+                    game->tutorialStep = TUT_AVOIDBOMB;
+                }
+                else
+                {
+                    drawTutorial(car.getPosition() - car.getOrigin(), Vector2f(car.getTextureRect().width * 2, car.getTextureRect().height * 2), game->translation.get("tutorial.destroycar"));
+                }
+            }
+            else if(game->tutorialStep == TUT_AVOIDBOMB && i == 0 && carobj.typeId == Car::BOMB)
+            {
+                drawTutorial(car.getPosition() - car.getOrigin(), Vector2f(car.getTextureRect().width * 2, car.getTextureRect().height * 2), game->translation.get("tutorial.avoidbomb"));
+            }
         }
     }
 

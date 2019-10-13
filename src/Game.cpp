@@ -317,9 +317,6 @@ void Game::loadPlayerData()
             >> i1 >> i2;
             this->powers[1] = PowerPlayerData(this->powerRegistry[1], sqrt(i1));
             this->powers[2] = PowerPlayerData(this->powerRegistry[2], sqrt(i2));
-            //usablePowerIds.push_back(1);
-            //usablePowerIds.push_back(2);
-            //cout << "Game: Powers are incompatible with old format on " + string(CG_VERSION) + "!" << endl;
         }
         else
         {
@@ -349,7 +346,7 @@ void Game::loadPlayerData()
                 this->pointsToNewMpl = 200;
 
                 this->isNewPlayer = true;
-                this->tutorialStep = 2;
+                this->tutorialStep = 1;
 
                 for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
                 {
@@ -485,6 +482,18 @@ void Game::setGameOver()
     this->displayGui(new GuiGameOver);
     this->sound.playSound("game_over", 100.f);
     this->closeLevel();
+
+    if(isNewPlayer)
+    {
+        if(tutorialStep >= TUT_AVOIDBOMB) //bomb or click car
+        {
+            tutorialStep = TUT_SHOP;
+        }
+        else
+        {
+            tutorialStep = TUT_DONTLEAVE;
+        }
+    }
 }
 
 void Game::pause(bool s)

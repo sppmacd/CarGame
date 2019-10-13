@@ -78,9 +78,9 @@ void GuiMapSelect::onDialogFinished(Gui*, int callId)
 		Game::instance->removeCoins(bMd[id].cost);
 		Game::instance->sound.playSound("upgrade", 100.f);
 
-		if(Game::instance->isNewPlayer && Game::instance->tutorialStep == 3)
+		if(Game::instance->isNewPlayer && Game::instance->tutorialStep == TUT_BUYMAP)
 		{
-			Game::instance->tutorialStep = 4;
+			Game::instance->tutorialStep = TUT_SELECTMAP;
 		}
 	}
 }
@@ -95,6 +95,23 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 	bNext.draw(wnd);
 	bPrev.draw(wnd);
 	Game* game = Game::instance;
+
+	if(game->isNewPlayer)
+    {
+        if(game->tutorialStep == TUT_BUYMAP)
+        {
+            GameDisplay::instance->drawTutorial(bMd[id].bImg.getPosition(), bMd[id].bImg.getSize(), game->translation.get("tutorial.buymap"));
+        }
+        else if(game->tutorialStep == TUT_SELECTMAP)
+        {
+            GameDisplay::instance->drawTutorial(bMd[id].bImg.getPosition(), bMd[id].bImg.getSize(), game->translation.get("tutorial.selectmap"));
+        }
+        else if(game->tutorialStep == TUT_SHOP)
+        {
+            GameDisplay::instance->drawTutorial(bPowers.getPosition(), bPowers.getSize(), game->translation.get("tutorial.shop"));
+        }
+    }
+
     float bSize = min(game->getSize().y / 2, game->getSize().x / 2);
 
     wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.selectmap.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, game->getSize().y / 12)));
@@ -149,6 +166,11 @@ void GuiMapSelect::onClick(int button)
     {
         if (button == 100)
         {
+            if(Game::instance->isNewPlayer && Game::instance->tutorialStep == TUT_SELECTMAP)
+            {
+                Game::instance->tutorialStep = TUT_DESTROYCAR;
+            }
+
             if (game->isLevelUnlocked((LevelData::MapType)id))
             {
                 game->loadGame(game->findLevel((LevelData::MapType)id));

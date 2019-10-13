@@ -2,14 +2,19 @@
 
 DPT - Default Power Time (power time without upgrades / abilities)
 levelAcceleration - defined by map car spawn delay (in ticks, on the start of the game).
-
+	
 # BETA 0.2 - The Power Update (Planned)
 
 + New powers: Ball [TODO]
 
 # BETA 0.2 SNAPSHOTS
 
-* Fixed bug - Abilities wasn't reset when resetting game. [TODO]
+## v191001
++ Added counter, delaying game unpause when exiting Ingame Menu by 3 seconds.
+* Fixed bug - Abilities wasn't resetted when resetting game.
+* Improved code documentation.
+* Added simple tutorial.
+* Cars are drawn in backward direction (from the latest to the earliest)
 ## v190901
 + Added Shop GUI with powers and abilities.
 + Added abilities: Power Reload Time, Power Time, Damage

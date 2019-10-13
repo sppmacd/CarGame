@@ -95,3 +95,11 @@ stat.score=Points
 stat.high=Highscore
 stat.mpl=Point Multiplier
 stat.points_mpl=Points remaining to get\n next Point Multiplier.
+
+tutorial.startgame=Start Game
+tutorial.buymap=Buy Countryside
+tutorial.selectmap=Select Countryside
+tutorial.destroycar=Destroy car by clicking on it!\n You get Points and Cash for destroying cars.
+tutorial.dontleave=Don't let cars leave the screen!
+tutorial.avoidbomb=You can't click at bomb!\n It makes the game over.
+tutorial.shop=In Shop you can buy Powers\n and Abilities which will\n ease your game.

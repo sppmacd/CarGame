@@ -26,6 +26,15 @@
 #include <CG/CG.h>
 ;
 
+#define TUT_NONE 0 //- no tutorial
+#define TUT_START 1 //- start game in main menu
+#define TUT_BUYMAP 2 //- buy map
+#define TUT_SELECTMAP 3 //- select map
+#define TUT_DESTROYCAR 4 //- destroy car
+#define TUT_DONTLEAVE 5 //- don't let car leave screen
+#define TUT_AVOIDBOMB 6 //- avoid bomb
+#define TUT_SHOP 7 //- shop
+
 using namespace std;
 using namespace sf;
 using namespace cg;
@@ -124,6 +133,14 @@ public:
     bool isNewPlayer;
 
 	// Player tutorial step. Can reset by restart.
+	// 0 - no tutorial
+	// 1 - start game in main menu
+	// 2 - buy map
+	// 3 - select map
+	// 4 - destroy car
+	// 5 - avoid bomb
+	// 6 - don't let car leave screen
+	// 7 - shop
     int tutorialStep;
 
     // Equipped powers. 0 means no power.
@@ -369,9 +386,6 @@ public:
 	friend class Triggers;
 
 private:
-	// Not used variable storing camera position
-    //int cameraPos;
-
 	// Current game speed
     float gameSpeed;
 
@@ -410,12 +424,4 @@ private:
 
     // Variable storing default language (English)
 	TranslationManager enUSTranslation;
-
-	///// FUNCTIONS /////
-
-	// Tick mouse move event internally (gui loop)
-    //void tickEventMouseMove(sf::Vector2f pos);
-
-	// Tick mouse click event internally (gui loop)
-    //void tickEventMouseClick(sf::Vector2f pos);
 };
