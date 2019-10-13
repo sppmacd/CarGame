@@ -100,7 +100,7 @@ public:
 
 	Texture logoTexture;
 
-    // Set default size. It doesn't change real size of the window, it is only called on change VideoMode and size of the Window::View.
+    // Set default size. It doesn't change real size of the window, it is only called when VideoMode is changed.
 	void setWndSize(sf::Vector2u vec);
 
 	// Check if GameDisplay encountered an error while loading. If set, the game will close immediately.
@@ -112,6 +112,12 @@ public:
     // Starts point animation. Called when the player gets points.
     void resetPointAnim();
 
+    // Draw tick times info (profiler output).
+    void drawDebugPie(sf::RenderWindow* wnd);
+
+    // Draw debug info (shift + f3).
+    void drawDebugInfo(sf::RenderWindow* wnd);
+
 protected:
 
 private:
@@ -121,7 +127,7 @@ private:
 	// unknown texture handle
     sf::Texture unknownTexture;
 
-	// default gui font
+	// default GUI font
     sf::Font guiFont;
 
 	// Splash data - text

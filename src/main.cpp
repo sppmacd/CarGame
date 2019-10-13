@@ -23,6 +23,7 @@ void loop(Game* game)
         game->tickNormalGame();
 
     game->newTick();
+    game->fpsTimer.restart();
     game->initializeGui();
 
     event.type = GameEvent::PostTick;

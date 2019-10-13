@@ -5,6 +5,7 @@
 #include "CarAmbulance.h"
 #include "GameSound.hpp"
 #include "GameDisplay.h"
+#include "Math.hpp"
 
 void Game::addCar(Car* car)
 {
@@ -148,10 +149,27 @@ void Game::tickNormalGame()
 void Game::newTick()
 {
     sound.update();
+
     if(!this->paused())
     {
         this->gameSpeed += this->level.getAcceleration() / 10000;
         ++tickCount;
+    }
+
+    if(this->paused() && this->unpauseDelay > Time::Zero)
+    {
+        this->unpauseDelay -= this->fpsTimer.getElapsedTime();
+        if(this->unpauseDelay <= sf::Time::Zero)
+        {
+            this->pause(false);
+            return;
+        }
+        if(this->unpauseSplashTime.getElapsedTime() >= seconds(0.99f))
+        {
+            // display counter: 3... 2... 1...
+            GameDisplay::instance->setSplash(to_string(int(Math::round(this->unpauseDelay.asSeconds()))) + "...");
+            this->unpauseSplashTime.restart();
+        }
     }
 
     this->mainTickCount++;

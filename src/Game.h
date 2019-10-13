@@ -166,6 +166,15 @@ public:
     // Current player powers
     vector<int> usablePowerIds;
 
+    // Time left to unpause the game (after exiting In-game Menu)
+    Time unpauseDelay;
+
+    // Time elapsed from tick start.
+    Clock fpsTimer;
+
+    // Time elapsed from last unpause delay splash.
+    Clock unpauseSplashTime;
+
     /////////////////////
 	///// FUNCTIONS /////
 	/////////////////////

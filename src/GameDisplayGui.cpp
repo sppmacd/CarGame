@@ -94,7 +94,7 @@ Vector2i GameDisplay::mousePos()
 	return Vector2i(this->getRenderWnd()->mapPixelToCoords(Mouse::getPosition(*this->getRenderWnd())));
 }
 
-void drawDebugPie(sf::RenderWindow* wnd)
+void GameDisplay::drawDebugPie(sf::RenderWindow* wnd)
 {
     GameDisplay* disp = GameDisplay::instance;
     Game* game = Game::instance;
@@ -152,7 +152,7 @@ void drawDebugPie(sf::RenderWindow* wnd)
     wnd->draw(tx5);
 }
 
-void drawDebugInfo(sf::RenderWindow* wnd)
+void GameDisplay::drawDebugInfo(sf::RenderWindow* wnd)
 {
     GameDisplay* disp = GameDisplay::instance;
 
@@ -167,7 +167,8 @@ void drawDebugInfo(sf::RenderWindow* wnd)
 		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
 		+ std::string(",\tmtc = ") + std::string(to_string(Game::instance->mainTickCount))
 		+ std::string(",\tcars = ") + std::string(to_string(Game::instance->cars.size()))
-		+ std::string(",\tg = ") + std::string(GameDisplay::instance->getVSync() ? "vsync" : "")
+		+ std::string(",\tg = ") + std::string(GameDisplay::instance->getVSync() ? "vsync" : "") + " " + std::string(Game::instance->isFullscreen() ? "fs" : "")
+		+ std::string(",\tunpause = ") + std::string(to_string(Game::instance->unpauseDelay.asMicroseconds()))
     , 15, sf::Vector2f(6.f, disp->getSize().y - 21)));
 
     drawDebugPie(wnd);

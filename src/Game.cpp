@@ -252,6 +252,7 @@ void Game::loadPlayerData()
 
     this->usablePowerIds.clear();
 
+    otherData = HMDataMap(); //clear all data
     if(otherData.loadFromFile("profile_1.txt"))
     {
         int ver = otherData.getNumberKey("version", "", 0);
@@ -362,6 +363,7 @@ void Game::loadPlayerData()
             }
         }
     }
+    //this->abilities = PlayerAbilityManager();
     this->abilities.read(otherData);
 }
 
