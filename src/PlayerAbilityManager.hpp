@@ -38,6 +38,9 @@ public:
     // Read ability levels from profile.
     void read(HMDataMap& map);
 
+    // Clear ability map (set all abilities to 0). Used before reading player profile.
+    void clear();
+
     // Register ability - add it to map. It will be now loaded from profile. Ability must be created dynamically - it's automatically deleted.
     void registerAbility(int id, AbilityBase* base);
 

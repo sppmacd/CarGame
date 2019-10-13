@@ -3,7 +3,9 @@
 /Cache/
 /res/
 *.log
-*.txt
+data.txt
+profile_1.txt
+highscore.txt
 *.cscope_file_list
 *.depend
 *.layout

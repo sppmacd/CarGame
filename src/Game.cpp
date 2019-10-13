@@ -290,7 +290,6 @@ void Game::loadPlayerData()
                 if(equippedPowers[t] != 0)
                     usablePowerIds.push_back(equippedPowers[t]);
             }
-            this->abilities.read(otherData);
         }
         else
         {
@@ -355,9 +354,15 @@ void Game::loadPlayerData()
                 {
                     this->powers[it->first] = PowerPlayerData(it->second);
                 }
+                for(size_t t = 0; t < equippedPowers.size(); t++)
+                {
+                    equippedPowers[t] = 0;
+                }
+                abilities.clear();
             }
         }
     }
+    this->abilities.read(otherData);
 }
 
 LevelData Game::findLevel(LevelData::MapType type)

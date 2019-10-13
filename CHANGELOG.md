@@ -9,6 +9,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 # BETA 0.2 SNAPSHOTS
 
+* Fixed bug - Abilities wasn't reset when resetting game. [TODO]
 ## v190901
 + Added Shop GUI with powers and abilities.
 + Added abilities: Power Reload Time, Power Time, Damage

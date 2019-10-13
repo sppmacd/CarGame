@@ -72,6 +72,11 @@ void PlayerAbilityManager::read(HMDataMap& _map)
     }
 }
 
+void PlayerAbilityManager::clear()
+{
+    abilityLevels.clear();
+}
+
 void PlayerAbilityManager::registerAbility(int id, AbilityBase* base)
 {
     abilities.insert(make_pair(id, base));

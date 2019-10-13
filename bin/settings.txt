@@ -1,0 +1,5 @@
+// Auto-generated CG settings file
+global:debug=1
+graphics:fullscreen=1
+graphics:verticalsync=1
+sound:volume=0.185000
