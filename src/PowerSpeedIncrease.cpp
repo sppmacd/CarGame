@@ -9,7 +9,7 @@ PowerSpeedIncrease::PowerSpeedIncrease(): Power()
 void PowerSpeedIncrease::drawPower(RenderWindow* wnd)
 {
     RectangleShape rs(Vector2f(wnd->getSize()));
-    rs.setFillColor(Color(255, 0, 0, 200));
+    rs.setFillColor(Color(255, 0, 0, min(128, Game::instance->powerTime * 3)));
     wnd->draw(rs);
 }
 void PowerSpeedIncrease::onPowerTick(int tick)

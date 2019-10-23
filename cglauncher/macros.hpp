@@ -1,0 +1,20 @@
+#pragma once
+
+#define CG_ICON 200
+#define CG_LOGO 201
+#define CG_WNDCLASS L"CGWnd"
+
+#define CG_BUTTON_1_PLAY 1000
+#define CG_BUTTON_1_CHVER 1001
+#define CG_BUTTON_2_BACK 1002
+#define CG_COMBO_2_VERID 1003
+
+// macros
+
+#define CGVERTYPE_BETA 0
+#define CGVERTYPE_RELEASE 1
+#define CGVERTYPE_SNAPSHOT 2
+
+#define CGERR_STREAM_ERROR 1
+#define CGERR_SYNTAX_ERROR 2
+#define CGERR_NO_CODE 2

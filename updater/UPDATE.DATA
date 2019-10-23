@@ -6,6 +6,8 @@
 // types: ALPHA,BETA,RELEASE,SNAPSHOT
 // KEEPFILE <filePath> - marks file with this name as common (is copied before launch to game dir)
 // KEEPFILEX <regex> - marks files matching pattern as common.
+// [todo]
+// LAUNCHERVERSION <id> <code> - sets latest cglauncher version.
 CURRENTVERSION 1
 AVAILABLEVERSION 	8	SNAPSHOT 	v0.2s	beta-0.2-v191001-snapshot
 AVAILABLEVERSION 	7	SNAPSHOT 	v0.2s	beta-0.2-v190901-snapshot

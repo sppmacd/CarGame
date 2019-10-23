@@ -2,6 +2,11 @@
 /obj/
 /Cache/
 /res/
+/cglauncher/instances/
+/cglauncher/share/
+/cglauncher/tmp/
+/cglauncher/res/
+/cglauncher/global/
 *.log
 data.txt
 profile_1.txt

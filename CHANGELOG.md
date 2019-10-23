@@ -9,20 +9,22 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 # BETA 0.2 SNAPSHOTS
 
+## v191002
+* New apperrance of Car Speed Increase anti-power.
 ## v191001
-+ Bomb doesn't longer making game over - it gives a random Anti-Power when clicked
++ Bomb doesn't longer making game over - it gives a random Anti-Power when clicked.
 + Added counter, delaying game unpause when exiting Ingame Menu by 3 seconds.
-+ Added Anti-Power: Car Speed Increase
++ Added Anti-Power: Car Speed Increase.
++ Added simple tutorial.
 * Improved power draw performance (not searching for power in any frame)
 * Fixed bug - Abilities wasn't resetted when resetting game.
 * Improved code documentation.
-* Added simple tutorial.
 * Cars are drawn in backward direction (from the latest to the earliest)
 ## v190901
 + Added Shop GUI with powers and abilities.
-+ Added abilities: Power Reload Time, Power Time, Damage
++ Added abilities: Power Reload Time, Power Time, Damage. It will ease your game upgrading the best things and degrading the worst.
 * The game speed rises slower.(levelAcceleration/5000 -> levelAcceleration/10000, which means 2x slower)
-* You can get information about stat when mouse entered its image.
+* You can get short information about stat when mouse entered its image.
 * Cars are spawned in the same distance, not period of time.
 * Game Over GUI and Ingame GUI returns to Map Select GUI when clicked "Return to Menu".
 * Power indicator won't be displayed if any power wasn't equipped.
@@ -37,7 +39,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 * Fixed Map Selection bug.
 * Coins are earned by full destruction of car (not damage only).
 * Cars destroyed by power will give coins.
-* Armored Car won't be longer spawned double.
+* Armored Car won't be longer spawned double in the row.
 * Oil is better on first level but its force rises slower.
 * Changed apperrance of Oil power (on higher levels).
 ## v190805
