@@ -361,7 +361,10 @@ void GameDisplay::drawEffect()
     if(!game->paused())
     {
         if(game->powerTime > 1)
-            game->powerRegistry.find(game->getCurrentPower())->second->drawPower(renderWnd);
+            game->powerHandle->drawPower(renderWnd);
+        else if(game->powerHandle)
+            game->powerHandle->drawPowerIdle(renderWnd);
+            //game->powerHandle->drawPowerCooldown(renderWnd);
         else if(game->getCurrentPower() != -1)
             game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(renderWnd);
     }

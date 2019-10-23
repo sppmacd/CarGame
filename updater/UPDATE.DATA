@@ -7,6 +7,7 @@
 // KEEPFILE <filePath> - marks file with this name as common (is copied before launch to game dir)
 // KEEPFILEX <regex> - marks files matching pattern as common.
 CURRENTVERSION 1
+AVAILABLEVERSION 	8	SNAPSHOT 	v0.2s	beta-0.2-v191001-snapshot
 AVAILABLEVERSION 	7	SNAPSHOT 	v0.2s	beta-0.2-v190901-snapshot
 AVAILABLEVERSION 	6	SNAPSHOT 	v0.2s	beta-0.2-v190806-snapshot
 AVAILABLEVERSION 	5	SNAPSHOT 	v0.2s	beta-0.2-v190805-snapshot

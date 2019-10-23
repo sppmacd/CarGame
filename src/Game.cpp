@@ -21,6 +21,7 @@
 #include "PowerOil.hpp"
 #include "PowerPointBoost.hpp"
 #include "PowerFence.hpp"
+#include "PowerSpeedIncrease.hpp"
 
 #include <HackerMan/Util/Main.hpp>
 
@@ -128,10 +129,13 @@ bool Game::usePower(int id)
 void Game::registerPowers()
 {
 	//registerPower(0, (Power*)NULL);
+	biggestPlayerPowerID = 0;
+	biggestGenericPowerID = 100;
 	registerPower(1, &(new PowerOil)->setMaxTime(1800));
 	registerPower(2, &(new PowerFreeze)->setMaxTime(3000));
 	registerPower(3, new PowerPointBoost);
 	registerPower(4, new PowerFence);
+	registerPower(101, new PowerSpeedIncrease);
 }
 
 void Game::registerCarType(CarType type)
@@ -619,10 +623,15 @@ void Game::setPointMultiplier(float ptmpl)
 void Game::registerPower(int id, Power* powerInstance)
 {
     powerRegistry.insert(make_pair(id, powerInstance));
-    if(id < 100)
+    if(id <= 100)
     {
         if(id > biggestPlayerPowerID)
             biggestPlayerPowerID = id;
+    }
+    else
+    {
+        if(id > biggestGenericPowerID)
+            biggestGenericPowerID = id;
     }
 }
 

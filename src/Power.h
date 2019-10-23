@@ -12,6 +12,7 @@ protected:
     int currentLevel;
 public:
     int maxPowerTime;
+    int cooldownTime;
 
     Power();
     virtual ~Power() {}

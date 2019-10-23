@@ -18,7 +18,7 @@ bool EventHandlers::onClose(Event, Game* game)
 	return true;
 }
 
-bool EventHandlers::onMouseButtonReleased(Event event, Game * game)
+bool EventHandlers::onMouseButtonReleased(Event event, Game* game)
 {
     if(!game->paused())
     {
@@ -39,7 +39,7 @@ bool EventHandlers::onMouseButtonReleased(Event event, Game * game)
 	return true;
 }
 
-bool EventHandlers::onMouseWheelScrolled(Event event, Game * game)
+bool EventHandlers::onMouseWheelScrolled(Event event, Game* game)
 {
 	game->wheelEvent(event.mouseWheelScroll);
 	return true;
@@ -54,7 +54,7 @@ bool EventHandlers::onGUIKeyPressed(Event, Game*)
     return true;
 }
 
-bool EventHandlers::onKeyPressed(Event event, Game * game)
+bool EventHandlers::onKeyPressed(Event event, Game* game)
 {
 	if (event.key.code == sf::Keyboard::Space)
 	{

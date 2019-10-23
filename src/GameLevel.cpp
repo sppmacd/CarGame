@@ -204,7 +204,7 @@ void Game::setCurrentPower(Power* power)
 }
 void Game::stopCurrentPower()
 {
-    this->powerCooldown = 1800 / this->abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME); // 30 seconds
+    this->powerCooldown = this->powerHandle->cooldownTime / this->abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME); // 30 seconds
     this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
 
     // power 'stop'

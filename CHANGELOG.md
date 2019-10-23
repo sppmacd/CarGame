@@ -10,7 +10,10 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 # BETA 0.2 SNAPSHOTS
 
 ## v191001
++ Bomb doesn't longer making game over - it gives a random Anti-Power when clicked
 + Added counter, delaying game unpause when exiting Ingame Menu by 3 seconds.
++ Added Anti-Power: Car Speed Increase
+* Improved power draw performance (not searching for power in any frame)
 * Fixed bug - Abilities wasn't resetted when resetting game.
 * Improved code documentation.
 * Added simple tutorial.

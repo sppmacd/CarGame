@@ -3,7 +3,7 @@
 
 Power::Power()
 {
-
+    cooldownTime = 1800; //30 seconds
 }
 Power& Power::setMaxTime(int time)
 {
