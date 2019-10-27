@@ -23,12 +23,16 @@ void GuiCredits::onDraw(RenderWindow& wnd)
     bOk.draw(wnd);
     static const string credits
     = string("CG ") + CG_VERSION + "\n"
+    + string("SITS Gamedev (c) 2018-2019\n")
+    + string("Licensed under MIT License\n\n")
     + string("Programming: sppmacd\n")
     + string("Graphics: sppmacd + some internet resources\n")
-    + string("Sounds: not made yet\n")
+    + string("Sounds: sppmacd\n")
     + string("Dependencies: \n")
-    + string("- SFML - Simple & Fast Multimedia Library [www.sfml-dev.org]\n")
-    + string("- hmutil - Hackerman Utility (datafiles) [included in dependency package]\n")
+    + string("- SFML - Simple & Fast Multimedia Library, License: zlib/png [https://www.sfml-dev.org]\n")
+    + string("- hmutil - Hackerman Utility (datafiles), License: N/A [included in dependency package]\n")
+    + string("Launcher: \n")
+    + string("- ziputils - ljw1004, License: Public Domain [https://www.codeproject.com/Articles/7530/Zip-Utils-Clean-Elegant-Simple-Cplusplus-Win]\n")
     ;
     wnd.draw(cg::Gui::drawCenteredString(credits, 15, guiHandler->getCenter()));
 }
