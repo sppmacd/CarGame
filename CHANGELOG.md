@@ -1,4 +1,4 @@
-# 
+# Concepts
 
 DPT - Default Power Time (power time without upgrades / abilities)
 levelAcceleration - defined by map car spawn delay (in ticks, on the start of the game).
@@ -24,7 +24,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 ## v190901
 + Added Shop GUI with powers and abilities.
 + Added abilities: Power Reload Time, Power Time, Damage. It will ease your game upgrading the best things and degrading the worst.
-* The game speed rises slower.(levelAcceleration/5000 -> levelAcceleration/10000, which means 2x slower)
+* The game speed rises slower. (levelAcceleration/5000 -> levelAcceleration/10000, which means 2x slower)
 * You can get short information about stat when mouse entered its image.
 * Cars are spawned in the same distance, not period of time.
 * Game Over GUI and Ingame GUI returns to Map Select GUI when clicked "Return to Menu".
