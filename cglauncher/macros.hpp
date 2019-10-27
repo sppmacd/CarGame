@@ -8,6 +8,7 @@
 #define CG_BUTTON_1_CHVER 1001
 #define CG_BUTTON_2_BACK 1002
 #define CG_COMBO_2_VERID 1003
+#define CG_BUTTON_SF_CANCEL 1004
 
 // macros
 

@@ -9,6 +9,8 @@ HWND hStatic_2_Version;
 HWND hStatic_1_Version;
 HWND hStatic_x_State;
 HWND hStatic_1_Logo;
+HWND hNormal_sf_Cancel;
+HWND hStatic_sf_UpdateProgress;
 
 HFONT mainFont = NULL;
 HFONT normalFont = NULL;
@@ -157,14 +159,8 @@ void CG_run()
     }
 }
 
-// main function
-
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmd)
+int CG_runMain(HINSTANCE hInst, int cmd)
 {
-    std::locale::global(std::locale(""));
-    runningDir.resize(MAX_PATH);
-    GetCurrentDirectory(MAX_PATH, const_cast<char*>(runningDir.data()));
-
     MSG msg;
     WNDCLASSEXW wc;
     HICON icon = CG_loadIcon(CG_ICON);
@@ -255,6 +251,103 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int cmd)
         DispatchMessageW(&msg);
     }
     return msg.wParam;
+}
+
+LRESULT CALLBACK CG_selfUpdateEventHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    HANDLE hThread = GetWindowLong(hWnd, )
+}
+
+void CG_selfUpdateEvent(void* arg)
+{
+    _endthread();
+}
+
+int CG_runSelfUpdate(HINSTANCE hInst, int cmd)
+{
+    HANDLE hThread = _beginthread(CG_selfUpdateEvent, 0, NULL);
+
+    MSG msg;
+    WNDCLASSEXW wc;
+    HICON icon = CG_loadIcon(CG_ICON);
+
+    wc.cbClsExtra = 0;
+    wc.cbSize = sizeof(WNDCLASSEXW);
+    wc.cbWndExtra = sizeof(HANDLE);
+    LOGBRUSH lb;
+    lb.lbColor = RGB(50, 40, 40);
+    lb.lbHatch = 0;
+    lb.lbStyle = BS_SOLID;
+    wc.hbrBackground = CreateBrushIndirect(&lb);
+    wc.hCursor = LoadCursorA(NULL, IDC_ARROW);
+    wc.hIcon = icon;
+    wc.hIconSm = icon;
+    wc.hInstance = hInst;
+    wc.lpfnWndProc = CG_selfUpdateEventHandler;
+    wc.lpszClassName = (string(CG_WNDCLASS) + "_u").c_str();
+    wc.lpszMenuName = NULL;
+    wc.style = NULL;
+
+    if(!RegisterClassExW(&wc))
+    {
+        CG_err(L"Couldn't register window class!");
+        return 1;
+    }
+
+    hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, CG_WNDCLASS, L"CarGame Launcher (Updating...)", WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 250, HWND_DESKTOP, NULL, hInst, NULL);
+    SetWindowLong(0, hThread);
+
+    hNormal_sf_Cancel = CG_createNormalButton(50, 100, 400, 50, L"Cancel", CG_BUTTON_SF_CANCEL, true);
+    hStatic_sf_UpdateProgress = CreateWindowExW(NULL, L"STATIC", L"", WS_CHILD | SS_CENTER, 0, 10, 500, 50, hWnd, NULL, hInst, NULL);
+
+    if(!hWnd)
+    {
+        CG_err(L"Couldn't create window!");
+        return 1;
+    }
+
+    while(GetMessageW(&msg, NULL, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessageW(&msg);
+    }
+
+    return 0;
+}
+
+// main function
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdLine, int cmd)
+{
+    // make first initializations
+    std::locale::global(std::locale(""));
+    runningDir.resize(MAX_PATH);
+    GetCurrentDirectory(MAX_PATH, const_cast<char*>(runningDir.data()));
+
+    // parse arguments and return immediately if it is a special task to do.
+    int argc = 0;
+    LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+    if(argc != 1)
+    {
+        if(argc == 2)
+        {
+            LPWSRT launchCmd = argv[1];
+            if(wstring(launchCmd) == L"self-update") //called after launcher update
+            {
+                //check if we are truly being updated and return error if we aren't.
+                if(runningDir.find_last_of("tmp") == std::string::npos)
+                {
+                    //it's impossible in normal way.
+                    CG_err(NULL, L"Invalid command line task: 'self-update'! Executable should be in TMP folder.");
+                    return 1;
+                }
+                SetCurrentDirectory("../");
+                return CG_runSelfUpdate(hInst, cmd);
+            }
+        }
+    }
+
+    // start doing main task of launcher - launching :)
+    return CG_runMain(hInst, cmd);
 }
 
 LRESULT CALLBACK CG_eventHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

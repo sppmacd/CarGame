@@ -16,6 +16,7 @@ public:
     void onLoad();
     void onResize();
     void onClose();
+    void onMouseMove(sf::Vector2f vec);
 
 protected:
 

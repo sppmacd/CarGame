@@ -672,7 +672,7 @@ public:
     static bool s_volume(string val)
     {
         Game::instance->sound.soundVolume = stof(val);
-        return false; //not implemented
+        return true; //not implemented
     }
     static bool s_debug(string val)
     {

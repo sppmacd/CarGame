@@ -10,6 +10,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 # BETA 0.2 SNAPSHOTS
 
 ## v191002
++ Added a short power description when hovering equip button or upgrade button.
 * New apperrance of Car Speed Increase anti-power.
 ## v191001
 + Bomb doesn't longer making game over - it gives a random Anti-Power when clicked.

@@ -23,6 +23,7 @@ struct CGUpdateConfig
     vector<string> keptFiles;
     vector<string> keptFilesPatterns;
     int currentVersionId;
+    int launcherVer;
 
     string selectedVersion;
     string latestVersion;

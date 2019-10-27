@@ -17,13 +17,15 @@
 #include <list>
 #include <thread>
 #include <process.h>
+#include <shellapi.h>
 
 using namespace std;
 
-// nie zmieniaj kolejnosci!!!
 #include "macros.hpp"
 #include "structs.hpp"
 #include "globals.hpp"
+
+#define CGLAUNCHER_VER 1
 
 // declarations
 
@@ -31,6 +33,11 @@ using namespace std;
 LRESULT CALLBACK CG_eventHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CG_run();
 void _cdecl CG_runentry(void* data);
+
+// self-update
+LRESULT CALLBACK CG_selfUpdateEventHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+void CG_selfUpdateEvent(void* arg);
+int CG_runSelfUpdate(HINSTANCE hInst, int cmd);
 
 // <parse>
 CGVersion CG_parseUpdate(string in, CGVersion cfg);
@@ -54,6 +61,7 @@ HWND CG_createNormalButton(int x, int y, int sx, int sy, wstring caption, int id
 HWND CG_createMainButton(int x, int y, int sx, int sy, wstring caption, int id, bool visible);
 void CG_switchScreen(int id);
 void CG_setState(string str, int prg = -1);
+//void CG_startProgressGUI(string str, int& progress);
 
 // <pack>
 bool CG_unpackTo(string fileNameSrc, string folderNameDest);

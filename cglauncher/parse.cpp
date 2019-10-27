@@ -208,6 +208,15 @@ CGUpdateConfig CG_parseUpdateConfig(string in)
             }
             //cout << "Setting dbg executable " << cfg.execNameDbg << endl;
         }
+        else if(cmd == "LAUNCHERVERSION")
+        {
+            if(!(issLine >> cfg.launcherVer))
+            {
+                cfg.errorCode = CGERR_SYNTAX_ERROR;
+                cfg.errorLine = counter;
+                return cfg;
+            }
+        }
         else
         {
             cfg.errorCode = CGERR_NO_CODE;

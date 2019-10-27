@@ -94,8 +94,10 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
 {
     Game* game = Game::instance;
 
+    // powers
     for(PowerData* data: powerData)
     {
+        // check which buttons should be enabled
         if(unsigned(game->getCoins()) < data->cost || cooldown > 0)
         {
             data->bBuyPower.setEnabled(false);
@@ -113,25 +115,46 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
             data->bEquipPower.setEnabled(false);
         }
 
+        // create power info string.
         ostringstream oss;
         oss << setiosflags(std::ios::fixed) << setprecision(1) << data->power->maxPowerTime / 60.f;
         data->bBuyPower.draw(wnd);
         data->bEquipPower.draw(wnd);
+
+        // draw power info
         if(data->count == 0)
             wnd.draw(drawString(Game::instance->translation.get("gui.powers.notbought"), 15, Vector2f(data->bBuyPower.getPosition()) + Vector2f(620.f, 0.f)));
         else
             wnd.draw(drawString(Game::instance->translation.get("gui.powers.powerinfo", {to_string(data->count), oss.str()}), 15, Vector2f(data->bBuyPower.getPosition()) + Vector2f(620.f, 0.f)));
     }
+
+    // equipped powers
     for(size_t s = 0; s < equippedPowerIds.size(); s++)
     {
         equippedPowerIds[s].bImg.draw(wnd);
     }
+
+    // return button
     bReturn.draw(wnd);
 
+    // menu title
     wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.powers.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 150)));
     wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.powers.tip"), 15, sf::Vector2f(GameDisplay::instance->getSize().x / 2, 190)));
     if(cooldown > 0)
         cooldown--;
+
+    // power description
+    for(size_t s = 0; s < powerData.size(); s++)
+    {
+        PowerData* data = powerData[s];
+        Vector2f scaledPos = game->getWindow()->mapPixelToCoords(Mouse::getPosition(*game->getWindow()));
+        if(data->bEquipPower.isClicked(scaledPos) || data->bBuyPower.isClicked(scaledPos))
+        {
+            wnd.draw(drawCenteredString(Game::instance->translation.get("power." + data->power->getName() + ".desc"), 20, Vector2f(Game::instance->getSize().x / 2, powerData.size() * 50.f + Game::instance->getSize().y / 4 + 110.f)));
+            wnd.draw(drawCenteredString(Game::instance->translation.get("power." + data->power->getName() + ".upgr"), 20, Vector2f(Game::instance->getSize().x / 2, powerData.size() * 50.f + Game::instance->getSize().y / 4 + 150.f)));
+            break; //only one string at once can be displayed.
+        }
+    }
 
     Gui::onDraw(wnd);
 }
@@ -180,6 +203,7 @@ void GuiPowers::onClick(int button)
                         }
 
                         cooldown = 30;
+                        game->savePlayerData();
                     }
                 }
             }
@@ -194,6 +218,7 @@ void GuiPowers::onClick(int button)
             {
                 equippedPowerIds[s].powerId = powerId;
                 game->equippedPowers[s] = powerId;
+                game->savePlayerData();
                 equippedPowerIds[s].bImg = ButtonImage(this, "power/" + to_string(powerId), Vector2f(40.f, 40.f), Vector2f(), "", equippedPowerIds[s].bImg.getID());
                 equippedPowerIds[s].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + s * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 50.f));
                 break;
@@ -208,7 +233,11 @@ void GuiPowers::onClick(int button)
         equippedPowerIds[slotId].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + slotId * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 50.f));
         equippedPowerIds[slotId].bImg.setEnabled(false);
         game->equippedPowers[slotId] = 0;
+        game->savePlayerData();
     }
-    game->savePlayerData();
+}
+void GuiPowers::onMouseMove(sf::Vector2f vec)
+{
+    Gui::onMouseMove(vec);
 }
 
