@@ -53,7 +53,7 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 		this->mainTickCount = 0; //Reset ticking
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = stoi(settings.getSetting("debug", "global")); //Disable debug mode
-		this->fullscreen = stoi(settings.getSetting("fullscreen", "graphics"));
+		this->fullscreen = true;//stoi(settings.getSetting("fullscreen", "graphics"));
 		this->registerEventHandlers();
 		cg::colors::bgColor = sf::Color(50, 40, 40);
 		cg::colors::textSize = 28;
@@ -654,6 +654,7 @@ public:
     {
         if(Game::instance->fullscreen != stoi(val))
             Game::instance->toggleFullscreen();
+        //Game::instance->fullscreen = stoi(val);
         return true;
     }
     static bool s_resetgame(string)
@@ -722,10 +723,10 @@ bool Game::isFullscreen()
 
 void Game::postInit()
 {
-    if(isFullscreen())
-        GameDisplay::instance->createFullscreenWnd();
-    else
-        GameDisplay::instance->getRenderWnd()->create(VideoMode(700, 700), string("CG ") + CG_VERSION);
+    /*else
+    {
+        GameDisplay::instance->getRenderWnd()->create(sf::VideoMode(1280, 720, 32), "CG " + string(CG_VERSION));
+    }*/
 
     // Display the main menu
     if(updateFound)
@@ -737,6 +738,10 @@ void Game::postInit()
         displayGui(new GuiMainMenu);
     }
     settings.triggerAllClose();
+    if(isFullscreen())
+        GameDisplay::instance->createFullscreenWnd();
+
+    //GameDisplay::instance->createFullscreenWnd();
 }
 
 bool Game::isPowerEquipped(int id)
