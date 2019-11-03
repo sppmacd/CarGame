@@ -362,11 +362,11 @@ void GameDisplay::drawEffect()
     {
         if(game->powerTime > 1)
             game->powerHandle->drawPower(renderWnd);
+        else if(game->getCurrentPower() != -1)
+            game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(renderWnd);
         else if(game->powerHandle)
             game->powerHandle->drawPowerIdle(renderWnd);
             //game->powerHandle->drawPowerCooldown(renderWnd);
-        else if(game->getCurrentPower() != -1)
-            game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(renderWnd);
     }
 }
 
@@ -387,12 +387,12 @@ void GameDisplay::createFullscreenWnd()
     if(fullscreenModes.empty())
     {
         cout << "GameDisplay: Fullscreen mode not supported, switching to window mode" << endl;
-        renderWnd->create(VideoMode(1280, 720), sf::String());
+        renderWnd->create(VideoMode(1280, 720), sf::String("CG " + string(CG_VERSION) + "(Fullscreen not supported)"));
     }
 
     for(size_t i = 0; i < fullscreenModes.size(); i++)
     {
-        renderWnd->create(fullscreenModes[i], sf::String(), sf::Style::Fullscreen);
+        renderWnd->create(fullscreenModes[i], sf::String("CG " + string(CG_VERSION) + "(Fullscreen)"), sf::Style::Fullscreen);
         Game::instance->setWindow(renderWnd); //update guihandler view
         if(renderWnd->isOpen())
             break;

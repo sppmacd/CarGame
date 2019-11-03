@@ -2,4 +2,4 @@
 global:debug=0
 graphics:fullscreen=1
 graphics:verticalsync=1
-sound:volume=0.732500
+sound:volume=0.847500
