@@ -11,6 +11,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 ## v191101
 * Updated credits info - added ziputils library and CG license, updated sounds maker
+* Added a 3-second delay when starting new game.
 ## v191002
 + Added a short power description when hovering equip button or upgrade button.
 * New apperrance of Car Speed Increase anti-power.

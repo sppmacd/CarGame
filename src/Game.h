@@ -367,6 +367,12 @@ public:
     // Returns true if specified power is equipped (can use)
 	bool isPowerEquipped(int id);
 
+	// Unpauses game and set all splashes.
+	void unpauseGame(float time);
+
+	// Check if car should be spawned and does that if so.
+	void checkSpawnCar();
+
 	/////////////////////////////////
 	/////////////////////////////////
 	/////////////////////////////////
@@ -375,7 +381,7 @@ public:
 	map<int, Power*> powerRegistry;
 
 	// The biggest ID of player power (displayed in Powers GUI)
-	int biggestPlayerPowerID; // generic powers - 1-100 (0 = no power)
+	int biggestPlayerPowerID; // player powers - 1-100 (0 = no power)
 
 	// The biggest ID of generic power ("dropped" by bomb)
 	int biggestGenericPowerID; //generic powers - 101+

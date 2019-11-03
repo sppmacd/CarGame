@@ -47,10 +47,7 @@ void GuiIngame::onClick(int button)
 	if(button == 0)
 	{
 		//game->pause(false);
-		game->closeGui();
-        game->unpauseDelay = seconds(3.f);
-        GameDisplay::instance->setSplash(to_string(int(game->unpauseDelay.asSeconds())) + "...");
-        game->unpauseSplashTime.restart(); //reset splash to display counter properly
+        game->unpauseGame(3.f);
 	}
     else if(button == 1)
     {

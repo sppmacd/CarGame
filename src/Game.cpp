@@ -430,21 +430,22 @@ void Game::setupGame()
 
     this->sound.playSound("start", 100.f);
     this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
-    this->initialGameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
+    this->initialGameSpeed = this->gameSpeed;
     this->lastTickScore = 0;
     this->lastCarTime = 1;
     this->tickCount = 1;
     this->score = 0;
     this->gameOver = false;
     this->cars.clear();
-    this->pause(false);
-    this->closeGui();
+    //this->pause(false);
+    //this->closeGui();
     this->currentPower = 0;
 	this->carCreatingSpeed = this->level.getCarCreationSpeed();
 	this->newRecord = false;
     this->powerTime = 0;
 	this->powerCooldown = 0;
 	this->setPointMultiplier((float(this->level.getMapType()) + 2.f) * 0.8f);
+	this->unpauseGame(3.f);
 }
 
 void Game::closeLevel()
@@ -638,7 +639,7 @@ void Game::registerPower(int id, Power* powerInstance)
 class Triggers
 {
 public:
-    static bool s_refreshres(string val)
+    static bool s_refreshres(string)
     {
         GameDisplay::instance->reload();
         Game::instance->sound.reload();
@@ -655,7 +656,7 @@ public:
             Game::instance->toggleFullscreen();
         return true;
     }
-    static bool s_resetgame(string val)
+    static bool s_resetgame(string)
     {
 		remove("data.txt");
 		remove("highscore.txt");
@@ -664,7 +665,7 @@ public:
 		Game::instance->displayGui(new GuiMainMenu);
 		return true;
     }
-    static bool s_language(string val)
+    static bool s_language(string)
     {
         Game::instance->displayedGui->runDialog(new GuiLanguage, -1);
         return true;
@@ -748,4 +749,12 @@ bool Game::isPowerEquipped(int id)
         }
     }
     return false;
+}
+
+void Game::unpauseGame(float time)
+{
+    closeGui();
+    unpauseDelay = sf::seconds(time);
+    GameDisplay::instance->setSplash(to_string(int(unpauseDelay.asSeconds())) + "...");
+    unpauseSplashTime.restart(); //reset splash to display counter properly
 }

@@ -89,15 +89,15 @@ void Game::updateCars()
     }
 }
 
-void Game::tickNormalGame()
+void Game::checkSpawnCar()
 {
-    // [[      time from last spawn     ]]                            [[         game speed multiplier         ]]
-    if(this->tickCount - this->lastCarTime > this->carCreatingSpeed / (this->gameSpeed / this->initialGameSpeed) || this->tickCount == 1)
+    // [[      time from last spawn     ]]                            [[         game speed multiplier         ]]   [[ is first tick  ]]
+    if(this->tickCount - this->lastCarTime > this->carCreatingSpeed / (this->gameSpeed / this->initialGameSpeed) || this->tickCount <= 1)
     {
         lastCarTime = tickCount;
 		vector<CarType*> selectedTypes;
 		while(selectedTypes.empty())
-		for (CarType& type : carTypeRegistry)
+		for(CarType& type : carTypeRegistry)
 		{
 		    if(type.getRarity(this->level.getMapType()) == 0)
                 continue;
@@ -125,7 +125,11 @@ void Game::tickNormalGame()
             }
 		}
     }
+}
 
+void Game::tickNormalGame()
+{
+    this->checkSpawnCar();
     this->updateCars();
 
     if(this->score > this->highScore)
