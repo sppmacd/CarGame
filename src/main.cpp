@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "GameDisplay.h"
 #include "GameSound.hpp"
+#include "DebugLogger.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -17,7 +18,10 @@ void loop(Game* game)
     game->runGameEventHandler(event);
 
     if(!game->errStr.empty())
-            game->displayGui(new GuiYesNo("An error occured: " + game->errStr));
+    {
+        DebugLogger::logDbg("An error occurred in last tick: " + game->errStr);
+        game->displayGui(new GuiYesNo("An error occurred: " + game->errStr));
+    }
 
     if(!game->paused())
         game->tickNormalGame();
@@ -81,6 +85,7 @@ void loadGame(LoadData* ld)
 
 int main()
 {
+    // redirect SFML error output to null
     //sf::err().rdbuf(NULL);
     LoadData data;
     data.loaded = false;
@@ -90,8 +95,10 @@ int main()
 
     try
     {
+        DebugLogger::logDbg("Creating loading window");
         data.wnd = new RenderWindow(VideoMode(600, 500), "CarGame loading...", Style::None);
 
+        DebugLogger::logDbg("Starting loading thread");
         sf::Thread loadingThread(loadGame,&data);
         loadingThread.launch();
 
@@ -127,6 +134,7 @@ int main()
                     // Call postInit()
                     if(data.game->mainTickCount == 0)
                     {
+                        DebugLogger::logDbg("Starting first-tick initialization");
                         data.game->postInit();
                     }
 
@@ -136,6 +144,7 @@ int main()
                         // Call event handler
                         if(ev1.type != Event::MouseMoved || !mouseMoveHandled)
                         {
+                            //DebugLogger::logDbg("Event:" + std::to_string(ev1.type));
                             data.game->runEventHandler(ev1);
                             mouseMoveHandled = true;
                         }

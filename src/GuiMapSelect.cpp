@@ -42,6 +42,9 @@ void GuiMapSelect::onLoad()
 
     bReturn.setColor(sf::Color::Red);
     bPowers.setColor(sf::Color::Cyan);
+
+    if(Game::instance->canPowerBuyOrEquip())
+        bPowers.setBlinking(true);
 }
 
 void GuiMapSelect::onResize()

@@ -763,3 +763,23 @@ void Game::unpauseGame(float time)
     GameDisplay::instance->setSplash(to_string(int(unpauseDelay.asSeconds())) + "...");
     unpauseSplashTime.restart(); //reset splash to display counter properly
 }
+
+bool Game::canPowerBuyOrEquip()
+{
+    bool powerCanBuy = false;
+    bool powerCanEquip = false;
+    int unlockedPowers = 0;
+    for(auto it: Game::instance->powerRegistry)
+    {
+        if(it.first != 0 && it.first < 100)
+        {
+            if(Game::instance->powers[it.first].getLevel() > 0)
+                unlockedPowers++;
+            else if(Game::instance->powers[it.first].getUpgradeCost() <= Game::instance->getCoins())
+                powerCanBuy = true;
+        }
+    }
+    if(Game::instance->usablePowerIds.size() < 2 && unlockedPowers > 1)
+        powerCanEquip = true;
+    return powerCanBuy || powerCanEquip;
+}

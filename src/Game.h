@@ -368,10 +368,14 @@ public:
 	bool isPowerEquipped(int id);
 
 	// Unpauses game and set all splashes.
-	void unpauseGame(float time);
+	void unpauseGame(float delayTime);
 
 	// Check if car should be spawned and does that if so.
 	void checkSpawnCar();
+
+	// Returns true if any power can be upgraded or equipped. Used by GuiMapSelect
+	// and GuiShop to know when to display blinking border.
+	bool canPowerBuyOrEquip();
 
 	/////////////////////////////////
 	/////////////////////////////////

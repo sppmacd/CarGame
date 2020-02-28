@@ -23,8 +23,9 @@ void GuiCredits::onDraw(RenderWindow& wnd)
     bOk.draw(wnd);
     static const string credits
     = string("CG ") + CG_VERSION + "\n"
-    + string("SITS Gamedev (c) 2018-2019\n")
-    + string("Licensed under MIT License\n\n")
+    + string("SITS Gamedev (c) 2018-2020\n")
+    + string("Licensed under MIT License (see https://opensource.org/licenses/MIT)\n\n")
+    + string("Source code: https://github.com/sppmacd/CarGame/\n\n")
     + string("Programming: sppmacd\n")
     + string("Graphics: sppmacd + some internet resources\n")
     + string("Sounds: sppmacd\n")

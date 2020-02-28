@@ -7,8 +7,13 @@ void GuiShop::onLoad()
 {
     bReturn = cg::Button(this, Vector2f(400.f, 40.f), Vector2f(), Game::instance->translation.get("gui.done"), 0);
     bPowers = cg::Button(this, Vector2f(400.f, 40.f), Vector2f(), Game::instance->translation.get("gui.shop.labels.power"), 1);
+    bPowers.setBlinking(true);
+    bPowers.setColor(Color::Cyan);
     addWidget(&bReturn);
     addWidget(&bPowers);
+
+    if(Game::instance->canPowerBuyOrEquip())
+        bPowers.setBlinking(true);
 
     int id = 0;
     for(pair<const int, AbilityBase*>& base: Game::instance->abilities.abilities)
