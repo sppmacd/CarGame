@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="CarGame" />
+		<Option pch_mode="2" />
+		<Option compiler="gnu_gcc_compiler_32bit" />
+		<Option virtualFolders="Game\Car\;Game\Car\Types\;Game\;Base\;Game\Level\;Event\;Game\Power\;Utility\;Resource\;Gui\;Gui\Types\;Gui\Widgets\;Game\Power\Types\;Render\;(Windows) Resources\;Gui\cgui\;Base\UpdateChecker\;Base\Loader\;Resource\Sound\;Game\Ability\;" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/x64/cgd" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add library="hmutil" />
+					<Add library="sfml-graphics-s" />
+					<Add library="sfml-window-s" />
+					<Add library="sfml-audio-s" />
+					<Add library="sfml-network-s" />
+					<Add library="sfml-system-s" />
+					<Add library="sfml-main" />
+					<Add library="opengl32" />
+					<Add library="freetype" />
+					<Add library="jpeg" />
+					<Add library="winmm" />
+					<Add library="gdi32" />
+					<Add library="openal32" />
+					<Add library="flac" />
+					<Add library="vorbisenc" />
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="ws2_32" />
+					<Add directory="F:/C++/LIBY/SFML-2.4.2-sources/SFML-2.4.2/extlibs/libs-mingw/x64" />
+					<Add directory="F:/C++/LIBY/SFML-2.4.2-BUILD/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release32">
+				<Option output="bin/x86/cg32" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/" />
+				<Option object_output="obj/Release32/" />
+				<Option type="0" />
+				<Option compiler="gnu_gcc_compiler_32bit" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add library="hmutil32" />
+					<Add library="sfml-graphics-s" />
+					<Add library="sfml-window-s" />
+					<Add library="sfml-audio-s" />
+					<Add library="sfml-network-s" />
+					<Add library="sfml-system-s" />
+					<Add library="sfml-main" />
+					<Add library="opengl32" />
+					<Add library="freetype" />
+					<Add library="jpeg" />
+					<Add library="winmm" />
+					<Add library="gdi32" />
+					<Add library="ws2_32" />
+					<Add library="openal32" />
+					<Add library="flac" />
+					<Add library="vorbisenc" />
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add directory="F:/C++/LIBY/SFML-2.4.2-sources/SFML-2.4.2/extlibs/libs-mingw/x86" />
+					<Add directory="F:/C++/LIBY/SFML-2.4.2-BUILD-32bit/lib" />
+				</Linker>
+			</Target>
+			<Target title="Release64">
+				<Option output="bin/x64/cg64" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/" />
+				<Option object_output="obj/Release64/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=c++11" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add library="hmutil" />
+					<Add library="sfml-graphics-s" />
+					<Add library="sfml-window-s" />
+					<Add library="sfml-audio-s" />
+					<Add library="sfml-network-s" />
+					<Add library="sfml-system-s" />
+					<Add library="sfml-main" />
+					<Add library="opengl32" />
+					<Add library="freetype" />
+					<Add library="jpeg" />
+					<Add library="winmm" />
+					<Add library="gdi32" />
+					<Add library="ws2_32" />
+					<Add library="openal32" />
+					<Add library="flac" />
+					<Add library="vorbisenc" />
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add directory="F:/C++/LIBY/SFML-2.4.2-sources/SFML-2.4.2/extlibs/libs-mingw/x64" />
+					<Add directory="F:/C++/LIBY/SFML-2.4.2-BUILD/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="Debug;Release32;Release64;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-DSFML_STATIC" />
+			<Add directory="F:/C++/LIBY/SFML-2.4.2-sources/SFML-2.4.2/include" />
+			<Add directory="F:/C++/PROJEKTY/HackerMan/Libs/src" />
+			<Add directory="F:/C++/PROJEKTY/CarGame/cgui_fork/include" />
+			<Add directory="F:/C++/PROJEKTY/CarGame/src/" />
+		</Compiler>
+		<Linker>
+			<Add directory="F:/C++/PROJEKTY/HackerMan/Libs/hmUtil" />
+		</Linker>
+		<Unit filename="cgui_fork/include/CG/Button.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/ButtonToggle.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/CG.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/CompoundWidget.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/Config.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/Gui.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/GuiHandler.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/GuiOk.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/GuiYesNo.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/ScrollBar.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/ScrollableCompound.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/Slider.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/Static.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/TextBox.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/Widget.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/include/CG/WidgetContainer.h">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/Button.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/ButtonToggle.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/CompoundWidget.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/Gui.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/GuiHandler.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/GuiOk.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/GuiYesNo.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/ScrollBar.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/ScrollableCompound.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/Slider.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/Static.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/TextBox.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/Widget.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="cgui_fork/src/WidgetContainer.cpp">
+			<Option virtualFolder="Gui/cgui/" />
+		</Unit>
+		<Unit filename="src/AbilityBase.cpp">
+			<Option virtualFolder="Game/Ability/" />
+		</Unit>
+		<Unit filename="src/AbilityBase.hpp">
+			<Option virtualFolder="Game/Ability/" />
+		</Unit>
+		<Unit filename="src/ButtonCircle.cpp">
+			<Option virtualFolder="Gui/Widgets/" />
+		</Unit>
+		<Unit filename="src/ButtonCircle.h">
+			<Option virtualFolder="Gui/Widgets/" />
+		</Unit>
+		<Unit filename="src/ButtonImage.cpp">
+			<Option virtualFolder="Gui/Widgets/" />
+		</Unit>
+		<Unit filename="src/ButtonImage.h">
+			<Option virtualFolder="Gui/Widgets/" />
+		</Unit>
+		<Unit filename="src/Car.cpp">
+			<Option virtualFolder="Game/Car/" />
+		</Unit>
+		<Unit filename="src/Car.h">
+			<Option virtualFolder="Game/Car/" />
+		</Unit>
+		<Unit filename="src/CarAmbulance.cpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarAmbulance.h">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarBomb.cpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarBomb.hpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarBus.cpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarBus.h">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarLorry.cpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarLorry.h">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarRare.cpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarRare.h">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarTrain.cpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarTrain.hpp">
+			<Option virtualFolder="Game/Car/Types/" />
+		</Unit>
+		<Unit filename="src/CarType.cpp">
+			<Option virtualFolder="Game/Car/" />
+		</Unit>
+		<Unit filename="src/CarType.h">
+			<Option virtualFolder="Game/Car/" />
+		</Unit>
+		<Unit filename="src/DebugLogger.cpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/DebugLogger.hpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/EventHandler.cpp">
+			<Option virtualFolder="Event/" />
+		</Unit>
+		<Unit filename="src/EventHandler.h">
+			<Option virtualFolder="Event/" />
+		</Unit>
+		<Unit filename="src/FileUtil.cpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/FileUtil.hpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/Game.cpp">
+			<Option virtualFolder="Base/" />
+		</Unit>
+		<Unit filename="src/Game.h">
+			<Option virtualFolder="Base/" />
+		</Unit>
+		<Unit filename="src/GameDisplay.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="src/GameDisplay.h">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="src/GameDisplayGui.cpp">
+			<Option virtualFolder="Render/" />
+		</Unit>
+		<Unit filename="src/GameEvent.cpp">
+			<Option virtualFolder="Event/" />
+		</Unit>
+		<Unit filename="src/GameEvent.h">
+			<Option virtualFolder="Event/" />
+		</Unit>
+		<Unit filename="src/GameLevel.cpp">
+			<Option virtualFolder="Base/" />
+		</Unit>
+		<Unit filename="src/GameLoader.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+			<Option virtualFolder="Base/Loader/" />
+		</Unit>
+		<Unit filename="src/GameLoader.h">
+			<Option virtualFolder="Base/Loader/" />
+		</Unit>
+		<Unit filename="src/GameSound.cpp">
+			<Option virtualFolder="Resource/Sound/" />
+		</Unit>
+		<Unit filename="src/GameSound.hpp">
+			<Option virtualFolder="Resource/Sound/" />
+		</Unit>
+		<Unit filename="src/GuiCredits.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiCredits.hpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiGameOver.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiGameOver.h">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiIngame.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiIngame.h">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiLanguage.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiLanguage.hpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiMainMenu.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiMainMenu.h">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiMapSelect.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiMapSelect.h">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiPowers.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiPowers.h">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiSettings.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiSettings.h">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiShop.cpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiShop.hpp">
+			<Option virtualFolder="Gui/Types/" />
+		</Unit>
+		<Unit filename="src/GuiUpdates.cpp">
+			<Option virtualFolder="Base/UpdateChecker/" />
+		</Unit>
+		<Unit filename="src/GuiUpdates.hpp">
+			<Option virtualFolder="Base/UpdateChecker/" />
+		</Unit>
+		<Unit filename="src/Level.cpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/Level.h">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/LevelData.cpp">
+			<Option virtualFolder="Game/Level/" />
+		</Unit>
+		<Unit filename="src/LevelData.h">
+			<Option virtualFolder="Game/Level/" />
+		</Unit>
+		<Unit filename="src/Math.cpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/Math.hpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/PlayerAbilityManager.cpp">
+			<Option virtualFolder="Game/Ability/" />
+		</Unit>
+		<Unit filename="src/PlayerAbilityManager.hpp">
+			<Option virtualFolder="Game/Ability/" />
+		</Unit>
+		<Unit filename="src/Power.cpp">
+			<Option virtualFolder="Game/Power/" />
+		</Unit>
+		<Unit filename="src/Power.h">
+			<Option virtualFolder="Game/Power/" />
+		</Unit>
+		<Unit filename="src/PowerFence.cpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerFence.hpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerFreeze.cpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerFreeze.hpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerOil.cpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerOil.hpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerPlayerData.cpp">
+			<Option virtualFolder="Game/Power/" />
+		</Unit>
+		<Unit filename="src/PowerPlayerData.hpp">
+			<Option virtualFolder="Game/Power/" />
+		</Unit>
+		<Unit filename="src/PowerPointBoost.cpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerPointBoost.hpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerSpeedIncrease.cpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/PowerSpeedIncrease.hpp">
+			<Option virtualFolder="Game/Power/Types/" />
+		</Unit>
+		<Unit filename="src/SettingsManager.cpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/SettingsManager.hpp">
+			<Option virtualFolder="Utility/" />
+		</Unit>
+		<Unit filename="src/TranslationManager.cpp">
+			<Option virtualFolder="Resource/" />
+		</Unit>
+		<Unit filename="src/TranslationManager.hpp">
+			<Option virtualFolder="Resource/" />
+		</Unit>
+		<Unit filename="src/UpdateChecker.cpp">
+			<Option virtualFolder="Base/UpdateChecker/" />
+		</Unit>
+		<Unit filename="src/UpdateChecker.hpp">
+			<Option virtualFolder="Base/UpdateChecker/" />
+		</Unit>
+		<Unit filename="src/icon.rc">
+			<Option compilerVar="WINDRES" />
+			<Option virtualFolder="(Windows) Resources/" />
+		</Unit>
+		<Unit filename="src/main.cpp">
+			<Option virtualFolder="Base/" />
+		</Unit>
+		<Unit filename="src/maptype.h">
+			<Option virtualFolder="Game/Level/" />
+		</Unit>
+		<Unit filename="src/version.cpp">
+			<Option virtualFolder="Base/" />
+		</Unit>
+		<Unit filename="src/version.hpp">
+			<Option virtualFolder="Base/" />
+		</Unit>
+		<Unit filename="src/version.rc">
+			<Option compilerVar="WINDRES" />
+			<Option virtualFolder="(Windows) Resources/" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
