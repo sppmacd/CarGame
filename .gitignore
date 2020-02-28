@@ -16,7 +16,6 @@ highscore.txt
 *.depend
 *.layout
 *.save-failed
-*.cbp
 *.ini
 *.exe
 *.bat
