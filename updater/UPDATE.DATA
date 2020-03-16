@@ -28,6 +28,6 @@ AVAILABLEVERSION 	-3	ALPHA 		valpha	alpha-0.0.3
 AVAILABLEVERSION 	-4	ALPHA 		valpha	alpha-0.0.2
 AVAILABLEVERSION 	-5	ALPHA 		valpha	alpha-0.0.1
 AVAILABLEVERSION 	-6	ALPHA 		valpha	alpha-0.0.0
-EXEC32 x86/cg32.exe
-EXEC64 x64/cg64.exe
-EXECDBG x64/cgd.exe
+EXEC32 win_x86/cg.exe
+EXEC64 win_x64/cg.exe
+EXECDBG win_x64/cgd.exe
