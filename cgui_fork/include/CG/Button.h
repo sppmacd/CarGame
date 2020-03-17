@@ -23,6 +23,8 @@ public:
     Vector2f getSize();
 
     void setColor(Color color);
+	
+	void setBlinking(bool b1) {} //not implemented !!!
 
     /// Draw string.
     Text drawString(String, int, Vector2f, Text::Style);
