@@ -15,10 +15,13 @@ Button::Button(Gui* p, Vector2f size, Vector2f pos, String text, int id)
 
 void Button::draw(RenderWindow& wnd)
 {
+    static int animTick = 0;
+    animTick++;
+    bool isBlink = animTick / 30 % 2;
     RectangleShape rect(this->getSize());
     rect.setPosition(this->getPosition());
     rect.setFillColor(colors::buttonColor);
-    rect.setOutlineThickness(2.2f);
+    rect.setOutlineThickness((isBlink && blinking) ? 4.f : 2.2f);
     rect.setOutlineColor(this->bColor);
 
     if(this->isMouseOver && this->enabled)
