@@ -10,6 +10,8 @@
 #include "EventHandler.h"
 #include "GameEvent.h"
 
+#include "DebugLogger.hpp"
+
 #include "GuiGameOver.h"
 #include "GuiLanguage.hpp"
 #include "GuiSettings.h"
@@ -571,6 +573,9 @@ void Game::exit(int ret)
 void Game::displayError(string text)
 {
     errStr = text;
+    DebugLogger::logDbg("An error occurred in last tick: " + errStr);
+    displayGui(new GuiYesNo("An error occurred: " + errStr));
+    mainTickCount = 2; //to skip post-init
 }
 
 void Game::loadLanguages()

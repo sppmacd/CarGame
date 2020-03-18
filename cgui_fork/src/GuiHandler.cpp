@@ -46,6 +46,7 @@ RenderWindow* GuiHandler::getWindow()
 
 GuiHandler::GuiHandler(RenderWindow* wnd, Font* font)
 {
+    Gui::guiHandler = this;
     window = NULL;
     guiFont = NULL;
     returnValue = 0;

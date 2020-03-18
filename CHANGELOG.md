@@ -10,6 +10,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 # BETA 0.2 SNAPSHOTS
 
 ## live
+* Added check for resource folder (game is not crashing when error)
 * [technical] Added some command-line arguments
 ## v200302
 + Added an option for resetting settings.

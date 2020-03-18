@@ -18,12 +18,6 @@ void loop(Game* game)
     event.type = GameEvent::PreTick;
     game->runGameEventHandler(event);
 
-    if(!game->errStr.empty())
-    {
-        DebugLogger::logDbg("An error occurred in last tick: " + game->errStr);
-        game->displayGui(new GuiYesNo("An error occurred: " + game->errStr));
-    }
-
     if(!game->paused())
         game->tickNormalGame();
 
@@ -144,14 +138,16 @@ int main(int argc, char* argv[])
 
         while(mainLoopRunning)
         {
+            // to handle closing game by GuiHandler::close()
+            if(data.game && !data.game->isRunning())
+                mainLoopRunning = false;
+
             if(data.loaded)
             {
                 try
                 {
                     // Initialize loop and check if it should run
                     bool updateDebugStats = data.game->mainTickCount % 6 == 0;
-                    if (!data.game->isRunning())
-                        mainLoopRunning = false;
                     bool mouseMoveHandled = false;
 
                     // Restart clocks
