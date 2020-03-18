@@ -5,12 +5,25 @@
 #include <windows.h>
 #include <shlwapi.h>
 #endif // SFML_SYSTEM_WINDOWS
+#include <sys/types.h>
+#include <sys/stat.h>
 
 namespace FileUtil
 {
     vector<string> listFiles(string directory)
     {
         return getFileList(directory, "*.*");
+    }
+    FileType getFileType(string fileName)
+    {
+        struct stat info;
+
+        if(stat(fileName.c_str(), &info) != 0)
+            return FileUtil::NOTEXISTING;
+        else if(info.st_mode & S_IFDIR)  // S_ISDIR() doesn't exist on my windows
+            return FileUtil::DIRECTORY;
+        else
+            return FileUtil::FILE;
     }
     #ifdef SFML_SYSTEM_WINDOWS
         vector<string> getFileList(string folder, string pattern, int depth)

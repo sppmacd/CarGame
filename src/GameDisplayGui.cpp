@@ -42,7 +42,8 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 	int aX = animC % 400;
 	sf::RectangleShape rsbg(Vector2f(100.f, 20.f));
 	rsbg.setFillColor(Color(20, 20, 20));
-	rsbg.setOutlineColor(Color(70, 70, 70));
+	bool err = GameDisplay::instance && GameDisplay::instance->error;
+	rsbg.setOutlineColor(err ? Color::Red : Color(70, 70, 70));
 	rsbg.setOutlineThickness(2.f);
 	rsbg.setOrigin(50.f, 10.f);
 	rsbg.setPosition(wnd->getSize().x / 2, wnd->getSize().y / 2 + 200);

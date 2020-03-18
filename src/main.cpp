@@ -73,15 +73,7 @@ void loadGame(LoadData* ld)
     catch(exception& e)
     {
         cout << "main: Exception while loading: " << e.what() << endl;
-        if(ld->game)
-        {
-            ld->game->displayError(string("Exception while loading: ") + e.what());
-            ld->loaded = true;
-        }
-        else
-        {
-            GameDisplay::loadingStr = string("Exception while loading: ") + e.what() + string(".\nPress Esc to close game...");
-        }
+        GameDisplay::loadingStr = string("Exception while loading: ") + e.what() + string(".\nPress Esc to close game...");
     }
 }
 
@@ -93,7 +85,6 @@ int main(int argc, char* argv[])
     ArgMap argmap;
 
     // set default values
-    args["--debug"] = "true";
     args["--message"] = "Starting Car Game";
 
     // add args from cmd line

@@ -1,6 +1,7 @@
 #include "GameDisplay.h"
 #include "Game.h"
 #include <iostream>
+#include "FileUtil.hpp"
 
 GameDisplay* GameDisplay::instance;
 String GameDisplay::loadingStr;
@@ -30,6 +31,12 @@ void GameDisplay::reload()
 {
     cout << "GameDisplay: Reloading graphics resources..." << endl;
     GameDisplay::loadingStr = "Reloading resources...";
+
+    if(FileUtil::getFileType("res") == FileUtil::NOTEXISTING)
+    {
+        cout << "GameDisplay: no resource folder found!" << endl;
+        throw runtime_error("No resource folder found. Try reinstalling the game.");
+    }
 
     clearTextures();
 
@@ -229,7 +236,7 @@ void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
         }
         else
         {
-            if(!GameDisplay::instance->logoTexture.loadFromFile("res/textures/gui/logo.png"))
+            if(!GameDisplay::instance->error && !GameDisplay::instance->logoTexture.loadFromFile("res/textures/gui/logo.png"))
                 GameDisplay::instance->error = true;
         }
     }
