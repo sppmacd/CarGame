@@ -121,8 +121,8 @@ Widget* GuiSettings::onMouseClick(Vector2f pos, bool rel, Mouse::Button but)
 
 void GuiSettings::reset()
 {
-	for(Widget* widget: widgets)
-        if(widget != scSettings)
+	for(cg::Widget* widget: widgets)
+        if(widget != scSettings && widget->getID() != -2)
             delete widget;
     delete scSettings;
 
@@ -135,9 +135,6 @@ void GuiSettings::reset()
 	scSettings = new ScrollableCompound(this, Vector2f(0.f, Game::instance->getSize().y / 8.f), Vector2f(Game::instance->getSize().x, Game::instance->getSize().y * 6 / 8), -1);
     addWidget(scSettings);
 
-	// load()
-	GameDisplay* game = GameDisplay::instance;
-
-    addWidget(&(bDone = Button(this, Vector2f(400.f, 40.f), Vector2f(0.f, 0.f), Game::instance->translation.get("gui.done"), -2)));
-    bDone.setColor(sf::Color::Green);
+    // add done button
+    addWidget(&bDone);
 }

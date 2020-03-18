@@ -11,6 +11,7 @@ Button::Button(Gui* p, Vector2f size, Vector2f pos, String text, int id)
     this->bSize = size;
     this->bText = text;
     this->enabled = true;
+    this->blinking = false;
 }
 
 void Button::draw(RenderWindow& wnd)

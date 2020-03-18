@@ -100,4 +100,6 @@ if(CG_COMPILE_DEBUG)
 	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 endif()
 
+# set working directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC})
 message("CG: successfully configured CG ${CG_VER_STR}")

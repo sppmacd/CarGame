@@ -48,6 +48,7 @@ void loadGame(LoadData* ld)
     {
         sf::Clock loadTime;
 
+        // replace version if "live"
         cout << "main: Starting Car Game [" << CG_VERSION << "]" << endl;
         cout << "main: Loading game engine..." << endl;
 
