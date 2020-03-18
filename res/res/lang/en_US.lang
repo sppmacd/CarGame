@@ -1,0 +1,125 @@
+gui.done=Done
+gui.return=Return...
+gui.cancel=Cancel
+gui.up=Up
+gui.down=Down
+gui.next=Next
+gui.prev=Prev.
+
+gui.toggle.on=On
+gui.toggle.off=Off
+
+gui.yesno.yes=Yes
+gui.yesno.no=No
+
+gui.mainmenu.credit=
+
+gui.settings.title=Settings...
+
+settings.graphics.refreshres=Refresh Resources
+settings.graphics.verticalsync=Vertical Sync
+settings.graphics.fullscreen=Fullscreen
+settings.game.resetgame=Reset Game
+settings.game.resetgame.msg=Are you sure to delete all your player data?\n\nThis cannot be undone!
+settings.global.language=Language
+settings.global.debug=Debug Mode
+settings.global.resetsettings=Reset Settings to Defaults
+settings.global.resetsettings.msg=Do you really want to reset settings?
+settings.sound.volume=Sound Volume
+
+gui.language.title=Language...
+
+gui.selectmap.title=Map & Powers
+gui.selectmap.shop=Shop...
+gui.selectmap.buyconfirm=Do you want to buy %0?
+gui.selectmap.buyfor=Buy for %0$
+gui.selectmap.notenoughcoins=Not Enough Coins
+
+gui.powers.buy=Buy %0: %1$
+gui.powers.upgrade=Upgrade %0: %1$
+gui.powers.title=Buy Powers
+gui.powers.return=Return to Maps
+gui.powers.notbought=Not Bought
+gui.powers.powerinfo=LVL %0 TIME %1s
+gui.powers.powerlvl=LVL %0
+gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
+gui.powers.maxlvl=%0: MAX LEVEL
+
+gui.shop.title=Shop
+gui.shop.labels.ability=Abilities
+gui.shop.labels.power=Powers...
+gui.shop.upgrade_ability=Upgrade %0: %1$
+gui.shop.ability=LVL %0 = %1
+
+ability.power_cooldown_time=Power Reload
+ability.power_time=Power Time
+ability.damage=Damage
+
+gui.ingame.returngame=Return to game
+gui.ingame.returnmainmenu=Return to menu
+gui.ingame.quit=Quit Game
+gui.ingame.title=Game menu
+
+gui.gameover.title=Game Over!
+gui.gameover.score=Your score was %0
+gui.gameover.return=Return to Menu
+gui.gameover.newgame=New Game
+
+gui.updates.found=Found update: %0. \nDo you want to install it now?
+
+power.none=No Power
+power.none.desc=This power does nothing :)
+power.none.upgr=
+power.oil=Oil
+power.oil.desc=Oil makes a stain of sticky fluid on 2 lanes, which will damage passing Cars.
+power.oil.upgr=Upgrading increases power damage.
+power.freeze=Freeze
+power.freeze.desc=Freeze creates a frosty fog on the map that will slow down all Cars for 50 seconds.
+power.freeze.upgr=Upgraded will make Cars more slower.
+power.point_boost=Boost
+power.point_boost.desc=Point Boost will give a big amount of Points while it makes all cars faster.
+power.point_boost.upgr=Upgraded power will give more points.
+power.fence=Fence
+power.fence.desc=This power spawns a 2-lane-width fence on the road, stopping all Cars that will try to pass it. It also damages Cars a bit.
+power.fence.upgr=Upgrading will increase Fence damage.
+power.ball=Ball
+power.ball.desc=Ball... (I don't know what will be done by Ball.)
+power.ball.upgr=
+
+power.anti.ramp=Ramp
+power.anti.ramp.desc=Ramp moves to left side of screen, making it almost unbreakable.
+power.anti.ramp.upgr=
+power.anti.damage_decrease=Damage Decrease
+power.anti.damage_decrease.desc=Damage Decrease will spoil your Gun, making cars invulnerable to any click.
+power.anti.damage_decrease.upgr=
+power.anti.car_speed_increase=Car Speed Increase
+power.anti.car_speed_increase.desc=This power increases speed of all Cars on the map, making them unstoppable by any other effect.
+power.anti.car_speed_increase.upgr=
+
+map.countryside=Countryside
+map.desert=Desert
+map.forest=Forest
+map.ice=Ice
+map.mountains=Mountains
+map.beach=Beach
+map.city=City
+map.motorway=Motorway
+map.sea=Sea
+map.swampland=Swampland
+map.forest_trails=Forest Trails
+
+splash.newrecord=New Record!
+
+stat.coin=Coins
+stat.score=Points
+stat.high=Highscore
+stat.mpl=Point Multiplier
+stat.points_mpl=Points remaining to get\n next Point Multiplier.
+
+tutorial.startgame=Start Game
+tutorial.buymap=Buy Countryside
+tutorial.selectmap=Select Countryside
+tutorial.destroycar=Destroy car by clicking on it!\n You get Points and Cash for destroying cars.
+tutorial.dontleave=Don't let cars leave the screen!
+tutorial.avoidbomb=You can't click at bomb!\n It makes the game over.
+tutorial.shop=In Shop you can buy Powers\n and Abilities which will\n ease your game.

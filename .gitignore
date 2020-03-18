@@ -1,17 +1,4 @@
-/share/
-/obj/
-/Cache/
-/res/
-/cglauncher/instances/
-/cglauncher/share/
-/cglauncher/tmp/
-/cglauncher/global/
-/cglauncher/obj/
-/cglauncher/launcher.options
 *.log
-data.txt
-profile_1.txt
-highscore.txt
 *.cscope_file_list
 *.depend
 *.layout
@@ -19,3 +6,4 @@ highscore.txt
 *.ini
 *.exe
 *.bat
+launcher.options
