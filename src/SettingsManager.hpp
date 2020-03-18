@@ -52,6 +52,9 @@ public:
 
     // Loads settings from specified file.
     void loadSettings(string fileName);
+	
+	// Resets settings in %fileName to default values.
+    void resetSettings(string fileName);
 
     // Adds trigger to setting. Will be called on click (for TRIGGERs) or on save (for other types)
     void registerTrigger(string settingName, TriggerFunc func, string space = "");
@@ -73,6 +76,9 @@ public:
 
     // Generates widget list by registered settings. Used by GuiSettings.
     GuiSettings* generateWidgets();
+	
+	// Adds corresponding widgets for all settings to specified GuiSettings.
+	void addWidgetsToSettings(GuiSettings* guisettings);
 
     // Check if setting is registered.
     bool settingRegistered(string name, string space = "");

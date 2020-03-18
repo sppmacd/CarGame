@@ -9,6 +9,8 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 # BETA 0.2 SNAPSHOTS
 
+## live
++ Added an option for resetting settings
 ## v200201, v200301 - only a test snapshots (to test CMake build system)
 ## v191101
 + Added a 3-second delay when starting new game.

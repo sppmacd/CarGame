@@ -674,13 +674,21 @@ public:
     static bool s_volume(string val)
     {
         Game::instance->sound.soundVolume = stof(val);
-        return true; //not implemented
+        return true;
     }
     static bool s_debug(string val)
     {
         Game::instance->debug = stoi(val);
         return true;
     }
+	static bool s_resetsettings(string)
+	{
+		Game::instance->settings.resetSettings("settings.txt");
+		GuiSettings* gs = dynamic_cast<GuiSettings*>(Game::instance->getCurrentGUI());
+		if(gs) gs->reset();
+		Game::instance->settings.addWidgetsToSettings(gs);
+		return true;
+	}
 };
 
 void Game::registerSettings()
@@ -690,6 +698,7 @@ void Game::registerSettings()
     settings.registerSetting("fullscreen", SettingsManager::BOOLEAN, "graphics", "1");
     settings.registerSetting("resetgame", SettingsManager::CONFIRM_TRIGGER, "game");
     settings.registerSetting("language", SettingsManager::TRIGGER, "global");
+    settings.registerSetting("resetsettings", SettingsManager::CONFIRM_TRIGGER, "global");
     settings.registerSetting("debug", SettingsManager::BOOLEAN, "global", "0");
     settings.registerSetting("volume", SettingsManager::NUMERIC, "sound", "0.5");
 
@@ -698,6 +707,7 @@ void Game::registerSettings()
     settings.registerTrigger("fullscreen", Triggers::s_fullscreen, "graphics");
     settings.registerTrigger("resetgame", Triggers::s_resetgame, "game");
     settings.registerTrigger("language", Triggers::s_language, "global");
+    settings.registerTrigger("resetsettings", Triggers::s_resetsettings, "global");
     settings.registerTrigger("debug", Triggers::s_debug, "global");
     settings.registerTrigger("volume", Triggers::s_volume, "sound");
 

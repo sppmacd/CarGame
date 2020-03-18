@@ -24,14 +24,11 @@ public:
 	void onMouseMove(Vector2f pos);
 	void onClose();
 	Widget* onMouseClick(Vector2f pos, bool rel, Mouse::Button but);
+	
+	/// Removes all widgets, resets settings maps.
+	void reset();
 
 private:
     Button bDone;
-    Button bResetHS;
-    Button bRefreshGD;
-    ButtonToggle bVerticalSync;
-    Button bLanguage;
-    Slider sVolume;
-    ButtonToggle bTFM;
 };
 

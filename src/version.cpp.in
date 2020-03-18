@@ -1,0 +1,4 @@
+#include "version.hpp"
+
+const char* CG_VERSION          =   "@CG_VER_STR@";
+const char* CG_VERSION_SIG      =   "@CG_VER_SIG@";

@@ -30,6 +30,7 @@ void SettingsManager::loadSettings(string fileName)
     auto settingsMap = hmdatamap.getMap();
     typedef pair<pair<string,string>,string> Pair;
 
+	// the default val will NOT be overwritten if not exist in settings file.
     for(Pair _pair: settingsMap)
     {
         string space = _pair.first.first;
@@ -37,6 +38,13 @@ void SettingsManager::loadSettings(string fileName)
         string val = _pair.second;
         setSetting(key, val, space);
     }
+}
+
+void SettingsManager::resetSettings(string fileName)
+{
+	remove(fileName.c_str());
+	loadSettings(fileName);
+	saveSettings(fileName);
 }
 
 void SettingsManager::registerTrigger(string settingName, SettingsManager::TriggerFunc func, string space)
@@ -147,10 +155,9 @@ void SettingsManager::saveSettings(string file)
     }
 }
 
-GuiSettings* SettingsManager::generateWidgets()
+void SettingsManager::addWidgetsToSettings(GuiSettings* guisettings)
 {
-    GuiSettings* guisettings = new GuiSettings;
-    int counter = 100;
+	int counter = 100;
     for(auto it: settings)
     {
         SettingsManager::SettingType type = it.second.type;
@@ -208,6 +215,12 @@ GuiSettings* SettingsManager::generateWidgets()
         guisettings->callIdToSetting.insert(make_pair(counter, ns));
         counter++;
     }
+}
+
+GuiSettings* SettingsManager::generateWidgets()
+{
+    GuiSettings* guisettings = new GuiSettings;
+    addWidgetsToSettings(guisettings);
     guisettings->manager = this;
     return guisettings;
 }
