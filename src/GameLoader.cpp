@@ -1,4 +1,4 @@
-#include "GameLoader.h"
+/*#include "GameLoader.h"
 
 #include "GuiMainMenu.h"
 #include "GuiUpdates.hpp"
@@ -26,7 +26,7 @@ namespace Loader
             srand(time(NULL));
             ld->disp = new GameDisplay(ld->wnd);
             GameDisplay::loadingStr = "Loading game engine...";
-            ld->game = new Game;
+            ld->game = new Game(ld->argmap);
 
             if(!ld->game->updateFound)
             {
@@ -230,4 +230,4 @@ namespace Loader
         GameDisplay::instance->reload();
         Game::instance->sound.reload();
     }
-}
+}*/

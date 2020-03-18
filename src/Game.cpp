@@ -33,7 +33,7 @@
 
 Game* Game::instance = NULL;
 
-Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::instance->getGuiFont())
+Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::instance->getGuiFont())
 {
     cout << "Game: Started loading game engine..." << endl;
 
@@ -52,7 +52,7 @@ Game::Game(): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::ins
 		this->registerSettings();
 		this->mainTickCount = 0; //Reset ticking
 		this->pause(true); //Pause game (to not spawn cars!)
-		this->debug = stoi(settings.getSetting("debug", "global")); //Disable debug mode
+		this->debug = stoi(settings.getSetting("debug", "global")) || argmap->a_debug; //Disable debug mode
 		this->fullscreen = true;//stoi(settings.getSetting("fullscreen", "graphics"));
 		this->registerEventHandlers();
 		cg::colors::bgColor = sf::Color(50, 40, 40);

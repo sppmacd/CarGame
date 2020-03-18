@@ -21,6 +21,7 @@
 #include "GameSound.hpp"
 
 #include "SettingsManager.hpp"
+#include "ArgMap.hpp"
 
 #include <HackerMan/Util/Main.hpp>
 #include <CG/CG.h>
@@ -197,7 +198,7 @@ public:
 	/////////////////////
 
 	/// Default constructor
-    Game();
+    Game(ArgMap* argmap);
 
 	// Default destructor
     ~Game();

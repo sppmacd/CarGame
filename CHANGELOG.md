@@ -9,9 +9,13 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 # BETA 0.2 SNAPSHOTS
 
+## live
+* [technical] Added some command-line arguments
 ## v200302
 + Added an option for resetting settings.
+* The game is now 2x smaller due to not including debug symbols in executables.
 * [technical] Created CMake build system.
+Note: Since this snapshot CarGame pack does not include 32-bit operating system in published binaries.
 ## v200201, v200301 - only a test snapshots (to test CMake build system)
 ## v191101
 + Added a 3-second delay when starting / resuming game.

@@ -3,6 +3,7 @@
 #include "GameDisplay.h"
 #include "GameSound.hpp"
 #include "DebugLogger.hpp"
+#include "ArgMap.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -40,6 +41,7 @@ struct LoadData
 	Game* game;
 	GameDisplay* disp;
 	bool loaded;
+	ArgMap* argmap;
 };
 
 void loadGame(LoadData* ld)
@@ -48,14 +50,13 @@ void loadGame(LoadData* ld)
     {
         sf::Clock loadTime;
 
-        // replace version if "live"
-        cout << "main: Starting Car Game [" << CG_VERSION << "]" << endl;
+        cout << "main: " + ld->argmap->a_message + " [" << CG_VERSION << "]" << endl;
         cout << "main: Loading game engine..." << endl;
 
         srand(time(NULL));
         ld->disp = new GameDisplay(ld->wnd);
         GameDisplay::loadingStr = "Loading game engine...";
-        ld->game = new Game;
+        ld->game = new Game(ld->argmap);
 
         if(!ld->game->updateFound)
         {
@@ -84,14 +85,49 @@ void loadGame(LoadData* ld)
     }
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    // redirect SFML error output to null
-    //sf::err().rdbuf(NULL);
+    // parse args
+    std::map<std::string, std::string> args;
+    std::string key, val; bool keySet = false;
+    ArgMap argmap;
+
+    // set default values
+    args["--debug"] = "true";
+    args["--message"] = "Starting Car Game";
+
+    // add args from cmd line
+    for(int i = 1; i < argc; i++)
+    {
+        if(argv[i][0] == '-')
+        {
+            //add previous arg if keySet
+            if(keySet)
+            {
+                args[key] = val;
+            }
+            key = argv[i];
+            keySet = true;
+        }
+        else
+        {
+            val = argv[i];
+        }
+    }
+    if(!key.empty()) args[key] = val; //add last argument
+
+    // convert args to values and save in argmap
+    argmap.a_debug = (args.count("--debug") == 1);
+    argmap.a_message = args["--message"];
+
+    // redirect SFML error output to null if not debug mode
+    if(!argmap.a_debug) sf::err().rdbuf(NULL);
+
     LoadData data;
     data.loaded = false;
     data.game = NULL;
     data.disp = NULL;
+    data.argmap = &argmap;
     int i = 0;
 
     try
