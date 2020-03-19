@@ -93,7 +93,7 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
         {
             if(Game::instance->cars[s]->typeId == Car::ARMORED)
             {
-                // replace armored car by rare car with the same color - it's the only way to see "armored Rare car"
+                // replace armored car by rare car with the same color
                 // TODO: "Armored Car" achievement
                 Car* car = new CarRare(Car::RARE, 7.f, rand() % 3);
                 event.carSpawned.carToCreate = car;
@@ -113,7 +113,8 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
 		event.carSpawned.carToCreate->setColor(Color(193, 205, 155));
 		break;
     }
-	default: return false;
+	default:
+        return false;
 	}
 	return true;
 }

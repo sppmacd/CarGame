@@ -108,7 +108,7 @@ void GameSound::stopSounds(std::string name)
 {
     for(auto it = playedSounds.begin(); it != playedSounds.end(); it++)
     {
-        if(name == it->first || name.empty())
+        if(name.empty() || name == it->first)
             it->second->stop();
     }
 }
@@ -117,7 +117,7 @@ void GameSound::pauseSounds(std::string name)
 {
     for(auto it = playedSounds.begin(); it != playedSounds.end(); it++)
     {
-        if(name == it->first || name.empty())
+        if(name.empty() || name == it->first)
             it->second->pause();
     }
 }

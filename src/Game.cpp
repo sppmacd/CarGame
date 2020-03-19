@@ -24,6 +24,7 @@
 #include "PowerPointBoost.hpp"
 #include "PowerFence.hpp"
 #include "PowerSpeedIncrease.hpp"
+#include "PowerDamageDecrease.hpp"
 
 #include <HackerMan/Util/Main.hpp>
 
@@ -138,7 +139,7 @@ void Game::registerPowers()
 	registerPower(3, new PowerPointBoost);
 	registerPower(4, new PowerFence);
 	registerPower(101, new PowerSpeedIncrease);
-	registerPower(102, new PowerSpeedIncrease);
+	registerPower(102, new PowerDamageDecrease);
 }
 
 void Game::registerCarType(CarType type)
