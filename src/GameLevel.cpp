@@ -192,6 +192,16 @@ void Game::newTick()
 }
 void Game::setCurrentPower(Power* power)
 {
+    // completely disable previous power if exists
+    if(powerHandle)
+    {
+        // power 'stop'
+        powerHandle->onPowerStop();
+        // power 'cooldown stop'
+        powerHandle->onCooldownStop();
+        powerHandle = NULL;
+    }
+
     powerHandle = power;
     this->powerTime = powerHandle->maxPowerTime * this->abilities.calculateValue(PlayerAbilityManager::POWER_TIME);
     this->powerMaxTime = this->powerTime;
@@ -201,6 +211,8 @@ void Game::setCurrentPower(Power* power)
     // power 'start'
     if (!powerHandle->onPowerStart())
     {
+        // don't allow create power if power don't want this
+        // play some sound
         this->powerTime = 0;
         this->powerCooldown = 0;
         //this->powers[this->getCurrentPower()]++; //Reset power count to previous

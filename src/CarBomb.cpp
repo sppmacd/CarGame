@@ -13,7 +13,7 @@ void CarBomb::onDamage(Game* game)
     {
         game->setCurrentPower(power->second);
     }
-    makeDestroy(1e38f); //make infinite damage to ensure car is destroyed.
+    makeDestroy(1e38f); //make very big damage to ensure car is destroyed.
 }
 void CarBomb::onLeave(Game*)
 {
