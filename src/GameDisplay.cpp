@@ -249,10 +249,10 @@ void GameDisplay::drawGame()
     renderWnd->clear(game->getLevelColor());
 
     // BACKGROUND
-    sf::Sprite bg(getTexture("bg/" + game->level.getTextureName().toAnsiString()), IntRect(0, 0, getSize().x, 250));
-	bg.setOrigin(0.f, 125.f);
+    sf::Sprite bg(getTexture("bg/" + game->level.getTextureName().toAnsiString()), IntRect(0, 0, getSize().x, 320));
+	bg.setOrigin(0.f, 160.f);
 	bg.setPosition(0.f, this->getSize().y / 2.f);
-	bg.setScale(2.f, 2.f);
+	bg.setScale(2.f / (128.f / 100.f), 2.f / (128.f / 100.f));
     renderWnd->draw(bg);
 
     // FOG

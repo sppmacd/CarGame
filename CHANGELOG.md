@@ -1,4 +1,4 @@
-# Concepts
+# Definitions
 
 DPT - Default Power Time (power time without upgrades / abilities)
 levelAcceleration - defined by map car spawn delay (in ticks, on the start of the game).
@@ -9,19 +9,20 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 # BETA 0.2 SNAPSHOTS
 
+* planned: [fix] that the power remains equipped after game is reset but cannot be used
 ## live
-* Added check for resource folder (game is not crashing when error)
+* [fix] Added check for resource folder (game is not crashing when error)
 * [technical] Added some command-line arguments
 ## v200302
 + Added an option for resetting settings.
 * The game is now 2x smaller due to not including debug symbols in executables.
 * [technical] Created CMake build system.
-Note: Since this snapshot CarGame pack does not include 32-bit operating system in published binaries.
+Note: Since this snapshot CarGame pack does not include 32-bit Windows in published binaries.
 ## v200201, v200301 - only a test snapshots (to test CMake build system)
 ## v191101
 + Added a 3-second delay when starting / resuming game.
 * Updated credits info - added ziputils library and CG license, updated sounds maker.
-* Fixed fullscreen bug when disabled fullscreen in Options.
+* [fix] Fixed fullscreen bug when disabled fullscreen in Options.
 ## v191002
 + Added a short power description when hovering equip button or upgrade button.
 * New apperrance of Car Speed Increase anti-power.
@@ -30,10 +31,10 @@ Note: Since this snapshot CarGame pack does not include 32-bit operating system 
 + Added counter, delaying game unpause when exiting Ingame Menu by 3 seconds.
 + Added Anti-Power: Car Speed Increase.
 + Added simple tutorial.
-* Improved power draw performance (not searching for power in any frame)
-* Fixed bug - Abilities wasn't resetted when resetting game.
-* Improved code documentation.
-* Cars are drawn in backward direction (from the latest to the earliest)
+* [performance] Improved power draw performance (not searching for power in every frame)
+* [fix] Fixed bug - Abilities wasn't reset when resetting game.
+* [technical] Improved code documentation.
+* [technical] Cars are drawn in backward direction (from the latest to the earliest)
 ## v190901
 + Added Shop GUI with powers and abilities.
 + Added abilities: Power Reload Time, Power Time, Damage. It will ease your game upgrading the best things and degrading the worst.
@@ -49,15 +50,15 @@ Note: Since this snapshot CarGame pack does not include 32-bit operating system 
 * Freeze freezes less - 2.5% Speed/tick -> 0.5% Speed/tick and the speed rises shorter - 1/9 DPT -> 1/16 DPT
 ## v190806
 + You can have now only 2 powers at once.
-* Made profile format compatible with other profile format versions. Your powers won't be longer removed!
-* Fixed Map Selection bug.
+* [technical] Made profile format compatible with other profile format versions. Your powers won't be longer removed!
+* [fix] Fixed Map Selection bug.
 * Coins are earned by full destruction of car (not damage only).
 * Cars destroyed by power will give coins.
 * Armored Car won't be longer spawned double in the row.
 * Oil is better on first level but its force rises slower.
 * Changed apperrance of Oil power (on higher levels).
 ## v190805
-* Changed background color of some maps
+* Changed background color of some maps.
 * Map Selection now is set on last unlocked map (not always on Coutryside)
 * Freeze makes game a bit quicker when running out - 0.0625% Speed/tick -> 0.0725% Speed/tick
 * Point Boost is shorter - 20 s -> 16.7 s and makes game quicker - 0.005 Speed/tick
@@ -66,8 +67,8 @@ Note: Since this snapshot CarGame pack does not include 32-bit operating system 
 * Power duration is now shown in Shop.
 ## v190804
 * Added some sounds: upgrade, game_over, coin_mpl.
-* Changed freeze behaviour - its effect is now faded.
-* Executables moved to folders ->  x86,x64 due to openal32.dll compability
+* Changed freeze behaviour - its effect is now faded (weaker at the beginning and at the end of duration)
+* [technical] Executables moved to folders ->  x86,x64 due to openal32.dll compability
 ## v190803
 + Added Sounds!!!
 * Added point stat animations.
@@ -84,8 +85,8 @@ Note: Since this snapshot CarGame pack does not include 32-bit operating system 
 ## v190704
 + Powers aren't bought, but upgraded.
 ## v190703
-* Finally fixed Ingame GUI Escape bug!
-* Finally fixed window resizing bugs.
+* [fix] Finally fixed Ingame GUI Escape bug!
+* [fix] Finally fixed window resizing bugs.
 ## v190702
 + New translations: full German.
 
