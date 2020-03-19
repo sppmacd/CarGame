@@ -378,6 +378,12 @@ public:
 	// and GuiShop to know when to display blinking border.
 	bool canPowerBuyOrEquip();
 
+	// Sets damage multiplier. By default, it's set to ability.damage value
+	void setDamageMultiplier(float dmg);
+
+	// Returns current dmg multiplier.
+	float getDamageMultiplier();
+
 	/////////////////////////////////
 	/////////////////////////////////
 	/////////////////////////////////
@@ -438,4 +444,7 @@ private:
 
     // Variable storing default language (English)
 	TranslationManager enUSTranslation;
+
+	// The damage multiplier. It's applied by PowerDamageDecrease.
+	float damageMultiplier;
 };

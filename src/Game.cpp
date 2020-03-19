@@ -447,6 +447,7 @@ void Game::setupGame()
     this->powerTime = 0;
 	this->powerCooldown = 0;
 	this->setPointMultiplier((float(this->level.getMapType()) + 2.f) * 0.8f);
+	this->setDamageMultiplier(this->abilities.calculateValue(PlayerAbilityManager::DAMAGE));
 	this->unpauseGame(3.f);
 }
 
@@ -797,4 +798,16 @@ bool Game::canPowerBuyOrEquip()
     if(Game::instance->usablePowerIds.size() < 2 && unlockedPowers > 1)
         powerCanEquip = true;
     return powerCanBuy || powerCanEquip;
+}
+
+void Game::setDamageMultiplier(float dmg)
+{
+    if(dmg < 0.f)
+        dmg = 0.f; //don't allow negative
+    damageMultiplier = dmg;
+}
+
+float Game::getDamageMultiplier()
+{
+    return damageMultiplier;
 }

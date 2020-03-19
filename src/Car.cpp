@@ -117,7 +117,7 @@ void Car::onDamage(Game* game)
         }
     }
 
-    makeDestroy(game->abilities.calculateValue(PlayerAbilityManager::DAMAGE));
+    makeDestroy(game->getDamageMultiplier());
 }
 
 void Car::onDestroy(Game* game)
