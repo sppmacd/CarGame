@@ -248,41 +248,44 @@ void GameDisplay::drawGame()
 
     renderWnd->clear(game->getLevelColor());
 
-    // BACKGROUND
-    sf::Sprite bg(getTexture("bg/" + game->level.getTextureName().toAnsiString()), IntRect(0, 0, getSize().x, 320));
-	bg.setOrigin(0.f, 160.f);
-	bg.setPosition(0.f, this->getSize().y / 2.f);
-	bg.setScale(2.f / (128.f / 100.f), 2.f / (128.f / 100.f));
-    renderWnd->draw(bg);
+    // some useful variables to calculate coordinates
+    float hy = getSize().y / 2.f;
+    float fx = getSize().x;
 
-    // FOG
-    VertexArray arr(Quads);
-    Color fogColor = game->getLevelColor();
-    /*arr.append(Vertex(Vector2f(0,0), fogColor));
-    arr.append(Vertex(Vector2f(this->getSize().x,0), fogColor));
-    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2-250), fogColor));
-    arr.append(Vertex(Vector2f(0,this->getSize().y/2-250), fogColor));
+    { // BACKGROUND
+        float fac = 1.5625f;
 
-    arr.append(Vertex(Vector2f(0,this->getSize().y), fogColor));
-    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y), fogColor));
-    arr.append(Vertex(Vector2f(this->getSize().x,this->getSize().y/2+250), fogColor));
-    arr.append(Vertex(Vector2f(0,this->getSize().y/2+250), fogColor));*/
+        // will it be valid after textures reloaded ??
+        //static Texture* tex = &getTexture("bg/" + game->level.getTextureName().toAnsiString());
 
+        VertexArray arrbg(Quads, 4);
+        arrbg[0] = sf::Vertex(sf::Vector2f(0.f, hy - 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 0.f));
+        arrbg[1] = sf::Vertex(sf::Vector2f(0.f, hy + 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 320.f));
+        arrbg[2] = sf::Vertex(sf::Vector2f(fx, hy + 160.f * fac), sf::Color::White, sf::Vector2f(fx / fac, 320.f));
+        arrbg[3] = sf::Vertex(sf::Vector2f(fx, hy - 160.f * fac), sf::Color::White, sf::Vector2f(fx / fac, 0.f));
+        renderWnd->draw(arrbg, sf::RenderStates(&getTexture("bg/" + game->level.getTextureName().toAnsiString())));
+    }
+    { // FOG
+        VertexArray arr(Quads, 8);
+        Color fogColor = game->getLevelColor();
 
-    arr.append(Vertex(Vector2f(0,getSize().y/2-250), fogColor));
-    arr.append(Vertex(Vector2f(getSize().x,getSize().y/2-250), fogColor));
-    arr.append(Vertex(Vector2f(getSize().x,getSize().y/2-200), Color::Transparent));
-    arr.append(Vertex(Vector2f(0,getSize().y/2-200), Color::Transparent));
+        //up
+        arr[0] = (Vertex(Vector2f(0,getSize().y/2-250), fogColor));
+        arr[1] = (Vertex(Vector2f(getSize().x,getSize().y/2-250), fogColor));
+        arr[2] = (Vertex(Vector2f(getSize().x,getSize().y/2-200), Color::Transparent));
+        arr[3] = (Vertex(Vector2f(0,getSize().y/2-200), Color::Transparent));
 
-    arr.append(Vertex(Vector2f(0,getSize().y/2+250), fogColor));
-    arr.append(Vertex(Vector2f(getSize().x,getSize().y/2+250), fogColor));
-    arr.append(Vertex(Vector2f(getSize().x,getSize().y/2+200), Color::Transparent));
-    arr.append(Vertex(Vector2f(0,getSize().y/2+200), Color::Transparent));
-    renderWnd->draw(arr);
+        //down
+        arr[4] = (Vertex(Vector2f(0,getSize().y/2+250), fogColor));
+        arr[5] = (Vertex(Vector2f(getSize().x,getSize().y/2+250), fogColor));
+        arr[6] = (Vertex(Vector2f(getSize().x,getSize().y/2+200), Color::Transparent));
+        arr[7] = (Vertex(Vector2f(0,getSize().y/2+200), Color::Transparent));
+        renderWnd->draw(arr);
+    }
 
     if(game->isNewPlayer && game->tutorialStep == TUT_DONTLEAVE)
     {
-        drawTutorial(bg.getPosition() - Vector2f(0.f, bg.getTextureRect().height), Vector2f(50.f, bg.getTextureRect().height * 2), game->translation.get("tutorial.dontleave"));
+        drawTutorial(Vector2f(0.f, hy - 160.f), Vector2f(50.f, 320.f), game->translation.get("tutorial.dontleave"));
     }
 
     // CARS
