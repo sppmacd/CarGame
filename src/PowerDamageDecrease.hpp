@@ -7,7 +7,8 @@ class PowerDamageDecrease: public Power
 public:
     PowerDamageDecrease();
     virtual void drawPower(RenderWindow* wnd);
-    virtual void onPowerTick(int tick);
+    virtual bool onPowerStart();
+    virtual void onPowerStop();
     virtual int getCost();
     virtual string getName();
 };

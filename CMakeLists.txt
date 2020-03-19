@@ -44,7 +44,7 @@ endif()
 # add CG binaries to build
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC}/${CG_ARCH_PREFIX})
 
-file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp" "cgui_fork/*.cpp")
+file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp" "cgui_fork/src/*.cpp" "src/*.hpp" "cgui_fork/include/CG/*.hpp" "src/*.h" "cgui_fork/include/CG/*.h" "cgui_fork/include/CG/*.hpp")
 set(CMAKE_BUILD_TYPE "Release")
 message("CG: sources are ${SOURCES}")
 add_executable(cg "${SOURCES}")
@@ -86,7 +86,6 @@ file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/hmut
 add_library(hmutil "${SOURCES}")
 target_include_directories(hmutil PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 
-
 # add cg and hmutil libraries to compiler cmd
 message("CG: adding headers")
 target_link_libraries(cg hmutil)
@@ -100,6 +99,8 @@ if(CG_COMPILE_DEBUG)
 	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/cgui_fork/include")
 	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 endif()
+
+# force add headers to project when configuring for IDE
 
 # set working directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC})

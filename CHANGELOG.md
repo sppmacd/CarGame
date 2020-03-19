@@ -11,9 +11,12 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 * planned: [fix] that the power remains equipped after game is reset but cannot be used
 ## live
++ Added Power: Damage Decrease.
+* [performance] Optimized game background a bit.
 * [fix] Fixed background bug on GPU that not supports non power of two sizes of textures.
 * [fix] Added check for resource folder (game is not crashing when error)
-* [technical] Added some command-line arguments
+* [technical] Added some command-line arguments.
+* [technical] Added API to set damage multiplier.
 ## v200302
 + Added an option for resetting settings.
 * The game is now 2x smaller due to not including debug symbols in executables.

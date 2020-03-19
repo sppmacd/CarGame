@@ -138,6 +138,7 @@ void Game::registerPowers()
 	registerPower(3, new PowerPointBoost);
 	registerPower(4, new PowerFence);
 	registerPower(101, new PowerSpeedIncrease);
+	registerPower(102, new PowerSpeedIncrease);
 }
 
 void Game::registerCarType(CarType type)
@@ -593,6 +594,7 @@ void Game::loadLanguages()
             str << "current.lang=en_US" << endl;
         str.close();
 
+        // try to load newly created config
         b = languageConfig.loadFromFile("../../config");
         if(!b)
         {

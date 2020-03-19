@@ -9,12 +9,17 @@ PowerDamageDecrease::PowerDamageDecrease(): Power()
 void PowerDamageDecrease::drawPower(RenderWindow* wnd)
 {
     RectangleShape rs(Vector2f(wnd->getSize()));
-    rs.setFillColor(Color(255, 0, 0, min(128, Game::instance->powerTime * 3)));
+    rs.setFillColor(Color(152, 39, 204, min(128, Game::instance->powerTime * 3)));
     wnd->draw(rs);
 }
-void PowerDamageDecrease::onPowerTick(int tick)
+bool PowerDamageDecrease::onPowerStart()
 {
-    Game::instance->setGameSpeed(Game::instance->getGameSpeed() + 0.05f);
+    Game::instance->setDamageMultiplier(Game::instance->getDamageMultiplier() / 2.f);
+    return true;
+}
+void PowerDamageDecrease::onPowerStop()
+{
+    Game::instance->setDamageMultiplier(Game::instance->getDamageMultiplier() * 2.f);
 }
 int PowerDamageDecrease::getCost()
 {
@@ -22,5 +27,5 @@ int PowerDamageDecrease::getCost()
 }
 string PowerDamageDecrease::getName()
 {
-    return "speed_increase";
+    return "damage_decrease";
 }
