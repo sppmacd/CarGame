@@ -78,6 +78,7 @@ bool TranslationManager::loadFromFile(String code)
 {
     languageCode = code;
 
+    cout << "TranslationManager: Loading translation: " << code.toAnsiString() << endl;
     wifstream file("res/lang/" + code + ".lang");
     codecvt_utf8_utf16<wchar_t>* c = new codecvt_utf8_utf16<wchar_t>;
     file.imbue(locale(file.getloc(), c));
@@ -110,8 +111,8 @@ void TranslationManager::addTranslation(String unlocalized, String localized)
 }
 String TranslationManager::get(String unlocalized, initializer_list<String> values)
 {
-    if(translations.empty())
-        return "(translation err 02: " + languageCode + ")";
+    /*if(translations.empty())
+        return "(translation err 02: " + languageCode + ")";*/
     auto it = translations.find(unlocalized);
 
     if(it == translations.end())

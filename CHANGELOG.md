@@ -10,8 +10,10 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 # BETA 0.2 SNAPSHOTS
 
 * planned: [fix] that the power remains equipped after game is reset but cannot be used
+* planned: add API to enable Ramp power implementation: cancelling 
 ## live
 + Added Power: Damage Decrease.
+* Changed power textures.
 * [performance] Optimized game background a bit.
 * [fix] Fixed background bug on GPU that not supports non power of two sizes of textures.
 * [fix] Added check for resource folder (game is not crashing when error)

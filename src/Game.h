@@ -401,7 +401,10 @@ public:
 	vector<CarType> carTypeRegistry;
 
 	// All languages.
-	TranslationManager languageConfig;
+	HMDataMap hmLangCfg;
+
+	// Code of current language.
+	string currentLangCode;
 
 	friend class Triggers;
 

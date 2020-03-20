@@ -585,39 +585,42 @@ void Game::loadLanguages()
 {
     GameDisplay::loadingStr = "Loading language...";
     cout << "Game: Loading language config..." << endl;
-    bool b = languageConfig.loadFromFile("../../config");
+    bool b = hmLangCfg.loadFromFile("lang.hmd");
     if(!b)
     {
         cout << "Game: Could not load translation config! Creating a new one..." << endl;
 
-        ofstream str("config.lang");
-        if(str.good())
-            str << "current.lang=en_US" << endl;
-        str.close();
+        hmLangCfg.setKey("current","en_US","lang");
+        hmLangCfg.saveToFile("lang.hmd");
 
         // try to load newly created config
-        b = languageConfig.loadFromFile("../../config");
+        b = hmLangCfg.loadFromFile("lang.hmd");
         if(!b)
         {
             displayError("Error: G01: Could not load language config");
         }
-    } //stream is closed automatically
+    }
 
     bool b2 = enUSTranslation.loadFromFile("en_US");
     if(!b2)
     {
         cout << "Game: Could not load default translation!" << endl;
-        displayError("Error: G00: Could not load translation");
+        displayError("Error: G00: Could not load default translation");
         return;
     }
 
     // Load user-defined translation
-    string code = languageConfig.get("current.lang");
+    string code = hmLangCfg.getKey("current","lang","en_US");
     bool b1 = translation.loadFromFile(code);
     translation.setParent(&enUSTranslation);
     if(!b1)
     {
         cout << "Game: Could not load user-defined translation file." << endl;
+        currentLangCode = "en_US";
+    }
+    else
+    {
+        currentLangCode = code;
     }
 }
 

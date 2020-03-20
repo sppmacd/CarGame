@@ -163,8 +163,9 @@ void GameDisplay::drawDebugInfo(sf::RenderWindow* wnd)
     wnd->draw(rs);
 
 	wnd->draw(disp->drawString(std::string("CG " + string(CG_VERSION))
-		+ std::string("|\ttick = ") + std::string(to_string(Game::instance->tickTime.asMicroseconds()))
+		+ std::string(" |\ttick = ") + std::string(to_string(Game::instance->tickTime.asMicroseconds()))
 		+ std::string(",\trtick = ") + std::string(to_string(Game::instance->realTickTime.asMicroseconds()))
+		+ std::string(",\tfps = ") + std::string(to_string(int(1000000.f / Game::instance->realTickTime.asMicroseconds())))
 		+ std::string(",\ttc = ") + std::string(to_string(Game::instance->tickCount))
 		+ std::string(",\tmtc = ") + std::string(to_string(Game::instance->mainTickCount))
 		+ std::string(",\tcars = ") + std::string(to_string(Game::instance->cars.size()))

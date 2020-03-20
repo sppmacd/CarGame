@@ -14,12 +14,12 @@ void PowerDamageDecrease::drawPower(RenderWindow* wnd)
 }
 bool PowerDamageDecrease::onPowerStart()
 {
-    Game::instance->setDamageMultiplier(Game::instance->getDamageMultiplier() / 2.f);
+    Game::instance->setDamageMultiplier(Game::instance->getDamageMultiplier() / 20.f);
     return true;
 }
 void PowerDamageDecrease::onPowerStop()
 {
-    Game::instance->setDamageMultiplier(Game::instance->getDamageMultiplier() * 2.f);
+    Game::instance->setDamageMultiplier(Game::instance->getDamageMultiplier() * 20.f);
 }
 int PowerDamageDecrease::getCost()
 {
