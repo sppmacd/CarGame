@@ -91,7 +91,7 @@ void CarType::init()
 	game->registerCarType(CarType(Car::BUS, "bus").setRarities(             {10,3,14,8,3,3,5,3,5,8,3}           ).setMaxHealth(5));
 	game->registerCarType(CarType(Car::AMBULANCE, "ambulance").setRarities( {10,3,10,15,20,5,3,10,3,3,6}        ).setMaxHealth(4));
 	game->registerCarType(CarType(Car::RALLY, "rally").setRarities(         {4,20,5,25,10,20,10,20,20,5,20}     ).setMaxHealth(2));
-	game->registerCarType(CarType(Car::BOMB, "bomb").setRarities(           {15,15,15,15,15,15,15,15,15,15,15}  ).setMaxHealth(1));
+	game->registerCarType(CarType(Car::BOMB, "bomb").setRarities(           {1,15,15,15,15,15,15,15,15,15,15}  ).setMaxHealth(1));
 	game->registerCarType(CarType(Car::FIREMAN, "fireman").setRarities(     {5,7,3,10,8,12,4,10,5,5,12}         ).setMaxHealth(5));
 	game->registerCarType(CarType(Car::TANK, "tank").setRarities(           {10,7,15,20,25,10,20,20,25,30,10}   ).setMaxHealth(10));
 	game->registerCarType(CarType(Car::OLD, "old").setRarities(             {5,20,8,10,15,5,15,20,15,15,5}      ).setMaxHealth(2));

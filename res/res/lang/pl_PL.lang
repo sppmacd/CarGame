@@ -24,7 +24,7 @@ settings.game.resetgame.msg=Czy jesteś pewien, żeby usunąć wszystkie dane gr
 settings.global.language=Język
 settings.global.debug=Tryb debugowania
 settings.global.resetsettings=Resetuj ustawienia
-settings.global.resetsettings.msg=Do you really want to reset settings?
+settings.global.resetsettings.msg=Czy na pewno chcesz zresetować ustawienia?
 settings.sound.volume=Głośność dźwięku
 
 gui.language.title=Język...
@@ -65,7 +65,7 @@ gui.gameover.score=Zdobyłeś %0 punktów
 gui.gameover.return=Wróć do Menu
 gui.gameover.newgame=Nowa gra
 
-gui.updates.found=Found update: %0. \nDo you want to install it now?
+gui.updates.found=Znaleziono aktualizację: %0. \nCzy chcesz ją teraz zainstalować?
 
 power.none=Brak mocy
 power.none.desc=Ta moc nic nie robi :)

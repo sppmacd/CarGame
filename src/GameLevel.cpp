@@ -220,7 +220,10 @@ void Game::setCurrentPower(Power* power)
 }
 void Game::stopCurrentPower()
 {
-    this->powerCooldown = this->powerHandle->cooldownTime / this->abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME); // 30 seconds
+    if(this->powerHandle->cooldownTime <= 1)
+        this->powerCooldown = 1;
+    else
+        this->powerCooldown = this->powerHandle->cooldownTime / this->abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME); // 30 seconds
     this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
 
     // power 'stop'
@@ -237,33 +240,37 @@ void Game::updateEffect()
         this->usePower(this->getCurrentPower());
         this->setCurrentPower(it->second);
     }
-    if(this->powerTime > 0)
+
+    if(powerHandle)
     {
-        this->powerTime--;
-
-		// power 'tick'
-		powerHandle->onPowerTick(this->powerTime);
-
-        if(this->powerTime == 1)
+        if(this->powerTime > 0)
         {
-            this->stopCurrentPower();
+            this->powerTime--;
+
+            // power 'tick'
+            powerHandle->onPowerTick(this->powerTime);
+
+            if(this->powerTime == 1)
+            {
+                this->stopCurrentPower();
+            }
         }
-    }
 
-    else if(this->powerTime == -1)
-    {
-		// power 'cooldown tick'
-		powerHandle->onCooldownTick(this->powerCooldown);
-        this->powerCooldown--;
-    }
+        else if(this->powerTime == -1)
+        {
+            // power 'cooldown tick'
+            powerHandle->onCooldownTick(this->powerCooldown);
+            this->powerCooldown--;
+        }
 
-    if(this->powerCooldown == 1) // 1-set CUP, >1-cooldown!, -1-power is using!, 0-can use power
-    {
-		// power 'cooldown stop'
-		powerHandle->onCooldownStop();
-        this->powerTime = 0;
-		this->powerCooldown = 0;
-		powerHandle = NULL;
+        if(this->powerCooldown == 1) // 1-set CUP, >1-cooldown!, -1-power is using!, 0-can use power
+        {
+            // power 'cooldown stop'
+            powerHandle->onCooldownStop();
+            this->powerTime = 0;
+            this->powerCooldown = 0;
+            powerHandle = NULL;
+        }
     }
     this->isPowerUsed = false;
 }

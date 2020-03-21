@@ -77,6 +77,8 @@ TranslationManager::TranslationManager(TranslationManager* parent): parentTransl
 bool TranslationManager::loadFromFile(String code)
 {
     // Delete all translations.
+    for(auto it: translations)
+        delete it.second;
     translations.clear();
 
     languageCode = code;
@@ -110,7 +112,7 @@ bool TranslationManager::loadFromFile(String code)
 }
 void TranslationManager::addTranslation(String unlocalized, String localized)
 {
-    TranslationEntry entry(localized);
+    TranslationEntry* entry = new TranslationEntry(localized);
     translations.insert(make_pair(unlocalized, entry));
 }
 String TranslationManager::get(String unlocalized, initializer_list<String> values)
@@ -127,8 +129,8 @@ String TranslationManager::get(String unlocalized, initializer_list<String> valu
             return unlocalized; // No parent and no translation - return default string.
     }
 
-    TranslationEntry entry = it->second;
-    return entry.getValue(values);
+    TranslationEntry* entry = it->second;
+    return entry->getValue(values);
 }
 void TranslationManager::setDisplay(String name, String country)
 {

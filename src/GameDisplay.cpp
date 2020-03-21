@@ -20,6 +20,7 @@ GameDisplay::GameDisplay(sf::RenderWindow* wnd)
 
 	fullscreenMode = 0;
 	vsync = true;
+	pointAnimTick = 0;
 }
 
 void GameDisplay::clearTextures()

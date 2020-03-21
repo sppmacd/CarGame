@@ -29,7 +29,7 @@ public:
     TranslationManager(TranslationManager* parent = NULL);
 
     // The translation map.
-    map<String, TranslationEntry> translations;
+    map<String, TranslationEntry*> translations;
 
     // Load translations from file.
     bool loadFromFile(String code);

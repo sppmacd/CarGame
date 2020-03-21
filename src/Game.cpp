@@ -470,6 +470,9 @@ void Game::closeLevel()
         // Reset powers.
         this->powerHandle->onPowerStop();
         this->powerHandle->onCooldownStop();
+
+        // fix bug with powers not started if closed level during power time.
+        powerHandle = NULL;
     }
     this->pause(true);
 }
