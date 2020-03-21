@@ -147,7 +147,7 @@ int main(int argc, char* argv[])
                 try
                 {
                     // Initialize loop and check if it should run
-                    bool updateDebugStats = data.game->mainTickCount % 6 == 0;
+                    bool updateDebugStats = /*data.game->mainTickCount % 6 == 0*/ true;
                     bool mouseMoveHandled = false;
 
                     // Restart clocks
@@ -161,6 +161,7 @@ int main(int argc, char* argv[])
                         DebugLogger::logDbg("Starting first-tick initialization");
                         data.game->postInit();
                     }
+
 
                     // Check all events
                     while(data.wnd->pollEvent(ev1))

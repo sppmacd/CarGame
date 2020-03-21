@@ -76,6 +76,9 @@ TranslationManager::TranslationManager(TranslationManager* parent): parentTransl
 
 bool TranslationManager::loadFromFile(String code)
 {
+    // Delete all translations.
+    translations.clear();
+
     languageCode = code;
 
     cout << "TranslationManager: Loading translation: " << code.toAnsiString() << endl;
@@ -85,6 +88,7 @@ bool TranslationManager::loadFromFile(String code)
     if(!file.good())
         return false; //err:04
 
+    // parse
     while(!file.eof())
     {
         wstring str;

@@ -100,17 +100,32 @@ void GameDisplay::drawDebugPie(sf::RenderWindow* wnd)
     GameDisplay* disp = GameDisplay::instance;
     Game* game = Game::instance;
 
-    sf::RectangleShape r1(sf::Vector2f(40.f, game->times.timeEvent.asMicroseconds() / 8.f));
-    sf::RectangleShape r2(sf::Vector2f(40.f, game->times.timeGui.asMicroseconds() / 8.f));
-    sf::RectangleShape r3(sf::Vector2f(40.f, game->times.timeTick.asMicroseconds() / 8.f));
-    sf::RectangleShape r4(sf::Vector2f(40.f, game->times.timeRender.asMicroseconds() / 8.f));
-    sf::RectangleShape r5(sf::Vector2f(40.f, game->times.timeWait.asMicroseconds() / 8.f));
+    float dispY = disp->getSize().y;
+    float dispX = disp->getSize().x;
 
-    r1.setPosition(disp->getSize().x - 40, disp->getSize().y - r1.getSize().y);
-    r2.setPosition(disp->getSize().x - 80, disp->getSize().y - r2.getSize().y);
-    r3.setPosition(disp->getSize().x - 120, disp->getSize().y - r3.getSize().y);
-    r4.setPosition(disp->getSize().x - 160, disp->getSize().y - r4.getSize().y);
-    r5.setPosition(disp->getSize().x - 200, disp->getSize().y - r5.getSize().y);
+    int t1 = game->times.timeEvent.asMicroseconds() - game->times.timeGui.asMicroseconds(); //non-CGUI events
+    int t2 = game->times.timeGui.asMicroseconds(); //CGUI events
+    int t3 = game->times.timeTick.asMicroseconds(); //Game logic
+    int t4 = game->times.timeRender.asMicroseconds(); //Render
+    int t5 = std::max(0LL, game->times.timeWait.asMicroseconds()); //FPS limit / Tick limit wait or lag time
+    int tAll = t1+t2+t3+t4+t5;
+    float ty1 = t1 * dispY / (tAll * 2.f);
+    float ty2 = t2 * dispY / (tAll * 2.f);
+    float ty3 = t3 * dispY / (tAll * 2.f);
+    float ty4 = t4 * dispY / (tAll * 2.f);
+    float ty5 = t5 * dispY / (tAll * 2.f);
+
+    sf::RectangleShape r1(sf::Vector2f(40.f, ty1));
+    sf::RectangleShape r2(sf::Vector2f(40.f, ty2));
+    sf::RectangleShape r3(sf::Vector2f(40.f, ty3));
+    sf::RectangleShape r4(sf::Vector2f(40.f, ty4));
+    sf::RectangleShape r5(sf::Vector2f(40.f, ty5));
+
+    r1.setPosition(dispX - 40, dispY - r1.getSize().y);
+    r2.setPosition(dispX - 40, r1.getPosition().y - r2.getSize().y);
+    r3.setPosition(dispX - 40, r2.getPosition().y - r3.getSize().y);
+    r4.setPosition(dispX - 40, r3.getPosition().y - r4.getSize().y);
+    r5.setPosition(dispX - 40, r4.getPosition().y - r5.getSize().y);
 
     r1.setFillColor(sf::Color::Red);
     r2.setFillColor(sf::Color::Green);
@@ -124,26 +139,26 @@ void GameDisplay::drawDebugPie(sf::RenderWindow* wnd)
     wnd->draw(r4);
     wnd->draw(r5);
 
-    sf::Text tx1 = disp->drawString(String(to_string(game->times.timeEvent.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 40, disp->getSize().y - 21));
-    sf::Text tx2 = disp->drawString(String(to_string(game->times.timeGui.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 80, disp->getSize().y - 21));
-    sf::Text tx3 = disp->drawString(String(to_string(game->times.timeTick.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 120, disp->getSize().y - 21));
-    sf::Text tx4 = disp->drawString(String(to_string(game->times.timeRender.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 160, disp->getSize().y - 21));
-    sf::Text tx5 = disp->drawString(String(to_string(game->times.timeWait.asMicroseconds())), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21));
+    sf::Text tx1 = disp->drawString(String("P: " + to_string(t1) + " us"), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21*1));
+    sf::Text tx2 = disp->drawString(String("E: " + to_string(t2) + " us"), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21*2));
+    sf::Text tx3 = disp->drawString(String("T: " + to_string(t3) + " us"), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21*3));
+    sf::Text tx4 = disp->drawString(String("R: " + to_string(t4) + " us"), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21*4));
+    sf::Text tx5 = disp->drawString(String("W: " + to_string(t5) + " us"), 15, sf::Vector2f(disp->getSize().x - 200, disp->getSize().y - 21*5));
 
     tx1.setFillColor(sf::Color::White);
-    tx1.setOutlineColor(sf::Color::Black);
+    tx1.setOutlineColor(sf::Color::Red);
     tx1.setOutlineThickness(1.f);
     tx2.setFillColor(sf::Color::White);
-    tx2.setOutlineColor(sf::Color::Black);
+    tx2.setOutlineColor(sf::Color::Green);
     tx2.setOutlineThickness(1.f);
     tx3.setFillColor(sf::Color::White);
-    tx3.setOutlineColor(sf::Color::Black);
+    tx3.setOutlineColor(sf::Color::Blue);
     tx3.setOutlineThickness(1.f);
     tx4.setFillColor(sf::Color::White);
-    tx4.setOutlineColor(sf::Color::Black);
+    tx4.setOutlineColor(sf::Color::Yellow);
     tx4.setOutlineThickness(1.f);
     tx5.setFillColor(sf::Color::White);
-    tx5.setOutlineColor(sf::Color::Black);
+    tx5.setOutlineColor(sf::Color::Cyan);
     tx5.setOutlineThickness(1.f);
 
     wnd->draw(tx1);
