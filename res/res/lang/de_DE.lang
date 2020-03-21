@@ -3,6 +3,8 @@ gui.return=Zurückkommen...
 gui.cancel=Stornieren
 gui.up=Auf
 gui.down=Ab
+gui.next=Next
+gui.prev=Prev.
 
 gui.toggle.on=An
 gui.toggle.off=Aus
@@ -12,13 +14,18 @@ gui.yesno.no=Nein
 
 gui.mainmenu.credit=Sppmacd 2018. Benutzt SFML.
 
-gui.settings.title=Einstellungen
-gui.settings.refreshres=Ressourcen aktualisieren
-gui.settings.verticalsync=V-Sync
-gui.settings.resetgame=Spiel Zurücksetzen
-gui.settings.language=Sprache
-gui.settings.resetgame.warning=Das kann man nicht rückgängig machen
-gui.settings.resetgame.delete=Bist du sicher, um alle Spieldatei to löschen?
+gui.settings.title=Einstellungen...
+
+settings.graphics.refreshres=Ressourcen aktualisieren
+settings.graphics.verticalsync=V-Sync
+settings.graphics.fullscreen=Fullscreen
+settings.game.resetgame=Spiel Zurücksetzen
+settings.game.resetgame.msg=Bist du sicher, um alle Spieldatei to löschen?\n\nDas kann man nicht rückgängig machen!
+settings.global.language=Sprache
+settings.global.debug=Debug Mode
+settings.global.resetsettings=Reset Settings
+settings.global.resetsettings.msg=Do you really want to reset settings?
+settings.sound.volume=Sound Volume
 
 gui.language.title=Sprache...
 
@@ -29,8 +36,24 @@ gui.selectmap.buyfor=Kaufen für %0$
 gui.selectmap.notenoughcoins=Nicht genug Geld
 
 gui.powers.buy=Kaufen %0: %1$
+gui.powers.upgrade=Upgrade %0: %1$
 gui.powers.title=Kaufen Leistungen
 gui.powers.return=Zu Landschaften Zurückkommen
+gui.powers.notbought=Nicht gekauft
+gui.powers.powerinfo=LVL %0 TIME %1s
+gui.powers.powerlvl=LVL %0
+gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
+gui.powers.maxlvl=%0: MAX LEVEL
+
+gui.shop.title=Geschäft
+gui.shop.labels.ability=Abilities
+gui.shop.labels.power=Powers...
+gui.shop.upgrade_ability=Upgrade %0: %1$
+gui.shop.ability=LVL %0 = %1
+
+ability.power_cooldown_time=Power Reload
+ability.power_time=Power Time
+ability.damage=Damage
 
 gui.ingame.returngame=Zu Spiel zurückkommen
 gui.ingame.returnmainmenu=Return zum Hauptmenü
@@ -42,12 +65,36 @@ gui.gameover.score=Deine Punkte war %0
 gui.gameover.return=Zu Menü zurückkommen
 gui.gameover.newgame=Neue Spiel
 
+gui.updates.found=Found update: %0. \nDo you want to install it now?
+
 power.none=Kein Leistung
+power.none.desc=This power does nothing :)
+power.none.upgr=Upgrading also does nothing.
 power.oil=Öl
+power.oil.desc=Öl makes a stain of sticky fluid on 2 lanes, which will damage passing Cars.
+power.oil.upgr=Upgrading increases power damage.
 power.freeze=Einfrierung
+power.freeze.desc=Freeze creates a frosty fog on the map that will slow down all Cars for 50 seconds.
+power.freeze.upgr=Upgraded will make Cars more slower.
 power.point_boost=Punktesteigerung
+power.point_boost.desc=Point Boost will give a big amount of Points while it makes all cars faster.
+power.point_boost.upgr=Upgraded power will give more points.
 power.fence=Zaun
+power.fence.desc=This power spawns a 2-lane-width fence on the road, stopping all Cars that will try to pass it. It also damages Cars a bit.
+power.fence.upgr=Upgrading will increase Fence damage.
 power.ball=Ball
+power.ball.desc=Ball pushes back Cars dealing some damage to them.
+power.ball.upgr=Upgrading will enforce the Ball - will deal more damage and push back cars stronger.
+
+power.anti.ramp=Ramp
+power.anti.ramp.desc=Ramp makes Cars jumping. The Cars cannot be clicked when jumping. It also gives some speed to Cars.
+power.anti.ramp.upgr=N/A
+power.anti.damage_decrease=Damage Decrease
+power.anti.damage_decrease.desc=Damage Decrease will spoil your Gun, making cars almost invulnerable to any click.
+power.anti.damage_decrease.upgr=N/A
+power.anti.car_speed_increase=Car Speed Increase
+power.anti.car_speed_increase.desc=This power increases speed of all Cars on the map, making them unstoppable by any other effect.
+power.anti.car_speed_increase.upgr=N/A
 
 map.countryside=Land
 map.desert=Küste
@@ -62,3 +109,38 @@ map.swampland=Sumpfland
 map.forest_trails=Waldwege
 
 splash.newrecord=Neue Rekord!
+
+stat.coin=Coins
+stat.score=Points
+stat.high=Highscore
+stat.mpl=Point Multiplier
+stat.points_mpl=Points remaining to get\n next Point Multiplier.
+
+tutorial.startgame=Start Game
+tutorial.buymap=Buy Countryside
+tutorial.selectmap=Select Countryside
+tutorial.destroycar=Destroy car by clicking on it!\n You get Points and Cash for destroying cars.
+tutorial.dontleave=Don't let cars leave the screen!
+tutorial.avoidbomb=You can't click at bomb!\n It is bad!
+tutorial.shop=In Shop you can buy Powers\n and Abilities which will\n ease your game.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
