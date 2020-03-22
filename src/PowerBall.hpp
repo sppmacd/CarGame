@@ -2,10 +2,18 @@
 
 #include "Power.h"
 
-class PowerOil : public Power
+class PowerBall : public Power
 {
 public:
-    PowerOil();
+    struct PbBall
+    {
+        float pos;
+        int lane;
+        int destroyAnim;
+        void update();
+    };
+
+    PowerBall();
 	virtual bool onPowerStart();
 	virtual void onPowerStop();
 	virtual void onPowerTick(int powerTick);
@@ -14,6 +22,6 @@ public:
 	virtual int getCost();
     virtual string getName();
 
-    Vector2f pos;
-    int lane;
+	Vector2f pos;
+	int lane;
 };

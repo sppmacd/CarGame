@@ -23,6 +23,7 @@
 #include "PowerOil.hpp"
 #include "PowerPointBoost.hpp"
 #include "PowerFence.hpp"
+#include "PowerBall.hpp"
 #include "PowerSpeedIncrease.hpp"
 #include "PowerDamageDecrease.hpp"
 
@@ -139,6 +140,7 @@ void Game::registerPowers()
 	registerPower(2, &(new PowerFreeze)->setMaxTime(3000));
 	registerPower(3, new PowerPointBoost);
 	registerPower(4, new PowerFence);
+	registerPower(5, new PowerBall);
 	registerPower(101, new PowerSpeedIncrease);
 	registerPower(102, new PowerDamageDecrease);
 }
