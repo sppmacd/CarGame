@@ -131,6 +131,7 @@ int main(int argc, char* argv[])
         sf::Clock guiClock;
         sf::Clock tickClock;
         sf::Clock renderClock;
+        sf::Clock waitClock;
         sf::Clock lastWarningClock;
         sf::Event ev1;
 
@@ -194,6 +195,7 @@ int main(int argc, char* argv[])
                     if (updateDebugStats) data.game->tickTime = clock.getElapsedTime();
 
                     // Check and notify about lags
+                    waitClock.restart();
                     sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
                     if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
                     {
@@ -206,8 +208,8 @@ int main(int argc, char* argv[])
                     sleep(waitTime);
 
                     // Post-tick cleanup
+                    if (updateDebugStats) data.game->times.timeWait = waitClock.getElapsedTime();
                     if (updateDebugStats) data.game->realTickTime = clock.getElapsedTime();
-                    if (updateDebugStats) data.game->times.timeWait = waitTime + microseconds(1666);
                 }
                 catch(bad_alloc& ba)
                 {

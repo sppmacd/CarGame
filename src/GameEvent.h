@@ -11,15 +11,15 @@ public:
 
 	enum Type
 	{
-		CarSpawning,        //Using CreateCarInstanceEvent  Cancelable=true
-		CarSpawned,         //Using CarEvent                Cancelable=true
-		CarDestroyed,       //Using CarEvent                Cancelable=true
-		CarDeleted,         //Using CarEvent                Cancelable=true
-		CarDamaged,         //Using CarEvent                Cancelable=true
-		CarLeaved,          //Using CarEvent                Cancelable=true
+		CarSpawning,        //Using %carSpawned             Cancelable=true
+		CarSpawned,         //Using %car                    Cancelable=true
+		CarDestroyed,       //Using %car                    Cancelable=true
+		CarDeleted,         //Using %car                    Cancelable=true
+		CarDamaged,         //Using %car                    Cancelable=true
+		CarLeaved,          //Using %car                    Cancelable=true
 		PreTick,            //Using none                    Cancelable=false
 		PostTick,           //Using none                    Cancelable=false
-        LevelLoadingStart,  //Using LevelEvent              Cancelable=false
+        LevelLoadingStart,  //Using %level                  Cancelable=false
 
 		Count //Total count
 	};

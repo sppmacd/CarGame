@@ -7,6 +7,7 @@
 #include "CarAmbulance.h"
 #include "CarBomb.hpp"
 #include "CarTrain.hpp"
+#include "DebugLogger.hpp"
 
 bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
 {
@@ -117,4 +118,12 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
         return false;
 	}
 	return true;
+}
+
+bool EventHandlers::onCarDamaged(GameEvent& event, Game* game)
+{
+    // handle PowerRamp
+    Car* car = event.car.car;
+    DebugLogger::logDbg("Car damaged: a=0x" + to_string((size_t)car) + ", pos=" + to_string(car->pos), "EventHandlers/onCarDamaged");
+    return true;
 }

@@ -191,6 +191,7 @@ void Game::runEventHandler(Event& event)
 
 bool Game::runGameEventHandler(GameEvent& event)
 {
+    //DebugLogger::logDbg("Called event: " + to_string(int(event.type)), "Game");
 	int counter = 0;
 	bool stat = true;
 	for(pair<const GameEvent::Type, GameEventHandler>& pair : eventHandlerInst.registry)
@@ -201,8 +202,8 @@ bool Game::runGameEventHandler(GameEvent& event)
 			stat &= pair.second(event, this);
 		}
 	}
-	if(!stat)
-        DebugLogger::logDbg("Canceled event: " + to_string(int(event.type)), "Game");
+	/*if(!stat)
+        DebugLogger::logDbg("Canceled event: " + to_string(int(event.type)), "Game");*/
 
 	//if (counter < 1)
 		//cout << "Game Event Handler not found for event " << event.type << endl;
@@ -216,8 +217,9 @@ void Game::registerEventHandlers()
 	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
 	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
 	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
-	//addEventHandler(Event::KeyPressed, EventHandlers::onGUIKeyPressed);
+
 	eventHandlerInst.registerGameEvent(GameEvent::CarSpawning, EventHandlers::onCarSpawning);
+	eventHandlerInst.registerGameEvent(GameEvent::CarDamaged, EventHandlers::onCarDamaged);
 }
 
 void Game::addEventHandler(Event::EventType type, CGEventHandler handler)

@@ -6,6 +6,7 @@
 #include "GameSound.hpp"
 #include "GameDisplay.h"
 #include "Math.hpp"
+#include "DebugLogger.hpp"
 
 void Game::addCar(Car* car)
 {
@@ -58,14 +59,21 @@ void Game::updateCars()
 
                 if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
                 {
-					car->onDamage(this);
-                    if(this->tutorialStep == TUT_DESTROYCAR)
+                    GameEvent event;
+                    event.type = GameEvent::CarDamaged;
+                    event.car.car = car;
+
+                    if(runGameEventHandler(event))
                     {
-                        this->tutorialStep = TUT_DONTLEAVE;
-                    }
-                    else if(this->tutorialStep == TUT_DONTLEAVE)
-                    {
-                        this->tutorialStep = TUT_AVOIDBOMB;
+                        car->onDamage(this);
+                        if(this->tutorialStep == TUT_DESTROYCAR)
+                        {
+                            this->tutorialStep = TUT_DONTLEAVE;
+                        }
+                        else if(this->tutorialStep == TUT_DONTLEAVE)
+                        {
+                            this->tutorialStep = TUT_AVOIDBOMB;
+                        }
                     }
 
                     continue;

@@ -22,6 +22,9 @@ namespace EventHandlers
 
 	// True if the car has to be spawned.
 	bool onCarSpawning(GameEvent& event, Game* game);
+
+	// True if car should be damaged.
+	bool onCarDamaged(GameEvent& event, Game* game);
 }
 
 class EventsHandler
