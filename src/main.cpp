@@ -243,7 +243,7 @@ int main(int argc, char* argv[])
 
         GameDisplay::drawLoadingProgress("Closing...", data.wnd);
 
-        if (data.loaded)
+        if(data.loaded)
         {
             data.game->savePlayerData();
             i = data.game->retVal;

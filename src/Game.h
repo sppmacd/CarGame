@@ -257,6 +257,9 @@ public:
 	// Toggles fullscreen
     void toggleFullscreen();
 
+    // Fill player data by default values.
+    void initProfile();
+
 	// Adds specified (v) coins to player
     void addCoins(long v);
 

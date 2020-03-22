@@ -33,6 +33,7 @@
 // [not used] G01 could not load language config
 // G02 registering GUIs is deprecated
 // G03 second Game instance
+// G04 invalid profile
 
 Game* Game::instance = NULL;
 
@@ -201,7 +202,7 @@ bool Game::runGameEventHandler(GameEvent& event)
 		}
 	}
 	if(!stat)
-        cout << "Game: Canceled event " << int(event.type) << endl;
+        DebugLogger::logDbg("Canceled event: " + to_string(int(event.type)), "Game");
 
 	//if (counter < 1)
 		//cout << "Game Event Handler not found for event " << event.type << endl;
@@ -303,7 +304,10 @@ void Game::loadPlayerData()
         else
         {
             cout << "Game: Unsupported profile version!" << endl;
-            displayError("Tried to load newer/invalid profile version. Try installing a new version of Car Game.");
+            displayError("Tried to load newer/invalid profile version.\n\
+                         Try installing a new version of Car Game.\n\
+                         Code: G04");
+            initProfile();
         }
     }
     else
@@ -344,32 +348,37 @@ void Game::loadPlayerData()
             }
             else
             {
-                cout << "Game: Cannot load player data! Creating a new profile. You are the new player :)" << endl;
-                this->highScore = 0;
-                this->playerCoins = 0;
-                this->unlockedLevels  = 0;
-
-                this->totalPlayerPoints = 0;
-                this->coinMpl = 1;
-                this->pointsToNewMpl = 200;
-
-                this->isNewPlayer = true;
-                this->tutorialStep = 1;
-
-                for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
-                {
-                    this->powers[it->first] = PowerPlayerData(it->second);
-                }
-                for(size_t t = 0; t < equippedPowers.size(); t++)
-                {
-                    equippedPowers[t] = 0;
-                }
-                abilities.clear();
+                initProfile();
             }
         }
     }
     //this->abilities = PlayerAbilityManager();
     this->abilities.read(otherData);
+}
+
+void Game::initProfile()
+{
+    cout << "Game: Cannot load player data! Creating a new profile. You are the new player :)" << endl;
+    this->highScore = 0;
+    this->playerCoins = 0;
+    this->unlockedLevels  = 0;
+
+    this->totalPlayerPoints = 0;
+    this->coinMpl = 1;
+    this->pointsToNewMpl = 200;
+
+    this->isNewPlayer = true;
+    this->tutorialStep = 1;
+
+    for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
+    {
+        this->powers[it->first] = PowerPlayerData(it->second);
+    }
+    for(size_t t = 0; t < equippedPowers.size(); t++)
+    {
+        equippedPowers[t] = 0;
+    }
+    abilities.clear();
 }
 
 LevelData Game::findLevel(LevelData::MapType type)
