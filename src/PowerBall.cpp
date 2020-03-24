@@ -33,7 +33,7 @@ void PowerBall::PbBall::update()
         {
             if(abs(c->getScreenPos().x - pos) < 132.f && c->getLine() == lane)
             {
-                float fac = 1.8 * Power::getCurrentPowerLevel() / 4.f;
+                float fac = 1.8 * (Power::getCurrentPowerLevel() - 1) / 4.f;
                 c->setSpeed(c->getSpeed() - (destroyAnim > 15 ? fac : -fac));
                 pos -= c->getSpeed();
             }

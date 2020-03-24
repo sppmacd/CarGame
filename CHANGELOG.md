@@ -10,18 +10,20 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 # BETA 0.2 SNAPSHOTS
 
 * planned: [fix] that the power remains equipped after game is reset but cannot be used
-* planned: add API to enable Ramp power implementation: cancelling 
+
 ## live
 + Created Language GUI.
-+ Added Power: Damage Decrease.
++ Added Power: Ball (without ball textures)
++ Added Anti-Powers: Damage Decrease
 * Changed power textures.
 * [performance] Optimized game background a bit.
 * [fix] Power bug - not started when closed level with running power.
 * [fix] Fixed very dark screen bug.
 * [fix] Fixed background bug on GPU that not supports non power of two sizes of textures.
-* [fix] Added check for resource folder (game is not crashing when error)
+* [fix] Added check for resource folder (game doesn't crash when error but shows a "message" - red progress bar while loading)
 * [technical] Added some command-line arguments.
 * [technical] Added API to set damage multiplier.
+* [technical] Added API to cancel car damage events in correct way.
 ## v200302
 + Added an option for resetting settings.
 * The game is now 2x smaller due to not including debug symbols in executables.
