@@ -80,7 +80,7 @@ void GuiPowers::onResize()
     }
     for(size_t s = 0; s < equippedPowerIds.size(); s++)
     {
-        equippedPowerIds[s].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + s * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 50.f));
+        equippedPowerIds[s].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + s * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 100.f));
     }
 }
 GuiPowers::~GuiPowers()
@@ -129,6 +129,8 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
     }
 
     // equipped powers
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.powers.equippedPowers"), 20, Vector2f(game->getSize().x / 2, powerData.size() * 50.f + game->getSize().y / 4 + 75.f)));
+
     for(size_t s = 0; s < equippedPowerIds.size(); s++)
     {
         equippedPowerIds[s].bImg.draw(wnd);
@@ -148,10 +150,12 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
     {
         PowerData* data = powerData[s];
         Vector2f scaledPos = game->getWindow()->mapPixelToCoords(Mouse::getPosition(*game->getWindow()));
-        if(data->bEquipPower.isClicked(scaledPos) || data->bBuyPower.isClicked(scaledPos))
+        bool bEquipClicked=data->bEquipPower.isClicked(scaledPos), bBuyClicked=data->bBuyPower.isClicked(scaledPos);
+        if(bEquipClicked || bBuyClicked)
         {
-            wnd.draw(drawCenteredString(Game::instance->translation.get("power." + data->power->getName() + ".desc"), 20, Vector2f(Game::instance->getSize().x / 2, powerData.size() * 50.f + Game::instance->getSize().y / 4 + 110.f)));
-            wnd.draw(drawCenteredString(Game::instance->translation.get("power." + data->power->getName() + ".upgr"), 20, Vector2f(Game::instance->getSize().x / 2, powerData.size() * 50.f + Game::instance->getSize().y / 4 + 150.f)));
+            wnd.draw(drawCenteredString(Game::instance->translation.get("power." + data->power->getName() + ".desc"), 20, Vector2f(Game::instance->getSize().x / 2, powerData.size() * 50.f + Game::instance->getSize().y / 4 + 160.f)));
+            wnd.draw(drawCenteredString(Game::instance->translation.get("power." + data->power->getName() + ".upgr"), 20, Vector2f(Game::instance->getSize().x / 2, powerData.size() * 50.f + Game::instance->getSize().y / 4 + 200.f)));
+            wnd.draw(drawCenteredString(Game::instance->translation.get("gui.powers.equip"), 20, Vector2f(Game::instance->getSize().x / 2, powerData.size() * 50.f + Game::instance->getSize().y / 4 + 240.f), Text::Bold));
             break; //only one string at once can be displayed.
         }
     }
@@ -220,7 +224,7 @@ void GuiPowers::onClick(int button)
                 game->equippedPowers[s] = powerId;
                 game->savePlayerData();
                 equippedPowerIds[s].bImg = ButtonImage(this, "power/" + to_string(powerId), Vector2f(40.f, 40.f), Vector2f(), "", equippedPowerIds[s].bImg.getID());
-                equippedPowerIds[s].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + s * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 50.f));
+                equippedPowerIds[s].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + s * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 100.f));
                 break;
             }
         }
@@ -230,7 +234,7 @@ void GuiPowers::onClick(int button)
         int slotId = button - 300;
         equippedPowerIds[slotId].powerId = 0;
         equippedPowerIds[slotId].bImg = ButtonImage(this, "stat/mpl", Vector2f(40.f, 40.f), Vector2f(), "", equippedPowerIds[slotId].bImg.getID());
-        equippedPowerIds[slotId].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + slotId * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 50.f));
+        equippedPowerIds[slotId].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + slotId * 50.f, powerData.size() * 50.f + game->getSize().y / 4 + 100.f));
         equippedPowerIds[slotId].bImg.setEnabled(false);
         game->equippedPowers[slotId] = 0;
         game->savePlayerData();

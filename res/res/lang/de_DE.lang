@@ -44,6 +44,8 @@ gui.powers.powerinfo=LVL %0 TIME %1s
 gui.powers.powerlvl=LVL %0
 gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
 gui.powers.maxlvl=%0: MAX LEVEL
+gui.powers.equip=Click icon to equip
+gui.powers.equippedPowers=Equipped powers
 
 gui.shop.title=Geschäft
 gui.shop.labels.ability=Abilities

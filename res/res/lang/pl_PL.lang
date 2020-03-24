@@ -44,10 +44,12 @@ gui.powers.powerinfo=LVL %0 TIME %1s
 gui.powers.powerlvl=LVL %0
 gui.powers.tip=Naciśnij prawy przycisk myszy aby użyć mocy\nUżyj kółka myszy aby ją zmienić
 gui.powers.maxlvl=%0: MAX LEVEL
+gui.powers.equip=Kliknij ikonę aby ustawić
+gui.powers.equippedPowers=Ustawione moce
 
 gui.shop.title=Sklep
 gui.shop.labels.ability=Umiejętności
-gui.shop.labels.power=Moc...
+gui.shop.labels.power=Moce...
 gui.shop.upgrade_ability=Ulepsz %0: %1$
 gui.shop.ability=LVL %0 = %1
 
