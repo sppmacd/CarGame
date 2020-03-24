@@ -17,6 +17,6 @@ namespace LevelUtility
 	Vector2f getLanePos(int lane)
 	{
 		//	                |--------------------window center---------------------|
-		return Vector2f(0.f,(GameDisplay::instance->getRenderWnd()->getSize().y / 2) + (lane-1) * 100);
+		return Vector2f(0.f, (GameDisplay::instance->getRenderWnd()->getSize().y / 2) + (lane-1) * 100);
 	}
 }

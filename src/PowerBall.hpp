@@ -17,6 +17,7 @@ public:
 	virtual bool onPowerStart();
 	virtual void onPowerStop();
 	virtual void onPowerTick(int powerTick);
+	virtual void onCooldownTick(int tick);
 	virtual void drawPower(RenderWindow* wnd);
 	virtual void drawPowerIdle(RenderWindow* wnd);
 	virtual int getCost();
@@ -24,4 +25,5 @@ public:
 
 	Vector2f pos;
 	int lane;
+	std::vector<PbBall> balls;
 };
