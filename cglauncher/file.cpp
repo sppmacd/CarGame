@@ -98,7 +98,7 @@ bool CG_copyFile(string fileSrc, string fileDest)
     if(src.fail())
         return false;
 
-    ofstream dest(fileDest, std::ios::binary);
+    ofstream dest(fileDest, std::ios::binary | std::ios::trunc);
 
     if(dest.fail())
         return false;

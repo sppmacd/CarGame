@@ -25,7 +25,7 @@ using namespace std;
 #include "structs.hpp"
 #include "globals.hpp"
 
-#define CGLAUNCHER_VER 1
+#define CGLAUNCHER_VER 3
 
 // declarations
 
