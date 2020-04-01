@@ -206,6 +206,7 @@ int CG_runMain(HINSTANCE hInst, int cmd)
     hCombo_2_Version = CreateWindowExW(NULL, L"COMBOBOX", NULL, WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, 166, 20, 167, 300, hWnd, (HMENU)CG_COMBO_2_VERID, hInst, NULL); // to let update checker add required entries
     CG_versionUpdate(L""); // to check launcher version
 
+    cout << "Latest launcher version: " << updateConfig.launcherVer << endl;
     if(updateConfig.launcherVer > CGLAUNCHER_VER)
     {
         cout << "Found a new version of launcher, updating..." << endl;
