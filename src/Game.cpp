@@ -46,13 +46,16 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 
 	if (!instance)
 	{
+	    DebugLogger::logDbg("Performing basic setup", "Game");
 		instance = this; //Set main game instance to this
 		this->running = true; //Set game running
 
 		// Perform first initializations
+		DebugLogger::logDbg("Checking for updates", "Game");
 		GameDisplay::loadingStr = "Checking for updates...";
 		this->updateFound = this->updateChecker.checkUpdates();
 
+		DebugLogger::logDbg("Loading game API", "Game");
 		GameDisplay::loadingStr = "Loading game engine...";
 		this->registerSettings();
 		this->mainTickCount = 0; //Reset ticking
@@ -64,15 +67,18 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		cg::colors::textSize = 28;
 
 		// Reset player stats
+		DebugLogger::logDbg("Initializing player profile", "Game");
 		this->isNewPlayer = false;
 		this->tutorialStep = 0;
 
 		// Initialize registries
+		DebugLogger::logDbg("Starting registry filling", "Game");
 		LevelData::init();
 		CarType::init();
 		this->abilities.init();
 
 		// Reset powers
+		DebugLogger::logDbg("Starting power setup", "Game");
 		this->powerCooldown = 0;
 		this->powerTime = 0;
 		this->isPowerUsed = false;
@@ -82,11 +88,14 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		this->registerPowers();
 
 		// Load player data
+		DebugLogger::logDbg("Loading player data", "Game");
 		this->loadPlayerData();
 
         // Load language configuration
+        DebugLogger::logDbg("Loading language config", "Game");
 		this->loadLanguages();
 
+		DebugLogger::logDbg("Last initializations", "Game");
 		this->tickCount = 0;
 	}
 	else //fatal error
@@ -651,6 +660,8 @@ void Game::setPointMultiplier(float ptmpl)
 
 void Game::registerPower(int id, Power* powerInstance)
 {
+    DebugLogger::logDbg("Adding power: " + std::to_string(id) + " (" + powerInstance->getName() + ")", "Game");
+    powerInstance->id = id;
     powerRegistry.insert(make_pair(id, powerInstance));
     if(id <= 100)
     {
@@ -761,6 +772,7 @@ bool Game::isFullscreen()
 
 void Game::postInit()
 {
+    DebugLogger::logDbg("Performing post-init", "Game");
     /*else
     {
         GameDisplay::instance->getRenderWnd()->create(sf::VideoMode(1280, 720, 32), "CG " + string(CG_VERSION));

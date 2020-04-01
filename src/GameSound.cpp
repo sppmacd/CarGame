@@ -3,6 +3,7 @@
 #include <iostream>
 #include "GameDisplay.h"
 #include "Game.h"
+#include "DebugLogger.hpp"
 
 SoundBase::SoundBase(std::vector<sf::SoundBuffer> buffs): buffers(buffs)
 {
@@ -24,9 +25,11 @@ GameSound::GameSound()
 
 bool GameSound::loadSound(std::string name, bool random)
 {
+    DebugLogger::logDbg("Adding sound: " + name + "(random=" + std::to_string(random) + ")", "GameSound");
     std::vector<sf::SoundBuffer> buffers;
     if(!random)
     {
+        DebugLogger::logDbg("Adding basic SoundBuffer: " + name, "GameSound");
         sf::SoundBuffer buf;
         if(buf.loadFromFile("res/sounds/" + name + ".ogg"))
         {
@@ -34,6 +37,7 @@ bool GameSound::loadSound(std::string name, bool random)
         }
         else
         {
+            DebugLogger::logDbg("Sound not loaded: " + name, "GameSound");
             return false;
         }
     }
@@ -43,10 +47,12 @@ bool GameSound::loadSound(std::string name, bool random)
         bool loaded = true;
         while(loaded)
         {
+            DebugLogger::logDbg("Adding randomized SoundBuffer: " + name + std::to_string(c), "GameSound");
             sf::SoundBuffer buf;
             loaded = buf.loadFromFile("res/sounds/" + name + std::to_string(c) + ".ogg");
             if(!loaded && c == 1)
             {
+                DebugLogger::logDbg("Random sound not loaded: " + name, "GameSound");
                 return false;
             }
             if(loaded)

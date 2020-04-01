@@ -13,6 +13,7 @@ protected:
 public:
     int maxPowerTime;
     int cooldownTime;
+    int id;
 
     Power();
     virtual ~Power() {}

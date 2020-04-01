@@ -2,6 +2,7 @@
 #include "Game.h"
 #include <iostream>
 #include "FileUtil.hpp"
+#include "DebugLogger.hpp"
 
 GameDisplay* GameDisplay::instance;
 String GameDisplay::loadingStr;
@@ -25,6 +26,7 @@ GameDisplay::GameDisplay(sf::RenderWindow* wnd)
 
 void GameDisplay::clearTextures()
 {
+    DebugLogger::logDbg("Clearing textures", "GameDisplay");
     texturesByName.clear();
 }
 
@@ -41,6 +43,7 @@ void GameDisplay::reload()
 
     clearTextures();
 
+    DebugLogger::logDbg("Generating unknown texture", "GameDisplay");
     if(unknownTexture.getSize() == Vector2u(0,0))
     {
         // Create unknown texture
@@ -65,6 +68,7 @@ void GameDisplay::reload()
         unknownTexture.setRepeated(true);
     }
 
+    DebugLogger::logDbg("Adding car textures", "GameDisplay");
 	for(int i = 0; i < Car::COUNT; i++)
 	{
 	    CarType* type = Game::instance->findCarTypeByID(Car::TypeId(i));
@@ -74,6 +78,7 @@ void GameDisplay::reload()
             cout << "GameDisplay: unknown car type " << i << ", cannot load textures." << endl;
 	}
 
+	DebugLogger::logDbg("Adding map textures", "GameDisplay");
 	if(!Game::instance->levelRegistry.empty())
     {
         for(auto ld : Game::instance->levelRegistry)
@@ -85,6 +90,7 @@ void GameDisplay::reload()
     else
         cout << "GameDisplay: cannot load map textures, no level registered." << endl;
 
+    DebugLogger::logDbg("Adding stat and GUI textures", "GameDisplay");
     addTexture("stat/coin");
     addTexture("stat/high");
     addTexture("stat/score");
@@ -94,6 +100,7 @@ void GameDisplay::reload()
     addTexture("gui/settings");
     addTexture("gui/quit");
 
+    DebugLogger::logDbg("Adding power icons", "GameDisplay");
     for(auto it = Game::instance->powerRegistry.begin(); it != Game::instance->powerRegistry.end(); it++)
     {
         addTexture("power/" + to_string(it->first));
@@ -104,6 +111,7 @@ void GameDisplay::addTexture(string name, bool repeated, bool smooth)
 {
     //cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
+    DebugLogger::logDbg("Adding texture: " + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
     sf::Texture tx;
 	bool load = tx.loadFromFile("res/textures/" + name + ".png");
 	if (!load)
@@ -130,6 +138,7 @@ sf::Texture & GameDisplay::getTexture(string name)
 void GameDisplay::setVSync(bool b)
 {
 	vsync = b;
+	DebugLogger::logDbg("Setting VSync state to " + std::to_string(b), "GameDisplay");
 	renderWnd->setVerticalSyncEnabled(vsync);
 	GameDisplay::instance->getRenderWnd()->setFramerateLimit(vsync ? 0 : 60);
 }

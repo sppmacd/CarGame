@@ -47,13 +47,17 @@ void loadGame(LoadData* ld)
         cout << "main: " + ld->argmap->a_message + " [" << CG_VERSION << "]" << endl;
         cout << "main: Loading game engine..." << endl;
 
+        DebugLogger::logDbg("Setting random seed to current timestamp");
         srand(time(NULL));
+        DebugLogger::logDbg("Creating GameDisplay");
         ld->disp = new GameDisplay(ld->wnd);
         GameDisplay::loadingStr = "Loading game engine...";
+        DebugLogger::logDbg("Creating Game");
         ld->game = new Game(ld->argmap);
 
         if(!ld->game->updateFound)
         {
+            DebugLogger::logDbg("Triggering full game reload");
             ld->disp->reload(); // moved from constructor to display loading screen.
             ld->game->sound.reload();
         }

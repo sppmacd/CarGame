@@ -3,9 +3,11 @@
 #include <HackerMan/Util/Main.hpp>
 #include "GuiSettings.h"
 #include "Game.h"
+#include "DebugLogger.hpp"
 
 void SettingsManager::registerSetting(string name, SettingsManager::SettingType type, string space, string defaultVal)
 {
+    DebugLogger::logDbg("Registering setting: " + space + ":" + name + "=" + defaultVal + " (type=" + std::to_string(type) + ")", "SettingsManager");
     SettingsManager::Setting setting;
     setting.defaultVal = defaultVal;
     setting.space = space;
@@ -42,6 +44,7 @@ void SettingsManager::loadSettings(string fileName)
 
 void SettingsManager::resetSettings(string fileName)
 {
+    DebugLogger::logDbg("Resetting settings to defaults", "SettingsManager");
 	remove(fileName.c_str());
 	loadSettings(fileName);
 	saveSettings(fileName);
@@ -49,6 +52,7 @@ void SettingsManager::resetSettings(string fileName)
 
 void SettingsManager::registerTrigger(string settingName, SettingsManager::TriggerFunc func, string space)
 {
+    DebugLogger::logDbg("Registering trigger: " + space + ":" + settingName, "SettingsManager");
     triggers.insert(make_pair(space + ":" + settingName, func));
 }
 
@@ -219,6 +223,7 @@ void SettingsManager::addWidgetsToSettings(GuiSettings* guisettings)
 
 GuiSettings* SettingsManager::generateWidgets()
 {
+    DebugLogger::logDbg("Generating settings widgets", "SettingsManager");
     GuiSettings* guisettings = new GuiSettings;
     addWidgetsToSettings(guisettings);
     guisettings->manager = this;
@@ -259,6 +264,7 @@ SettingsManager::SettingType SettingsManager::getSettingType(string name, string
 
 bool SettingsManager::triggerAllClose()
 {
+    DebugLogger::logDbg("Triggering all settings", "SettingsManager");
     bool succeed = true;
     for(auto setting: settings)
     {

@@ -200,26 +200,10 @@ void GameDisplay::drawGui()
 
     if(game->tickCount > 0/* || game->tutorialStep == 6*/)
     {
-        if(game->getCurrentPower() >= 0)
-        {
-            sf::Sprite spr(this->getTexture("power/" + to_string(game->getCurrentPower())));
-            spr.setPosition(1050, 42);
-            this->renderWnd->draw(spr);
-
-            sf::Text t1 = this->drawCenteredString(game->translation.get("gui.powers.powerlvl", {to_string(game->powers[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1050, 80), sf::Text::Bold);
-            t1.setFillColor(sf::Color::Blue);
-            this->renderWnd->draw(t1);
-        }
-
-        drawStat(250, 32, "score", game->getScore(), pointAnimTick);
-        if(pointAnimTick > 0)
-            pointAnimTick--;
-
-        drawStat(450, 32, "high", game->highScore);
-        drawStat(650, 32, "mpl", game->getCoinMultiplier());
-        drawStat(850, 32, "points_mpl", game->pointsToNewMpl);
-
-        if(!game->usablePowerIds.empty())
+        bool bPowerUsable = game->usablePowerIds.size() != 0 && game->getCurrentPower() != 0;
+        bool b2 = game->powerTime != 0;
+        int currentPower = game->getCurrentPower();
+        if(bPowerUsable || b2)
         {
             // Draw power cooldown / time
             sf::VertexArray arr(TriangleFan);
@@ -252,7 +236,25 @@ void GameDisplay::drawGui()
                 }
             }
             this->renderWnd->draw(arr);
+
+            sf::Sprite spr(this->getTexture("power/" + to_string(b2 ? game->powerHandle->id : currentPower)));
+            spr.setPosition(1050, 42);
+            this->renderWnd->draw(spr);
         }
+        if(bPowerUsable)
+        {
+            sf::Text t1 = this->drawCenteredString(game->translation.get("gui.powers.powerlvl", {to_string(game->powers[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1050, 80), sf::Text::Bold);
+            t1.setFillColor(sf::Color::Blue);
+            this->renderWnd->draw(t1);
+        }
+
+        drawStat(250, 32, "score", game->getScore(), pointAnimTick);
+        if(pointAnimTick > 0)
+            pointAnimTick--;
+
+        drawStat(450, 32, "high", game->highScore);
+        drawStat(650, 32, "mpl", game->getCoinMultiplier());
+        drawStat(850, 32, "points_mpl", game->pointsToNewMpl);
     }
 
 	if(game->isGuiLoaded())

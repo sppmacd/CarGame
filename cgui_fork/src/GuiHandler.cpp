@@ -1,5 +1,6 @@
 #include <CG/GuiHandler.h>
 #include <CG/Widget.h>
+#include <DebugLogger.hpp>
 
 namespace cg
 {
@@ -265,6 +266,7 @@ void GuiHandler::tickEventMouseClick(Vector2f pos, bool release, Mouse::Button b
 
 void GuiHandler::displayGui(Gui* gui, bool init)
 {
+    DebugLogger::logDbg("Scheduling GUI to display: 0x" + std::to_string((size_t)gui, 16) + " (init=" + (init ? "true" : "false") + ")", "GuiHandler");
     guiToDisplay = gui;
     newGuiSet = true;
     if(init)
@@ -285,6 +287,7 @@ void GuiHandler::initializeGui()
 {
 	if(guiToDisplay != nullptr && newGuiSet)
 	{
+	    DebugLogger::logDbg("Initializing GUI...", "GuiHandler");
 	    this->closeGui(); //Close previous GUI
 	    displayedGui = guiToDisplay;
 	    displayedGui->onLoad();
