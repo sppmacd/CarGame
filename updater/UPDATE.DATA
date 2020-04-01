@@ -8,7 +8,7 @@
 // KEEPFILEX <regex> - marks files matching pattern as common.
 // [todo]
 // LAUNCHERVERSION <id> - sets latest cglauncher version.
-//LAUNCHERVERSION 1
+LAUNCHERVERSION 3
 CURRENTVERSION 1
 AVAILABLEVERSION 	14	SNAPSHOT 	v0.2s	beta-0.2-v200303-snapshot
 AVAILABLEVERSION 	13	SNAPSHOT 	v0.2s	beta-0.2-v200302-snapshot

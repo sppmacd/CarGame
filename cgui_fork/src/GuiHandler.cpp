@@ -266,7 +266,7 @@ void GuiHandler::tickEventMouseClick(Vector2f pos, bool release, Mouse::Button b
 
 void GuiHandler::displayGui(Gui* gui, bool init)
 {
-    DebugLogger::logDbg("Scheduling GUI to display: 0x" + std::to_string((size_t)gui, 16) + " (init=" + (init ? "true" : "false") + ")", "GuiHandler");
+    DebugLogger::logDbg("Scheduling GUI to display: " + std::to_string((size_t)gui) + " (init=" + (init ? "true" : "false") + ")", "GuiHandler");
     guiToDisplay = gui;
     newGuiSet = true;
     if(init)

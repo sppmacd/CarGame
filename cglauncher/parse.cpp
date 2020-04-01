@@ -78,9 +78,7 @@ CGVersion CG_parseUpdate(string in, CGVersion cfg)
         }
         else
         {
-            cfg.errorCode = CGERR_NO_CODE;
-            cfg.errorLine = counter;
-            return cfg;
+            //ignore invalid entries
         }
     }
     return cfg;
@@ -219,9 +217,7 @@ CGUpdateConfig CG_parseUpdateConfig(string in)
         }
         else
         {
-            cfg.errorCode = CGERR_NO_CODE;
-            cfg.errorLine = counter;
-            return cfg;
+            //ignore invalid entries
         }
     }
     return cfg;

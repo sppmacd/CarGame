@@ -15,7 +15,7 @@
 		- it's always newest version, it might be unstable.
 	- https://github.com/sppmacd/CarGame/ > Clone or Download
 - VERY IMPORTANT: Copy SFML dependencies from <SFML Path>/extlibs/libs-<your compiler>/* to <SFML Path>/lib/ !!!!
-- VERY IMPORTANT (Windows only): Copy OpenAL binaries from <SFML Path>/extlibs/bin/<your arch (x86/x64)>/openal32.dll to <CG Source Path>/res/<CG_ARCH_PREFIX>
+- VERY IMPORTANT (Windows only): Copy OpenAL binaries from <SFML Path>/extlibs/bin/<your arch (x86/x64)>/openal32.dll to <CG Source Path>/res/<CG_ARCH_PREFIX> (if it don't exist)
 - Start CMake and set:
 	- source dir to <CG Source Path> (e.g. C:/CG/sources)
 	- binary dir to every path that is not in <CG Source Path> (e.g. C:/CG/build)

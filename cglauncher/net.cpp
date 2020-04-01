@@ -47,7 +47,7 @@ string CG_download(wstring serverAddr, wstring serverUrl)
             cout << "Couldn't download file: connection failed: " << GetLastError() << endl;
             return "";
         }
-        HINTERNET request = WinHttpOpenRequest(connection, L"GET", serverUrl.c_str(), NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE);
+        HINTERNET request = WinHttpOpenRequest(connection, L"GET", serverUrl.c_str(), NULL, L"cglauncher.example.com", WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE);
         if(!request)
         {
             cout << "Couldn't download file: request open failed: " << GetLastError() << endl;

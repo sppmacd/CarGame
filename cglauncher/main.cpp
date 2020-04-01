@@ -161,6 +161,7 @@ void CG_run()
 
 int CG_runMain(HINSTANCE hInst, int cmd)
 {
+    cout << "Starting CGLauncher v" << CGLAUNCHER_VER << "..." << endl;
     MSG msg;
     WNDCLASSEXW wc;
     HICON icon = CG_loadIcon(CG_ICON);
@@ -194,30 +195,64 @@ int CG_runMain(HINSTANCE hInst, int cmd)
     if(!hWnd)
     {
         CG_err(L"Couldn't create window!");
+        cout << "Error creating window: " << GetLastError() << endl;
         return 1;
+    }
+
+    hStatic_x_State = CreateWindowExW(NULL, L"STATIC", L"", WS_CHILD | SS_CENTER, 0, 450, 500, 50, hWnd, NULL, hInst, NULL);
+    CG_setFont(hStatic_x_State, false);
+    ShowWindow(hStatic_x_State, SW_SHOW); //to let user see launcher update progress
+    ShowWindow(hWnd, cmd);
+    hCombo_2_Version = CreateWindowExW(NULL, L"COMBOBOX", NULL, WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, 166, 20, 167, 300, hWnd, (HMENU)CG_COMBO_2_VERID, hInst, NULL); // to let update checker add required entries
+    CG_versionUpdate(L""); // to check launcher version
+
+    if(updateConfig.launcherVer > CGLAUNCHER_VER)
+    {
+        cout << "Found a new version of launcher, updating..." << endl;
+        CG_setState("Updating CGLauncher...", 0);
+        std::string launcherFN = "cglauncher-" + std::to_string(updateConfig.launcherVer);
+
+        // download new launcher https://github.com/sppmacd/CarGame/
+        string launcher = CG_download(L"github.com", L"/sppmacd/CarGame/releases/download/vlauncher/" + CG_wstring(launcherFN) + L".zip");
+
+        // save launcher zip to file
+        CG_saveFile(launcher, "tmp/" + launcherFN + ".zip", false);
+
+        // unpack launcher
+        CreateDirectoryW(L"tmp", NULL);
+        CreateDirectoryW(L"tmp/cglauncher", NULL);
+        CG_unpackTo("tmp/" + launcherFN + ".zip", "tmp/cglauncher/");
+
+        // start new launcher with a self-update option to let it copy itself to new place.
+        PROCESS_INFORMATION pi;
+        ZeroMemory(&pi, sizeof(pi));
+        STARTUPINFO si;
+        ZeroMemory(&si, sizeof(si));
+        WINBOOL created = CreateProcessA(NULL, "tmp/cglauncher/cglauncher.exe self-update", NULL, NULL, TRUE, 0, NULL, "tmp/cglauncher", &si, &pi);
+        if(created)
+            return 0;
+        else
+        {
+            CG_err(L"Couldn't update CGLauncher!");
+        }
     }
 
     hMain_1_Play = CG_createMainButton(100, 20, 300, 60, L"PLAY CG", CG_BUTTON_1_PLAY, false);
     hNormal_1_ChangeVersion = CG_createNormalButton(150, 150, 200, 30, L"CHANGE VERSION", CG_BUTTON_1_CHVER, false);
     hMain_2_Back = CG_createMainButton(166, 80, 167, 40, L"BACK", CG_BUTTON_2_BACK, false);
 
-    hCombo_2_Version = CreateWindowExW(NULL, L"COMBOBOX", NULL, WS_CHILD | CBS_DROPDOWNLIST | WS_VSCROLL, 166, 20, 167, 300, hWnd, (HMENU)CG_COMBO_2_VERID, hInst, NULL);
-    hStatic_1_Version = CreateWindowExW(NULL, L"STATIC", L"version: ", WS_CHILD | SS_CENTER, 200, 100, 100, 40, hWnd, NULL, hInst, NULL);
+    hStatic_1_Version = CreateWindowExW(NULL, L"STATIC", L"version: ", WS_CHILD | SS_CENTER, 100, 100, 300, 40, hWnd, NULL, hInst, NULL);
     hStatic_2_Version = CreateWindowExW(NULL, L"STATIC", L"Version: ", WS_CHILD | SS_RIGHT, 10, 20, 156, 30, hWnd, NULL, hInst, NULL);
-    hStatic_x_State = CreateWindowExW(NULL, L"STATIC", L"", WS_CHILD | SS_CENTER, 0, 450, 500, 50, hWnd, NULL, hInst, NULL);
     hStatic_1_Logo = CreateWindowExW(NULL, L"STATIC", NULL, WS_CHILD | SS_ICON | SS_REALSIZECONTROL | SS_NOTIFY | SS_REALSIZEIMAGE, 0, 250, 500, 200, hWnd, NULL, hInst, NULL);
 
     CG_setFont(hCombo_2_Version, false);
     CG_setFont(hStatic_1_Version, false);
     CG_setFont(hStatic_2_Version, false);
-    CG_setFont(hStatic_x_State, false);
 
-    ShowWindow(hWnd, cmd);
     UpdateWindow(hWnd);
 
     CG_setState("");
     CG_switchScreen(1);
-    CG_versionUpdate(L"");
 
     //SendMessage(hStatic_1_Logo, STM_SETICON, (WPARAM)logo, 0);
 
@@ -253,19 +288,48 @@ int CG_runMain(HINSTANCE hInst, int cmd)
     return msg.wParam;
 }
 
+#define CG_WM_SELFUPDATEFINISHED 0xFFFF
+
 LRESULT CALLBACK CG_selfUpdateEventHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    HANDLE hThread = GetWindowLong(hWnd, )
+    LONG hThread = GetWindowLong(hWnd, 0);
+    switch(msg)
+    {
+    case WM_CLOSE:
+    case WM_COMMAND:
+        TerminateThread((HANDLE)hThread, 0);
+        PostQuitMessage(0);
+        return 0;
+    }
+    return DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
 void CG_selfUpdateEvent(void* arg)
 {
+    CG_setState("Updating...", 50);
+
+    // copy launcher
+    Sleep(2000);
+    CG_copyFile("cglauncher.exe", "../../cglauncher.exe");
+
+    //notify window to close
+    //SendMessage(hWnd, CG_WM_SELFUPDATEFINISHED, 0, 0);
+
+    //it's everything, we can call new launcher
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&pi, sizeof(pi));
+    STARTUPINFO si;
+    ZeroMemory(&si, sizeof(si));
+    WINBOOL created = CreateProcessA(NULL, "../../cglauncher.exe", NULL, NULL, TRUE, 0, NULL, "../../", &si, &pi);
+
+    //terminate this process - we done updating the launcher !
+    exit(!created);
     _endthread();
 }
 
 int CG_runSelfUpdate(HINSTANCE hInst, int cmd)
 {
-    HANDLE hThread = _beginthread(CG_selfUpdateEvent, 0, NULL);
+    LONG hThread = (LONG)_beginthread(CG_selfUpdateEvent, 0, NULL);
 
     MSG msg;
     WNDCLASSEXW wc;
@@ -273,7 +337,7 @@ int CG_runSelfUpdate(HINSTANCE hInst, int cmd)
 
     wc.cbClsExtra = 0;
     wc.cbSize = sizeof(WNDCLASSEXW);
-    wc.cbWndExtra = sizeof(HANDLE);
+    wc.cbWndExtra = sizeof(LONG);
     LOGBRUSH lb;
     lb.lbColor = RGB(50, 40, 40);
     lb.lbHatch = 0;
@@ -284,27 +348,28 @@ int CG_runSelfUpdate(HINSTANCE hInst, int cmd)
     wc.hIconSm = icon;
     wc.hInstance = hInst;
     wc.lpfnWndProc = CG_selfUpdateEventHandler;
-    wc.lpszClassName = (string(CG_WNDCLASS) + "_u").c_str();
+    wc.lpszClassName = (wstring(CG_WNDCLASS) + L"_u").c_str();
     wc.lpszMenuName = NULL;
     wc.style = NULL;
 
     if(!RegisterClassExW(&wc))
     {
-        CG_err(L"Couldn't register window class!");
+        CG_err(L"Couldn't register window class!\n\n" + std::to_wstring(GetLastError()));
         return 1;
     }
 
-    hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, CG_WNDCLASS, L"CarGame Launcher (Updating...)", WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 250, HWND_DESKTOP, NULL, hInst, NULL);
-    SetWindowLong(0, hThread);
-
-    hNormal_sf_Cancel = CG_createNormalButton(50, 100, 400, 50, L"Cancel", CG_BUTTON_SF_CANCEL, true);
-    hStatic_sf_UpdateProgress = CreateWindowExW(NULL, L"STATIC", L"", WS_CHILD | SS_CENTER, 0, 10, 500, 50, hWnd, NULL, hInst, NULL);
-
+    hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, wc.lpszClassName, L"CarGame Launcher (Updating...)", WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, 500, 250, HWND_DESKTOP, NULL, hInst, NULL);
     if(!hWnd)
     {
-        CG_err(L"Couldn't create window!");
+        CG_err(L"Couldn't create window!\n\n" + std::to_wstring(GetLastError()));
         return 1;
     }
+    SetWindowLongW(hWnd, 0, (LONG)hThread);
+    ShowWindow(hWnd, SW_SHOW);
+
+    hNormal_sf_Cancel = CG_createNormalButton(50, 100, 400, 50, L"Cancel", CG_BUTTON_SF_CANCEL, true);
+    ShowWindow(hNormal_sf_Cancel, SW_SHOW);
+    hStatic_x_State = CreateWindowExW(NULL, L"STATIC", L"", WS_CHILD | SS_CENTER | WS_VISIBLE, 0, 10, 500, 50, hWnd, NULL, hInst, NULL);
 
     while(GetMessageW(&msg, NULL, 0, 0))
     {
@@ -312,7 +377,7 @@ int CG_runSelfUpdate(HINSTANCE hInst, int cmd)
         DispatchMessageW(&msg);
     }
 
-    return 0;
+    return msg.wParam;
 }
 
 // main function
@@ -330,14 +395,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR cmdLine, int cmd)
     {
         if(argc == 2)
         {
-            LPWSRT launchCmd = argv[1];
+            LPWSTR launchCmd = argv[1];
             if(wstring(launchCmd) == L"self-update") //called after launcher update
             {
                 //check if we are truly being updated and return error if we aren't.
                 if(runningDir.find_last_of("tmp") == std::string::npos)
                 {
                     //it's impossible in normal way.
-                    CG_err(NULL, L"Invalid command line task: 'self-update'! Executable should be in TMP folder.");
+                    CG_err(L"Invalid command line task: 'self-update'! Executable should be in TMP folder.");
                     return 1;
                 }
                 SetCurrentDirectory("../");

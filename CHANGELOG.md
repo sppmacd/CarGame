@@ -14,6 +14,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 ## live
 * Added some labels to GuiPowers.
+* Now the power icon is displayed always when power is running (even Anti-Power).
 ## v200303
 + Created Language GUI.
 + Added Power: Ball (without ball textures)
