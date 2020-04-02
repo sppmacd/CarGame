@@ -387,6 +387,12 @@ public:
 	// Returns current dmg multiplier.
 	float getDamageMultiplier();
 
+	// Returns current GUI (CGUI) View. Used by GameDisplay::mousePos().
+	sf::View getGUIView();
+
+    // Returns current game view.
+    sf::View getGameView();
+
 	/////////////////////////////////
 	/////////////////////////////////
 	/////////////////////////////////

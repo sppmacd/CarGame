@@ -256,11 +256,17 @@ void GameDisplay::drawGame()
 {
     Game* game = Game::instance;
 
-    renderWnd->clear(game->getLevelColor());
+    renderWnd->clear(/*game->getLevelColor()*/Color::Black);
 
     // some useful variables to calculate coordinates
     float hy = getSize().y / 2.f;
     float fx = getSize().x;
+
+    // 0.2+ scale window to be like 1920x1080
+    float mapSizeX = 1920.f;
+    float mapSizeY = 1080.f;
+    sf::View view = Game::instance->getGameView();
+    renderWnd->setView(view);
 
     { // BACKGROUND
         float fac = 1.5625f;
@@ -268,11 +274,21 @@ void GameDisplay::drawGame()
         // will it be valid after textures reloaded ??
         //static Texture* tex = &getTexture("bg/" + game->level.getTextureName().toAnsiString());
 
-        VertexArray arrbg(Quads, 4);
-        arrbg[0] = sf::Vertex(sf::Vector2f(0.f, hy - 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 0.f));
-        arrbg[1] = sf::Vertex(sf::Vector2f(0.f, hy + 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 320.f));
-        arrbg[2] = sf::Vertex(sf::Vector2f(fx, hy + 160.f * fac), sf::Color::White, sf::Vector2f(fx / fac, 320.f));
-        arrbg[3] = sf::Vertex(sf::Vector2f(fx, hy - 160.f * fac), sf::Color::White, sf::Vector2f(fx / fac, 0.f));
+        VertexArray arrbg(Quads, 8);
+        Color fogColor = game->getLevelColor();
+
+        // bg
+        arrbg[0] = sf::Vertex(sf::Vector2f(0.f, 0.f), fogColor);
+        arrbg[1] = sf::Vertex(sf::Vector2f(mapSizeX, 0.f), fogColor);
+        arrbg[2] = sf::Vertex(sf::Vector2f(mapSizeX, mapSizeY), fogColor);
+        arrbg[3] = sf::Vertex(sf::Vector2f(0.f, mapSizeY), fogColor);
+        renderWnd->draw(arrbg);
+
+        // road
+        arrbg[0] = sf::Vertex(sf::Vector2f(0.f, mapSizeY/2 - 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 0.f));
+        arrbg[1] = sf::Vertex(sf::Vector2f(0.f, mapSizeY/2 + 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 320.f));
+        arrbg[2] = sf::Vertex(sf::Vector2f(mapSizeX, mapSizeY/2 + 160.f * fac), sf::Color::White, sf::Vector2f(mapSizeX / fac, 320.f));
+        arrbg[3] = sf::Vertex(sf::Vector2f(mapSizeX, mapSizeY/2 - 160.f * fac), sf::Color::White, sf::Vector2f(mapSizeX / fac, 0.f));
         renderWnd->draw(arrbg, sf::RenderStates(&getTexture("bg/" + game->level.getTextureName().toAnsiString())));
     }
     { // FOG
@@ -280,22 +296,22 @@ void GameDisplay::drawGame()
         Color fogColor = game->getLevelColor();
 
         //up
-        arr[0] = (Vertex(Vector2f(0,getSize().y/2-250), fogColor));
-        arr[1] = (Vertex(Vector2f(getSize().x,getSize().y/2-250), fogColor));
-        arr[2] = (Vertex(Vector2f(getSize().x,getSize().y/2-200), Color::Transparent));
-        arr[3] = (Vertex(Vector2f(0,getSize().y/2-200), Color::Transparent));
+        arr[0] = (Vertex(Vector2f(0,mapSizeY/2-250), fogColor));
+        arr[1] = (Vertex(Vector2f(mapSizeX,mapSizeY/2-250), fogColor));
+        arr[2] = (Vertex(Vector2f(mapSizeX,mapSizeY/2-200), Color::Transparent));
+        arr[3] = (Vertex(Vector2f(0,mapSizeY/2-200), Color::Transparent));
 
         //down
-        arr[4] = (Vertex(Vector2f(0,getSize().y/2+250), fogColor));
-        arr[5] = (Vertex(Vector2f(getSize().x,getSize().y/2+250), fogColor));
-        arr[6] = (Vertex(Vector2f(getSize().x,getSize().y/2+200), Color::Transparent));
-        arr[7] = (Vertex(Vector2f(0,getSize().y/2+200), Color::Transparent));
+        arr[4] = (Vertex(Vector2f(0,mapSizeY/2+250), fogColor));
+        arr[5] = (Vertex(Vector2f(mapSizeX,mapSizeY/2+250), fogColor));
+        arr[6] = (Vertex(Vector2f(mapSizeX,mapSizeY/2+200), Color::Transparent));
+        arr[7] = (Vertex(Vector2f(0,mapSizeY/2+200), Color::Transparent));
         renderWnd->draw(arr);
     }
 
     if(game->isNewPlayer && game->tutorialStep == TUT_DONTLEAVE)
     {
-        drawTutorial(Vector2f(0.f, hy - 160.f), Vector2f(50.f, 320.f), game->translation.get("tutorial.dontleave"));
+        drawTutorial(Vector2f(0.f, mapSizeY/2 - 160.f), Vector2f(50.f, 320.f), game->translation.get("tutorial.dontleave"));
     }
 
     // CARS

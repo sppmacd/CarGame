@@ -8,7 +8,7 @@ PowerDamageDecrease::PowerDamageDecrease(): Power()
 }
 void PowerDamageDecrease::drawPower(RenderWindow* wnd)
 {
-    RectangleShape rs(Vector2f(wnd->getSize()));
+    RectangleShape rs(Vector2f(1920.f, 1080.f));
     rs.setFillColor(Color(152, 39, 204, min(128, Game::instance->powerTime * 3)));
     wnd->draw(rs);
 }

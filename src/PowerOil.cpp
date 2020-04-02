@@ -16,7 +16,7 @@ void PowerOil::onPowerStop()
 bool PowerOil::onPowerStart()
 {
 	//Game::instance->setGameSpeed(Game::instance->getGameSpeed() * (1.3f / ((-1 / currentLevel) + 1)));
-	pos = Vector2f(Mouse::getPosition(*GameDisplay::instance->getRenderWnd()));
+	pos = (Vector2f)GameDisplay::instance->mousePos();
 	lane = LevelUtility::getLaneFromPos(pos);
 	if(lane < 0 || lane > 2)
         return false;

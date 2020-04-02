@@ -7,7 +7,7 @@ PowerPointBoost::PowerPointBoost(): Power()
 }
 void PowerPointBoost::drawPower(RenderWindow* wnd)
 {
-    RectangleShape rs(Vector2f(wnd->getSize()));
+    RectangleShape rs(Vector2f(1920.f, 1080.f));
     rs.setFillColor(Color(183, 24, 24, (Game::instance->powerTime / 1200.f) * 64.f));
     wnd->draw(rs);
 }

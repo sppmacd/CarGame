@@ -10,7 +10,7 @@ Car::Car(Car::TypeId id, float speed, int line)
     , carSpeed(speed)
     , lineIn(line)
 {
-    this->pos = 1080.f;
+    this->pos = 1130.f;
     this->destroyTick = -1.f;
     this->canErase = false;
 	this->animSize = 1;

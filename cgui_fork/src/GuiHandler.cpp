@@ -188,14 +188,13 @@ bool GuiHandler::isGuiLoaded()
 void GuiHandler::drawGui(bool fullRender, View gameView)
 {
     Gui::setGUIHandler(this);
+    window->setView(guiView);
     if(fullRender)
     {
         window->clear(colors::bgColor);
     }
     if(isGuiLoaded() && guiFont != NULL)
     {
-        window->setView(guiView);
-
         this->displayedGui->drawAll(*window);
 
         if(gameView.getSize() != Vector2f(0.f,0.f))

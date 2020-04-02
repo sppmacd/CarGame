@@ -10,11 +10,14 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 # BETA 0.2 SNAPSHOTS
 
 + planned: New Anti-Power: Ramp
-* planned: [fix] that the power remains equipped after game is reset but cannot be used
 
 ## live
 * Added some labels to GuiPowers.
 * Now the power icon is displayed always when power is running (even Anti-Power).
+* Updated language GUI.
+* [fix] that the power remains equipped after game is reset but cannot be used
+* [fix] that Language GUI widgets wasn't resized when toggling fullscreen.
+
 ## v200303
 + Created Language GUI.
 + Added Power: Ball (without ball textures)

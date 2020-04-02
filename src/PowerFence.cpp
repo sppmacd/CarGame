@@ -23,7 +23,7 @@ void PowerFence::onPowerStop()
 
 bool PowerFence::onPowerStart()
 {
-	pos = Vector2f(Mouse::getPosition(*GameDisplay::instance->getRenderWnd()));
+	pos = (Vector2f)GameDisplay::instance->mousePos();
 	lane = LevelUtility::getLaneFromPos(pos);
 	if(lane < 0 || lane > 2)
         return false;

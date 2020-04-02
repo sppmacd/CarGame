@@ -65,7 +65,7 @@ public:
 	// Set splash text.
 	void setSplash(String text);
 
-	// Retrieve mouse position.
+	// Retrieve mouse position (in game coordinates - the GUI coordinates are trivial)
 	sf::Vector2i mousePos();
 
 	// Get drawable string prepared to draw. Params: string,size,position,style. Returns: instance of sf::Text.

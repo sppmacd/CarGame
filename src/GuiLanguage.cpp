@@ -3,18 +3,23 @@
 #include "GameDisplay.h"
 #include "Game.h"
 #include "FileUtil.hpp"
+#include "DebugLogger.hpp"
 
 void GuiLanguage::onLoad()
 {
-    addWidget(&(bCancel = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 200.f),
+    addWidget(&(bCancel = Button(this, Vector2f(400.f, 40.f), Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 200.f),
                                Game::instance->translation.get("gui.cancel"), 0)));
-    addWidget(&(bDone = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 150.f),
+    addWidget(&(bDone = Button(this, Vector2f(400.f, 40.f), Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 150.f),
                                Game::instance->translation.get("gui.done"), 1)));
-    addWidget(&(bUp = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 100.f),
+    addWidget(&(bUp = Button(this, Vector2f(400.f, 40.f), Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 100.f),
     Game::instance->translation.get("gui.up"), 2))); bUp.setEnabled(false);
 
-    addWidget(&(bDown = Button(this, Vector2f(400.f, 40.f), Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 50.f),
+    addWidget(&(bDown = Button(this, Vector2f(400.f, 40.f), Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 50.f),
     Game::instance->translation.get("gui.down"), 3))); bDown.setEnabled(false);
+
+    // load file with names of all languages
+    HMDataMap langNameMap;
+    langNameMap.loadFromFile("res/langnames.hmd");
 
     // generate widgets for all languages
     // "res/lang" length: 8
@@ -39,11 +44,18 @@ void GuiLanguage::onLoad()
                 GlLangPage pg;
                 bLangButtons.push_back(pg);
             }
+            // retrieve country and lang name
+            std::string langName = fn.substr(0,2); //first 2 chars
+            std::string langCountry = fn.substr(3,2); //2 chars starting from char #2
+            DebugLogger::logDbg("Adding language to GuiLanguage: fn=" + fn + ", name=" + langName + ", country=" + langCountry, "GuiLanguage");
+            sf::String langNameLoc = langNameMap.getKey(langName, "l", "???");
+            sf::String langCountryLoc = langNameMap.getKey(langCountry, "c", "???");
+            sf::String btLabel = langNameLoc + " (" + langCountryLoc + ")";
 
             // add button to page
             GlLangPage& pg2 = bLangButtons[langCount / GUILANGUAGE_LANGS_PER_PAGE];
             GlLangData gld;
-            gld.bSetLang = new cg::Button(this, sf::Vector2f(400.f, 40.f), sf::Vector2f(10.f, (langCount % GUILANGUAGE_LANGS_PER_PAGE) * 50.f + 200.f), fn, 100 + langCount);
+            gld.bSetLang = new cg::Button(this, sf::Vector2f(400.f, 40.f), sf::Vector2f(10.f, (langCount % GUILANGUAGE_LANGS_PER_PAGE) * 50.f + 200.f), btLabel, 100 + langCount);
             addWidget(gld.bSetLang);
             gld.langCode = fn;
             pg2.bBts[langCount % GUILANGUAGE_LANGS_PER_PAGE] = gld;
@@ -79,10 +91,17 @@ GuiLanguage::~GuiLanguage()
 }
 void GuiLanguage::onResize()
 {
-    bCancel.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 200.f));
-    bDone.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 150.f));
-    bUp.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 100.f));
-    bDown.setPosition(Vector2f(GameDisplay::instance->getSize().x / 2 -  200.f, GameDisplay::instance->getSize().y / 2 + 50.f));
+    bCancel.setPosition(Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 200.f));
+    bDone.setPosition(Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 150.f));
+    bUp.setPosition(Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 - 260.f));
+    bDown.setPosition(Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 60.f));
+
+    GuiLanguage::GlLangPage& pg = bLangButtons[current];
+    for(int i = 0; i < pg.bBts.size(); i++)
+    {
+        if(!pg.bBts[i].langCode.empty())
+            pg.bBts[i].bSetLang->setPosition(sf::Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + i * 50.f - 200.f));
+    }
 }
 
 void GuiLanguage::onDraw(RenderWindow& wnd)
@@ -93,6 +112,8 @@ void GuiLanguage::onDraw(RenderWindow& wnd)
     bUp.draw(wnd);
     bDown.draw(wnd);
 
+    // draw some bg under langs
+
     // draw only current page
     GuiLanguage::GlLangPage& pg = bLangButtons[current];
     for(int i = 0; i < pg.bBts.size(); i++)
@@ -101,7 +122,7 @@ void GuiLanguage::onDraw(RenderWindow& wnd)
             pg.bBts[i].bSetLang->draw(wnd);
     }
 
-    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.language.title"), 30, Vector2f(GameDisplay::instance->getSize().x / 2, 200.f)));
+    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.language.title"), 30, Vector2f(guiHandler->getSize().x / 2, 200.f)));
 }
 void GuiLanguage::onClick(int buttonId)
 {

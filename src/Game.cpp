@@ -553,14 +553,12 @@ void Game::toggleFullscreen()
         this->fullscreen = true;
     }
     guiView = View(wnd->getDefaultView()); //bugfix
+    GameDisplay::instance->setWndSize(wnd->getSize());
 
-    if(isGuiLoaded())
-    {
-        getCurrentGUI()->onResize(); //bugfix v2
-    }
+    if(getCurrentGUI())
+        getCurrentGUI()->reloadOnResize(); //resize GUI and its dialogs to update widgets (+0.2)
 
 	GameDisplay::instance->setVSync(GameDisplay::instance->getVSync()); // fix vsync bug on toggling fullscreen
-	GameDisplay::instance->setWndSize(wnd->getSize());
 }
 
 void Game::addCoins(long v)
@@ -844,4 +842,31 @@ void Game::setDamageMultiplier(float dmg)
 float Game::getDamageMultiplier()
 {
     return damageMultiplier;
+}
+
+sf::View Game::getGUIView()
+{
+    return guiView;
+}
+
+sf::View Game::getGameView()
+{
+    float aspect = (float(getSize().x) / getSize().y) / (16.f / 9.f);
+    float mapSizeX = 1920.f;
+    float mapSizeY = 1080.f;
+
+    float y = 0.5f-(0.5f * aspect);
+    float x = 0.5f-(0.5f / aspect);
+
+    sf::View view(sf::FloatRect(0.f, 0.f, mapSizeX, mapSizeY));
+
+    if(aspect < 1)
+    {
+        view.setViewport(sf::FloatRect(0.f, y, 1.f, 1.f * aspect));
+    }
+    else
+    {
+        view.setViewport(sf::FloatRect(x, 0.f, 1.f / aspect, 1.f));
+    }
+    return view;
 }
