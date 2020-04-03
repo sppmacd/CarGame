@@ -599,7 +599,7 @@ void Game::exit(int ret)
 void Game::displayError(string text)
 {
     errStr = text;
-    DebugLogger::logDbg("An error occurred in last tick: " + errStr);
+    DebugLogger::logDbg("An error occurred in last tick: " + errStr, "Game");
     displayGui(new GuiYesNo("An error occurred: " + errStr));
     mainTickCount = 2; //to skip post-init
 }

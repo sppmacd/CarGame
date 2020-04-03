@@ -1,0 +1,7 @@
+// CG version 0.2 (snapshot)
+KEEPFILE profile_1.txt
+KEEPFILE settings.txt
+KEEPFILE lang.hmd
+EXEC32 win_x86/cg.exe
+EXEC64 win_x64/cg.exe
+EXECDBG win_x64/cgd.exe

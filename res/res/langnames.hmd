@@ -1,0 +1,10 @@
+// languages
+l:de=Deutsch
+l:en=English
+l:pl=Polski
+
+// countries
+c:DE=Deutschland
+c:EN=England
+c:US=United States
+c:PL=Polska
