@@ -29,10 +29,10 @@ Simply go to Settings > Language and select your preferred language.
 * In the (installation directory)/res/lang/ are more files with names of the language code. You can create new file and 
 	* send at address sppmacd@gmail.com.
 	* create a pull request on Github.
-## License, Privacy Policy and Terms of Use
+## License
 * License: The game is fully free and open source. See license at LICENSE.
-* Privacy Policy: The game don't collect any personal or anonymous data. For launcher, see Github Privacy Policy.
-* Terms of Use: None.
+
+
 ## CarGame Launcher
 You can download and update game using launcher.
 Download latest version: https://drive.google.com/open?id=18h3IZ3nBC0bhwYhq8W9ZJayVsNrcNoZb
