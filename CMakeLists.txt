@@ -11,6 +11,41 @@ macro(cg_set_option var default type docstring)
     set(${var} ${${var}} CACHE ${type} ${docstring} FORCE)
 endmacro()
 
+# try to detect compiler and arch
+message("CG: compiler is ${CMAKE_CXX_COMPILER_ID}")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	if(WIN32)
+		set(CG_COMPILER "mingw")
+		set(CG_ARCH_PREFIX_A "win")
+	elseif(UNIX)
+		set(CG_COMPILER "unix")
+		set(CG_ARCH_PREFIX_A "unix")
+	endif()
+	
+	# On GCC, set C++ stdlib to be linked statically
+	set(CMAKE_EXE_LINKER_FLAGS " -static")
+	link_libraries(-static-libgcc -static-libstdc++)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	set(CG_COMPILER "msvc")
+	set(CG_ARCH_PREFIX_A "win")
+else()
+	set(CG_COMPILER "invalid")
+	set(CG_ARCH_PREFIX_A "_")
+	set(CG_ARCH_PREFIX_B "_")
+endif()
+
+# detect arch
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)")
+	set(CG_ARCH_PREFIX_B "x86")
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "(amd64)|(AMD64)")
+	set(CG_ARCH_PREFIX_B "x64")
+else()
+	set(CG_ARCH_PREFIX_B "_")
+endif()
+
+set(CG_ARCH_PREFIX "${CG_ARCH_PREFIX_A}_${CG_ARCH_PREFIX_B}")
+set(CG_EXTLIB_PATH "extlibs/libs-${CG_COMPILER}/${CG_ARCH_PREFIX_B}")
+
 # setup options
 cg_set_option(CG_COMPILE_LAUNCHER TRUE BOOL "Compile CG Launcher")
 cg_set_option(CG_COMPILE_DEBUG TRUE BOOL "Compile debug version of CG")
@@ -32,13 +67,17 @@ set(EXEC "cargame-${CG_VER_SIG}")
 
 # add launcher exec if required
 if(CG_COMPILE_LAUNCHER)
-	message("CG: compiling launcher")
-	message("CG: IMPORTANT WARNING: Launcher is not compiling yet, it will result in errors!")
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cglauncher)
-	file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "cglauncher/*.cpp" "cglauncher/libs/ziputils/*.c" "cglauncher/*.rc")
-	add_executable(cglauncher "${SOURCES}")
-	target_link_libraries(cglauncher "winhttp")
-	target_include_directories(cglauncher PUBLIC "${CMAKE_SOURCE_DIR}/cglauncher/libs/*")
+	if(CG_ARCH_PREFIX_A STREQUAL "win")
+		message("CG: compiling launcher")
+		#message("CG: IMPORTANT WARNING: Launcher is not compiling yet, it will result in errors!")
+		set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/cglauncher)
+		file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "cglauncher/*.cpp" "cglauncher/libs/ziputils/*.c" "cglauncher/*.rc")
+		add_executable(cglauncher "${SOURCES}")
+		target_link_libraries(cglauncher "winhttp")
+		target_include_directories(cglauncher PUBLIC "${CMAKE_SOURCE_DIR}/cglauncher/libs/*")
+	else()
+		message("CG: launcher not supported on non-Windows platforms")
+	endif()
 endif()
 
 # add CG binaries to build
@@ -76,6 +115,11 @@ if(SFML_FOUND)
 	endif()	
 endif()
 
+# add sfml extlibs
+message("CG: sfml extlib path is ${SFML_ROOT}/${CG_EXTLIB_PATH}")
+#link_directories("${SFML_ROOT}/${CG_EXTLIB_PATH}")
+file(COPY ${SFML_ROOT}/${CG_EXTLIB_PATH}/ DESTINATION ${SFML_ROOT}/lib)
+	
 # add lib directory
 link_directories(${CMAKE_BINARY_DIR}/lib)
 

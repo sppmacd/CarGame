@@ -6,6 +6,7 @@
 
 GameDisplay* GameDisplay::instance;
 String GameDisplay::loadingStr;
+String GameDisplay::consoleStr;
 
 // GameDisplay error codes:
 // D00 could not load texture

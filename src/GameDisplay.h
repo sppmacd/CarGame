@@ -50,6 +50,9 @@ public:
 	// The string displayed on loading screen.
 	static String loadingStr;
 
+	// The string displayed on console (used to display more loading info when GameDisplay is not initialized)
+	static String consoleStr;
+
 	// Draw simple loading screen.
     static void drawLoadingProgress(String action, sf::RenderWindow* wnd);
 

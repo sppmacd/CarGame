@@ -36,26 +36,43 @@ void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 {
 	static int animC = 0;
 	wnd->clear(Color(30, 30, 40));
-	GameDisplay::drawLoadingProgress(loadingStr, wnd);
-	animC++;
+	if(GameDisplay::consoleStr.isEmpty())
+    {
+        GameDisplay::drawLoadingProgress(loadingStr, wnd);
+        animC++;
 
-	int aX = animC % 400;
-	sf::RectangleShape rsbg(Vector2f(100.f, 20.f));
-	rsbg.setFillColor(Color(20, 20, 20));
-	bool err = GameDisplay::instance && GameDisplay::instance->error;
-	rsbg.setOutlineColor(err ? Color::Red : Color(70, 70, 70));
-	rsbg.setOutlineThickness(2.f);
-	rsbg.setOrigin(50.f, 10.f);
-	rsbg.setPosition(wnd->getSize().x / 2, wnd->getSize().y / 2 + 200);
-	wnd->draw(rsbg);
+        int aX = animC % 400;
+        sf::RectangleShape rsbg(Vector2f(100.f, 20.f));
+        rsbg.setFillColor(Color(20, 20, 20));
+        bool err = GameDisplay::instance && GameDisplay::instance->error;
+        rsbg.setOutlineColor(err ? Color::Red : Color(70, 70, 70));
+        rsbg.setOutlineThickness(2.f);
+        rsbg.setOrigin(50.f, 10.f);
+        rsbg.setPosition(wnd->getSize().x / 2, wnd->getSize().y / 2 + 200);
+        wnd->draw(rsbg);
 
-	sf::RectangleShape rs(Vector2f(3.f, 20.f));
-	rs.setPosition(wnd->getSize().x / 2 + aX*0.25f - 50, wnd->getSize().y / 2 + 200);
-	rs.setOrigin(1.5f, 10.f);
-	rs.setFillColor(Color(230, 230, 230));
-	rs.setOutlineColor(Color(50,50,50));
-	rs.setOutlineThickness(1.5f);
-	wnd->draw(rs);
+        sf::RectangleShape rs(Vector2f(3.f, 20.f));
+        rs.setPosition(wnd->getSize().x / 2 + aX*0.25f - 50, wnd->getSize().y / 2 + 200);
+        rs.setOrigin(1.5f, 10.f);
+        rs.setFillColor(Color(230, 230, 230));
+        rs.setOutlineColor(Color(50,50,50));
+        rs.setOutlineThickness(1.5f);
+        wnd->draw(rs);
+    }
+    else
+    {
+        // Quickly load the font !!
+        static bool error = false;
+        static Font guiFont;
+        if(guiFont.getInfo().family.empty() && !error && !guiFont.loadFromFile("res/font.ttf"))
+        {
+            error = true;
+            return;
+        }
+        // Draw text with default settings.
+        sf::Text text(consoleStr, guiFont, 15);
+        wnd->draw(text);
+    }
 
 	wnd->display();
 }

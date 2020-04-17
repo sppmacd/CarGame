@@ -47,6 +47,21 @@ void loadGame(LoadData* ld)
         cout << "main: " + ld->argmap->a_message + " [" << CG_VERSION << "]" << endl;
         cout << "main: Loading game engine..." << endl;
 
+        // display help if specified in cmdline
+        if(ld->argmap->a_help)
+        {
+            GameDisplay::consoleStr =
+            "CG " + string(CG_VERSION) + "\n"
+            "Command Line Usage:\n"
+            "--debug     Starts Car Game in Debug Mode (can be changed in Settings)\n"
+            "--message   Sets a custom message displayed in CG log (really only to test\n"
+            "command line args)\n"
+            "--help      Shows this message\n"
+            "Press Esc to close game...";
+            DebugLogger::log(GameDisplay::consoleStr, "main");
+            return;
+        }
+
         DebugLogger::logDbg("Setting random seed to current timestamp");
         srand(time(NULL));
         DebugLogger::logDbg("Creating GameDisplay");
@@ -107,6 +122,7 @@ int main(int argc, char* argv[])
 
     // convert args to values and save in argmap
     argmap.a_debug = (args.count("--debug") == 1);
+    argmap.a_help = (args.count("--help") == 1);
     argmap.a_message = args["--message"];
 
     // redirect SFML error output to null if not debug mode
@@ -242,6 +258,8 @@ int main(int argc, char* argv[])
                         return 0;
                 }
                 GameDisplay::drawLoading(data.wnd);
+                if(!GameDisplay::consoleStr.isEmpty())
+                    sf::sleep(sf::seconds(1));
             }
         }
 
