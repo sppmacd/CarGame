@@ -35,9 +35,11 @@ public:
 
     vector<GlLangPage> bLangButtons;
 
-    void onLoad();
-    void onDraw(RenderWindow& wnd);
-    void onClick(int buttonId);
-    void onResize();
+    virtual void onLoad();
+    virtual void onDraw(RenderWindow& wnd);
+    virtual void onClick(int buttonId);
+    virtual void onResize();
+
     // todo: change pages by kb arrows
+    virtual void onKeyboardEvent(Keyboard::Key key, bool released, bool, bool, bool, bool);
 };

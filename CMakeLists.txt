@@ -43,8 +43,12 @@ else()
 	set(CG_ARCH_PREFIX_B "_")
 endif()
 
+# generate arch prefix
 set(CG_ARCH_PREFIX "${CG_ARCH_PREFIX_A}_${CG_ARCH_PREFIX_B}")
 set(CG_EXTLIB_PATH "extlibs/libs-${CG_COMPILER}/${CG_ARCH_PREFIX_B}")
+
+# todo: generate CG_VER_SIG from CG_VER_STR
+# ...
 
 # setup options
 cg_set_option(CG_COMPILE_LAUNCHER TRUE BOOL "Compile CG Launcher")

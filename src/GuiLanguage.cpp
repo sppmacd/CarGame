@@ -174,3 +174,19 @@ void GuiLanguage::onClick(int buttonId)
         }
     }
 }
+void GuiLanguage::onKeyboardEvent(Keyboard::Key key, bool released, bool, bool, bool, bool)
+{
+    // We don't need implement changing pages the next one, we
+    // have done it in onClick() - so only simulate button clicks
+    if(!released)
+    {
+        switch(key)
+        {
+            case sf::Keyboard::Up: if(bUp.isEnabled()) onClick(2); break;
+            case sf::Keyboard::Down: if(bUp.isEnabled()) onClick(3); break;
+            case sf::Keyboard::Return: onClick(1); break;
+            case sf::Keyboard::Escape: onClick(0); break;
+            default: break;
+        }
+    }
+}
