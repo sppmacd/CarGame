@@ -27,7 +27,7 @@ void PowerBall::PbBall::update()
 {
     if(destroyAnim != -1)
     {
-        pos -= 4.5f * (destroyAnim / 30.f);
+        pos -= 4.3f * (destroyAnim / 30.f);
         destroyAnim--;
 
         // find cars that will be pushed back and push them back
@@ -42,7 +42,7 @@ void PowerBall::PbBall::update()
     }
     else
     {
-        pos += 4.5f;
+        pos += 4.3f;
 
         // check if will damage some cars
         for(Car* c : Game::instance->cars)
@@ -71,7 +71,7 @@ bool PowerBall::onPowerStart()
 void PowerBall::onPowerTick(int powerTick)
 {
     // TODO
-    if((1200 - powerTick) % 30 == 0)
+    if((1200 - powerTick) % 90 == 0)
     {
         PowerBall::PbBall ball;
         ball.destroyAnim = -1;
@@ -134,7 +134,7 @@ void PowerBall::drawPower(RenderWindow * wnd)
         sf::IntRect rect;
 
         static const int TEX_SIZE = 64;
-        static const int FRAME_TICKS = 2;
+        static const int FRAME_TICKS = 5;
         static const int DESTROY_FRAMES = 8;
 
         rect.width = TEX_SIZE;
