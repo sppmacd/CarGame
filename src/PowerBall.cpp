@@ -70,7 +70,6 @@ bool PowerBall::onPowerStart()
 
 void PowerBall::onPowerTick(int powerTick)
 {
-    // TODO
     if((1200 - powerTick) % 90 == 0)
     {
         PowerBall::PbBall ball;
@@ -109,28 +108,12 @@ void PowerBall::onCooldownTick(int tick)
 
 void PowerBall::drawPower(RenderWindow * wnd)
 {
-    // TODO
     for(int i = 0; i < balls.size(); i++)
     {
         PowerBall::PbBall& ball = balls[i];
         sf::Vector2f vec = LevelUtility::getLanePos(ball.lane);
 
         // some simple draw
-        /*
-        sf::CircleShape cs(32.f);
-        cs.setOrigin(32.f, 32.f);
-        cs.setPosition(ball.pos, vec.y);
-        if(ball.destroyAnim != -1)
-        {
-            cs.setFillColor(Color::Red);
-        }
-        else
-        {
-            cs.setFillColor(Color::Green);
-        }
-
-        wnd->draw(cs);*/
-
         sf::IntRect rect;
 
         static const int TEX_SIZE = 64;

@@ -126,7 +126,6 @@ void GuiLanguage::onDraw(RenderWindow& wnd)
 }
 void GuiLanguage::onClick(int buttonId)
 {
-    // TODO
     switch(buttonId)
     {
     case 0:
