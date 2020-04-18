@@ -2,123 +2,104 @@
 
 DPT - Default Power Time (power time without upgrades / abilities)
 levelAcceleration - defined by map car spawn delay (in ticks, on the start of the game).
-	
-# BETA 0.2 - The Power Update (Planned)
 
-# BETA 0.2 SNAPSHOTS
+# BETA 0.3 (Planned)
++ New Anti-Power: Ramp
 
-+ moved to 0.3: New Anti-Power: Ramp
-## 0.2 (live pre-release)
+# BETA 0.2
+Note: Since this version CarGame pack does not include 32-bit Windows in published binaries.
+
+## MAJOR CHANGES
 + New powers: Ball
-* Added GuiLanguage keyboard controls: Up/Down - change page, Esc-exit without saving, Enter-save and reload language
-* [command line] Added --help: displays command line help.
-* [cmake] SFML extlibs are now automatically copied to "${SFML_ROOT}/lib".
-* [technical] CG API: added function for initializing powers and for reloading textures
-## v200401
-* Added some labels to GuiPowers.
-* Now the power icon is displayed always when power is running (even Anti-Power).
-* Updated language GUI.
-* Now the game screen is scaled to fit the window. 
-* [fix] that the power remains equipped after game is reset but cannot be used
-* [fix] that Language GUI widgets wasn't resized when toggling fullscreen.
-## v200303
-+ Created Language GUI.
-+ Added Power: Ball (without ball textures)
-+ Added Anti-Powers: Damage Decrease
-* Changed power textures.
-* [performance] Optimized game background a bit.
-* [fix] Power bug - not started when closed level with running power.
-* [fix] Fixed very dark screen bug.
-* [fix] Fixed background bug on GPU that not supports non power of two sizes of textures.
-* [fix] Added check for resource folder (game doesn't crash when error but shows a "message" - red progress bar while loading)
-* [technical] Added some command-line arguments.
-* [technical] Added API to set damage multiplier.
-* [technical] Added API to cancel car damage events in correct way.
-## v200302
-+ Added an option for resetting settings.
-* The game is now 2x smaller due to not including debug symbols in executables.
-* [technical] Created CMake build system.
-Note: Since this snapshot CarGame pack does not include 32-bit Windows in published binaries.
-## v200201, v200301 - only a test snapshots (to test CMake build system)
-## v191101
-+ Added a 3-second delay when starting / resuming game.
-* Updated credits info - added ziputils library and CG license, updated sounds maker.
-* [fix] Fixed fullscreen bug when disabled fullscreen in Options.
-## v191002
-+ Added a short power description when hovering equip button or upgrade button.
-* New apperrance of Car Speed Increase anti-power.
-## v191001
-+ Bomb doesn't longer making game over - it gives a random Anti-Power when clicked.
-+ Added counter, delaying game unpause when exiting Ingame Menu by 3 seconds.
-+ Added Anti-Power: Car Speed Increase.
-+ Added simple tutorial.
-* [performance] Improved power draw performance (not searching for power in every frame)
-* [fix] Fixed bug - Abilities wasn't reset when resetting game.
-* [technical] Improved code documentation.
-* [technical] Cars are drawn in backward direction (from the latest to the earliest)
-## v190901
-+ Added Shop GUI with powers and abilities.
-+ Added abilities: Power Reload Time, Power Time, Damage. It will ease your game upgrading the best things and degrading the worst.
-* The game speed rises slower. (levelAcceleration/5000 -> levelAcceleration/10000, which means 2x slower)
-* You can get short information about stat when mouse entered its image.
-* Cars are spawned in the same distance, not period of time.
-* Game Over GUI and Ingame GUI returns to Map Select GUI when clicked "Return to Menu".
-* Power indicator won't be displayed if any power wasn't equipped.
-* Made GUI font a bit smaller - 30 pt -> 28 pt
-* Made Freeze a bit shorter - 60 s -> 50 s
-* Changed Powers' GUI apperrance.
-* Point Boost time is shorter - 16.7 s -> 5 s
-* Freeze freezes less - 2.5% Speed/tick -> 0.5% Speed/tick and the speed rises shorter - 1/9 DPT -> 1/16 DPT
-## v190806
-+ You can have now only 2 powers at once.
-* [technical] Made profile format compatible with other profile format versions. Your powers won't be longer removed!
-* [fix] Fixed Map Selection bug.
-* Coins are earned by full destruction of car (not damage only).
-* Cars destroyed by power will give coins.
-* Armored Car won't be longer spawned double in the row.
-* Oil is better on first level but its force rises slower.
-* Changed apperrance of Oil power (on higher levels).
-## v190805
-* Changed background color of some maps.
-* Map Selection now is set on last unlocked map (not always on Coutryside)
-* Freeze makes game a bit quicker when running out - 0.0625% Speed/tick -> 0.0725% Speed/tick
-* Point Boost is shorter - 20 s -> 16.7 s and makes game quicker - 0.005 Speed/tick
-* Changed Point Boost behaviour - now adds 2 x [current level] points every 10 ticks.
-* Fence is a bit better - 0.01 HP/tick -> 0.025 HP/tick and longer - 10s -> 15s
-* Power duration is now shown in Shop.
-## v190804
-* Added some sounds: upgrade, game_over, coin_mpl.
-* Changed freeze behaviour - its effect is now faded (weaker at the beginning and at the end of duration)
-* [technical] Executables moved to folders ->  x86,x64 due to openal32.dll compability
-## v190803
-+ Added Sounds!!!
-* Added point stat animations.
-* Settings are loaded on launch!
-## v190802
-* Settings GUI - new apperrance.
-* Fixed Map Select GUI apperrance (the map button size depends on screen size).
-* Settings are now saved!
-## v190801
-+ Added credits screen.
-+ Added volume slider (not used).
-* Settings can be accessed from ingame menu.
-* Changed Powers GUI apperrance.
-## v190704
 + Powers aren't bought, but upgraded.
-## v190703
-* [fix] Finally fixed Ingame GUI Escape bug!
-* [fix] Finally fixed window resizing bugs.
-## v190702
++ You can have now only 2 powers at once.
++ Bomb doesn't longer making game over - it gives a random Anti-Power when clicked.
++ Added Anti-Powers: Damage Decrease, Car Speed Increase.
++ Added a 3-second delay when starting / resuming game.
++ Added a short power description when hovering equip button or upgrade button.
++ Added Shop with powers and abilities.
++ Added abilities: Power Reload Time, Power Time, Damage. It will ease your game upgrading the best things and degrading the worst.
++ Added an option for resetting settings.
++ Added counter, delaying game unpause when exiting Ingame Menu by 3 seconds.
++ Added credits screen.
++ Added simple tutorial.
++ Added Sounds!!!
++ Created Language GUI.
 + New translations: full German.
 
-# BETA 0.1.1
+## MINOR CHANGES
+* Added point stat animations.
+* Added some labels to GuiPowers.
+* Armored Car won't be longer spawned double in the row.
+* Cars are spawned in the same distance, not period of time.
+* Cars destroyed by power will give coins.
+* Changed apperrance of Oil power (on higher levels).
+* Changed background color of some maps.
+* Changed freeze behaviour - its effect is now faded (weaker at the beginning and at the end of duration)
+* Changed Point Boost behaviour - now adds 2 x [current level] points every 10 ticks.
+* Changed power icon textures.
+* Changed Powers GUI apperrance.
+* Coins are earned by full destruction of car (not damage only).
+* Fence is a bit better - 0.01 HP/tick -> 0.025 HP/tick and longer - 10s -> 15s
+* Fixed Map Select GUI apperrance (the map button size depends on screen size).
+* Freeze freezes less - 2.5% Speed/tick -> 0.5% Speed/tick and the speed rises shorter - 1/9 DPT -> 1/16 DPT
+* Freeze makes game a bit quicker when running out - 0.0625% Speed/tick -> 0.0725% Speed/tick
+* Game Over GUI and Ingame GUI returns to Map Select GUI when clicked "Return to Menu".
+* Made Freeze a bit shorter - 60 s -> 50 s
+* Made GUI font a bit smaller - 30 pt -> 28 pt
+* Map Selection now is set on last unlocked map (not always on Coutryside)
+* New apperrance of Car Speed Increase anti-power.
+* Now the game screen is scaled to fit the window. 
+* Now the power icon is displayed always when power is running (even Anti-Power).
+* Oil is better on first level but its force rises slower.
+* Point Boost is shorter - 20 s -> 5 s and makes game quicker - 0.005 Speed/tick
+* Power duration is now shown in Shop.
+* Power indicator won't be displayed if any power wasn't equipped.
+* Settings are loaded on launch!
+* Settings are now saved!
+* Settings can be accessed from ingame menu.
+* Settings GUI - new apperrance.
+* The game is now 2x smaller due to not including debug symbols in executables.
+* The game speed rises slower. (levelAcceleration/5000 -> levelAcceleration/10000, which means 2x slower)
+* Updated credits info - added ziputils library and CG license, updated sounds maker.
+* Updated language GUI.
+* You can get short information about stat when mouse entered its image.
+* Fixed bugs
+* Optimized game
+* Made other technical changes (see below)
 
+## TECHNICAL & PERFORMANCE CHANGES
+* [cmake] SFML extlibs are now automatically copied to "${SFML_ROOT}/lib".
+* [command line] Added --help: displays command line help.
+* [fix] Added check for resource folder (game doesn't crash when error but shows a "message" - red progress bar while loading)
+* [fix] Finally fixed Ingame GUI Escape bug!
+* [fix] Finally fixed window resizing bugs.
+* [fix] Fixed background bug on GPU that not supports non power of two sizes of textures.
+* [fix] Fixed bug - Abilities wasn't reset when resetting game.
+* [fix] Fixed fullscreen bug when disabled fullscreen in Options.
+* [fix] Fixed Map Selection bug.
+* [fix] Fixed very dark screen bug.
+* [fix] Power bug - not started when closed level with running power.
+* [fix] that Language GUI widgets wasn't resized when toggling fullscreen.
+* [fix] that the power remains equipped after game is reset but cannot be used
+* [performance] Improved power draw performance (not searching for power in every frame)
+* [performance] Optimized game background a bit.
+* [technical] Added API to cancel car damage events in correct way.
+* [technical] Added API to set damage multiplier.
+* [technical] Added some command-line arguments.
+* [technical] Cars are drawn in backward direction (from the latest to the earliest)
+* [technical] CG API: added function for initializing powers and for reloading textures
+* [technical] Created CMake build system.
+* [technical] Executables moved to folders ->  x86,x64 due to openal32.dll compability
+* [technical] Improved code documentation.
+* [technical] Made profile format compatible with other profile format versions. Your powers won't be longer removed!
+
+# BETA 0.1.1
 * Loading screen is now splash screen.
 
 # BETA 0.1 - The Big Map Update
 
 ## MAIN CHANGES
-
 + NEW MAPS: SEA, BEACH, SWAMPLAND, CITY, MOTORWAY, FOREST TRAILS
 + NEW CARS: RALLY, FIREMAN, TANK, OLD, BOMB, TRAIN
 + NEW POWERS: POINT BOOST, FENCE
@@ -129,7 +110,6 @@ Note: Since this snapshot CarGame pack does not include 32-bit Windows in publis
 + Added point multiplier based on map.
 
 ## OTHER CHANGES & FIXES
-
 * New loading screen!
 * New textures.
 * Made maps 4x more expensive due to point multiplier.
