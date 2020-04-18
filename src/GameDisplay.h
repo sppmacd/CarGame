@@ -106,6 +106,7 @@ public:
 
 	Texture logoTexture;
 
+	// \deprecated
     // Set default size. It doesn't change real size of the window, it is only called when VideoMode is changed.
 	void setWndSize(sf::Vector2u vec);
 

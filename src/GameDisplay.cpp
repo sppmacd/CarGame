@@ -105,7 +105,7 @@ void GameDisplay::reload()
     for(auto it = Game::instance->powerRegistry.begin(); it != Game::instance->powerRegistry.end(); it++)
     {
         addTexture("power/" + to_string(it->first));
-        it->second.onTextureLoad();
+        it->second->onTextureLoad();
     }
 }
 

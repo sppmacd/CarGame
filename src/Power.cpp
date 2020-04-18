@@ -16,18 +16,13 @@ bool Power::onPowerStart()
 }
 
 void Power::onPowerStop() {}
-
 void Power::onPowerTick(int) {}
-
 void Power::onCooldownTick(int) {}
-
 void Power::onCooldownStop() {}
-
 void Power::drawPower(RenderWindow*) {}
-
 void Power::drawPowerIdle(RenderWindow*) {}
-
 void Power::onInit() {}
+void Power::onTextureLoad() {}
 
 int Power::getCost()
 {

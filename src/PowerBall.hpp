@@ -10,6 +10,7 @@ public:
         float pos;
         int lane;
         int destroyAnim;
+        int lifeTime;
         void update();
     };
 
@@ -27,4 +28,5 @@ public:
 	Vector2f pos;
 	int lane;
 	std::vector<PbBall> balls;
+	Texture* ballTexture;
 };
