@@ -22,7 +22,7 @@ Game, in which you must destroy cars. You gain points for damaging Cars and coin
 
 ## CarGame Launcher
 You can download and update game using launcher.
-Download latest version: https://drive.google.com/open?id=18h3IZ3nBC0bhwYhq8W9ZJayVsNrcNoZb
+Download latest version: https://github.com/sppmacd/CarGame/releases/tag/vlauncher
 
 ## CarGame Mobile
 \[todo\]
