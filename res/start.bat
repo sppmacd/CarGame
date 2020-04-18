@@ -1,2 +1,2 @@
-win_x64/cg.exe %*
+"win_x64/cg.exe" %*
 pause

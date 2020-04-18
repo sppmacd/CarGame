@@ -9,7 +9,7 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 
 + moved to 0.3: New Anti-Power: Ramp
 ## 0.2 (live pre-release)
-+ New powers: Ball [TODO]
++ New powers: Ball
 * Added GuiLanguage keyboard controls: Up/Down - change page, Esc-exit without saving, Enter-save and reload language
 * [command line] Added --help: displays command line help.
 * [cmake] SFML extlibs are now automatically copied to "${SFML_ROOT}/lib".
