@@ -5,15 +5,15 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 	
 # BETA 0.2 - The Power Update (Planned)
 
-+ New powers: Ball [TODO]
-
 # BETA 0.2 SNAPSHOTS
 
 + moved to 0.3: New Anti-Power: Ramp
 ## 0.2 (live pre-release)
++ New powers: Ball [TODO]
 * Added GuiLanguage keyboard controls: Up/Down - change page, Esc-exit without saving, Enter-save and reload language
 * [command line] Added --help: displays command line help.
 * [cmake] SFML extlibs are now automatically copied to "${SFML_ROOT}/lib".
+* [technical] CG API: added function for initializing powers and for reloading textures
 ## v200401
 * Added some labels to GuiPowers.
 * Now the power icon is displayed always when power is running (even Anti-Power).

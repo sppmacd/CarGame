@@ -24,6 +24,13 @@ public:
 	virtual void onPowerTick(int powerTick);
 	virtual void onCooldownTick(int cooldownTick);
 	virtual void onCooldownStop();
+
+	// Called when game is started, after power registering.
+	virtual void onInit();
+
+	// Called when power textures are loaded. Here power can load its custom textures.
+	virtual void onTextureLoad();
+
 	virtual void drawPower(RenderWindow* wnd);
 	virtual void drawPowerIdle(RenderWindow* wnd);
 	virtual int getCost();

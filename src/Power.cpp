@@ -27,6 +27,8 @@ void Power::drawPower(RenderWindow*) {}
 
 void Power::drawPowerIdle(RenderWindow*) {}
 
+void Power::onInit() {}
+
 int Power::getCost()
 {
     return 0;

@@ -10,6 +10,14 @@ PowerBall::PowerBall() : Power()
 {
     setMaxTime(1200);
 }
+
+void PowerBall::onTextureLoad()
+{
+    //todo
+    GameDisplay& gameDisplay = *GameDisplay::instance;
+    //gameDisplay.addTexture("")
+}
+
 void PowerBall::onPowerStop()
 {
 	for(int i = 0; i < balls.size(); i++)

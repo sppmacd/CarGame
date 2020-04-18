@@ -38,6 +38,7 @@ struct LoadData
 	ArgMap* argmap;
 };
 
+// todo: document loading progress and mark load state for all virtual functions
 void loadGame(LoadData* ld)
 {
     try

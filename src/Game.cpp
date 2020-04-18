@@ -671,6 +671,7 @@ void Game::registerPower(int id, Power* powerInstance)
         if(id > biggestGenericPowerID)
             biggestGenericPowerID = id;
     }
+    powerInstance->onInit();
 }
 
 class Triggers
