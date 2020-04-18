@@ -1,9 +1,7 @@
-// CG version 0.2
+// CG version 0.2 (snapshot)
 KEEPFILE profile_1.txt
-KEEPFILE data.txt
-KEEPFILE highscore.txt
 KEEPFILE settings.txt
-KEEPFILE config.lang
-EXEC32 x86/cg32.exe
-EXEC64 x64/cg64.exe
-EXECDBG x64/cgd.exe
+KEEPFILE lang.hmd
+EXEC32 win_x86/cg.exe
+EXEC64 win_x64/cg.exe
+EXECDBG win_x64/cgd.exe
