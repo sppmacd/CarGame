@@ -25,6 +25,16 @@ void PowerBall::onPowerStop()
 
 void PowerBall::PbBall::update()
 {
+    if(imitateCar != NULL)
+    {
+        pos = imitateCar->getScreenPos().x;
+        if(imitateCar->isDestroying() && imitateCar->destroyTick <= 1.f)
+        {
+            imitateCar = NULL;
+            destroyAnim = 1;
+        }
+    }
+
     if(destroyAnim != -1)
     {
         pos -= 4.3f * (destroyAnim / 30.f);
@@ -35,21 +45,32 @@ void PowerBall::PbBall::update()
         {
             if(abs(c->getScreenPos().x - pos) < 132.f && c->getLine() == lane)
             {
-                float fac = 0.5 * (Power::getCurrentPowerLevel() - 1) / 4.f;
+                float fac = 0.2f * (Power::getCurrentPowerLevel()) / 4.f;
                 c->setSpeed(c->getSpeed() - fac);
             }
         }
     }
     else
     {
-        pos += 4.3f;
+        if(!imitateCar) pos += 4.3f;
 
         // check if will damage some cars
         for(Car* c : Game::instance->cars)
         {
-            if(abs(c->getScreenPos().x - pos) < 132.f && c->getLine() == lane && !c->isDestroying())
+            if(abs(c->getScreenPos().x - pos) < 132.f && c->getLine() == lane && !c->isDestroying() && c != imitateCar)
             {
                 c->makeDestroy(0.4f * Power::getCurrentPowerLevel());
+
+                // add ball that will "imitate" broken car.
+                PowerBall::PbBall ball;
+                ball.destroyAnim = -1;
+                ball.lane = c->getLine();
+                ball.pos = -32.f;
+                ball.lifeTime = 0;
+                ball.imitateCar = c;
+                ball.parent = parent;
+                parent->balls.push_back(ball);
+
                 destroyAnim = 30;
             }
         }
@@ -77,6 +98,8 @@ void PowerBall::onPowerTick(int powerTick)
         ball.lane = rand() % 3;
         ball.pos = -32.f;
         ball.lifeTime = 0;
+        ball.imitateCar = NULL;
+        ball.parent = this;
         balls.push_back(ball);
     }
     //cout << "PowerBall: BALLS:" << balls.size() << endl;
@@ -126,19 +149,22 @@ void PowerBall::drawPower(RenderWindow * wnd)
         if(ball.destroyAnim == -1)
         {
             rect.left = 0;
-            rect.top = (ball.lifeTime / FRAME_TICKS) % 4 * 64;
+            rect.top = (3 - (ball.lifeTime / FRAME_TICKS) % 4) * 64;
         }
         else
         {
-            int frame = 8 - (ball.destroyAnim / 30.f) * DESTROY_FRAMES;
+            int frame = (DESTROY_FRAMES-1) - (ball.destroyAnim / 30.f) * DESTROY_FRAMES;
             rect.left = (frame / 2) * TEX_SIZE;
             rect.top = (frame % 4) * TEX_SIZE;
         }
 
-        sf::Sprite sprite = sf::Sprite(*ballTexture, rect);
-        sprite.setOrigin(32.f, 32.f);
-        sprite.setPosition(ball.pos, vec.y);
-        wnd->draw(sprite);
+        if(!ball.imitateCar)
+        {
+            sf::Sprite sprite = sf::Sprite(*ballTexture, rect);
+            sprite.setOrigin(32.f, 32.f);
+            sprite.setPosition(ball.pos, vec.y);
+            wnd->draw(sprite);
+        }
     }
 }
 

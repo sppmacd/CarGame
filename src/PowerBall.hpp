@@ -2,6 +2,8 @@
 
 #include "Power.h"
 
+class Car;
+
 class PowerBall : public Power
 {
 public:
@@ -11,6 +13,8 @@ public:
         int lane;
         int destroyAnim;
         int lifeTime;
+        Car* imitateCar; //Car that is imitated by Ball.
+        PowerBall* parent;
         void update();
     };
 
