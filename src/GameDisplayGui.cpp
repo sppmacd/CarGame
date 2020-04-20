@@ -19,7 +19,7 @@ void GameDisplay::drawStat(int x, int y, String texture, long val, int animTick)
     t1.setScale(animTick / 30.f + 1.f, animTick / 30.f + 1.f);
     this->renderWnd->draw(t1);
 
-    if(sf::IntRect(x, y, 50, 50).contains(mousePos()) || Game::instance->isNewPlayer)
+    if(sf::IntRect(x, y, 50, 50).contains(Game::instance->paused() ? sf::Mouse::getPosition(*renderWnd) : mousePos()) || Game::instance->isNewPlayer)
     {
         t1.move(0.f, 30.f);
         t1.setOrigin(0.f, 0.f);
