@@ -7,3 +7,4 @@
 *.exe
 *.bat
 launcher.options
+src/version.cpp
