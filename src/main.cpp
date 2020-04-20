@@ -1,95 +1,10 @@
-#include <SFML/Graphics.hpp>
-#include "Game.h"
-#include "GameDisplay.h"
-#include "GameSound.hpp"
-#include "DebugLogger.hpp"
-#include "ArgMap.hpp"
-#include <cstdlib>
-#include <iostream>
-#include <string>
-#include <ctime>
-#include <exception>
+#include "GameLoader.hpp"
+
+#include <DebugLogger.hpp>
 
 using namespace std;
 
-void loop(Game* game)
-{
-    GameEvent event;
-    event.type = GameEvent::PreTick;
-    game->runGameEventHandler(event);
-
-    if(!game->paused())
-        game->tickNormalGame();
-
-    game->newTick();
-    game->fpsTimer.restart();
-    game->initializeGui();
-
-    event.type = GameEvent::PostTick;
-    game->runGameEventHandler(event);
-}
-
-struct LoadData
-{
-	sf::RenderWindow* wnd;
-	Game* game;
-	GameDisplay* disp;
-	bool loaded;
-	ArgMap* argmap;
-};
-
 // todo: document loading progress and mark load state for all virtual functions
-void loadGame(LoadData* ld)
-{
-    try
-    {
-        sf::Clock loadTime;
-
-        cout << "main: " + ld->argmap->a_message + " [" << CG_VERSION << "]" << endl;
-        cout << "main: Loading game engine..." << endl;
-
-        // display help if specified in cmdline
-        if(ld->argmap->a_help)
-        {
-            GameDisplay::consoleStr =
-            "CG " + string(CG_VERSION) + "\n"
-            "Command Line Usage:\n"
-            "--debug     Starts Car Game in Debug Mode (can be changed in Settings)\n"
-            "--message   Sets a custom message displayed in CG log (really only to test\n"
-            "command line args)\n"
-            "--help      Shows this message\n"
-            "Press Esc to close game...";
-            DebugLogger::log(GameDisplay::consoleStr, "main");
-            return;
-        }
-
-        DebugLogger::logDbg("Setting random seed to current timestamp");
-        srand(time(NULL));
-        DebugLogger::logDbg("Creating GameDisplay");
-        ld->disp = new GameDisplay(ld->wnd);
-        GameDisplay::loadingStr = "Loading game engine...";
-        DebugLogger::logDbg("Creating Game");
-        ld->game = new Game(ld->argmap);
-
-        if(!ld->game->updateFound)
-        {
-            DebugLogger::logDbg("Triggering full game reload");
-            ld->disp->reload(); // moved from constructor to display loading screen.
-            ld->game->sound.reload();
-        }
-
-        if(ld->disp->isError())
-            throw runtime_error("GameDisplay loading error");
-
-        cout << "main: Loading took " << loadTime.getElapsedTime().asMilliseconds() << "ms." << endl;
-        ld->loaded = true;
-    }
-    catch(exception& e)
-    {
-        cout << "main: Exception while loading: " << e.what() << endl;
-        GameDisplay::loadingStr = string("Exception while loading: ") + e.what() + string(".\nPress Esc to close game...");
-    }
-}
 
 int main(int argc, char* argv[])
 {
@@ -129,7 +44,7 @@ int main(int argc, char* argv[])
     // redirect SFML error output to null if not debug mode
     if(!argmap.a_debug) sf::err().rdbuf(NULL);
 
-    LoadData data;
+    GameLoader data;
     data.loaded = false;
     data.game = NULL;
     data.disp = NULL;
@@ -142,7 +57,7 @@ int main(int argc, char* argv[])
         data.wnd = new RenderWindow(VideoMode(600, 500), "CarGame loading...", Style::None);
 
         DebugLogger::logDbg("Starting loading thread");
-        sf::Thread loadingThread(loadGame,&data);
+        sf::Thread loadingThread(GameLoader::loadGame, &data);
         loadingThread.launch();
 
         data.wnd->setActive(true);
@@ -205,7 +120,7 @@ int main(int argc, char* argv[])
 
                     // Update game logic
                     tickClock.restart();
-                    loop(data.game);
+                    data.loop(data.game);
                     if (updateDebugStats) data.game->times.timeTick = tickClock.getElapsedTime();
 
                     // Render game

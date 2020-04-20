@@ -1,5 +1,5 @@
-﻿#define CG_VERSION_NO   0,2,0,0
-#define CG_VERSION_STABLE "beta-0.2"
+﻿#define CG_VERSION_NO   0,3,0,0
+#define CG_VERSION_STABLE "beta-0.3"
 
 1 VERSIONINFO
 FILEVERSION CG_VERSION_NO
