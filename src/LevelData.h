@@ -21,6 +21,8 @@ public:
         operator int() const;
     };
 
+    // Map type variables - ID is automatically generated.
+    // todo: move to core dll
     static MapType COUNTRYSIDE;
     static MapType DESERT;
     static MapType FOREST;
@@ -34,22 +36,48 @@ public:
     static MapType FOREST_TRAILS;
     static MapType COUNT;
 
+    // todo: move to core dll
+    // Initializes default maps
     static void init();
 
+    // Creates a new instance of Map with specified ID.
     LevelData(const MapType& type);
+
+    // Creates an invalid map.
     LevelData(): mapType(COUNT) {}
+
+    // Returns ID of this map.
     const MapType& getMapType() const;
 
+    // Sets display color of map.
     LevelData& setColor(sf::Color c);
+
+    // Sets map texture name (and unlocalized name - it's the same)
     LevelData& setTextureName(sf::String name);
+
+    // Sets map acceleration (speed change per tick)
     LevelData& setAcceleration(float f);
+
+    // todo: change to car distance
+    // Sets map creation speed in ticks (car spawn delay in first tick)
 	LevelData& setCarCreationSpeed(int ccs);
+
+    // Set map cost.
 	LevelData& setCost(int cost);
 
+	// Returns display map color (background)
     Color getColor() const;
+
+    // Returns texture name and unlocalized name of map.
     String getTextureName() const;
+
+    // Returns map acceleration (speed change per tick)
     float getAcceleration() const;
+
+    // Returns car creation speed in ticks (car spawn delay in first tick)
 	int getCarCreationSpeed() const;
+
+	// Returns map cost.
 	int getCost() const;
 
 private:

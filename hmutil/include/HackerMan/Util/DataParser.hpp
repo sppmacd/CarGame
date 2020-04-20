@@ -10,5 +10,7 @@
 class HMDataParser
 {
 public:
-    bool parse(HMDataMap& map, string data);
+    // Populates %map by entries, basing on %data.
+    // Returns true if parse was successful, and false otherwise.
+    bool parse(HMDataMap& map, string& data);
 };

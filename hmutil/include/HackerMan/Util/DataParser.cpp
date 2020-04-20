@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 
-bool HMDataParser::parse(HMDataMap& map, string data)
+bool HMDataParser::parse(HMDataMap& map, string& data)
 {
     // Create map.
     vector<string> m;

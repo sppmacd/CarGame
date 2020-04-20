@@ -131,11 +131,6 @@ bool Game::getPower(int id)
 
 bool Game::usePower(int id)
 {
-    /*if(this->powers[id] > 0)
-    {
-        this->powers[id]--;
-        return true;
-    }*/
     return true;
 }
 

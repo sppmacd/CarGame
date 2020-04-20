@@ -25,8 +25,14 @@ public:
 	};
 	Type type;
 
+	// Structure that concerns every Car event.
     struct CarEvent { Car* car; };
+
+    // This structure is used when there are Car to create. Event handler should create Car dynamically
+    // of specified %type and pass it to %carToCreate variable.
     struct CreateCarInstanceEvent { Car* carToCreate; CarType* type; };
+
+    // It's every event that relates to level (e.g. event loading)
     struct LevelEvent { LevelData* level; };
 
 	union

@@ -35,7 +35,7 @@ HMDataMap& HMDataMap::setNumberKey(string key, double value, string space)
     return *this;
 }
 
-map<pair<string,string>,string> HMDataMap::getMap()
+const map<pair<string,string>,string>& HMDataMap::getMap()
 {
     return m_dataMap;
 }

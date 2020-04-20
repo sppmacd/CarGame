@@ -1,6 +1,7 @@
 #ifndef maptype_H
 #define maptype_H
 
+// todo: move to core dll
 class Maps
 {
 public:

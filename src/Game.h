@@ -73,6 +73,8 @@ public:
 
 	// The update checker.
 	UpdateChecker updateChecker;
+
+	// True if update was found, false otherwise.
 	bool updateFound;
 
 	// GameSound (sound manager) instance.
@@ -114,12 +116,13 @@ public:
 	// Variable storing language settings.
 	TranslationManager translation;
 
-	///Vector storing event handlers.
+	// Vector storing event handlers.
 	multimap<sf::Event::EventType, CGEventHandler> eventHandlers;
 
 	/////////////////////////
     ////// PLAYER DATA //////
 	/////////////////////////
+	// move to PlayerDataManager
 
 	// Points required to get new coin multiplier.
     int pointsToNewMpl;
@@ -153,13 +156,15 @@ public:
     // Player ability manager - stores abilities.
     PlayerAbilityManager abilities;
 
-    // Loaded from file hmUtil data map.
+    // Loaded from file hmUtil data map that couldn't be parsed
+    // (kept for compability with other versions)
     HMDataMap otherData;
 
 	/////////////////////////
 	////// OTHER DATA ///////
 	/////////////////////////
 
+	// move to GameplayObjectManager
 	// Registry of the maps, used by MapSelect GUI.
 	vector<pair<string, LevelData*>> levelRegistry;
 
@@ -169,9 +174,10 @@ public:
 	// Real tick time (with wait time)
     sf::Time realTickTime;
 
-	// Debug mode stat
+	// True if the game is in Debug mode (--debug or "Debug Mode" in Settings)
     bool debug;
 
+    // move to GameplayObjectManager
     // Saved in byte format, unlocked levels for player
     long long unlockedLevels;
 
@@ -197,13 +203,13 @@ public:
 	///// FUNCTIONS /////
 	/////////////////////
 
-	/// Default constructor
+	// Default constructor
     Game(ArgMap* argmap);
 
 	// Default destructor
     ~Game();
 
-	// Vector storing cars
+	// Vector storing cars that are currently on screen
     vector<Car*> cars;
 
 	// Add car to game
@@ -227,9 +233,11 @@ public:
 	// Ticking normal game (with cars)
     void tickNormalGame();
 
+    // move to PlayerDataManager
     // Loads player data from profile or sets to default values if error.
     void loadPlayerData(/*string profileName = "DEFAULT"*/);
 
+    // move to PlayerDataManager
     // Saves player data to file.
     void savePlayerData(/*string profileName = "DEFAULT"*/);
 
@@ -257,15 +265,19 @@ public:
 	// Toggles fullscreen
     void toggleFullscreen();
 
+    // move to PlayerDataManager
     // Fill player data by default values.
     void initProfile();
 
-	// Adds specified (v) coins to player
+    // move to PlayerDataManager
+	// Adds specified (v) coins to player. Plays add sound.
     void addCoins(long v);
 
-	// Removes specified (v) coins to player
+    // move to PlayerDataManager
+	// Removes specified (v) coins to player. Plays remove sound.
     void removeCoins(long v);
 
+    // move to PlayerDataManager
 	// Returns player coins
     long getCoins();
 
@@ -281,33 +293,42 @@ public:
 	// Sets game state to not running and sets return value to specified value
     void exit(int ret);
 
+    // move to PlayerDataManager
 	// Returns player total points count. Not used yet
     long getTotalPoints();
 
+    // move to PlayerDataManager
 	// Returns coin multiplier
     int getCoinMultiplier();
 
+    // move to PlayerDataManager
 	// Adds score to player
     void addScore(int s);
 
 	// Handles wheel event, used to change power
     void wheelEvent(sf::Event::MouseWheelScrollEvent event);
 
+    // move to PlayerDataManager
 	// Returns current power ID
     int getCurrentPower();
 
+    // move to PlayerDataManager
 	// Adds power to player (++)
     bool getPower(int id);
 
+    // move to PlayerDataManager
 	// Use player power (--)
     bool usePower(int id);
 
+    // move to GameplayObjectManager
 	// Register powers
 	void registerPowers();
 
+	// move to GameplayObjectManager
 	// Register car type.
 	void registerCarType(CarType type);
 
+	// move to GameplayObjectManager
 	// Find car type by car ID
 	CarType* findCarTypeByID(Car::TypeId id);
 
@@ -329,16 +350,18 @@ public:
 	// Add event handler.
 	void addEventHandler(Event::EventType type, CGEventHandler handler);
 
+	// move to GameplayObjectManager
 	// Find level by ID
 	LevelData findLevel(LevelData::MapType type);
 
-	// Display error screen
+	// Display error screen.
 	void displayError(string text);
 
 	// Loads language list.
 	void loadLanguages();
 
-	// Setup game
+	// Setup new game - set map, unpause game, initialize variables,
+	// reinitialize powers (0.3+!!)
 	void setupGame();
 
 	// Set and initialize current power.
@@ -353,6 +376,7 @@ public:
 	// Sets current point multiplier.
 	void setPointMultiplier(float ptmpl);
 
+	// move to GameplayObjectManager
 	// Register a new power, setting biggestPlayerPowerID if necessary.
 	void registerPower(int id, Power* powerInstance);
 
@@ -362,12 +386,13 @@ public:
 	// Open settings GUI.
 	void openSettings();
 
-    // Check if
+    // Check if game is currently in fullscreen mode
 	bool isFullscreen();
 
 	// Called in the first tick, after loading but before any action is performed.
 	void postInit();
 
+	// move to PlayerDataManager
     // Returns true if specified power is equipped (can use)
 	bool isPowerEquipped(int id);
 
@@ -377,6 +402,7 @@ public:
 	// Check if car should be spawned and does that if so.
 	void checkSpawnCar();
 
+	// move to PlayerDataManager
 	// Returns true if any power can be upgraded or equipped. Used by GuiMapSelect
 	// and GuiShop to know when to display blinking border.
 	bool canPowerBuyOrEquip();
@@ -406,6 +432,7 @@ public:
 	// The biggest ID of generic power ("dropped" by bomb)
 	int biggestGenericPowerID; //generic powers - 101+
 
+	// move to GameplayObjectManager
 	// Car type registry
 	vector<CarType> carTypeRegistry;
 
@@ -436,15 +463,19 @@ private:
 	// Variable storing game running stat. Almost always true.
     bool running;
 
+    // move to PlayerStatManager
 	// Total player points, not used yet
     long totalPlayerPoints;
 
+    // move to PlayerStatManager
 	// Coin multiplier
     int coinMpl;
 
+    // move to PlayerStatManager
 	// Player coins
     long playerCoins;
 
+    // move to PlayerStatManager
 	// Player score
     long score;
 
@@ -457,6 +488,6 @@ private:
     // Variable storing default language (English)
 	TranslationManager enUSTranslation;
 
-	// The damage multiplier. It's applied by PowerDamageDecrease.
+	// The damage multiplier. It's set to ability.damage by default and changed by PowerDamageDecrease.
 	float damageMultiplier;
 };
