@@ -99,7 +99,7 @@ endif()
 
 # copy resources to binary folder
 message("CG: copying resource dir to ${EXEC}")
-file(COPY res/ DESTINATION ${EXEC})
+file(COPY data/ DESTINATION ${EXEC})
 
 # find and add SFML
 cmake_policy(SET CMP0074 NEW) # suppress SFML_ROOT warning
