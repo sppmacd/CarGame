@@ -3,8 +3,31 @@
 DPT - Default Power Time (power time without upgrades / abilities)
 levelAcceleration - defined by map car spawn delay (in ticks, on the start of the game).
 
+# Changelog labels & Github labels
+
+	----------------------------------------------------------------------------------
+	Label            Corresponding            Description
+	in changelog     Github issue label        
+	----------------------------------------------------------------------------------
+	[balance]        [balance]                Change of single gameplay value, e.g.
+											  game speed.
+	[command line]   [command line]           Change of command line arguments or
+											  startup scripts
+	[cmake]          [cmake]                  Issue releates to CMake build system
+	[fix]            [bug]                    Something is/was not working
+	[launcher]       [launcher]               Every issue that relates to launcher.
+	[performance]    [performance]            Issue that relates to game performance.
+	[technical]      [technical]              Issue that is not directly related to
+											  gameplay and does not affect it.
+	[api]            [api]                    Issue that relates to CG 0.3 API.
+	No tag           [enhancement]            Every other issue.
+	----------------------------------------------------------------------------------
+
 # BETA 0.3 (Planned)
 + New Anti-Power: Ramp
+
+# BETA 0.3 Progress
+* [command line] Added  
 
 # BETA 0.2
 Note: Since this version CarGame pack does not include 32-bit Windows in published binaries.

@@ -7,6 +7,8 @@ Game, in which you must destroy cars. You gain points for damaging Cars and coin
 You can download and update game using launcher.
 Download latest version: https://github.com/sppmacd/CarGame/releases/tag/vlauncher
 
+You can launch game without launcher, using included /start.bat or /start.sh file.
+
 ## Simple Tutorial
 * Destroy cars by clicking on it.
 * Any successful "attack" gives you points. The point count depends on map.
