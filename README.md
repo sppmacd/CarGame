@@ -3,6 +3,10 @@ Current Version: Beta 0.2 (beta-0.2) \[The Power Update\]
 
 Game, in which you must destroy cars. You gain points for damaging Cars and coins for destroing cars fully. Your aim is not to allow cars to get out of the screen.
 
+## CarGame Launcher
+You can download and update game using launcher.
+Download latest version: https://github.com/sppmacd/CarGame/releases/tag/vlauncher
+
 ## Simple Tutorial
 * Destroy cars by clicking on it.
 * Any successful "attack" gives you points. The point count depends on map.
@@ -19,10 +23,6 @@ Game, in which you must destroy cars. You gain points for damaging Cars and coin
 	* create a pull request on Github.
 ## License
 * License: See license in LICENSE.
-
-## CarGame Launcher
-You can download and update game using launcher.
-Download latest version: https://github.com/sppmacd/CarGame/releases/tag/vlauncher
 
 ## CarGame Mobile
 \[todo\]
