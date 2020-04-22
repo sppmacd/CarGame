@@ -21,6 +21,7 @@ public:
     {
         DataGroup_main,
         DataGroup_ability,
+        DataGroup_achievement,
         DataGroup_equipment,
         DataGroup_level,
         DataGroup_mod,
@@ -36,6 +37,7 @@ public:
     // Data groups:
     // main - Main data (e.g. coins). The data are variable and can be removed.
     // ability - Ability levels
+    // achievement - Achievement stats (progress and flags)
     // equipment - Currently equipped powers
     // level - Unlocked levels
     // mod - Module-specific player data
@@ -59,14 +61,15 @@ public:
     typedef long long FlagList;
     typedef std::map<int, PowerPlayerData> PlayerPowerList;
 
-    //PlayerDataMap main;
-    PlayerAbilityManager abilities;
-    PlayerEquipment equipment;
-    FlagList unlockedLevels;
-    //PlayerDataMap module;
-    PlayerPowerList powerLevels;
-    //PlayerDataMap playerStats;
-    //PlayerDataMap temporary;
+    //PlayerDataMap main;               //group: main
+    PlayerAbilityManager abilities;     //group: ability
+    //AchievementManager achievements;  //group: achievement
+    PlayerEquipment equipment;          //group: equipment
+    FlagList unlockedLevels;            //group: level
+    //PlayerDataMap module;             //group: mod
+    PlayerPowerList powerLevels;        //group: power
+    //PlayerDataMap playerStats;        //group: stat
+    //PlayerDataMap temporary;          //group: tmp
 
     /////////////////////////
     // ONLY FOR PRERELEASE //
@@ -81,25 +84,25 @@ public:
 	// 5 - avoid bomb
 	// 6 - don't let car leave screen
 	// 7 - shop
-    int tutorialStep;
+    int tutorialStep; //to tmp:
 
     // Variable stores if the player started game first one.
-    bool isNewPlayer;
+    bool isNewPlayer; //to tmp:
 
     // Points required to get new coin multiplier.
-    int pointsToNewMpl;
+    int pointsToNewMpl; //to main:
 
 	// Player highscore, currently used only by renderer.
-    long highScore;
+    long highScore; //to main:
 
 	// Total player points, not used yet
-    long totalPlayerPoints;
+    long totalPlayerPoints; //to stat:
 
 	// Coin multiplier
-    int coinMpl;
+    int coinMpl; //to main:
 
 	// Player coins
-    long playerCoins;
+    long playerCoins; //to main:
 };
 
 #endif // PLAYERDATAMANAGER_HPP
