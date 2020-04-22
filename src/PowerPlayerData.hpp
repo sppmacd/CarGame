@@ -15,4 +15,4 @@ public:
     bool upgrade(Game* game);
 };
 
-bool operator>(PowerPlayerData& data, int )
+bool operator>(PowerPlayerData& data, int );

@@ -311,7 +311,7 @@ void GameDisplay::drawGame()
         renderWnd->draw(arr);
     }
 
-    if(game->isNewPlayer && game->tutorialStep == TUT_DONTLEAVE)
+    if(game->playerData.isNewPlayer && game->playerData.tutorialStep == TUT_DONTLEAVE)
     {
         drawTutorial(Vector2f(0.f, mapSizeY/2 - 160.f), Vector2f(50.f, 320.f), game->translation.get("tutorial.dontleave"));
     }
@@ -369,20 +369,20 @@ void GameDisplay::drawGame()
         }
 
         // tutorial
-        if(game->isNewPlayer)
+        if(game->playerData.isNewPlayer)
         {
-            if(game->tutorialStep == TUT_DONTLEAVE && i == 0)
+            if(game->playerData.tutorialStep == TUT_DONTLEAVE && i == 0)
             {
                 if(carobj.typeId == Car::BOMB)
                 {
-                    game->tutorialStep = TUT_AVOIDBOMB;
+                    game->playerData.tutorialStep = TUT_AVOIDBOMB;
                 }
                 else
                 {
                     drawTutorial(car.getPosition() - car.getOrigin(), Vector2f(car.getTextureRect().width * 2, car.getTextureRect().height * 2), game->translation.get("tutorial.destroycar"));
                 }
             }
-            else if(game->tutorialStep == TUT_AVOIDBOMB && i == 0 && carobj.typeId == Car::BOMB)
+            else if(game->playerData.tutorialStep == TUT_AVOIDBOMB && i == 0 && carobj.typeId == Car::BOMB)
             {
                 drawTutorial(car.getPosition() - car.getOrigin(), Vector2f(car.getTextureRect().width * 2, car.getTextureRect().height * 2), game->translation.get("tutorial.avoidbomb"));
             }

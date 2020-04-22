@@ -10,19 +10,19 @@
 
 void Game::addCar(Car* car)
 {
-    this->cars.push_back(car);
+    cars.push_back(car);
 }
 
 void Game::updateCars()
 {
-    this->lastTickScore = this->score;
+    lastTickScore = score;
 
-    if(!this->cars.empty())
+    if(!cars.empty())
     {
-        for(unsigned int i = 0; i < this->cars.size(); i++)
+        for(unsigned int i = 0; i < cars.size(); i++)
         {
-            Car* car = this->cars[i];
-            car->move(this->gameSpeed / 0.176);
+            Car* car = cars[i];
+            car->move(gameSpeed / 0.176);
 			car->onUpdate(this);
 
             if(car->isDestroying())
@@ -46,18 +46,18 @@ void Game::updateCars()
                     }
                     car->setToErase();
 
-                    if(isNewPlayer)
+                    if(playerData.isNewPlayer)
                     {
-                        if(car->typeId == Car::BOMB && this->tutorialStep == TUT_AVOIDBOMB)
+                        if(car->typeId == Car::BOMB && playerData.tutorialStep == TUT_AVOIDBOMB)
                         {
-                            this->tutorialStep = TUT_SHOP;
+                            playerData.tutorialStep = TUT_SHOP;
                         }
                     }
 
                     continue;
                 }
 
-                if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && this->wasReleased)
+                if(abs(car->getScreenPos().x - GameDisplay::instance->mousePos().x) < 100.f && abs(car->getScreenPos().y - GameDisplay::instance->mousePos().y) < 40.f && wasReleased)
                 {
                     GameEvent event;
                     event.type = GameEvent::CarDamaged;
@@ -66,13 +66,13 @@ void Game::updateCars()
                     if(runGameEventHandler(event))
                     {
                         car->onDamage(this);
-                        if(this->tutorialStep == TUT_DESTROYCAR)
+                        if(playerData.tutorialStep == TUT_DESTROYCAR)
                         {
-                            this->tutorialStep = TUT_DONTLEAVE;
+                            playerData.tutorialStep = TUT_DONTLEAVE;
                         }
-                        else if(this->tutorialStep == TUT_DONTLEAVE)
+                        else if(playerData.tutorialStep == TUT_DONTLEAVE)
                         {
-                            this->tutorialStep = TUT_AVOIDBOMB;
+                            playerData.tutorialStep = TUT_AVOIDBOMB;
                         }
                     }
 
@@ -90,26 +90,26 @@ void Game::updateCars()
                     car->canErase = false;
                     continue;
                 }
-                this->cars.erase(this->cars.begin() + i);
+                cars.erase(cars.begin() + i);
             }
         }
-        this->wasReleased = false;
+        wasReleased = false;
     }
 }
 
 void Game::checkSpawnCar()
 {
     // [[      time from last spawn     ]]                            [[         game speed multiplier         ]]   [[ is first tick  ]]
-    if(this->tickCount - this->lastCarTime > this->carCreatingSpeed / (this->gameSpeed / this->initialGameSpeed) || this->tickCount <= 1)
+    if(tickCount - lastCarTime > carCreatingSpeed / (gameSpeed / initialGameSpeed) || tickCount <= 1)
     {
         lastCarTime = tickCount;
 		vector<CarType*> selectedTypes;
 		while(selectedTypes.empty())
 		for(CarType& type : carTypeRegistry)
 		{
-		    if(type.getRarity(this->level.getMapType()) == 0)
+		    if(type.getRarity(level.getMapType()) == 0)
                 continue;
-			if(rand() % type.getRarity(this->level.getMapType()) == 0)
+			if(rand() % type.getRarity(level.getMapType()) == 0)
 				selectedTypes.push_back(&type);
 		}
 
@@ -137,36 +137,36 @@ void Game::checkSpawnCar()
 
 void Game::tickNormalGame()
 {
-    this->checkSpawnCar();
-    this->updateCars();
+    checkSpawnCar();
+    updateCars();
 
-    if(this->score > this->highScore)
+    if(score > playerData.highScore)
     {
-		if (!this->newRecord)
+		if (!newRecord)
 		{
-			this->newRecord = true; // New record!
+			newRecord = true; // New record!
 			//Create splash screen
 
-			if(this->highScore != 0)
+			if(playerData.highScore != 0)
 				GameDisplay::instance->setSplash(translation.get("splash.newrecord"));
 		}
 
 		//Update highscore to score
-        this->highScore = this->score;
+        playerData.highScore = score;
     }
 
-    this->updateEffect();
+    updateEffect();
 
-    if(this->pointsToNewMpl <= 0)
+    if(playerData.pointsToNewMpl <= 0)
     {
-        this->sound.playSound("point_mpl", 100.f);
-        this->coinMpl++;
-        this->pointsToNewMpl = this->getCoinMultiplier() * 200;
+        sound.playSound("point_mpl", 100.f);
+        playerData.coinMpl++;
+        playerData.pointsToNewMpl = playerData.coinMpl * 200;
     }
 
-    if(this->gameOver && !this->paused())
+    if(gameOver && !paused())
     {
-        this->pause(true);
+        pause(true);
     }
 }
 
@@ -174,29 +174,29 @@ void Game::newTick()
 {
     sound.update();
 
-    if(!this->paused())
+    if(!paused())
     {
-        this->gameSpeed += this->level.getAcceleration() / 10000;
+        gameSpeed += level.getAcceleration() / 10000;
         ++tickCount;
     }
 
-    if(this->paused() && this->unpauseDelay > Time::Zero)
+    if(paused() && unpauseDelay > Time::Zero)
     {
-        this->unpauseDelay -= this->fpsTimer.getElapsedTime();
-        if(this->unpauseDelay <= sf::Time::Zero)
+        unpauseDelay -= fpsTimer.getElapsedTime();
+        if(unpauseDelay <= sf::Time::Zero)
         {
-            this->pause(false);
+            pause(false);
             return;
         }
-        if(this->unpauseSplashTime.getElapsedTime() >= seconds(0.99f))
+        if(unpauseSplashTime.getElapsedTime() >= seconds(0.99f))
         {
             // display counter: 3... 2... 1...
-            GameDisplay::instance->setSplash(to_string(int(Math::round(this->unpauseDelay.asSeconds()))) + "...");
-            this->unpauseSplashTime.restart();
+            GameDisplay::instance->setSplash(to_string(int(Math::round(unpauseDelay.asSeconds()))) + "...");
+            unpauseSplashTime.restart();
         }
     }
 
-    this->mainTickCount++;
+    mainTickCount++;
 }
 void Game::setCurrentPower(Power* power)
 {
@@ -211,9 +211,9 @@ void Game::setCurrentPower(Power* power)
     }
 
     powerHandle = power;
-    this->powerTime = powerHandle->maxPowerTime * this->abilities.calculateValue(PlayerAbilityManager::POWER_TIME);
-    this->powerMaxTime = this->powerTime;
-    this->powerCooldown = -1;
+    powerTime = powerHandle->maxPowerTime * playerData.abilities.calculateValue(PlayerAbilityManager::POWER_TIME);
+    powerMaxTime = powerTime;
+    powerCooldown = -1;
 
     powerHandle->setLevel(Power::getCurrentPowerLevel());
     // power 'start'
@@ -221,64 +221,64 @@ void Game::setCurrentPower(Power* power)
     {
         // don't allow create power if power don't want this
         // play some sound
-        this->powerTime = 0;
-        this->powerCooldown = 0;
-        //this->powers[this->getCurrentPower()]++; //Reset power count to previous
+        powerTime = 0;
+        powerCooldown = 0;
+        //powers[getCurrentPower()]++; //Reset power count to previous
     }
 }
 void Game::stopCurrentPower()
 {
-    if(this->powerHandle->cooldownTime <= 1)
-        this->powerCooldown = 1;
+    if(powerHandle->cooldownTime <= 1)
+        powerCooldown = 1;
     else
-        this->powerCooldown = this->powerHandle->cooldownTime / this->abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME); // 30 seconds
-    this->powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
+        powerCooldown = powerHandle->cooldownTime / playerData.abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME); // 30 seconds
+    powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
 
     // power 'stop'
     powerHandle->onPowerStop();
 }
 void Game::updateEffect()
 {
-    if(this->isPowerUsed && this->powerCooldown <= 0 && this->getCurrentPower() != -1)
+    if(isPowerUsed && powerCooldown <= 0 && getCurrentPower() != -1)
     {
-        auto it = this->powerRegistry.find(this->getCurrentPower());
-        if(it == this->powerRegistry.end())
+        auto it = powerRegistry.find(getCurrentPower());
+        if(it == powerRegistry.end())
             return;
 
-        this->usePower(this->getCurrentPower());
-        this->setCurrentPower(it->second);
+        usePower(getCurrentPower());
+        setCurrentPower(it->second);
     }
 
     if(powerHandle)
     {
-        if(this->powerTime > 0)
+        if(powerTime > 0)
         {
-            this->powerTime--;
+            powerTime--;
 
             // power 'tick'
-            powerHandle->onPowerTick(this->powerTime);
+            powerHandle->onPowerTick(powerTime);
 
-            if(this->powerTime == 1)
+            if(powerTime == 1)
             {
-                this->stopCurrentPower();
+                stopCurrentPower();
             }
         }
 
-        else if(this->powerTime == -1)
+        else if(powerTime == -1)
         {
             // power 'cooldown tick'
-            powerHandle->onCooldownTick(this->powerCooldown);
-            this->powerCooldown--;
+            powerHandle->onCooldownTick(powerCooldown);
+            powerCooldown--;
         }
 
-        if(this->powerCooldown == 1) // 1-set CUP, >1-cooldown!, -1-power is using!, 0-can use power
+        if(powerCooldown == 1) // 1-set CUP, >1-cooldown!, -1-power is using!, 0-can use power
         {
             // power 'cooldown stop'
             powerHandle->onCooldownStop();
-            this->powerTime = 0;
-            this->powerCooldown = 0;
+            powerTime = 0;
+            powerCooldown = 0;
             powerHandle = NULL;
         }
     }
-    this->isPowerUsed = false;
+    isPowerUsed = false;
 }

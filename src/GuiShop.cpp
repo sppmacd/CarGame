@@ -16,12 +16,12 @@ void GuiShop::onLoad()
         bPowers.setBlinking(true);
 
     int id = 0;
-    for(pair<const int, AbilityBase*>& base: Game::instance->abilities.abilities)
+    for(pair<const int, AbilityBase*>& base: Game::instance->playerData.abilities.abilities)
     {
         GuiShop::AbilityData* data = new GuiShop::AbilityData{*base.second};
         data->id = base.first;
-        data->cost = Game::instance->abilities.calculateCost(base.first);
-        data->value = Game::instance->abilities.calculateValue(base.first);
+        data->cost = Game::instance->playerData.abilities.calculateCost(base.first);
+        data->value = Game::instance->playerData.abilities.calculateValue(base.first);
         data->bUpgrade = cg::Button(this, Vector2f(450.f, 40.f), Vector2f(),
                                     Game::instance->translation.get("gui.shop.upgrade_ability",
                                     {
@@ -29,7 +29,7 @@ void GuiShop::onLoad()
                                         to_string(data->cost)
                                     }
                                 ), id + 100);
-        data->level = Game::instance->abilities.getAbilityLevel(data->id);
+        data->level = Game::instance->playerData.abilities.getAbilityLevel(data->id);
         abilityData.push_back(data);
         addWidget(&data->bUpgrade);
         id++;
@@ -64,11 +64,11 @@ void GuiShop::onClick(int buttonId)
         AbilityData* data = abilityData[index];
         do
         {
-            bool b = Game::instance->abilities.upgradeAbility(Game::instance, data->id);
+            bool b = Game::instance->playerData.abilities.upgradeAbility(Game::instance, data->id);
             if(!b)
                 break;
-            data->cost = Game::instance->abilities.calculateCost(data->id);
-            data->value = Game::instance->abilities.calculateValue(data->id);
+            data->cost = Game::instance->playerData.abilities.calculateCost(data->id);
+            data->value = Game::instance->playerData.abilities.calculateValue(data->id);
             data->level++;
             data->bUpgrade.setText(Game::instance->translation.get("gui.shop.upgrade_ability",
                                         {
@@ -86,7 +86,7 @@ void GuiShop::onDraw(RenderWindow& wnd)
     bReturn.draw(wnd);
     for(AbilityData* data: abilityData)
     {
-        if(data->cost <= Game::instance->getCoins())
+        if(data->cost <= Game::instance->playerData.playerCoins)
         {
             data->bUpgrade.setEnabled(true);
         }

@@ -24,6 +24,7 @@ public:
 	virtual void onPowerTick(int powerTick);
 	virtual void onCooldownTick(int tick);
 	virtual void onTextureLoad();
+	virtual void onLevelLoad();
 	virtual void drawPower(RenderWindow* wnd);
 	virtual void drawPowerIdle(RenderWindow* wnd);
 	virtual int getCost();

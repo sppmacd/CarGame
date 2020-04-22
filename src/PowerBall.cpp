@@ -89,6 +89,11 @@ bool PowerBall::onPowerStart()
 	return true;
 }
 
+void PowerBall::onLevelLoad()
+{
+    onPowerStart();
+}
+
 void PowerBall::onPowerTick(int powerTick)
 {
     if((1200 - powerTick) % 90 == 0)

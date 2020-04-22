@@ -10,10 +10,9 @@
 #include "CarType.h"
 
 #include "LevelData.h"
-#include "PlayerAbilityManager.hpp"
+#include "PlayerDataManager.hpp"
 
 #include "Power.h"
-#include "PowerPlayerData.hpp"
 
 #include "EventHandler.h"
 
@@ -122,43 +121,11 @@ public:
 	/////////////////////////
     ////// PLAYER DATA //////
 	/////////////////////////
-	// move to PlayerDataManager
 
-	// Points required to get new coin multiplier.
-    int pointsToNewMpl;
+    PlayerDataManager playerData;
 
-	// Score in the last tick. Used by the game over GUI.
+    // Score in the last tick. Used by the game over GUI.
     long lastTickScore;
-
-	// Player highscore, currently used only by renderer.
-    long highScore;
-
-	// Variable stores if the player started game first one.
-    bool isNewPlayer;
-
-	// Player tutorial step. Can reset by restart.
-	// 0 - no tutorial
-	// 1 - start game in main menu
-	// 2 - buy map
-	// 3 - select map
-	// 4 - destroy car
-	// 5 - avoid bomb
-	// 6 - don't let car leave screen
-	// 7 - shop
-    int tutorialStep;
-
-    // Equipped powers. 0 means no power.
-    array<int, 2> equippedPowers;
-
-    // Store player powers (level etc.)
-    map<int, PowerPlayerData> powers;
-
-    // Player ability manager - stores abilities.
-    PlayerAbilityManager abilities;
-
-    // Loaded from file hmUtil data map that couldn't be parsed
-    // (kept for compability with other versions)
-    HMDataMap otherData;
 
 	/////////////////////////
 	////// OTHER DATA ///////
@@ -187,7 +154,7 @@ public:
 	// Error string
 	string errStr;
 
-    // Current player powers
+    // Player powers, that can be currently used.
     vector<int> usablePowerIds;
 
     // Time left to unpause the game (after exiting In-game Menu)
@@ -203,7 +170,8 @@ public:
 	///// FUNCTIONS /////
 	/////////////////////
 
-	// Default constructor
+	// Default constructor. Creates Game using startup arguments
+	// saved in %argmap.
     Game(ArgMap* argmap);
 
 	// Default destructor
@@ -233,11 +201,9 @@ public:
 	// Ticking normal game (with cars)
     void tickNormalGame();
 
-    // move to PlayerDataManager
     // Loads player data from profile or sets to default values if error.
     void loadPlayerData(/*string profileName = "DEFAULT"*/);
 
-    // move to PlayerDataManager
     // Saves player data to file.
     void savePlayerData(/*string profileName = "DEFAULT"*/);
 
@@ -265,21 +231,8 @@ public:
 	// Toggles fullscreen
     void toggleFullscreen();
 
-    // move to PlayerDataManager
     // Fill player data by default values.
     void initProfile();
-
-    // move to PlayerDataManager
-	// Adds specified (v) coins to player. Plays add sound.
-    void addCoins(long v);
-
-    // move to PlayerDataManager
-	// Removes specified (v) coins to player. Plays remove sound.
-    void removeCoins(long v);
-
-    // move to PlayerDataManager
-	// Returns player coins
-    long getCoins();
 
 	// Returns level color, used by renderer
     sf::Color getLevelColor() { return this->level.getColor(); }
@@ -293,32 +246,8 @@ public:
 	// Sets game state to not running and sets return value to specified value
     void exit(int ret);
 
-    // move to PlayerDataManager
-	// Returns player total points count. Not used yet
-    long getTotalPoints();
-
-    // move to PlayerDataManager
-	// Returns coin multiplier
-    int getCoinMultiplier();
-
-    // move to PlayerDataManager
-	// Adds score to player
-    void addScore(int s);
-
 	// Handles wheel event, used to change power
     void wheelEvent(sf::Event::MouseWheelScrollEvent event);
-
-    // move to PlayerDataManager
-	// Returns current power ID
-    int getCurrentPower();
-
-    // move to PlayerDataManager
-	// Adds power to player (++)
-    bool getPower(int id);
-
-    // move to PlayerDataManager
-	// Use player power (--)
-    bool usePower(int id);
 
     // move to GameplayObjectManager
 	// Register powers
@@ -392,20 +321,11 @@ public:
 	// Called in the first tick, after loading but before any action is performed.
 	void postInit();
 
-	// move to PlayerDataManager
-    // Returns true if specified power is equipped (can use)
-	bool isPowerEquipped(int id);
-
 	// Unpauses game and set all splashes.
 	void unpauseGame(float delayTime);
 
 	// Check if car should be spawned and does that if so.
 	void checkSpawnCar();
-
-	// move to PlayerDataManager
-	// Returns true if any power can be upgraded or equipped. Used by GuiMapSelect
-	// and GuiShop to know when to display blinking border.
-	bool canPowerBuyOrEquip();
 
 	// Sets damage multiplier. By default, it's set to ability.damage value
 	void setDamageMultiplier(float dmg);
@@ -418,6 +338,35 @@ public:
 
     // Returns current game view.
     sf::View getGameView();
+
+	////////////////////////////////////////////
+	// Helper functions for PlayerDataManager //
+	////////////////////////////////////////////
+
+	// Adds specified (v) coins to player. Plays add sound.
+    void addCoins(long v);
+
+	// Removes specified (v) coins to player. Plays remove sound.
+    void removeCoins(long v);
+
+	// Adds score to player. Plays sound.
+    void addScore(int s);
+
+	// Returns current power ID
+    int getCurrentPower();
+
+	// Upgrades the specified power
+    bool getPower(int id);
+
+	// Use player power (--)
+    bool usePower(int id);
+
+    // Returns true if specified power is equipped (can use)
+	bool isPowerEquipped(int id);
+
+	// Returns true if any power can be upgraded or equipped. Used by GuiMapSelect
+	// and GuiShop to know when to display blinking border.
+	bool canPowerBuyOrEquip();
 
 	/////////////////////////////////
 	/////////////////////////////////
@@ -463,19 +412,6 @@ private:
 	// Variable storing game running stat. Almost always true.
     bool running;
 
-    // move to PlayerStatManager
-	// Total player points, not used yet
-    long totalPlayerPoints;
-
-    // move to PlayerStatManager
-	// Coin multiplier
-    int coinMpl;
-
-    // move to PlayerStatManager
-	// Player coins
-    long playerCoins;
-
-    // move to PlayerStatManager
 	// Player score
     long score;
 

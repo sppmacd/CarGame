@@ -22,8 +22,8 @@ void GuiPowers::onLoad()
         {
             PowerData* data = new PowerData;
             data->power = s.second;
-            data->cost = Game::instance->powers[s.first].getUpgradeCost();
-            data->count = Game::instance->powers[s.first].getLevel();
+            data->cost = Game::instance->playerData.powerLevels[s.first].getUpgradeCost();
+            data->count = Game::instance->playerData.powerLevels[s.first].getLevel();
             // data->level = Game::instance->power; // 0.2
             powerData.push_back(data);
 
@@ -61,7 +61,7 @@ void GuiPowers::onLoad()
     for(size_t s = 0; s < equippedPowerIds.size(); s++)
     {
         EquippedPowerData& epd = equippedPowerIds[s];
-        epd.powerId = Game::instance->equippedPowers[s];
+        epd.powerId = Game::instance->playerData.equipment[s];
         epd.bImg = ButtonImage(this, epd.powerId == 0 ? "stat/mpl" : ("power/" + to_string(epd.powerId)), Vector2f(40.f, 40.f), Vector2f(), "", 300 + s);
         addWidget(&epd.bImg);
     }
@@ -98,7 +98,7 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
     for(PowerData* data: powerData)
     {
         // check which buttons should be enabled
-        if(unsigned(game->getCoins()) < data->cost || cooldown > 0)
+        if(unsigned(game->playerData.playerCoins) < data->cost || cooldown > 0)
         {
             data->bBuyPower.setEnabled(false);
         }
@@ -185,11 +185,11 @@ void GuiPowers::onClick(int button)
         {
             if(data->bBuyPower.getID() == button)
             {
-                if(unsigned(game->getCoins()) >= data->cost)
+                if(unsigned(game->playerData.playerCoins) >= data->cost)
                 {
                     if(game->getPower(powerId))
                     {
-                        data->cost = Game::instance->powers[powerId].getUpgradeCost();
+                        data->cost = Game::instance->playerData.powerLevels[powerId].getUpgradeCost();
                         data->count++;
 
                         if(data->count == 5)
@@ -221,7 +221,7 @@ void GuiPowers::onClick(int button)
             if(equippedPowerIds[s].powerId == 0)
             {
                 equippedPowerIds[s].powerId = powerId;
-                game->equippedPowers[s] = powerId;
+                game->playerData.equipment[s] = powerId;
                 game->savePlayerData();
                 equippedPowerIds[s].bImg = ButtonImage(this, "power/" + to_string(powerId), Vector2f(40.f, 40.f), Vector2f(), "", equippedPowerIds[s].bImg.getID());
                 equippedPowerIds[s].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + s * 50.f, powerData.size() * 50.f + 300.f));
@@ -236,7 +236,7 @@ void GuiPowers::onClick(int button)
         equippedPowerIds[slotId].bImg = ButtonImage(this, "stat/mpl", Vector2f(40.f, 40.f), Vector2f(), "", equippedPowerIds[slotId].bImg.getID());
         equippedPowerIds[slotId].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + slotId * 50.f, powerData.size() * 50.f + 300.f));
         equippedPowerIds[slotId].bImg.setEnabled(false);
-        game->equippedPowers[slotId] = 0;
+        game->playerData.equipment[slotId] = 0;
         game->savePlayerData();
     }
 }

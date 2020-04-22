@@ -49,7 +49,7 @@ void GuiMainMenu::onDraw(RenderWindow& wnd)
 
     wnd.draw(credits);
 
-    if(Game::instance->isNewPlayer && Game::instance->tutorialStep == TUT_START)
+    if(Game::instance->playerData.isNewPlayer && Game::instance->playerData.tutorialStep == TUT_START)
     {
         GameDisplay::instance->drawTutorial(bStart.getPosition() - Vector2f(180, 180), Vector2f(360, 360), Game::instance->translation.get("tutorial.startgame"));
     }
@@ -64,9 +64,9 @@ void GuiMainMenu::onClick(int button)
     if(button == 0)
     {
         game->displayGui(new GuiMapSelect);
-        if(game->isNewPlayer && game->tutorialStep == TUT_START)
+        if(game->playerData.isNewPlayer && game->playerData.tutorialStep == TUT_START)
         {
-            game->tutorialStep = TUT_BUYMAP;
+            game->playerData.tutorialStep = TUT_BUYMAP;
         }
     }
     else if(button == 1)

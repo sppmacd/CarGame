@@ -16,7 +16,7 @@ bool PlayerAbilityManager::upgradeAbility(Game* game, int ability)
         return false; //ability not found
 
     unsigned int cost = calculateCost(ability, it->second);
-    if(game->getCoins() < cost)
+    if(game->playerData.playerCoins < cost)
         return false; //not enough coins
 
     game->removeCoins(cost);

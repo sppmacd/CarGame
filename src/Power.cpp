@@ -23,6 +23,7 @@ void Power::drawPower(RenderWindow*) {}
 void Power::drawPowerIdle(RenderWindow*) {}
 void Power::onInit() {}
 void Power::onTextureLoad() {}
+void Power::onLevelLoad() {}
 
 int Power::getCost()
 {
@@ -34,7 +35,7 @@ string Power::getName()
 }
 int Power::getCurrentPowerLevel()
 {
-    return Game::instance->powers[Game::instance->getCurrentPower()].getLevel();
+    return Game::instance->playerData.powerLevels[Game::instance->getCurrentPower()].getLevel();
 }
 
 void Power::setLevel(int level)

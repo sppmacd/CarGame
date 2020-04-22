@@ -68,14 +68,14 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 
 		// Reset player stats
 		DebugLogger::logDbg("Initializing player profile", "Game");
-		this->isNewPlayer = false;
-		this->tutorialStep = 0;
+		playerData.isNewPlayer = false;
+		playerData.tutorialStep = 0;
 
 		// Initialize registries
 		DebugLogger::logDbg("Starting registry filling", "Game");
 		LevelData::init();
 		CarType::init();
-		this->abilities.init();
+		playerData.abilities.init();
 
 		// Reset powers
 		DebugLogger::logDbg("Starting power setup", "Game");
@@ -126,7 +126,7 @@ void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
 
 bool Game::getPower(int id)
 {
-    return this->powers[id].upgrade(this);
+    return playerData.powerLevels[id].upgrade(this);
 }
 
 bool Game::usePower(int id)
@@ -244,149 +244,24 @@ void Game::addScore(int s)
     {
         s *= pointMultiplier;
         this->score += s;
-        this->totalPlayerPoints += s;
-        this->pointsToNewMpl -= s;
+        playerData.totalPlayerPoints += s;
+        playerData.pointsToNewMpl -= s;
         sound.playSound("point_add", 75.f);
         GameDisplay::instance->resetPointAnim();
     }
 }
 
-long Game::getTotalPoints()
-{
-    return this->totalPlayerPoints;
-}
-
-int Game::getCoinMultiplier()
-{
-    return this->coinMpl;
-}
-
 void Game::loadPlayerData()
 {
 	GameDisplay::loadingStr = "Loading player data...";
-
     cout << "Game: Loading player data..." << endl;
-
-    this->usablePowerIds.clear();
-
-    otherData = HMDataMap(); //clear all data
-    if(otherData.loadFromFile("profile_1.txt"))
-    {
-        int ver = otherData.getNumberKey("version", "", 0);
-
-        cout << "Game: Loading player data from profile version " << ver << endl;
-        this->highScore = otherData.getNumberKey("highScore", "main", 0);
-        this->playerCoins = otherData.getNumberKey("coins", "main", 0);
-
-        for(size_t t = 0; t < levelRegistry.size(); t++)
-        {
-            bool unlocked = otherData.getKey("unlocked_" + levelRegistry[t].first, "level", "false") == "true";
-            this->unlockedLevels |= (unlocked << t);
-        }
-        this->totalPlayerPoints = otherData.getNumberKey("totalPoints", "main", 0);
-        this->coinMpl = otherData.getNumberKey("coinMultiplier", "main", 1);
-        this->pointsToNewMpl = otherData.getNumberKey("pointsToNewMultiplier", "main", 0);
-
-        if(ver == 3)
-        {
-            for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
-            {
-                int c = otherData.getNumberKey("count_" + to_string(it->first), "power", 0);
-                this->powers[it->first] = PowerPlayerData(it->second, sqrt(c));
-            }
-        }
-        else if(ver == 4)
-        {
-            for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
-            {
-                int c = otherData.getNumberKey("level_" + to_string(it->first), "power", 0);
-                this->powers[it->first] = PowerPlayerData(it->second, c);
-            }
-            for(size_t t = 0; t < equippedPowers.size(); t++)
-            {
-                equippedPowers[t] = otherData.getNumberKey("power_" + to_string(t), "equipment", 0);
-                if(equippedPowers[t] != 0)
-                    usablePowerIds.push_back(equippedPowers[t]);
-            }
-        }
-        else
-        {
-            cout << "Game: Unsupported profile version!" << endl;
-            displayError("Tried to load newer/invalid profile version.\n\
-                         Try installing a new version of Car Game.\n\
-                         Code: G04");
-            initProfile();
-        }
-    }
-    else
-    {
-        ifstream file("data.txt");
-        if(file.good())
-        {
-            cout << "Game: Couldn't load profile! Converting from old player data format (v2)..." << endl;
-
-            file
-            >> this->highScore
-            >> this->playerCoins
-            >> this->unlockedLevels
-            >> this->totalPlayerPoints
-            >> this->coinMpl
-            >> this->pointsToNewMpl;
-            int i1, i2;
-            file
-            >> i1 >> i2;
-            this->powers[1] = PowerPlayerData(this->powerRegistry[1], sqrt(i1));
-            this->powers[2] = PowerPlayerData(this->powerRegistry[2], sqrt(i2));
-        }
-        else
-        {
-            file.open("highscore.txt");
-
-            if(file.good())
-            {
-                cout << "Game: Couldn't load data.txt! Converting from old player data format (v1)..." << endl;
-                file
-                >> this->highScore
-                >> this->playerCoins
-                >> this->unlockedLevels
-                >> this->totalPlayerPoints
-                >> this->coinMpl
-                >> this->pointsToNewMpl;
-                cout << "Game: Powers are incompatible with old format on " + string(CG_VERSION) + "!" << endl;
-            }
-            else
-            {
-                initProfile();
-            }
-        }
-    }
-    //this->abilities = PlayerAbilityManager();
-    this->abilities.read(otherData);
+    playerData.load("profile_1.txt");
 }
 
 void Game::initProfile()
 {
     cout << "Game: Cannot load player data! Creating a new profile. You are the new player :)" << endl;
-    this->highScore = 0;
-    this->playerCoins = 0;
-    this->unlockedLevels  = 0;
-
-    this->totalPlayerPoints = 0;
-    this->coinMpl = 1;
-    this->pointsToNewMpl = 200;
-
-    this->isNewPlayer = true;
-    this->tutorialStep = 1;
-
-    for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
-    {
-        this->powers[it->first] = PowerPlayerData(it->second);
-    }
-    for(size_t t = 0; t < equippedPowers.size(); t++)
-    {
-        equippedPowers[t] = 0;
-    }
-    abilities.clear();
+    playerData.init();
 }
 
 LevelData Game::findLevel(LevelData::MapType type)
@@ -398,31 +273,7 @@ void Game::savePlayerData()
 {
     cout << "Game: Saving player data to profile..." << endl;
     GameDisplay::drawLoadingProgress("Saving player data...", GameDisplay::instance->getRenderWnd());
-
-    // Save using hmUtil
-    otherData.setNumberKey("version", 4, "");
-
-    otherData.setNumberKey("highScore", highScore, "main");
-    otherData.setNumberKey("coins", playerCoins, "main");
-    otherData.setNumberKey("totalPoints", totalPlayerPoints, "main");
-    otherData.setNumberKey("coinMultiplier", coinMpl, "main");
-    otherData.setNumberKey("pointsToNewMultiplier", pointsToNewMpl, "main");
-
-    for(size_t t = 0; t < equippedPowers.size(); t++)
-    {
-        otherData.setNumberKey("power_" + to_string(t), equippedPowers[t], "equipment");
-    }
-    for(size_t t = 0; t < levelRegistry.size(); t++)
-    {
-        otherData.setKey("unlocked_" + levelRegistry[t].first, (isLevelUnlocked((LevelData::MapType)t) ? "true" : "false"), "level");
-    }
-    for(auto it = powerRegistry.begin(); it != powerRegistry.end(); it++)
-    {
-        otherData.setNumberKey("level_" + to_string(it->first), powers[it->first].getLevel(), "power");
-    }
-    abilities.write(otherData);
-
-    otherData.saveToFile("profile_1.txt");
+    playerData.save("profile_1.txt");
 }
 
 void Game::loadGame(LevelData level)
@@ -444,12 +295,13 @@ void Game::loadGame()
 }
 void Game::setupGame()
 {
+    this->sound.playSound("start", 100.f);
+
     GameEvent event;
     event.type = GameEvent::LevelLoadingStart;
     event.level.level = &this->level;
     runGameEventHandler(event);
 
-    this->sound.playSound("start", 100.f);
     this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
     this->initialGameSpeed = this->gameSpeed;
     this->lastTickScore = 0;
@@ -465,8 +317,13 @@ void Game::setupGame()
 	this->newRecord = false;
     this->powerTime = 0;
 	this->powerCooldown = 0;
+
+	// Initialize powers
+	for(int i = 0; i < usablePowerIds.size(); i++)
+        powerRegistry[usablePowerIds[i]]->onLevelLoad();
+
 	this->setPointMultiplier((float(this->level.getMapType()) + 2.f) * 0.8f);
-	this->setDamageMultiplier(this->abilities.calculateValue(PlayerAbilityManager::DAMAGE));
+	this->setDamageMultiplier(playerData.abilities.calculateValue(PlayerAbilityManager::DAMAGE));
 	this->unpauseGame(3.f);
 }
 
@@ -513,15 +370,15 @@ void Game::setGameOver()
     this->sound.playSound("game_over", 100.f);
     this->closeLevel();
 
-    if(isNewPlayer)
+    if(playerData.isNewPlayer)
     {
-        if(tutorialStep >= TUT_AVOIDBOMB) //bomb or click car
+        if(playerData.tutorialStep >= TUT_AVOIDBOMB) //bomb or click car
         {
-            tutorialStep = TUT_SHOP;
+            playerData.tutorialStep = TUT_SHOP;
         }
         else
         {
-            tutorialStep = TUT_DONTLEAVE;
+            playerData.tutorialStep = TUT_DONTLEAVE;
         }
     }
 }
@@ -558,24 +415,20 @@ void Game::toggleFullscreen()
 
 void Game::addCoins(long v)
 {
-    this->playerCoins += v;
+    playerData.playerCoins += v;
     sound.playSound("coin_add", 75.f);
 }
 
 void Game::removeCoins(long v)
 {
-    if(this->playerCoins - v >= 0)
-        this->playerCoins -= v;
-}
-
-long Game::getCoins()
-{
-    return this->playerCoins;
+    if(playerData.playerCoins - v >= 0)
+        playerData.playerCoins -= v;
+    sound.playSound("coin_remove", 75.f);
 }
 
 bool Game::isLevelUnlocked(LevelData::MapType type)
 {
-    return this->unlockedLevels & (0x1 << type);
+    return playerData.unlockedLevels & (0x1 << type);
 }
 
 bool Game::isRunning()
@@ -790,9 +643,9 @@ void Game::postInit()
 
 bool Game::isPowerEquipped(int id)
 {
-    for(size_t s = 0; s < equippedPowers.size(); s++)
+    for(size_t s = 0; s < playerData.equipment.size(); s++)
     {
-        if(equippedPowers[s] == id)
+        if(playerData.equipment[s] == id)
         {
             return true;
         }
@@ -813,17 +666,17 @@ bool Game::canPowerBuyOrEquip()
     bool powerCanBuy = false;
     bool powerCanEquip = false;
     int unlockedPowers = 0;
-    for(auto it: Game::instance->powerRegistry)
+    for(auto it: powerRegistry)
     {
         if(it.first != 0 && it.first < 100)
         {
-            if(Game::instance->powers[it.first].getLevel() > 0)
+            if(playerData.powerLevels[it.first].getLevel() > 0)
                 unlockedPowers++;
-            else if(Game::instance->powers[it.first].getUpgradeCost() <= Game::instance->getCoins())
+            else if(playerData.powerLevels[it.first].getUpgradeCost() <= playerData.playerCoins)
                 powerCanBuy = true;
         }
     }
-    if(Game::instance->usablePowerIds.size() < 2 && unlockedPowers > 1)
+    if(usablePowerIds.size() < 2 && unlockedPowers > 1)
         powerCanEquip = true;
     return powerCanBuy || powerCanEquip;
 }

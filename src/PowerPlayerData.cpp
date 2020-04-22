@@ -18,7 +18,7 @@ bool PowerPlayerData::upgrade(Game* game)
 {
     if(level < 5)
     {
-        int cash = game->getCoins() - getUpgradeCost();
+        int cash = game->playerData.playerCoins - getUpgradeCost();
         if(cash >= 0)
         {
             game->removeCoins(getUpgradeCost());

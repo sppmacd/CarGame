@@ -119,7 +119,7 @@ void Car::onDamage(Game* game)
 
 void Car::onDestroy(Game* game)
 {
-    game->addCoins(game->getCoinMultiplier());
+    game->addCoins(game->playerData.coinMpl);
 }
 
 void Car::onUpdate(Game*)

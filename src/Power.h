@@ -45,6 +45,9 @@ public:
 	// Called when game is started, after power registering.
 	virtual void onInit();
 
+	// Called when new level is created.
+	virtual void onLevelLoad();
+
 	// Called when power textures are loaded. Here power can load its custom textures.
 	virtual void onTextureLoad();
 
