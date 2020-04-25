@@ -99,18 +99,18 @@ void Game::updateCars()
 
 void Game::checkSpawnCar()
 {
-    // [[      time from last spawn     ]]                            [[         game speed multiplier         ]]   [[ is first tick  ]]
+    // [[   time from last spawn   ]][[         game speed multiplier         ]]  [[ is first tick  ]]
     if(tickCount - lastCarTime > carCreatingSpeed / (gameSpeed / initialGameSpeed) || tickCount <= 1)
     {
         lastCarTime = tickCount;
 		vector<CarType*> selectedTypes;
 		while(selectedTypes.empty())
-		for(CarType& type : carTypeRegistry)
+		for(auto& type : gpo.carTypes.arr())
 		{
-		    if(type.getRarity(level.getMapType()) == 0)
+		    if(type.second->getRarity(level.getMapType()) == 0)
                 continue;
-			if(rand() % type.getRarity(level.getMapType()) == 0)
-				selectedTypes.push_back(&type);
+			if(rand() % type.second->getRarity(level.getMapType()) == 0)
+				selectedTypes.push_back(type.second);
 		}
 
 		CarType* carType = selectedTypes[rand() % selectedTypes.size()];
@@ -241,12 +241,12 @@ void Game::updateEffect()
 {
     if(isPowerUsed && powerCooldown <= 0 && getCurrentPower() != -1)
     {
-        auto it = powerRegistry.find(getCurrentPower());
-        if(it == powerRegistry.end())
+        Power* power = gpo.powers.findById(getCurrentPower());
+        if(!power)
             return;
 
         usePower(getCurrentPower());
-        setCurrentPower(it->second);
+        setCurrentPower(power);
     }
 
     if(powerHandle)

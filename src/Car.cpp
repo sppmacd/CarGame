@@ -17,7 +17,7 @@ Car::Car(Car::TypeId id, float speed, int line)
 	this->frameLength = 60;
 
 	// Create car type for car
-	this->type = Game::instance->findCarTypeByID(id);
+	this->type = Game::instance->gpo.carTypes.findById(id+1);
 	this->maxHealth = this->type->getMaxHealth();
 	this->textureName = this->type->getTextureName();
 	this->health = this->maxHealth;

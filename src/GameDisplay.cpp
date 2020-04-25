@@ -72,7 +72,7 @@ void GameDisplay::reload()
     DebugLogger::logDbg("Adding car textures", "GameDisplay");
 	for(int i = 0; i < Car::COUNT; i++)
 	{
-	    CarType* type = Game::instance->findCarTypeByID(Car::TypeId(i));
+	    CarType* type = Game::instance->gpo.carTypes.findById(i+1);
 		if(type != NULL)
             addTexture("car/" + type->getTextureName());
         else
@@ -80,9 +80,9 @@ void GameDisplay::reload()
 	}
 
 	DebugLogger::logDbg("Adding map textures", "GameDisplay");
-	if(!Game::instance->levelRegistry.empty())
+	if(Game::instance->gpo.levels.count() > 0)
     {
-        for(auto ld : Game::instance->levelRegistry)
+        for(auto ld : Game::instance->gpo.levels.arr())
         {
             addTexture("bg/" + ld.second->getTextureName(), true, true);
             addTexture("map/" + ld.second->getTextureName());
@@ -102,7 +102,7 @@ void GameDisplay::reload()
     addTexture("gui/quit");
 
     DebugLogger::logDbg("Adding power icons", "GameDisplay");
-    for(auto it = Game::instance->powerRegistry.begin(); it != Game::instance->powerRegistry.end(); it++)
+    for(auto it = Game::instance->gpo.powers.arr().begin(); it != Game::instance->gpo.powers.arr().end(); it++)
     {
         addTexture("power/" + to_string(it->first));
         it->second->onTextureLoad();
@@ -401,7 +401,7 @@ void GameDisplay::drawEffect()
         if(game->powerTime > 1)
             game->powerHandle->drawPower(renderWnd);
         else if(game->getCurrentPower() != -1)
-            game->powerRegistry.find(game->getCurrentPower())->second->drawPowerIdle(renderWnd);
+            game->gpo.powers.findById(game->getCurrentPower())->drawPowerIdle(renderWnd);
         else if(game->powerHandle)
             game->powerHandle->drawPowerIdle(renderWnd);
             //game->powerHandle->drawPowerCooldown(renderWnd);

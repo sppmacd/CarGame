@@ -15,7 +15,7 @@ void GuiPowers::onLoad()
     GameDisplay* game = GameDisplay::instance;
     Game::instance->usablePowerIds.clear();
 
-    for(auto s: Game::instance->powerRegistry)
+    for(auto s: Game::instance->gpo.powers.arr())
     {
         // powers > 100 -> functional powers (e.g anti-powers)
         if(s.first != 0 && s.first < 100)

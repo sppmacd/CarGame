@@ -24,7 +24,7 @@ void GuiMapSelect::onLoad()
 	id = 0;
 
 	int i = 0;
-	for(auto ld : Game::instance->levelRegistry)
+	for(auto ld : Game::instance->gpo.levels.arr())
 	{
 		LevelData* lvld = ld.second;
 		ButtonImage bimg(this, "map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first, 100);
@@ -153,7 +153,7 @@ void GuiMapSelect::onClick(int button)
     {
         removeWidget(bMd[id].bImg);
         id++;
-        if (id >= int(game->levelRegistry.size()))
+        if (id >= int(game->gpo.levels.count()))
             id = 0;
         addWidget(&bMd[id].bImg);
     }
@@ -162,7 +162,7 @@ void GuiMapSelect::onClick(int button)
         removeWidget(bMd[id].bImg);
         id--;
         if (id < 0)
-            id = game->levelRegistry.size() - 1;
+            id = game->gpo.levels.count() - 1;
         addWidget(&bMd[id].bImg);
     }
     else
@@ -176,7 +176,7 @@ void GuiMapSelect::onClick(int button)
 
             if (game->isLevelUnlocked((LevelData::MapType)id))
             {
-                game->loadGame(game->findLevel((LevelData::MapType)id));
+                game->loadGame(*game->gpo.levels.arr()[id].second);
 
                 if (Game::instance->playerData.isNewPlayer && Game::instance->playerData.tutorialStep == 4)
                 {

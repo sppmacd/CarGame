@@ -51,40 +51,41 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		this->running = true; //Set game running
 
 		// Perform first initializations
+		// and check for updates
 		DebugLogger::logDbg("Checking for updates", "Game");
 		GameDisplay::loadingStr = "Checking for updates...";
 		this->updateFound = this->updateChecker.checkUpdates();
 
+		// Register settings
 		DebugLogger::logDbg("Loading game API", "Game");
 		GameDisplay::loadingStr = "Loading game engine...";
 		this->registerSettings();
+
+		// Reset game state
 		this->mainTickCount = 0; //Reset ticking
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = stoi(settings.getSetting("debug", "global")) || argmap->a_debug; //Disable debug mode
-		this->fullscreen = true;//stoi(settings.getSetting("fullscreen", "graphics"));
-		this->registerEventHandlers();
+		this->fullscreen = true;
 		cg::colors::bgColor = sf::Color(50, 40, 40);
 		cg::colors::textSize = 28;
-
-		// Reset player stats
 		DebugLogger::logDbg("Initializing player profile", "Game");
 		playerData.isNewPlayer = false;
 		playerData.tutorialStep = 0;
-
-		// Initialize registries
-		DebugLogger::logDbg("Starting registry filling", "Game");
-		LevelData::init();
-		CarType::init();
-		playerData.abilities.init();
-
-		// Reset powers
 		DebugLogger::logDbg("Starting power setup", "Game");
-		this->powerCooldown = 0;
+        this->powerCooldown = 0;
 		this->powerTime = 0;
 		this->isPowerUsed = false;
 		this->powerHandle = NULL;
 		this->currentPower = 0;
 		this->unlockedLevels = 0LL;
+		this->tickCount = 0;
+
+		// Initialize registries
+		DebugLogger::logDbg("Starting registry filling", "Game");
+		this->registerEventHandlers();
+		LevelData::init();
+		CarType::init();
+		playerData.abilities.init();
 		this->registerPowers();
 
 		// Load player data
@@ -94,9 +95,6 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
         // Load language configuration
         DebugLogger::logDbg("Loading language config", "Game");
 		this->loadLanguages();
-
-		DebugLogger::logDbg("Last initializations", "Game");
-		this->tickCount = 0;
 	}
 	else //fatal error
 	{
@@ -140,31 +138,16 @@ void Game::registerPowers()
 	//registerPower(0, (Power*)NULL);
 	biggestPlayerPowerID = 0;
 	biggestGenericPowerID = 100;
-	registerPower(1, &(new PowerOil)->setMaxTime(1800));
-	registerPower(2, &(new PowerFreeze)->setMaxTime(3000));
-	registerPower(3, new PowerPointBoost);
-	registerPower(4, new PowerFence);
-	registerPower(5, new PowerBall);
-	registerPower(101, new PowerSpeedIncrease);
-	registerPower(102, new PowerDamageDecrease);
-}
+	gpo.powers.add(&(new PowerOil)->setMaxTime(1800));
+	gpo.powers.add(&(new PowerFreeze)->setMaxTime(3000));
+	gpo.powers.add(new PowerPointBoost);
+	gpo.powers.add(new PowerFence);
+	gpo.powers.add(new PowerBall);
+	// PowerRegisterEvent
 
-void Game::registerCarType(CarType type)
-{
-	carTypeRegistry.push_back(type);
-}
-
-CarType* Game::findCarTypeByID(Car::TypeId id)
-{
-    if(!carTypeRegistry.empty())
-    {
-        for(CarType& type : carTypeRegistry)
-        {
-            if(type == id)
-                return &type;
-        }
-    }
-	return nullptr;
+	gpo.powers.add(101, new PowerSpeedIncrease);
+	gpo.powers.add(new PowerDamageDecrease);
+	// AntipowerRegisterEvent
 }
 
 float Game::getGameSpeed()
@@ -264,11 +247,6 @@ void Game::initProfile()
     playerData.init();
 }
 
-LevelData Game::findLevel(LevelData::MapType type)
-{
-    return *levelRegistry[type].second;
-}
-
 void Game::savePlayerData()
 {
     cout << "Game: Saving player data to profile..." << endl;
@@ -320,7 +298,7 @@ void Game::setupGame()
 
 	// Initialize powers
 	for(int i = 0; i < usablePowerIds.size(); i++)
-        powerRegistry[usablePowerIds[i]]->onLevelLoad();
+        gpo.powers.findById(usablePowerIds[i])->onLevelLoad();
 
 	this->setPointMultiplier((float(this->level.getMapType()) + 2.f) * 0.8f);
 	this->setDamageMultiplier(playerData.abilities.calculateValue(PlayerAbilityManager::DAMAGE));
@@ -354,11 +332,6 @@ void Game::closeLevel()
 Game::~Game()
 {
     cout << "Game: Deleting game engine instance..." << endl;
-
-	for(auto i: levelRegistry)
-        delete i.second;
-    for(auto i: powerRegistry)
-        delete i.second;
 }
 
 void Game::setGameOver()
@@ -502,24 +475,6 @@ float Game::getPointMultiplier()
 void Game::setPointMultiplier(float ptmpl)
 {
     pointMultiplier = ptmpl;
-}
-
-void Game::registerPower(int id, Power* powerInstance)
-{
-    DebugLogger::logDbg("Adding power: " + std::to_string(id) + " (" + powerInstance->getName() + ")", "Game");
-    powerInstance->id = id;
-    powerRegistry.insert(make_pair(id, powerInstance));
-    if(id <= 100)
-    {
-        if(id > biggestPlayerPowerID)
-            biggestPlayerPowerID = id;
-    }
-    else
-    {
-        if(id > biggestGenericPowerID)
-            biggestGenericPowerID = id;
-    }
-    powerInstance->onInit();
 }
 
 class Triggers
@@ -666,7 +621,7 @@ bool Game::canPowerBuyOrEquip()
     bool powerCanBuy = false;
     bool powerCanEquip = false;
     int unlockedPowers = 0;
-    for(auto it: powerRegistry)
+    for(auto it: gpo.powers.arr())
     {
         if(it.first != 0 && it.first < 100)
         {

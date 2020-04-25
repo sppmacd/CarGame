@@ -11,6 +11,7 @@
 
 #include "LevelData.h"
 #include "PlayerDataManager.hpp"
+#include "GameplayObjectManager.hpp"
 
 #include "Power.h"
 
@@ -24,7 +25,6 @@
 
 #include <HackerMan/Util/Main.hpp>
 #include <CG/CG.h>
-;
 
 #define TUT_NONE 0 //- no tutorial
 #define TUT_START 1 //- start game in main menu
@@ -118,6 +118,9 @@ public:
 	// Vector storing event handlers.
 	multimap<sf::Event::EventType, CGEventHandler> eventHandlers;
 
+	// Gameplay Object Manager - used to store objects like cars or maps.
+    GameplayObjectManager gpo;
+
 	/////////////////////////
     ////// PLAYER DATA //////
 	/////////////////////////
@@ -133,7 +136,6 @@ public:
 
 	// move to GameplayObjectManager
 	// Registry of the maps, used by MapSelect GUI.
-	vector<pair<string, LevelData*>> levelRegistry;
 
 	// Tick time
     sf::Time tickTime;
@@ -249,18 +251,6 @@ public:
 	// Handles wheel event, used to change power
     void wheelEvent(sf::Event::MouseWheelScrollEvent event);
 
-    // move to GameplayObjectManager
-	// Register powers
-	void registerPowers();
-
-	// move to GameplayObjectManager
-	// Register car type.
-	void registerCarType(CarType type);
-
-	// move to GameplayObjectManager
-	// Find car type by car ID
-	CarType* findCarTypeByID(Car::TypeId id);
-
 	// Get game speed value. Used externally by powers
 	float getGameSpeed();
 
@@ -279,10 +269,6 @@ public:
 	// Add event handler.
 	void addEventHandler(Event::EventType type, CGEventHandler handler);
 
-	// move to GameplayObjectManager
-	// Find level by ID
-	LevelData findLevel(LevelData::MapType type);
-
 	// Display error screen.
 	void displayError(string text);
 
@@ -290,7 +276,7 @@ public:
 	void loadLanguages();
 
 	// Setup new game - set map, unpause game, initialize variables,
-	// reinitialize powers (0.3+!!)
+	// reinitialize powers
 	void setupGame();
 
 	// Set and initialize current power.
@@ -304,10 +290,6 @@ public:
 
 	// Sets current point multiplier.
 	void setPointMultiplier(float ptmpl);
-
-	// move to GameplayObjectManager
-	// Register a new power, setting biggestPlayerPowerID if necessary.
-	void registerPower(int id, Power* powerInstance);
 
 	// Called on load settings registration and load.
 	void registerSettings();
@@ -368,12 +350,12 @@ public:
 	// and GuiShop to know when to display blinking border.
 	bool canPowerBuyOrEquip();
 
-	/////////////////////////////////
-	/////////////////////////////////
-	/////////////////////////////////
+    // Register all powers
+	void registerPowers();
 
-	// Map storing power data registry
-	map<int, Power*> powerRegistry;
+	/////////////////////////////////
+	/////////////////////////////////
+	/////////////////////////////////
 
 	// The biggest ID of player power (displayed in Powers GUI)
 	int biggestPlayerPowerID; // player powers - 1-100 (0 = no power)
@@ -381,9 +363,6 @@ public:
 	// The biggest ID of generic power ("dropped" by bomb)
 	int biggestGenericPowerID; //generic powers - 101+
 
-	// move to GameplayObjectManager
-	// Car type registry
-	vector<CarType> carTypeRegistry;
 
 	// All languages.
 	HMDataMap hmLangCfg;

@@ -27,9 +27,9 @@ bool PlayerDataManager::load(std::string fileName)
         highScore = playerData.getNumberKey("highScore", "main", 0);
         playerCoins = playerData.getNumberKey("coins", "main", 0);
 
-        for(size_t t = 0; t < game->levelRegistry.size(); t++)
+        for(size_t t = 0; t < game->gpo.levels.count(); t++)
         {
-            bool unlocked = playerData.getKey("unlocked_" + game->levelRegistry[t].first, "level", "false") == "true";
+            bool unlocked = playerData.getKey("unlocked_" + game->gpo.levels.arr()[t].first, "level", "false") == "true";
             unlockedLevels |= (unlocked << t);
         }
         totalPlayerPoints = playerData.getNumberKey("totalPoints", "main", 0);
@@ -38,7 +38,7 @@ bool PlayerDataManager::load(std::string fileName)
 
         if(ver == 3)
         {
-            for(auto it = game->powerRegistry.begin(); it != game->powerRegistry.end(); it++)
+            for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
             {
                 int c = playerData.getNumberKey("count_" + to_string(it->first), "power", 0);
                 powerLevels[it->first] = PowerPlayerData(it->second, sqrt(c));
@@ -46,7 +46,7 @@ bool PlayerDataManager::load(std::string fileName)
         }
         else if(ver == 4)
         {
-            for(auto it = game->powerRegistry.begin(); it != game->powerRegistry.end(); it++)
+            for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
             {
                 int c = playerData.getNumberKey("level_" + to_string(it->first), "power", 0);
                 this->powerLevels[it->first] = PowerPlayerData(it->second, c);
@@ -85,8 +85,8 @@ bool PlayerDataManager::load(std::string fileName)
             int i1, i2;
             file
             >> i1 >> i2;
-            powerLevels[1] = PowerPlayerData(game->powerRegistry[1], sqrt(i1));
-            powerLevels[2] = PowerPlayerData(game->powerRegistry[2], sqrt(i2));
+            powerLevels[1] = PowerPlayerData(game->gpo.powers.findById(1), sqrt(i1));
+            powerLevels[2] = PowerPlayerData(game->gpo.powers.findById(2), sqrt(i2));
         }
         else
         {
@@ -133,11 +133,11 @@ bool PlayerDataManager::save(std::string fileName)
     {
         playerData.setNumberKey("power_" + to_string(t), equipment[t], "equipment");
     }
-    for(size_t t = 0; t < game->levelRegistry.size(); t++)
+    for(size_t t = 0; t < game->gpo.levels.count(); t++)
     {
-        playerData.setKey("unlocked_" + game->levelRegistry[t].first, (game->isLevelUnlocked((LevelData::MapType)t) ? "true" : "false"), "level");
+        playerData.setKey("unlocked_" + game->gpo.levels.arr()[t].first, (game->isLevelUnlocked((LevelData::MapType)t) ? "true" : "false"), "level");
     }
-    for(auto it = game->powerRegistry.begin(); it != game->powerRegistry.end(); it++)
+    for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
     {
         playerData.setNumberKey("level_" + to_string(it->first), powerLevels[it->first].getLevel(), "power");
     }
@@ -160,7 +160,7 @@ void PlayerDataManager::init()
     isNewPlayer = true;
     tutorialStep = 1;
 
-    for(auto it = game->powerRegistry.begin(); it != game->powerRegistry.end(); it++)
+    for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
     {
         powerLevels[it->first] = PowerPlayerData(it->second);
     }

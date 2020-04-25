@@ -86,17 +86,17 @@ void LevelData::init()
     Maps::swampland = &(new LevelData(LevelData::SWAMPLAND))->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(80).setCost(120000);
     Maps::forest_trails = &(new LevelData(LevelData::FOREST_TRAILS))->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(200000);
 
-	Game::instance->levelRegistry.push_back(make_pair("countryside", Maps::countryside));
-	Game::instance->levelRegistry.push_back(make_pair("desert", Maps::desert));
-	Game::instance->levelRegistry.push_back(make_pair("forest", Maps::forest));
-	Game::instance->levelRegistry.push_back(make_pair("ice", Maps::ice));
-	Game::instance->levelRegistry.push_back(make_pair("mountains", Maps::mountains));
-	Game::instance->levelRegistry.push_back(make_pair("beach", Maps::beach));
-	Game::instance->levelRegistry.push_back(make_pair("city", Maps::city));
-	Game::instance->levelRegistry.push_back(make_pair("motorway", Maps::motorway));
-	Game::instance->levelRegistry.push_back(make_pair("sea", Maps::sea));
-	Game::instance->levelRegistry.push_back(make_pair("swampland", Maps::swampland));
-	Game::instance->levelRegistry.push_back(make_pair("forest_trails", Maps::forest_trails));
+	Game::instance->gpo.levels.add("countryside", Maps::countryside);
+	Game::instance->gpo.levels.add("desert", Maps::desert);
+	Game::instance->gpo.levels.add("forest", Maps::forest);
+	Game::instance->gpo.levels.add("ice", Maps::ice);
+	Game::instance->gpo.levels.add("mountains", Maps::mountains);
+	Game::instance->gpo.levels.add("beach", Maps::beach);
+	Game::instance->gpo.levels.add("city", Maps::city);
+	Game::instance->gpo.levels.add("motorway", Maps::motorway);
+	Game::instance->gpo.levels.add("sea", Maps::sea);
+	Game::instance->gpo.levels.add("swampland", Maps::swampland);
+	Game::instance->gpo.levels.add("forest_trails", Maps::forest_trails);
 }
 
 LevelData& LevelData::setAcceleration(float f)

@@ -87,7 +87,7 @@ endif()
 # add CG binaries to build
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC}/${CG_ARCH_PREFIX})
 
-file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp" "src/*.rc" "cgui_fork/src/*.cpp" "src/*.hpp" "cgui_fork/include/CG/*.hpp" "src/*.h" "cgui_fork/include/CG/*.h" "cgui_fork/include/CG/*.hpp")
+file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp" "src/*.inl" "src/*.rc" "cgui_fork/src/*.cpp" "src/*.hpp" "cgui_fork/include/CG/*.hpp" "src/*.h" "cgui_fork/include/CG/*.h" "cgui_fork/include/CG/*.hpp")
 set(CMAKE_BUILD_TYPE "Release")
 message("CG: sources are ${SOURCES}")
 add_executable(cg "${SOURCES}")

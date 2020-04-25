@@ -8,10 +8,10 @@ CarBomb::CarBomb(float spd, int lane) : Car(Car::BOMB, spd, lane)
 }
 void CarBomb::onDamage(Game* game)
 {
-    auto power = game->powerRegistry.find(rand() % (game->biggestGenericPowerID - 100) + 101);
-    if(power != game->powerRegistry.end())
+    Power* power = game->gpo.powers.findById(rand() % (game->biggestGenericPowerID - 100) + 101);
+    if(power)
     {
-        game->setCurrentPower(power->second);
+        game->setCurrentPower(power);
     }
     makeDestroy(1e38f); //make very big damage to ensure car is destroyed.
 }
