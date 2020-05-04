@@ -146,10 +146,6 @@ public:
 	// True if the game is in Debug mode (--debug or "Debug Mode" in Settings)
     bool debug;
 
-    // move to GameplayObjectManager
-    // Saved in byte format, unlocked levels for player
-    long long unlockedLevels;
-
 	// EventsHandler instance
 	EventsHandler eventHandlerInst;
 

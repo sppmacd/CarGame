@@ -14,7 +14,7 @@ LevelData* Maps::swampland;
 LevelData* Maps::motorway;
 LevelData* Maps::forest_trails;
 
-int LevelData::MapType::nextId = 0;
+int LevelData::MapType::nextId = 1;
 LevelData::MapType LevelData::COUNTRYSIDE;
 LevelData::MapType LevelData::DESERT;
 LevelData::MapType LevelData::FOREST;

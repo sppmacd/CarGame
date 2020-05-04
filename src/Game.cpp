@@ -65,7 +65,7 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		// Reset game state
 		this->mainTickCount = 0; //Reset ticking
 		this->pause(true); //Pause game (to not spawn cars!)
-		this->debug = stoi(settings.getSetting("debug", "global")) || argmap->a_debug; //Disable debug mode
+		this->debug = stoi(settings.getSetting("debug", "global")) || argmap->a_debug; //Disable/enable debug mode
 		this->fullscreen = true;
 		cg::colors::bgColor = sf::Color(50, 40, 40);
 		cg::colors::textSize = 28;
@@ -78,7 +78,7 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		this->isPowerUsed = false;
 		this->powerHandle = NULL;
 		this->currentPower = 0;
-		this->unlockedLevels = 0LL;
+		this->playerData.unlockedLevels = 0LL;
 		this->tickCount = 0;
 
 		// Initialize registries
@@ -139,15 +139,15 @@ void Game::registerPowers()
 	//registerPower(0, (Power*)NULL);
 	biggestPlayerPowerID = 0;
 	biggestGenericPowerID = 100;
-	gpo.powers.add(&(new PowerOil)->setMaxTime(1800));
-	gpo.powers.add(&(new PowerFreeze)->setMaxTime(3000));
-	gpo.powers.add(new PowerPointBoost);
-	gpo.powers.add(new PowerFence);
-	gpo.powers.add(new PowerBall);
+	gpo.registerPower(this, 1, &(new PowerOil)->setMaxTime(1800));
+	gpo.registerPower(this, 2, &(new PowerFreeze)->setMaxTime(3000));
+	gpo.registerPower(this, 3, new PowerPointBoost);
+	gpo.registerPower(this, 4, new PowerFence);
+	gpo.registerPower(this, 5, new PowerBall);
 	// PowerRegisterEvent
 
-	gpo.powers.add(101, new PowerSpeedIncrease);
-	gpo.powers.add(new PowerDamageDecrease);
+	gpo.registerPower(this, 101, new PowerSpeedIncrease);
+	gpo.registerPower(this, 102, new PowerDamageDecrease);
 	// AntipowerRegisterEvent
 }
 
@@ -239,7 +239,9 @@ void Game::loadPlayerData()
 {
 	GameDisplay::loadingStr = "Loading player data...";
     DebugLogger::log("Loading player data from default profile file", "Game");
-    playerData.load("profile_1.txt");
+    bool b = playerData.load("profile_1.txt");
+    if(!b)
+        initProfile();
 }
 
 void Game::initProfile()
@@ -332,7 +334,7 @@ void Game::closeLevel()
 
 Game::~Game()
 {
-    DebugLogger::log("Deleting Game... (don't panic, it doesn't removing the Game from disk !)", "Game");
+    DebugLogger::log("Deleting Game... (don't panic, it isn't removing the Game from disk !)", "Game");
 }
 
 void Game::setGameOver()

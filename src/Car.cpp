@@ -22,6 +22,7 @@ Car::Car(Car::TypeId id, float speed, int line)
 
 	// Find car type for car
 	this->type = Game::instance->gpo.carTypes.findById(id);
+	this->typeId = id;
 
 	// It's critical error; stop the game.
 	if(!type)
@@ -32,7 +33,7 @@ Car::Car(Car::TypeId id, float speed, int line)
         Game::instance->displayError("CarType not found.\nSee log for details.", "C01");
         return;
     }
-	this->maxHealth = this->type->getMaxHealth();
+	this->setMaxHealth(this->type->getMaxHealth());
 	this->textureName = this->type->getTextureName();
 	this->health = this->maxHealth;
 	this->colorMultiplier = Color::White;

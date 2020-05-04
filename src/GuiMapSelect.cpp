@@ -77,7 +77,7 @@ void GuiMapSelect::onDialogFinished(Gui*, int callId)
 {
 	if(callId == 0 && dialogReturnValue == 1)
 	{
-		Game::instance->unlockedLevels |= (0b1 << id);
+		Game::instance->playerData.unlockedLevels |= (0b1 << id);
 		Game::instance->removeCoins(bMd[id].cost);
 		Game::instance->sound.playSound("upgrade", 100.f);
 

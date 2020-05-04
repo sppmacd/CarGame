@@ -8,6 +8,9 @@
 #include "LevelData.h"
 #include "Power.h"
 
+#define POWER_REGULAR_ID_START 0
+#define POWER_ANTI_ID_START 100
+
 class Game;
 
 class GameplayObjectManager

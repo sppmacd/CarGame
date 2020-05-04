@@ -124,6 +124,6 @@ bool EventHandlers::onCarDamaged(GameEvent& event, Game* game)
 {
     // handle PowerRamp
     Car* car = event.car.car;
-    DebugLogger::logDbg("Car damaged: a=0x" + to_string((size_t)car) + ", pos=" + to_string(car->pos), "EventHandlers", "EVENT");
+    DebugLogger::logDbg("Car damaged: a=" + to_string((size_t)car) + ", pos=" + to_string(car->pos) + ", type=" + to_string(car->typeId), "EventHandlers", "EVENT");
     return true;
 }

@@ -24,18 +24,18 @@ public:
 	{
 	    NONE, //invalid ID !!
 		NORMAL,
-		LORRY,
-		RARE,
-		BUS,
-		AMBULANCE,
-		RALLY,
-		FIREMAN,
-		TANK,
-		OLD,
-		BOMB,
-		ARMORED,
-		TRAIN,
-		COUNT
+        LORRY,
+        RARE,
+        BUS,
+        AMBULANCE,
+        RALLY,
+        BOMB,
+        FIREMAN,
+        TANK,
+        OLD,
+        ARMORED,
+        TRAIN,
+        COUNT
 	};
 
     // Constructor used to create empty cars. Do not use in spawning!

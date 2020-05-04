@@ -64,7 +64,6 @@ bool PlayerDataManager::load(std::string fileName)
             DebugLogger::log("Unsupported profile version", "PlayerDataManager", "ERROR");
             game->displayError("Tried to load newer/invalid profile version.\n\
                          Try installing a new version of Car Game.", "G04");
-            game->initProfile();
             return false;
         }
     }
@@ -107,7 +106,6 @@ bool PlayerDataManager::load(std::string fileName)
             }
             else
             {
-                game->initProfile();
                 return false;
             }
         }

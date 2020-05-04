@@ -59,7 +59,7 @@ static std::string time2str()
         << " " << std::setw(2) << _tstr->tm_hour
         << ":" << std::setw(2) << _tstr->tm_min
         << ":" << std::setw(2) << _tstr->tm_sec
-        << " / " << std::setw(8) << clock();
+        << " / " << std::setw(8) << (clock() % 100000000);
     return _str.str();
 }
 
