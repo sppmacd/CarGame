@@ -70,9 +70,9 @@ void GameDisplay::reload()
     }
 
     DebugLogger::logDbg("Adding car textures", "GameDisplay");
-	for(int i = 0; i < Car::COUNT; i++)
+	for(int i = 1; i < Car::COUNT; i++)
 	{
-	    CarType* type = Game::instance->gpo.carTypes.findById(i+1);
+	    CarType* type = Game::instance->gpo.carTypes.findById(i);
 		if(type != NULL)
             addTexture("car/" + type->getTextureName());
         else

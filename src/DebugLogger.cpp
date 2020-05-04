@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Game.h"
 
+// TODO: change format
 void DebugLogger::log(std::string str, std::string logger)
 {
     std::cout << logger << ": " << str << std::endl;

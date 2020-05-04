@@ -4,6 +4,10 @@
 #include "Game.h"
 #include "CarType.h"
 #include "Level.h"
+#include "DebugLogger.hpp"
+
+// CAR FATAL ERRORS
+// C01 - CarType not found
 
 Car::Car(Car::TypeId id, float speed, int line)
     : typeId(id)
@@ -16,8 +20,18 @@ Car::Car(Car::TypeId id, float speed, int line)
 	this->animSize = 1;
 	this->frameLength = 60;
 
-	// Create car type for car
-	this->type = Game::instance->gpo.carTypes.findById(id+1);
+	// Find car type for car
+	this->type = Game::instance->gpo.carTypes.findById(id);
+
+	// It's critical error; stop the game.
+	if(!type)
+    {
+        DebugLogger::log("Couldn't find CarType for ID " + std::to_string(id), "Car");
+        DebugLogger::log("Probably the mod is broken", "Car");
+        DebugLogger::log("Try reinstalling the game", "Car");
+        Game::instance->displayError("CarType not found.\nSee log for details.\nC01");
+        return;
+    }
 	this->maxHealth = this->type->getMaxHealth();
 	this->textureName = this->type->getTextureName();
 	this->health = this->maxHealth;
