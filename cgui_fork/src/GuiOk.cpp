@@ -10,7 +10,7 @@ GuiOk::GuiOk(string text, GuiOkType type)
 }
 void GuiOk::onDraw(RenderWindow& wnd)
 {
-    Text tx = Gui::drawCenteredString(message, 30, Vector2f(guiHandler->getCenter().x, 300));
+    Text tx = Gui::drawCenteredString(message, cg::colors::textSize, Vector2f(guiHandler->getCenter().x, 300));
 	tx.setOrigin(tx.getLocalBounds().width / 2, tx.getLocalBounds().height / 2);
 	tx.setPosition(guiHandler->getCenter().x, 300);
 

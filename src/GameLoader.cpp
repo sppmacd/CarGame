@@ -21,8 +21,8 @@ void GameLoader::loadGame()
     {
         sf::Clock loadTime;
 
-        cout << "main: " + argmap->a_message + " [" << CG_VERSION << "]" << endl;
-        cout << "main: Loading game engine..." << endl;
+        DebugLogger::log("" + argmap->a_message + " [" + std::string(CG_VERSION) + "]", "GameLoader");
+        DebugLogger::log("Loading game engine...", "GameLoader");
 
         // display help if specified in cmdline
         if(argmap->a_help)
@@ -57,13 +57,13 @@ void GameLoader::loadGame()
         if(disp->isError())
             throw runtime_error("GameDisplay loading error");
 
-        cout << "main: Loading took " << loadTime.getElapsedTime().asMilliseconds() << "ms." << endl;
+        DebugLogger::log("Loading took " + std::to_string(loadTime.getElapsedTime().asMilliseconds()) + " ms.", "GameLoader");
         loaded = true;
     }
     catch(exception& e)
     {
-        cout << "main: Exception while loading: " << e.what() << endl;
-        GameDisplay::loadingStr = string("Exception while loading: ") + e.what() + string(".\nPress Esc to close game...");
+        DebugLogger::log("Exception while loading: " + std::string(e.what()), "GameLoader", "FATAL");
+        GameDisplay::consoleStr = string("Exception while loading: ") + e.what() + string(".\nPress Esc to close game...");
     }
 }
 

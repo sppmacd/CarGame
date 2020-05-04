@@ -1,5 +1,6 @@
 #include "PlayerDataManager.hpp"
 #include "Game.h"
+#include "DebugLogger.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -23,7 +24,7 @@ bool PlayerDataManager::load(std::string fileName)
     {
         int ver = playerData.getNumberKey("version", "", 0);
 
-        cout << "PlayerDataManager: Loading player data from profile version " << ver << endl;
+        DebugLogger::log("Loading player data from profile version " + std::to_string(ver), "PlayerDataManager");
         highScore = playerData.getNumberKey("highScore", "main", 0);
         playerCoins = playerData.getNumberKey("coins", "main", 0);
 
@@ -60,10 +61,9 @@ bool PlayerDataManager::load(std::string fileName)
         }
         else
         {
-            cout << "PlayerDataManager: Unsupported profile version!" << endl;
+            DebugLogger::log("Unsupported profile version", "PlayerDataManager", "ERROR");
             game->displayError("Tried to load newer/invalid profile version.\n\
-                         Try installing a new version of Car Game.\n\
-                         Code: G04");
+                         Try installing a new version of Car Game.", "G04");
             game->initProfile();
             return false;
         }
@@ -74,6 +74,7 @@ bool PlayerDataManager::load(std::string fileName)
         if(file.good())
         {
             cout << "PlayerDataManager: Couldn't load profile! Converting from old player data format (v2)..." << endl;
+            DebugLogger::log("Couldn't load profile! Converting from old player data format (v2)...", "PlayerDataManager");
 
             file
             >> highScore
@@ -94,7 +95,7 @@ bool PlayerDataManager::load(std::string fileName)
 
             if(file.good())
             {
-                cout << "PlayerDataManager: Couldn't load data.txt! Converting from old player data format (v1)..." << endl;
+                DebugLogger::log("Couldn't load data.txt! Converting from old player data format (v1)...", "PlayerDataManager");
                 file
                 >> highScore
                 >> playerCoins
@@ -102,7 +103,7 @@ bool PlayerDataManager::load(std::string fileName)
                 >> totalPlayerPoints
                 >> coinMpl
                 >> pointsToNewMpl;
-                cout << "PlayerDataManager: Powers are incompatible with old format on " + string(CG_VERSION) + "!" << endl;
+                DebugLogger::log("Powers are incompatible with old format on " + string(CG_VERSION) + "!", "PlayerDataManager");
             }
             else
             {

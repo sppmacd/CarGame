@@ -29,7 +29,7 @@ Car::Car(Car::TypeId id, float speed, int line)
         DebugLogger::log("Couldn't find CarType for ID " + std::to_string(id), "Car");
         DebugLogger::log("Probably the mod is broken", "Car");
         DebugLogger::log("Try reinstalling the game", "Car");
-        Game::instance->displayError("CarType not found.\nSee log for details.\nC01");
+        Game::instance->displayError("CarType not found.\nSee log for details.", "C01");
         return;
     }
 	this->maxHealth = this->type->getMaxHealth();

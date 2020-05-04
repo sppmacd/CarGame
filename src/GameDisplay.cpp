@@ -10,6 +10,7 @@ String GameDisplay::consoleStr;
 
 // GameDisplay error codes:
 // D00 could not load texture
+// D01 could not load /res folder
 
 GameDisplay::GameDisplay(sf::RenderWindow* wnd)
     : renderWnd(wnd), error(false)
@@ -17,7 +18,7 @@ GameDisplay::GameDisplay(sf::RenderWindow* wnd)
 	wndSizeDefault = renderWnd->getSize();
 	loadingStr = "Loading GameDisplay...";
 
-    cout << "GameDisplay: Creating GameDisplay instance..." << endl;
+    DebugLogger::log("Creating GameDisplay", "GameDisplay", "INFO");
     instance = this;
 
 	fullscreenMode = 0;
@@ -33,13 +34,13 @@ void GameDisplay::clearTextures()
 
 void GameDisplay::reload()
 {
-    cout << "GameDisplay: Reloading graphics resources..." << endl;
+    DebugLogger::log("Reloading ResourceManager", "GameDisplay");
     GameDisplay::loadingStr = "Reloading resources...";
 
     if(FileUtil::getFileType("res") == FileUtil::NOTEXISTING)
     {
-        cout << "GameDisplay: no resource folder found!" << endl;
-        throw runtime_error("No resource folder found. Try reinstalling the game.");
+        DebugLogger::log("Resource folder not found", "GameDisplay", "FATAL");
+        throw runtime_error("No resource folder found. Try reinstalling the game.\nD01");
     }
 
     clearTextures();
@@ -76,7 +77,7 @@ void GameDisplay::reload()
 		if(type != NULL)
             addTexture("car/" + type->getTextureName());
         else
-            cout << "GameDisplay: unknown car type " << i << ", cannot load textures." << endl;
+            DebugLogger::log("Unknown car type " + std::to_string(i) + ", cannot load textures.", "GameDisplay", "ERROR");
 	}
 
 	DebugLogger::logDbg("Adding map textures", "GameDisplay");
@@ -89,7 +90,7 @@ void GameDisplay::reload()
         }
     }
     else
-        cout << "GameDisplay: cannot load map textures, no level registered." << endl;
+        DebugLogger::log("Map textures not loaded - no map found. Probably the core mod is broken.", "GameDisplay", "ERROR");
 
     DebugLogger::logDbg("Adding stat and GUI textures", "GameDisplay");
     addTexture("stat/coin");
@@ -116,9 +117,9 @@ void GameDisplay::addTexture(string name, bool repeated, bool smooth)
     DebugLogger::logDbg("Adding texture: " + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
     sf::Texture tx;
 	bool load = tx.loadFromFile("res/textures/" + name + ".png");
-	if (!load)
-	{
-	    cout << "GameDisplay: err D00(name='" << name << "')" << endl;
+	if(!load)
+    {
+        DebugLogger::log("Texture not loaded: '" + name + "'. Error: D00", "GameDisplay", "ERROR");
 		texturesByName.insert(pair<string, sf::Texture>(name, unknownTexture));
 		return;
 	}
@@ -163,7 +164,7 @@ void GameDisplay::setWndSize(Vector2u vec)
 
 GameDisplay::~GameDisplay()
 {
-    cout << "GameDisplay: Deleting GameDisplay instance..." << endl;
+    DebugLogger::log("Deleting GameDisplay...", "GameDisplay");
 }
 
 void GameDisplay::display()
@@ -421,10 +422,10 @@ Font* GameDisplay::getGuiFont()
 void GameDisplay::createFullscreenWnd()
 {
     vector<VideoMode> fullscreenModes = sf::VideoMode::getFullscreenModes();
-    cout << "GameDisplay: Trying to create fullscreen window... (Modes=" << fullscreenModes.size() << ")" << endl;
+    DebugLogger::log("Trying to create fullscreen window... (Modes=" + std::to_string(fullscreenModes.size()) + ")", "GameDisplay");
     if(fullscreenModes.empty())
     {
-        cout << "GameDisplay: Fullscreen mode not supported, switching to window mode" << endl;
+        DebugLogger::log("Fullscreen not supported - switching to window mode", "GameDisplay", "ERROR");
         renderWnd->create(VideoMode(1280, 720), sf::String("CG " + string(CG_VERSION) + "(Fullscreen not supported)"));
     }
 

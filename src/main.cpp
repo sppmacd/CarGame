@@ -6,6 +6,11 @@ using namespace std;
 
 // todo: document loading progress and mark load state for all virtual functions
 
+// error codes:
+// M00 out of memory
+// M01 exception
+// M02 unexpected exception
+
 int main(int argc, char* argv[])
 {
     // parse args
@@ -135,7 +140,7 @@ int main(int argc, char* argv[])
                     sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
                     if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
                     {
-                        cout << "main: Tick took " << l << endl;
+                        DebugLogger::log("Tick took " + std::to_string(l) + "us.", "main", "LAG");
                         lastWarningClock.restart();
                     }
 
@@ -149,21 +154,21 @@ int main(int argc, char* argv[])
                 }
                 catch(bad_alloc& ba)
                 {
-                    cout << "main: Out of memory!" << endl;
+                    DebugLogger::log("Out of memory!", "main", "FATAL");
                     if(data.game)
-                        data.game->displayError(string("Out of memory!"));
+                        data.game->displayError("Out of memory!", "M00");
                 }
                 catch(exception& e)
                 {
-                    cout << "main: Exception while running: " << e.what() << endl;
+                    DebugLogger::log("std::exception caught: " + std::string(e.what()), "main", "FATAL");
                     if(data.game)
-                        data.game->displayError(string("Exception while running: ") + e.what());
+                        data.game->displayError("Exception while running: " + std::string(e.what()), "M01");
                 }
                 catch(...)
                 {
-                    cout << "main: Unexpected error while running!" << endl;
+                    DebugLogger::log("Unexpected exception caught!", "main", "FATAL");
                     if(data.game)
-                        data.game->displayError(string("Unexpected error"));
+                        data.game->displayError("Unexpected error", "M02");
                 }
             }
             else
@@ -179,8 +184,7 @@ int main(int argc, char* argv[])
             }
         }
 
-        cout << "main: Closing..." << endl;
-
+        DebugLogger::log("Closing the game...", "main");
         GameDisplay::drawLoadingProgress("Closing...", data.wnd);
 
         if(data.loaded)
@@ -193,10 +197,10 @@ int main(int argc, char* argv[])
     }
     catch(...)
     {
-        cout << "main: Unexpected main thread error while loading!" << endl;
+        DebugLogger::log("Unexpected exception caught from main(). This shouldn't happen.", "main", "FATAL");
     }
 
-    cout << "main: Unloading resources..." << endl;
+    DebugLogger::log("Unloading resources...", "main");
     delete data.disp;
     delete data.game;
 

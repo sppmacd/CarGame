@@ -5,6 +5,7 @@
 #include <iostream>
 #include <locale>
 #include <codecvt>
+#include "DebugLogger.hpp"
 
 // error codes
 // 01 - not enough values given (too many variables in translation string)
@@ -83,7 +84,7 @@ bool TranslationManager::loadFromFile(String code)
 
     languageCode = code;
 
-    cout << "TranslationManager: Loading translation: " << code.toAnsiString() << endl;
+    DebugLogger::log("Loading translation: " + code.toAnsiString(), "TranslationManager");
     wifstream file("res/lang/" + code + ".lang");
     codecvt_utf8_utf16<wchar_t>* c = new codecvt_utf8_utf16<wchar_t>;
     file.imbue(locale(file.getloc(), c));

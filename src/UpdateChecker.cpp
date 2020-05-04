@@ -3,6 +3,7 @@
 #include <iostream>
 #include "version.hpp"
 #include <sstream>
+#include "DebugLogger.hpp"
 
 string UpdateChecker::currentUpdateString = CG_VERSION_SIG;
 
@@ -21,13 +22,13 @@ bool UpdateChecker::checkUpdates()
     std::string body = resp.getBody();
     if(resp.getStatus() != Http::Response::Ok)
     {
-        cout << "UpdateChecker: Couldn't check updates: " << int(resp.getStatus()) << " " << body << endl;
+        DebugLogger::log("Couldn't check updates: " + std::to_string(resp.getStatus()), "UpdateChecker", "WARN");
         return false;
     }
     bool err = parseUpdateFile(body);
     if(err)
     {
-        cout << "UpdateChecker: Couldn't parse update file" << endl;
+        DebugLogger::log("Couldn't parse update file: (not implemented)", "UpdateChecker", "WARN");
         return false;
     }
     return currentUpdateString != newUpdateString;
@@ -35,19 +36,19 @@ bool UpdateChecker::checkUpdates()
 
 void UpdateChecker::makeUpdate()
 {
-    cout << "UpdateChecker: Updating..." << endl;
+    DebugLogger::log("makeUpdate() - (not implemented)", "UpdateChecker", "WARN");
+
+    // MOVED TO LAUNCHER
+
     updateMade = true;
 }
 
 bool UpdateChecker::parseUpdateFile(string in)
 {
     std::istringstream str(in);
-    // commands:
-    // ADDFILE <path> <url> - requests to download new file from <url> and place to <path>.
-    // ADDDIR <path> - requests to add directory.
-    // RMFILE <path> - requests to remove file from <path>.
-    // RMDIR <path> - requests to remove directory with all files.
-    // VERSION <ver> - sets CG version signature.
+
+    // MOVED TO LAUNCHER
+
     return true;
 }
 

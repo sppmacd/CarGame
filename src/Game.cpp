@@ -18,6 +18,7 @@
 #include "GuiIngame.h"
 #include "GuiMainMenu.h"
 #include "GuiUpdates.hpp"
+#include "GuiError.hpp"
 
 #include "PowerFreeze.hpp"
 #include "PowerOil.hpp"
@@ -40,7 +41,7 @@ Game* Game::instance = NULL;
 
 Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::instance->getGuiFont())
 {
-    cout << "Game: Started loading game engine..." << endl;
+    DebugLogger::log("Loading game engine...", "Game");
 
 	GameDisplay::loadingStr = "Loading game data...";
 
@@ -98,8 +99,8 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 	}
 	else //fatal error
 	{
-	    cout << "Game: Tried to create second Game instance!" << endl;
-		instance->displayError("G03");
+	    DebugLogger::log("Loading game engine...", "Game", "FATAL");
+		instance->displayError("Duplicate Game instance.\nCheck your mod config.", "G03");
 	}
 }
 
@@ -170,7 +171,7 @@ void Game::runEventHandler(Event& event)
 			counter++;
 			bool stat = pair.second(event, this);
 			if(!stat)
-				cout << "Game: Cannot cancel system events!!!" << endl;
+				DebugLogger::log("Cancelling system events not supported.", "Game", "WARN");
 		}
 	}
 
@@ -237,19 +238,19 @@ void Game::addScore(int s)
 void Game::loadPlayerData()
 {
 	GameDisplay::loadingStr = "Loading player data...";
-    cout << "Game: Loading player data..." << endl;
+    DebugLogger::log("Loading player data from default profile file", "Game");
     playerData.load("profile_1.txt");
 }
 
 void Game::initProfile()
 {
-    cout << "Game: Cannot load player data! Creating a new profile. You are the new player :)" << endl;
+    DebugLogger::log("Cannot load player data! Creating a new profile. You are the new player :)", "Game", "WARN");
     playerData.init();
 }
 
 void Game::savePlayerData()
 {
-    cout << "Game: Saving player data to profile..." << endl;
+    DebugLogger::log("Saving player data to default profile file", "Game");
     GameDisplay::drawLoadingProgress("Saving player data...", GameDisplay::instance->getRenderWnd());
     playerData.save("profile_1.txt");
 }
@@ -258,7 +259,7 @@ void Game::loadGame(LevelData level)
 {
     GameDisplay::drawLoadingProgress("Loading level " + level.getMapType(), GameDisplay::instance->getRenderWnd());
 
-    cout << "Game: Loading level " << level.getTextureName().toAnsiString() << "..." << endl;
+    DebugLogger::log("Loading level: " + level.getTextureName().toAnsiString(), "Game");
     this->level = level;
     setupGame();
 }
@@ -267,7 +268,7 @@ void Game::loadGame()
 {
     GameDisplay::drawLoadingProgress("Reloading current level...", GameDisplay::instance->getRenderWnd());
 
-    cout << "Game: Reloading current level..." << endl;
+    DebugLogger::log("Reloading level: " + level.getTextureName().toAnsiString(), "Game");
     setupGame();
 
 }
@@ -307,7 +308,7 @@ void Game::setupGame()
 
 void Game::closeLevel()
 {
-    cout << "Game: Closing level..." << endl;
+    DebugLogger::log("Closing level: " + level.getTextureName().toAnsiString(), "Game");
     GameDisplay::drawLoadingProgress("Closing level...", GameDisplay::instance->getRenderWnd());
     if(!this->cars.empty())
     {
@@ -331,12 +332,12 @@ void Game::closeLevel()
 
 Game::~Game()
 {
-    cout << "Game: Deleting game engine instance..." << endl;
+    DebugLogger::log("Deleting Game... (don't panic, it doesn't removing the Game from disk !)", "Game");
 }
 
 void Game::setGameOver()
 {
-    cout << "Game: Setting game over..." << endl;
+    DebugLogger::log("Setting game over", "Game");
     this->gameOver = true;
     this->savePlayerData();
     this->displayGui(new GuiGameOver);
@@ -411,28 +412,34 @@ bool Game::isRunning()
 
 void Game::exit(int ret)
 {
-    cout << "Game: Preparing to exit game..." << endl;
+    DebugLogger::log("Preparing to exit game with return status " + std::to_string(ret), "Game");
     this->running = false;
     this->retVal = ret;
     close(ret);
 }
 
-void Game::displayError(string text)
+void Game::displayError(string text, string code)
 {
     errStr = text;
-    DebugLogger::logDbg("An error occurred in last tick: " + errStr, "Game");
-    displayGui(new GuiYesNo("An error occurred: " + errStr));
+    DebugLogger::logDbg("An error occurred: " + errStr, "Game", "FATAL");
+    displayGui(new GuiError(   "AN ERROR OCCURRED\n"
+                            "\n'"
+                            + errStr + "'\n\n"
+                            "See https://github.com/sppmacd/CarGame/docs/error_codes.txt\n"
+                            "Try checking log for details or start game in Debug Mode (--debug)\n"
+                            "Error code: " + code
+                            ));
     mainTickCount = 2; //to skip post-init
 }
 
 void Game::loadLanguages()
 {
     GameDisplay::loadingStr = "Loading language...";
-    cout << "Game: Loading language config..." << endl;
+    DebugLogger::log("Loading language config", "Game");
     bool b = hmLangCfg.loadFromFile("lang.hmd");
     if(!b)
     {
-        cout << "Game: Could not load translation config! Creating a new one..." << endl;
+        DebugLogger::log("Could not load translation config! Creating a new one...", "Game", "WARN");
 
         hmLangCfg.setKey("current","en_US","lang");
         hmLangCfg.saveToFile("lang.hmd");
@@ -441,15 +448,15 @@ void Game::loadLanguages()
         b = hmLangCfg.loadFromFile("lang.hmd");
         if(!b)
         {
-            displayError("Error: G01: Could not load language config");
+            displayError("Could not load language config", "G01");
         }
     }
 
     bool b2 = enUSTranslation.loadFromFile("en_US");
     if(!b2)
     {
-        cout << "Game: Could not load default translation!" << endl;
-        displayError("Error: G00: Could not load default translation");
+        DebugLogger::log("Could not load default translation!", "Game", "ERROR");
+        displayError("Could not load default translation", "G00");
         return;
     }
 
@@ -459,7 +466,7 @@ void Game::loadLanguages()
     translation.setParent(&enUSTranslation);
     if(!b1)
     {
-        cout << "Game: Could not load user-defined translation file." << endl;
+        DebugLogger::log("Could not load user-defined translation!", "Game", "WARN");
         currentLangCode = "en_US";
     }
     else

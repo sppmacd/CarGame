@@ -72,7 +72,7 @@ namespace FileUtil
     #else
         vector<string> getFileList(string, string, int)
         {
-            cout << "FileUtil: system not supported!" << endl;
+            DebugLogger::log("System not supported, cannot list files.", "FileUtil", "ERROR");
             return vector<string>();
         }
     #endif

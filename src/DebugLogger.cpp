@@ -5,7 +5,49 @@
 #include <sstream>
 #include <iomanip>
 
-std::string time2str()
+#ifdef SFML_SYSTEM_WINDOWS
+#include <windows.h>
+#endif // SFML_SYSTEM_WINDOWS
+
+int level2color(std::string lvl)
+{
+    if(lvl == "INFO")
+        return 0x0F;
+    else if(lvl == "WARN")
+        return 0x06;
+    else if(lvl == "ERROR")
+        return 0x0C;
+    else if(lvl == "FATAL")
+        return 0xCF;
+    else if(lvl == "LAG")
+        return 0x0B;
+    else if(lvl == "DEBUG")
+        return 0x08;
+    else if(lvl == "EVENT")
+        return 0x0D;
+    else
+        return 0x07;
+}
+
+static void consoleColor(std::string level)
+{
+    #ifdef SFML_SYSTEM_WINDOWS
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(hConsole, level2color(level));
+    #else
+        static bool warned = false;
+        if(!warned)
+        {
+            warned = true;
+            std::cout << "DebugLogger: Console coloring not supported" << std::endl;
+        }
+        std::hex(std::cout);
+        std::cout << "&" << level2color();
+        std::dec(std::cout);
+    #endif // SFML_SYSTEM_WINDOWS
+}
+
+static std::string time2str()
 {
     time_t _t = time(NULL);
     tm* _tstr = localtime(&_t);
@@ -17,7 +59,7 @@ std::string time2str()
         << " " << std::setw(2) << _tstr->tm_hour
         << ":" << std::setw(2) << _tstr->tm_min
         << ":" << std::setw(2) << _tstr->tm_sec
-        << " / " << clock();
+        << " / " << std::setw(8) << clock();
     return _str.str();
 }
 
@@ -30,12 +72,14 @@ void DebugLogger::log(std::string str, std::string logger, std::string level)
     std::string timeString = time2str();
 
     // Display string on standard output.
-    std::cout << "{ " << timeString << " } [ " << level << " ]  " << logger << ":  " << str << std::endl;
+    std::left(std::cout);
+    consoleColor(level);
+    std::cout << std::setfill(' ') << "{ " << timeString << " } [ " << std::setw(5) << level << " ]\t" << std::setw(25) << logger << "" << str << std::endl;
 }
 void DebugLogger::logDbg(std::string str, std::string logger, std::string level)
 {
     if(!Game::instance || Game::instance->debug)
-        log(str, "--DEBUG-- " + logger, level);
+        log(str, "- " + logger, level);
 }
 
 

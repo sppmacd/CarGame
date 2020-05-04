@@ -18,7 +18,7 @@ void SettingsManager::registerSetting(string name, SettingsManager::SettingType 
 
     if(exists)
     {
-        cout << "SettingsManager: The specified setting " << key << " already exists!" << endl;
+        DebugLogger::log("The setting already exists: " + key, "SettingsManager", "ERROR");
         return;
     }
     settings.insert(make_pair(key, setting));
@@ -26,7 +26,7 @@ void SettingsManager::registerSetting(string name, SettingsManager::SettingType 
 
 void SettingsManager::loadSettings(string fileName)
 {
-    cout << "SettingsManager: Loading settings from file: " << fileName << endl;
+    DebugLogger::log("Loading settings from " + fileName, "SettingsManager");
     HMDataMap hmdatamap;
     hmdatamap.loadFromFile(fileName);
     auto settingsMap = hmdatamap.getMap();
@@ -65,7 +65,7 @@ string SettingsManager::getSetting(string setting, string space)
         string val = it->second.currentVal;
         return val;
     }
-    cout << "SettingsManager: Invalid setting " << name << " specified!" << endl;
+    DebugLogger::log("Invalid setting: " + space + ":" + setting, "SettingsManager", "ERROR");
     return "";
 }
 
@@ -74,7 +74,7 @@ double SettingsManager::getSettingNumeric(string setting, string space)
     string str = getSetting(setting, space);
     if(str.empty())
     {
-        // setting not found or it isn't naturally a number
+        // setting not found so it isn't a number.
         return 0.0;
     }
     try
@@ -85,8 +85,9 @@ double SettingsManager::getSettingNumeric(string setting, string space)
     catch(exception& e)
     {
         string str = setting + ":" + space;
-        cout << "SettingsManager: Invalid number format for key " << str << "!" << endl;
-        cout << "SettingsManager: " << e.what() << endl;
+
+        DebugLogger::log("Invalid setting format: " + str, "SettingsManager", "ERROR");
+        DebugLogger::log("Exception:" + std::string(e.what()), "SettingsManager", "ERROR");
 
         try
         {
@@ -100,8 +101,8 @@ double SettingsManager::getSettingNumeric(string setting, string space)
         }
         catch(exception& e)
         {
-            cout << "SettingsManager: The setting " << str << " is not a number or not exists!" << endl;
-            cout << "SettingsManager: " << e.what() << endl;
+            DebugLogger::log("Invalid setting format: " + str, "SettingsManager", "ERROR");
+            DebugLogger::log("Exception:" + std::string(e.what()), "SettingsManager", "ERROR");
         }
     }
     return 0.0;
@@ -113,7 +114,7 @@ void SettingsManager::setSetting(string setting, string val, string space)
     auto d = settings.find(key);
     if(d == settings.end())
     {
-        cout << "SettingsManager: The setting " << key << " is not registered!" << endl;
+        DebugLogger::log("Invalid setting: " + key, "SettingsManager");
         return;
     }
     d->second.currentVal = val;
@@ -122,7 +123,7 @@ void SettingsManager::setSetting(string setting, string val, string space)
 bool SettingsManager::triggerSetting(string settingName, string space)
 {
     string key = space + ":" + settingName;
-    cout << "SettingsManager: Triggering: " << key << endl;
+    DebugLogger::logDbg("Triggering: " + key, "SettingsManager");
     bool succeed = true;
     string val = getSetting(settingName, space);
     for(auto it: triggers)
@@ -134,19 +135,19 @@ bool SettingsManager::triggerSetting(string settingName, string space)
     }
     if(!succeed)
     {
-        cout << "SettingsManager: Setting trigger was not successful!" << endl;
+        DebugLogger::log("Trigger was unsuccessful for: " + key, "SettingsManager", "ERROR");
     }
     return succeed;
 }
 
 void SettingsManager::saveSettings(string file)
 {
-    cout << "SettingsManager: Saving settings to file: " << file << endl;
+    DebugLogger::log("Saving settings to file: " + file, "SettingsManager");
     ofstream _file(file);
     _file << "// Auto-generated CG settings file" << endl;
     if(_file.fail())
     {
-        cout << "SettingsManager: Couldn't save settings!" << endl;
+        DebugLogger::log("Couldn't save settings" + file, "SettingsManager", "ERROR");
     }
     for(auto it: settings)
     {
@@ -205,7 +206,7 @@ void SettingsManager::addWidgetsToSettings(GuiSettings* guisettings)
             }
             default:
             {
-                cout << "SettingsManager: Invalid setting type specified (" << int(type) << "), cannot generate widget!" << endl;
+                DebugLogger::log("Invalid setting type specified (" + std::to_string(int(type)) + "), cannot generate widget!", "SettingsManager", "ERROR");
                 break;
             }
         }
@@ -258,7 +259,7 @@ SettingsManager::SettingType SettingsManager::getSettingType(string name, string
     {
         return it->second.type;
     }
-    cout << "SettingsManager: invalid setting " << name2 << " specified!" << endl;
+    DebugLogger::log("Invalid setting: " + name2, "SettingsManager", "ERROR");
     return SettingsManager::BOOLEAN;
 }
 
@@ -276,7 +277,7 @@ bool SettingsManager::triggerAllClose()
     }
     if(!succeed)
     {
-        cout << "SettingsManager: On-close trigger call was not successful!" << endl;
+        DebugLogger::log("On-close trigger was unsuccessful", "SettingsManager", "ERROR");
     }
     return succeed;
 }

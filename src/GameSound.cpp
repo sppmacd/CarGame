@@ -71,7 +71,7 @@ bool GameSound::loadSound(std::string name, bool random)
 void GameSound::reload()
 {
     GameDisplay::loadingStr = "Reloading resources: Sounds...";
-    std::cout << "GameSound: Reloading..." << std::endl;
+    DebugLogger::log("Reloading sounds...", "GameSound");
 
     soundVolume = Game::instance->settings.getSettingNumeric("volume", "sound");
     soundBuffers.clear();
@@ -90,7 +90,7 @@ void GameSound::reload()
 
     if(err)
     {
-        std::cout << "GameSound: Sound loading error!" << std::endl;
+        DebugLogger::log("Couldn't load sounds!", "GameSound", "ERROR");
     }
 }
 
@@ -106,7 +106,7 @@ void GameSound::playSound(std::string name, float volume)
     }
     else
     {
-        std::cout << "GameSound: Tried to play invalid sound!" << std::endl;
+        DebugLogger::log("Tried to play invalid sound: " + name, "GameSound", "WARN");
     }
 }
 

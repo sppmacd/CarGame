@@ -270,7 +270,7 @@ public:
 	void addEventHandler(Event::EventType type, CGEventHandler handler);
 
 	// Display error screen.
-	void displayError(string text);
+	void displayError(string text, string code = "???");
 
 	// Loads language list.
 	void loadLanguages();

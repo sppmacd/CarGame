@@ -10,6 +10,8 @@
 #include "GuiIngame.h"
 #include <iostream>
 
+#include "DebugLogger.hpp"
+
 EventsHandler* EventsHandler::instance;
 
 bool EventHandlers::onClose(Event, Game* game)
@@ -70,7 +72,7 @@ bool EventHandlers::onKeyPressed(Event event, Game* game)
 	}
 	else if (event.key.code == sf::Keyboard::Escape && !game->isGameOver() && !game->paused())
 	{
-		cout << "main: Pausing game..." << endl;
+		DebugLogger::log("Pausing game...", "EventHandler");
 		game->displayGui(new GuiIngame);
 		game->pause(true);
 	}
