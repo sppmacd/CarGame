@@ -1,9 +1,7 @@
-#include "GameLoader.hpp"
-
-#include <DebugLogger.hpp>
+#include <cargame/DebugLogger.hpp>
 
 // core handler
-#include "CoreLoader.hpp"
+#include <core/CoreLoader.hpp>
 
 using namespace std;
 

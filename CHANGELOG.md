@@ -41,6 +41,8 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 * [fix] Fixed PowerBall (balls not disappearing after started new game)
 * [technical] Renamed /res to /data
 * [command line] Added startup script for Unix
+* [api] Moved specific code (non engine) to /core, and the rest to /cargame.
+* [technical] Added some displayErrors instead of undefined behaviours. e.g if no cars were registered.
 
 # BETA 0.2
 Note: Since this version CarGame pack does not include 32-bit Windows in published binaries.

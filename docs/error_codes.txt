@@ -1,6 +1,8 @@
 # Documentation - Error Codes
 
 ## Registry Error Codes
+C00 - No CarType found
+	The error indicates that no car is registered in game. It means that you have corrupted core and you must reinstall the game.
 C01 - CarType not found
 	This happens when the game tries to spawn Car that is not registered as CarType. This may be caused by invalid mod configuration or broken core. If you encounter that error, try removing all mods or reinstall tha game.
 

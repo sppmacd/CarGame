@@ -1,6 +1,7 @@
 #include <CG/GuiHandler.h>
 #include <CG/Widget.h>
-#include <DebugLogger.hpp>
+
+#include <cargame/DebugLogger.hpp>
 
 namespace cg
 {
