@@ -139,6 +139,8 @@ void Game::registerPowers()
 	//registerPower(0, (Power*)NULL);
 	biggestPlayerPowerID = 0;
 	biggestGenericPowerID = 100;
+
+	// move to core DLL
 	gpo.registerPower(this, 1, &(new PowerOil)->setMaxTime(1800));
 	gpo.registerPower(this, 2, &(new PowerFreeze)->setMaxTime(3000));
 	gpo.registerPower(this, 3, new PowerPointBoost);

@@ -5,6 +5,9 @@
 
 #define GPOREGISTRY_TEMPLATE template<class IdT, class ObjT>
 
+#define REG_ERROR_UNKNOWN -1
+#define REG_ERROR_EXISTS -2
+
 // Gameplay Object Registry.
 // Note that objects MUST be created dynamically
 // because there are destroyed when game is closed.
@@ -35,9 +38,9 @@ public:
     virtual void clear();
 
     // Adds a new object to registry. It must be created dynamically.
-    // Returns false if object exists (or another error occured), true
+    // Returns negative value if object exists (or another error occured), 0
     // otherwise.
-    virtual bool add(IdT id, ObjT* obj);
+    virtual int add(IdT id, ObjT* obj);
 
     // Adds an new object, generating a new ID for it. It must be created
     // dynamically. Returns an ID of object or 0 if error.

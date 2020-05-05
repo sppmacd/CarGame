@@ -86,17 +86,24 @@ void LevelData::init()
     Maps::swampland = &(new LevelData(LevelData::SWAMPLAND))->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(80).setCost(120000);
     Maps::forest_trails = &(new LevelData(LevelData::FOREST_TRAILS))->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(200000);
 
-	Game::instance->gpo.levels.add("countryside", Maps::countryside);
-	Game::instance->gpo.levels.add("desert", Maps::desert);
-	Game::instance->gpo.levels.add("forest", Maps::forest);
-	Game::instance->gpo.levels.add("ice", Maps::ice);
-	Game::instance->gpo.levels.add("mountains", Maps::mountains);
-	Game::instance->gpo.levels.add("beach", Maps::beach);
-	Game::instance->gpo.levels.add("city", Maps::city);
-	Game::instance->gpo.levels.add("motorway", Maps::motorway);
-	Game::instance->gpo.levels.add("sea", Maps::sea);
-	Game::instance->gpo.levels.add("swampland", Maps::swampland);
-	Game::instance->gpo.levels.add("forest_trails", Maps::forest_trails);
+	registerLevel("countryside", *Maps::countryside);
+	registerLevel("desert", *Maps::desert);
+	registerLevel("forest", *Maps::forest);
+	registerLevel("ice", *Maps::ice);
+	registerLevel("mountains", *Maps::mountains);
+	registerLevel("beach", *Maps::beach);
+	registerLevel("city", *Maps::city);
+	registerLevel("motorway", *Maps::motorway);
+	registerLevel("sea", *Maps::sea);
+	registerLevel("swampland", *Maps::swampland);
+	registerLevel("forest_trails", *Maps::forest_trails);
+}
+
+void LevelData::registerLevel(std::string strId, LevelData& data)
+{
+    int i = Game::instance->gpo.levels.add(strId, &data);
+    if(i == REG_ERROR_EXISTS)
+        DebugLogger::log("A level with id '" + strId + "' already exists!", "LevelData", "ERROR");
 }
 
 LevelData& LevelData::setAcceleration(float f)

@@ -40,6 +40,9 @@ public:
     // Initializes default maps
     static void init();
 
+    // Register a new level.
+    static void registerLevel(std::string strId, LevelData& data);
+
     // Creates a new instance of Map with specified ID.
     LevelData(const MapType& type);
 

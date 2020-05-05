@@ -12,7 +12,7 @@ SoundBase::SoundBase(std::vector<sf::SoundBuffer> buffs): buffers(buffs)
 
 sf::Sound* SoundBase::playSound(float volume)
 {
-    sf::Sound* sound = new sf::Sound(buffers[rand() % buffers.size()]);;
+    sf::Sound* sound = new sf::Sound(buffers[rand() % buffers.size()]);
     sound->setVolume(volume);
     return sound;
 }
@@ -37,7 +37,7 @@ bool GameSound::loadSound(std::string name, bool random)
         }
         else
         {
-            DebugLogger::logDbg("Sound not loaded: " + name, "GameSound");
+            DebugLogger::log("Sound not loaded: " + name, "GameSound", "ERROR");
             return false;
         }
     }
@@ -52,7 +52,7 @@ bool GameSound::loadSound(std::string name, bool random)
             loaded = buf.loadFromFile("res/sounds/" + name + std::to_string(c) + ".ogg");
             if(!loaded && c == 1)
             {
-                DebugLogger::logDbg("Random sound not loaded: " + name, "GameSound");
+                DebugLogger::log("Random sound not loaded: " + name, "GameSound", "ERROR");
                 return false;
             }
             if(loaded)
@@ -87,11 +87,6 @@ void GameSound::reload()
     err |= ! loadSound("coin_mpl");
     err |= ! loadSound("game_over");
     err |= ! loadSound("upgrade");
-
-    if(err)
-    {
-        DebugLogger::log("Couldn't load sounds!", "GameSound", "ERROR");
-    }
 }
 
 void GameSound::playSound(std::string name, float volume)

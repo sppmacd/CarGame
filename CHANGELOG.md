@@ -42,9 +42,6 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 * [technical] Renamed /res to /data
 * [command line] Added startup script for Unix
 
-* [technical] Moved initProfile call to Game to avoid depending PlayerDataManager on Game.
-* [fix] [technical] Fixed crash when clicking something like CarBomb (behaving like CarBomb, but looking like CarLorry)
-
 # BETA 0.2
 Note: Since this version CarGame pack does not include 32-bit Windows in published binaries.
 

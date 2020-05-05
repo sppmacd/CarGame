@@ -1,6 +1,8 @@
 // don't include GPORegistry.hpp
 // because THIS file is included by GPORegistry.hpp
 
+#include "DebugLogger.hpp"
+
 GPOREGISTRY_TEMPLATE
 GPORegistry<IdT, ObjT>::GPORegistry()
 {
@@ -24,18 +26,20 @@ void GPORegistry<IdT, ObjT>::clear()
 }
 
 GPOREGISTRY_TEMPLATE
-bool GPORegistry<IdT, ObjT>::add(IdT id, ObjT* obj)
+int GPORegistry<IdT, ObjT>::add(IdT id, ObjT* obj)
 {
     ObjT* obj2 = findById(id);
     if(obj2)
-        return false;
+    {
+        return REG_ERROR_EXISTS;
+    }
     try
     {
         objects.push_back(std::make_pair(id, obj));
     }
     catch(...)
     {
-        return false;
+        return REG_ERROR_UNKNOWN;
     }
     if(greatestId < id)
         greatestId = id;
@@ -49,7 +53,7 @@ IdT GPORegistry<IdT, ObjT>::add(ObjT* obj)
     IdT id = greatestId + 1;
 
     /* add object an return its ID*/
-    return add(id, obj) ? id : 0;
+    return (add(id, obj) == 0) ? id : 0;
 }
 
 GPOREGISTRY_TEMPLATE
