@@ -30,10 +30,13 @@
 
 #include <HackerMan/Util/Main.hpp>
 
+// core handler
+#include "CoreLoader.hpp"
+
 // error codes:
 // G00 could not load default language
 // [not used] G01 could not load language config
-// G02 registering GUIs is deprecated
+// [not used] G02 registering GUIs is deprecated
 // G03 second Game instance
 // G04 invalid profile
 
@@ -83,11 +86,8 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 
 		// Initialize registries
 		DebugLogger::logDbg("Starting registry filling", "Game");
-		this->registerEventHandlers();
-		LevelData::init();
-		CarType::init();
-		playerData.abilities.init();
-		this->registerPowers();
+		registerPowers();
+		cgGameInit(this);
 
 		// Load player data
 		DebugLogger::logDbg("Loading player data", "Game");
@@ -139,18 +139,6 @@ void Game::registerPowers()
 	//registerPower(0, (Power*)NULL);
 	biggestPlayerPowerID = 0;
 	biggestGenericPowerID = 100;
-
-	// move to core DLL
-	gpo.registerPower(this, 1, &(new PowerOil)->setMaxTime(1800));
-	gpo.registerPower(this, 2, &(new PowerFreeze)->setMaxTime(3000));
-	gpo.registerPower(this, 3, new PowerPointBoost);
-	gpo.registerPower(this, 4, new PowerFence);
-	gpo.registerPower(this, 5, new PowerBall);
-	// PowerRegisterEvent
-
-	gpo.registerPower(this, 101, new PowerSpeedIncrease);
-	gpo.registerPower(this, 102, new PowerDamageDecrease);
-	// AntipowerRegisterEvent
 }
 
 float Game::getGameSpeed()
@@ -203,16 +191,13 @@ bool Game::runGameEventHandler(GameEvent& event)
 	return stat;
 }
 
-void Game::registerEventHandlers()
+/*void Game::registerEventHandlers()
 {
 	addEventHandler(Event::Closed, EventHandlers::onClose);
 	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
 	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
 	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
-
-	eventHandlerInst.registerGameEvent(GameEvent::CarSpawning, EventHandlers::onCarSpawning);
-	eventHandlerInst.registerGameEvent(GameEvent::CarDamaged, EventHandlers::onCarDamaged);
-}
+}*/
 
 void Game::addEventHandler(Event::EventType type, CGEventHandler handler)
 {
@@ -306,7 +291,7 @@ void Game::setupGame()
         gpo.powers.findById(usablePowerIds[i])->onLevelLoad();
 
 	this->setPointMultiplier((float(this->level.getMapType()) + 2.f) * 0.8f);
-	this->setDamageMultiplier(playerData.abilities.calculateValue(PlayerAbilityManager::DAMAGE));
+
 	this->unpauseGame(3.f);
 }
 

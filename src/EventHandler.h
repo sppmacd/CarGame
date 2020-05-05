@@ -36,14 +36,6 @@ namespace EventHandlers
 
 	// Not used.
 	SFML_DEPRECATED bool onGUIKeyPressed(Event event, Game* game);
-
-	// GAME EVENTS
-
-	// True if the car has to be spawned.
-	bool onCarSpawning(GameEvent& event, Game* game);
-
-	// True if car should be damaged.
-	bool onCarDamaged(GameEvent& event, Game* game);
 }
 
 // Class holding game event handlers.

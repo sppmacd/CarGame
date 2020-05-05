@@ -2,13 +2,14 @@
 #define CARAMBULANCE_H
 
 #include "Car.h"
+#include "CoreLoader.hpp"
 
 class CarAmbulance : public Car
 {
 public:
     CarAmbulance()
     {
-        this->typeId = AMBULANCE;
+        this->typeId = CoreLoader::Cars::AMBULANCE;
     }
     CarAmbulance(Car::TypeId, float, int);
     virtual ~CarAmbulance() {}

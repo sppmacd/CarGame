@@ -71,7 +71,7 @@ void GameDisplay::reload()
     }
 
     DebugLogger::logDbg("Adding car textures", "GameDisplay");
-	for(int i = 1; i < Car::COUNT; i++)
+	for(int i = 1; i < Game::instance->gpo.carTypes.count(); i++)
 	{
 	    CarType* type = Game::instance->gpo.carTypes.findById(i);
 		if(type != NULL)
@@ -369,10 +369,11 @@ void GameDisplay::drawGame()
             renderWnd->draw(rect2);
         }
 
+        // todo
         // tutorial
         if(game->playerData.isNewPlayer)
         {
-            if(game->playerData.tutorialStep == TUT_DONTLEAVE && i == 0)
+            /*if(game->playerData.tutorialStep == TUT_DONTLEAVE && i == 0)
             {
                 if(carobj.typeId == Car::BOMB)
                 {
@@ -386,7 +387,7 @@ void GameDisplay::drawGame()
             else if(game->playerData.tutorialStep == TUT_AVOIDBOMB && i == 0 && carobj.typeId == Car::BOMB)
             {
                 drawTutorial(car.getPosition() - car.getOrigin(), Vector2f(car.getTextureRect().width * 2, car.getTextureRect().height * 2), game->translation.get("tutorial.avoidbomb"));
-            }
+            }*/
         }
     }
 

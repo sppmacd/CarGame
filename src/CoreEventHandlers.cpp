@@ -9,105 +9,113 @@
 #include "CarTrain.hpp"
 #include "DebugLogger.hpp"
 
-bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
+#include "CoreEventHandlers.hpp"
+
+bool CoreEventHandlers::onLevelLoadingStart(GameEvent& event, Game* game)
 {
-	Car::TypeId carId = event.carSpawned.type->carId;
+    game->setDamageMultiplier(game->playerData.abilities.calculateValue(CoreLoader::Abilities::DAMAGE));
+    return true;
+}
+
+bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
+{
+	int carId = event.carSpawned.type->carId;
 
 	int color = rand() % 128 + 64;
 
 	switch (carId)
 	{
-	case Car::NORMAL:
+	case CoreLoader::Cars::NORMAL:
 	{
-		Car* car = new Car(Car::NORMAL, 7.f, rand() % 3);
+		Car* car = new Car(CoreLoader::Cars::NORMAL, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(rand() % 128 + 64, rand() % 128 + 64, rand() % 128 + 64));
 		break;
 	}
-	case Car::LORRY:
+	case CoreLoader::Cars::LORRY:
 	{
-		Car* car = new CarLorry(Car::LORRY, 7.f, rand() % 3);
+		Car* car = new CarLorry(CoreLoader::Cars::LORRY, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 		break;
 	}
-	case Car::RARE:
+	case CoreLoader::Cars::RARE:
 	{
-		Car* car = new CarRare(Car::RARE, 7.f, rand() % 3);
+		Car* car = new CarRare(CoreLoader::Cars::RARE, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(color, 0, 0));
 		break;
 	}
-	case Car::BUS:
+	case CoreLoader::Cars::BUS:
 	{
-		Car* car = new CarBus(Car::BUS, 7.f, rand() % 3);
+		Car* car = new CarBus(CoreLoader::Cars::BUS, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(0, color, color));
 		break;
 	}
-	case Car::AMBULANCE:
+	case CoreLoader::Cars::AMBULANCE:
 	{
-		Car* car = new CarAmbulance(Car::AMBULANCE, 7.f, rand() % 3);
+		Car* car = new CarAmbulance(CoreLoader::Cars::AMBULANCE, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(255, 255, 255));
 		break;
 	}
-	case Car::RALLY:
+	case CoreLoader::Cars::RALLY:
 	{
-		Car* car = new Car(Car::RALLY, 7.f, rand() % 3);
+		Car* car = new Car(CoreLoader::Cars::RALLY, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		break;
 	}
-	case Car::BOMB:
+	case CoreLoader::Cars::BOMB:
 	{
 		Car* car = new CarBomb(7.f, 1); // ALWAYS ON CENTER LANE
 		event.carSpawned.carToCreate = car;
 		break;
 	}
-	case Car::FIREMAN:
+	case CoreLoader::Cars::FIREMAN:
 	{
-		Car* car = new Car(Car::FIREMAN, 7.f, rand() % 3);
+		Car* car = new Car(CoreLoader::Cars::FIREMAN, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(200, 0, 0));
 		if(rand() % 200 == 0)
             event.carSpawned.carToCreate->setColor(Color(0, 200, 0));
 		break;
 	}
-	case Car::TANK:
+	case CoreLoader::Cars::TANK:
 	{
-		Car* car = new Car(Car::TANK, 7.f, rand() % 3);
+		Car* car = new Car(CoreLoader::Cars::TANK, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
         event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 		break;
 	}
-	case Car::OLD:
+	case CoreLoader::Cars::OLD:
 	{
-		Car* car = new Car(Car::OLD, 7.f, rand() % 3);
+		Car* car = new Car(CoreLoader::Cars::OLD, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(35, 35, 35));
 		break;
 	}
-	case Car::ARMORED:
+	case CoreLoader::Cars::ARMORED:
 	{
 	    // check if armored car is already on the road
 	    for(size_t s = 0; s < Game::instance->cars.size(); s++)
         {
-            if(Game::instance->cars[s]->typeId == Car::ARMORED)
+            if(Game::instance->cars[s]->typeId == CoreLoader::Cars::ARMORED)
             {
                 // replace armored car by rare car with the same color
                 // TODO: "Armored Car" achievement
-                Car* car = new CarRare(Car::RARE, 7.f, rand() % 3);
+                Car* car = new CarRare(CoreLoader::Cars::RARE, 7.f, rand() % 3);
                 event.carSpawned.carToCreate = car;
                 event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
                 return true;
             }
         }
-		Car* car = new Car(Car::ARMORED, 7.f, rand() % 3);
+		Car* car = new Car(CoreLoader::Cars::ARMORED, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 		break;
 	}
-	case Car::TRAIN:
+	case CoreLoader::Cars::TRAIN:
     {
         Car* car = new CarTrain(7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
@@ -120,7 +128,7 @@ bool EventHandlers::onCarSpawning(GameEvent& event, Game *)
 	return true;
 }
 
-bool EventHandlers::onCarDamaged(GameEvent& event, Game* game)
+bool CoreEventHandlers::onCarDamaged(GameEvent& event, Game* game)
 {
     // handle PowerRamp
     Car* car = event.car.car;

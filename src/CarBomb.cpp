@@ -1,7 +1,8 @@
 #include "CarBomb.hpp"
 #include "DebugLogger.hpp"
+#include "CoreLoader.hpp"
 
-CarBomb::CarBomb(float spd, int lane) : Car(Car::BOMB, spd, lane)
+CarBomb::CarBomb(float spd, int lane) : Car(CoreLoader::Cars::BOMB, spd, lane)
 {
     setColor(Color::White);
     animSize = 10;

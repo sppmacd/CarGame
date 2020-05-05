@@ -346,7 +346,8 @@ public:
 	// and GuiShop to know when to display blinking border.
 	bool canPowerBuyOrEquip();
 
-    // Register all powers
+    // Initialize power registry, setting biggest*PowerId to proper values. Called
+    // just before powers are registered.
 	void registerPowers();
 
 	/////////////////////////////////

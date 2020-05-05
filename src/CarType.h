@@ -53,9 +53,6 @@ public:
 	// Get rarity for %mapType.
 	int getRarity(LevelData::MapType mapType);
 
-	// Register standard cars to <Game>.
-	static void init();
-
 	// Current car type ID.
 	Car::TypeId carId;
 };

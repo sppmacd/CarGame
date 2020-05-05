@@ -3,12 +3,14 @@
 
 #include "Car.h"
 
+#include "CoreLoader.hpp"
+
 class CarBus : public Car
 {
 public:
     CarBus()
     {
-        this->typeId = BUS;
+        this->typeId = CoreLoader::Cars::BUS;
     }
     CarBus(Car::TypeId, float, int);
     virtual ~CarBus() {}

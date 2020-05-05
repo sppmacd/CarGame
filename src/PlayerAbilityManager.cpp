@@ -84,7 +84,5 @@ void PlayerAbilityManager::registerAbility(int id, AbilityBase* base)
 
 void PlayerAbilityManager::init()
 {
-    registerAbility(PlayerAbilityManager::POWER_COOLDOWN_TIME, new AbilityBaseLinear(2000, 0.3, 1.0, "power_cooldown_time"));
-    registerAbility(PlayerAbilityManager::POWER_TIME, new AbilityBaseLinear(4000, 0.25, 1.0, "power_time"));
-    registerAbility(PlayerAbilityManager::DAMAGE, new AbilityBaseLinear(2500, 0.25, 1.0, "damage"));
+
 }

@@ -21,25 +21,6 @@ public:
         operator int() const;
     };
 
-    // Map type variables - ID is automatically generated.
-    // todo: move to core dll
-    static MapType COUNTRYSIDE;
-    static MapType DESERT;
-    static MapType FOREST;
-    static MapType ICE;
-    static MapType MOUNTAINS;
-    static MapType SEA;
-    static MapType BEACH;
-    static MapType SWAMPLAND;
-    static MapType CITY;
-    static MapType MOTORWAY;
-    static MapType FOREST_TRAILS;
-    static MapType COUNT;
-
-    // todo: move to core dll
-    // Initializes default maps
-    static void init();
-
     // Register a new level.
     static void registerLevel(std::string strId, LevelData& data);
 
@@ -47,7 +28,7 @@ public:
     LevelData(const MapType& type);
 
     // Creates an invalid map.
-    LevelData(): mapType(COUNT) {}
+    LevelData(): mapType(0) {}
 
     // Returns ID of this map.
     const MapType& getMapType() const;

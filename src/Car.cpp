@@ -117,18 +117,7 @@ void Car::onCreate(Game* )
 
 void Car::onDamage(Game* game)
 {
-    if(typeId != Car::BOMB)
-    {
-        if(typeId == Car::RARE)
-        {
-            game->addScore(2);
-        }
-        else
-        {
-            game->addScore(1);
-        }
-    }
-
+    game->addScore(1);
     makeDestroy(game->getDamageMultiplier());
 }
 

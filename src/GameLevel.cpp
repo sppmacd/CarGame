@@ -48,10 +48,11 @@ void Game::updateCars()
 
                     if(playerData.isNewPlayer)
                     {
-                        if(car->typeId == Car::BOMB && playerData.tutorialStep == TUT_AVOIDBOMB)
+                        // todo
+                        /*if(car->typeId == Car::BOMB && playerData.tutorialStep == TUT_AVOIDBOMB)
                         {
                             playerData.tutorialStep = TUT_SHOP;
-                        }
+                        }*/
                     }
 
                     continue;
@@ -211,7 +212,8 @@ void Game::setCurrentPower(Power* power)
     }
 
     powerHandle = power;
-    powerTime = powerHandle->maxPowerTime * playerData.abilities.calculateValue(PlayerAbilityManager::POWER_TIME);
+    // todo
+    powerTime = powerHandle->maxPowerTime;// * playerData.abilities.calculateValue(PlayerAbilityManager::POWER_TIME);
     powerMaxTime = powerTime;
     powerCooldown = -1;
 
@@ -231,7 +233,8 @@ void Game::stopCurrentPower()
     if(powerHandle->cooldownTime <= 1)
         powerCooldown = 1;
     else
-        powerCooldown = powerHandle->cooldownTime / playerData.abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME); // 30 seconds
+        // todo
+        powerCooldown = powerHandle->cooldownTime;/* / playerData.abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME);*/ // 30 seconds
     powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
 
     // power 'stop'

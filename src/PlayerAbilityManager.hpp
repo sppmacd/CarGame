@@ -11,13 +11,6 @@ class Game;
 class PlayerAbilityManager
 {
 public:
-    enum
-    {
-        POWER_COOLDOWN_TIME     = 0,
-        POWER_TIME              = 1,
-        DAMAGE                  = 2
-    };
-
     virtual ~PlayerAbilityManager();
 
     // Upgrades ability and removes coins. Returns true if player has PAID for ability.

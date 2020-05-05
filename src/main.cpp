@@ -2,6 +2,9 @@
 
 #include <DebugLogger.hpp>
 
+// core handler
+#include "CoreLoader.hpp"
+
 using namespace std;
 
 // todo: document loading progress and mark load state for all virtual functions
@@ -55,6 +58,9 @@ int main(int argc, char* argv[])
     data.disp = NULL;
     data.argmap = &argmap;
     int i = 0;
+
+    // Call core handler
+    cgLoad(&data);
 
     try
     {
