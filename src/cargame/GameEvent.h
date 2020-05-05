@@ -33,7 +33,7 @@ public:
 		
 		// The damage is dealen to car. When called, user can
 		// change the damage.
-		DamageDealedCar,	//Using %carDamage				Cancelable=true
+		DamageDealenCar,	//Using %carDamage				Cancelable=true
 		
 		// Power is started. The %tickTime argument can 
 		// be used to manipulate target power time. Cancel the event
