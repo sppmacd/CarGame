@@ -63,6 +63,7 @@ cg_set_option(SFML_ROOT "invalid" PATH "SFML 2.4.2 root")
 # add version to be used in game
 message("CG: version is '${CG_VER_STR}'")
 configure_file ("${PROJECT_SOURCE_DIR}/src/version.cpp.in" "${PROJECT_SOURCE_DIR}/src/version.cpp")
+set(VERSION_SOURCES "src/version.hpp" "src/version.cpp")
 
 # include directories
 include_directories("${PROJECT_BINARY_DIR}")
@@ -84,17 +85,27 @@ if(CG_COMPILE_LAUNCHER)
 	endif()
 endif()
 
-# add CG binaries to build
+# add cg.dll (API)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC}/${CG_ARCH_PREFIX})
 
-file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp" "src/*.inl" "src/*.rc" "cgui_fork/src/*.cpp" "src/*.hpp" "cgui_fork/include/CG/*.hpp" "src/*.h" "cgui_fork/include/CG/*.h" "cgui_fork/include/CG/*.hpp")
+file(GLOB_RECURSE API_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} ${VERSION_SOURCES} "src/cargame/*.cpp" "src/cargame/*.inl" "src/cargame/*.hpp" "cgui_fork/src/*.cpp" "cgui_fork/include/CG/*.hpp" "src/cargame/*.h" "cgui_fork/include/CG/*.h" "cgui_fork/include/CG/*.hpp")
 set(CMAKE_BUILD_TYPE "Release")
-message("CG: sources are ${SOURCES}")
-add_executable(cg "${SOURCES}")
+message("CG: API sources are ${API_SOURCES}")
+add_library(cgapi SHARED "${API_SOURCES}")
 
 if(CG_COMPILE_DEBUG)
 	set(CMAKE_BUILD_TYPE "Debug")
-	add_executable(cgd "${SOURCES}")
+	add_library(cgapid SHARED "${API_SOURCES}")
+endif()
+
+# add cg.exe (ROOT)
+file(GLOB_RECURSE ROOT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} ${VERSION_SOURCES} "src/root/${CG_ARCH_PREFIX_A}/*.rc" "src/root/${CG_ARCH_PREFIX_A}/*.cpp" "src/root/${CG_ARCH_PREFIX_A}/*.hpp")
+message("CG: ROOT sources for '${CG_ARCH_PREFIX_A}' are ${ROOT_SOURCES}")
+add_executable(cg "${ROOT_SOURCES}")
+target_link_libraries(cg cgapi)
+if(CG_COMPILE_DEBUG)
+	add_executable(cgd "${ROOT_SOURCES}")
+	target_link_libraries(cgd cgapid)
 endif()
 
 # copy resources to binary folder
@@ -110,12 +121,14 @@ find_package(SFML 2.4 COMPONENTS network audio graphics window system REQUIRED)
 if(SFML_FOUND)
 	message("CG: adding SFML as dependency")
 	
-	target_include_directories(cg PUBLIC "${SFML_INCLUDE_DIR}")
-	target_link_libraries(cg ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+	target_include_directories(cgapi PUBLIC "${SFML_INCLUDE_DIR}")
+	target_link_libraries(cgapi ${SFML_LIBRARIES}
+								${SFML_DEPENDENCIES})
 	
 	if(CG_COMPILE_DEBUG)
-		target_include_directories(cgd PUBLIC "${SFML_INCLUDE_DIR}")
-		target_link_libraries(cgd ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+		target_include_directories(cgapid PUBLIC "${SFML_INCLUDE_DIR}")
+		target_link_libraries(cgapid 	${SFML_LIBRARIES}
+										${SFML_DEPENDENCIES})
 	endif()	
 endif()
 
@@ -130,22 +143,35 @@ link_directories(${CMAKE_BINARY_DIR}/lib)
 # compile hmutil
 message("CG: compiling and adding hmutil")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/hmutil/include/HackerMan/Util/*.cpp")
-add_library(hmutil "${SOURCES}")
+file(GLOB_RECURSE HMUTIL_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/hmutil/include/HackerMan/Util/*.cpp")
+add_library(hmutil "${HMUTIL_SOURCES}")
 target_include_directories(hmutil PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 
 # add cg and hmutil libraries to compiler cmd
 message("CG: adding headers")
-target_link_libraries(cg hmutil)
+#target_link_libraries(cg hmutil)
+target_include_directories(cg PUBLIC "${CMAKE_SOURCE_DIR}/src/root/${CG_ARCH_PREFIX_A}")
 target_include_directories(cg PUBLIC "${CMAKE_SOURCE_DIR}/src/")
 target_include_directories(cg PUBLIC "${CMAKE_SOURCE_DIR}/cgui_fork/include")
 target_include_directories(cg PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 
+# add libraries to API DLL
+target_link_libraries(cgapi hmutil)
+target_include_directories(cgapi PUBLIC "${CMAKE_SOURCE_DIR}/src/")
+target_include_directories(cgapi PUBLIC "${CMAKE_SOURCE_DIR}/cgui_fork/include")
+target_include_directories(cgapi PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
+
 if(CG_COMPILE_DEBUG)
-	target_link_libraries(cgd hmutil)
+	#target_link_libraries(cgd hmutil)
+	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/src/root/${CG_ARCH_PREFIX_A}")
 	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/src/")
 	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/cgui_fork/include")
 	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
+	
+	target_link_libraries(cgapid hmutil)
+	target_include_directories(cgapid PUBLIC "${CMAKE_SOURCE_DIR}/src/")
+	target_include_directories(cgapid PUBLIC "${CMAKE_SOURCE_DIR}/cgui_fork/include")
+	target_include_directories(cgapid PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 endif()
 
 # force add headers to project when configuring for IDE

@@ -27,7 +27,6 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 + New Anti-Power: Ramp
 
 # BETA 0.3 Progress
-* [command line] Added 
 * [technical] All std::cout calls are now wrapped in DebugLogger to unify log
   format.
 * [technical] Unified Game::displayError() message format.
@@ -43,6 +42,9 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 * [command line] Added startup script for Unix
 * [api] Moved specific code (non engine) to /core, and the rest to /cargame.
 * [technical] Added some displayErrors instead of undefined behaviours. e.g if no cars were registered.
+* [technical] Fixed crash when no map was found.
+* [cmake] Divided CG into ROOT (main.cpp >> cg.exe), API (cargame/* >> cg.dll) and CORE (core/* >> mods/core.dll)
+* [technical] When game fails to load, the info is displayed in in-game console (not in loading screen).
 
 # BETA 0.2
 Note: Since this version CarGame pack does not include 32-bit Windows in published binaries.

@@ -23,8 +23,9 @@ public:
     Vector2f getSize();
 
     void setColor(Color color);
-	
-        bool blinking;
+
+    bool blinking;
+
 	void setBlinking(bool b1) {blinking = b1;} //not implemented !!!
 
     /// Draw string.
