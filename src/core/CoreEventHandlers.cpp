@@ -25,41 +25,41 @@ bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(rand() % 128 + 64, rand() % 128 + 64, rand() % 128 + 64));
 	}
-	else if(CoreLoader::Cars::LORRY)
+	else if(carId == CoreLoader::Cars::LORRY)
 	{
 		Car* car = new CarLorry(CoreLoader::Cars::LORRY, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(color, color, color));
 	}
-	else if(CoreLoader::Cars::RARE)
+	else if(carId == CoreLoader::Cars::RARE)
 	{
 		Car* car = new CarRare(CoreLoader::Cars::RARE, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(color, 0, 0));
 	}
-	else if(CoreLoader::Cars::BUS)
+	else if(carId == CoreLoader::Cars::BUS)
 	{
 		Car* car = new CarBus(CoreLoader::Cars::BUS, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(0, color, color));
 	}
-	else if(CoreLoader::Cars::AMBULANCE)
+	else if(carId == CoreLoader::Cars::AMBULANCE)
 	{
 		Car* car = new CarAmbulance(CoreLoader::Cars::AMBULANCE, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(255, 255, 255));
 	}
-	else if(CoreLoader::Cars::RALLY)
+	else if(carId == CoreLoader::Cars::RALLY)
 	{
 		Car* car = new Car(CoreLoader::Cars::RALLY, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 	}
-	else if(CoreLoader::Cars::BOMB)
+	else if(carId == CoreLoader::Cars::BOMB)
 	{
 		Car* car = new CarBomb(7.f, 1); // ALWAYS ON CENTER LANE
 		event.carSpawned.carToCreate = car;
 	}
-	else if(CoreLoader::Cars::FIREMAN)
+	else if(carId == CoreLoader::Cars::FIREMAN)
 	{
 		Car* car = new Car(CoreLoader::Cars::FIREMAN, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
@@ -67,19 +67,19 @@ bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
 		if(rand() % 200 == 0)
             event.carSpawned.carToCreate->setColor(Color(0, 200, 0));
 	}
-	else if(CoreLoader::Cars::TANK)
+	else if(carId == CoreLoader::Cars::TANK)
 	{
 		Car* car = new Car(CoreLoader::Cars::TANK, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
         event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 	}
-	else if(CoreLoader::Cars::OLD)
+	else if(carId == CoreLoader::Cars::OLD)
 	{
 		Car* car = new Car(CoreLoader::Cars::OLD, 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(35, 35, 35));
 	}
-	else if(CoreLoader::Cars::ARMORED)
+	else if(carId == CoreLoader::Cars::ARMORED)
 	{
 	    // check if armored car is already on the road
 	    for(size_t s = 0; s < Game::instance->cars.size(); s++)
@@ -98,7 +98,7 @@ bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(92, 107, 85));
 	}
-	else if(CoreLoader::Cars::TRAIN)
+	else if(carId == CoreLoader::Cars::TRAIN)
     {
         Car* car = new CarTrain(7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;

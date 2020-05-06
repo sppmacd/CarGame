@@ -260,6 +260,7 @@ public:
 	void runEventHandler(Event& event);
 
 	// Runs GameEventHandler for event.
+	// Returns false if event was cancelled.
 	bool runGameEventHandler(GameEvent& event);
 
 	// Registers event handlers. Called once on loading.
