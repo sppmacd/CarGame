@@ -1,7 +1,19 @@
+////////////////////////////
+// Car Game ROOT Launcher //
+// (cg.exe)               //
+////////////////////////////
+
 #include <cargame/DebugLogger.hpp>
+#include <cargame/ArgMap.hpp>
+#include <cargame/GameLoader.hpp>
+
+#include <string>
+#include <map>
+
+#include <SFML/Graphics.hpp>
 
 // core handler
-#include <core/CoreLoader.hpp>
+//#include <core/CoreLoader.hpp>
 
 using namespace std;
 
@@ -58,7 +70,7 @@ int main(int argc, char* argv[])
     int i = 0;
 
     // Call core handler
-    cgLoad(&data);
+    //cgLoad(&data);
 
     try
     {

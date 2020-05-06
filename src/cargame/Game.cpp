@@ -21,7 +21,7 @@
 #include <HackerMan/Util/Main.hpp>
 
 // core handler
-#include <core/CoreLoader.hpp>
+//#include <core/CoreLoader.hpp>
 
 // error codes:
 // G00 could not load default language
@@ -78,7 +78,7 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		DebugLogger::logDbg("Starting registry filling", "Game");
 		registerPowers();
 		registerEventHandlers();
-		cgGameInit(this);
+		//cgGameInit(this);
 
 		// Load player data
 		DebugLogger::logDbg("Loading player data", "Game");

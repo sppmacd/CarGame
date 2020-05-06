@@ -34,6 +34,7 @@ gui.selectmap.shop=Shop...
 gui.selectmap.buyconfirm=Do you want to buy %0?
 gui.selectmap.buyfor=Buy for %0$
 gui.selectmap.notenoughcoins=Not Enough Coins
+gui.selectmap.noMapsFound=No Maps Found!
 
 gui.powers.buy=Buy %0: %1$
 gui.powers.upgrade=Upgrade %0: %1$

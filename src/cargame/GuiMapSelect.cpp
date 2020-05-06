@@ -17,12 +17,11 @@ void GuiMapSelect::onLoad()
 
     addWidget(&(bReturn = Button(this, sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.return"), 0)));
     addWidget(&(bPowers = Button(this, sf::Vector2f(250.f, 40.f), sf::Vector2f(game->getSize().x / 2 + 50.f, game->getSize().y / 2 + 320.f), Game::instance->translation.get("gui.selectmap.shop"), 1)));
-    addWidget(&(bNext = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f), ">", 2)));
-    addWidget(&(bPrev = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f), "<", 3)));
 
 	id = 0;
 
 	int i = 0;
+
 	for(auto ld : Game::instance->gpo.levels.arr())
 	{
 		LevelData* lvld = ld.second;
@@ -37,7 +36,12 @@ void GuiMapSelect::onLoad()
         i++;
 	}
 
-	addWidget(&bMd[id].bImg);
+	if(!bMd.empty())
+	{
+        addWidget(&(bNext = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 + 310.f, game->getSize().y / 2 - 300.f), ">", 2)));
+        addWidget(&(bPrev = Button(this, sf::Vector2f(40.f, 600.f), sf::Vector2f(game->getSize().x / 2 - 350.f, game->getSize().y / 2 - 300.f), "<", 3)));
+        addWidget(&bMd[id].bImg);
+	}
 
     bReturn.setColor(sf::Color::Red);
     bPowers.setColor(sf::Color::Cyan);
@@ -89,14 +93,27 @@ void GuiMapSelect::onDialogFinished(Gui*, int callId)
 
 void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 {
-	// draw all maps
-	bMd[id].bImg.draw(wnd);
+    Game* game = Game::instance;
 
     bReturn.draw(wnd);
     bPowers.draw(wnd);
-	bNext.draw(wnd);
-	bPrev.draw(wnd);
-	Game* game = Game::instance;
+
+    if(!bMd.empty())
+	{
+        bNext.draw(wnd);
+        bPrev.draw(wnd);
+	}
+
+	wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.selectmap.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, game->getSize().y / 12)));
+
+	// draw all maps
+	if(!bMd.empty())
+        bMd[id].bImg.draw(wnd);
+    else
+    {
+        wnd.draw(GameDisplay::instance->drawCenteredString(game->translation.get("gui.selectmap.noMapsFound"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 3)));
+        return;
+    }
 
 	if(game->playerData.isNewPlayer)
     {
@@ -116,7 +133,6 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 
     float bSize = min(game->getSize().y / 2, game->getSize().x / 2);
 
-    wnd.draw(GameDisplay::instance->drawCenteredString(Game::instance->translation.get("gui.selectmap.title"), 30, sf::Vector2f(GameDisplay::instance->getSize().x / 2, game->getSize().y / 12)));
 	String mapstr = Game::instance->translation.get("map." + bMd[id].name); //map name
 	String mapstr2; //map info
 
