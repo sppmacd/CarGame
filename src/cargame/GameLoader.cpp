@@ -15,17 +15,68 @@
 #include <ctime>
 #include <exception>
 
+GameLoader* GameLoader::instance = NULL;
+
+GameLoader::GameLoader() : game(NULL), disp(NULL), wnd(NULL), loaded(false)
+{
+    instance = this;
+}
+
+// error codes:
+// M00 out of memory
+// M01 exception
+// M02 unexpected exception
+
+void GameLoader::parseArgs(std::map<std::string, std::string>& args, int argc, char* argv[])
+{
+    std::string key, val; bool keySet = false;
+    // add args from cmd line
+    for(int i = 1; i < argc; i++)
+    {
+        if(argv[i][0] == '-')
+        {
+            //add previous arg if keySet
+            if(keySet)
+            {
+                args[key] = val;
+            }
+            key = argv[i];
+            keySet = true;
+        }
+        else
+        {
+            val = argv[i];
+        }
+    }
+    if(!key.empty()) args[key] = val; //add last argument
+}
+
+void GameLoader::setDefaultArgs(std::map<std::string, std::string>& args)
+{
+    // set default values
+    args["--message"] = "Starting Car Game";
+}
+
+void GameLoader::applyArgs(std::map<std::string, std::string>& args)
+{
+    // convert args to values and save in argmap
+    argmap.a_debug = (args.count("--debug") == 1);
+    argmap.a_help = (args.count("--help") == 1);
+    argmap.a_message = args["--message"];
+}
+
 void GameLoader::loadGame()
 {
+    loaded = false;
     try
     {
         sf::Clock loadTime;
 
-        DebugLogger::log("" + argmap->a_message + " [" + std::string(CG_VERSION) + "]", "GameLoader");
+        DebugLogger::log("" + argmap.a_message + " [" + std::string(CG_VERSION) + "]", "GameLoader");
         DebugLogger::log("Loading game engine...", "GameLoader");
 
         // display help if specified in cmdline
-        if(argmap->a_help)
+        if(argmap.a_help)
         {
             GameDisplay::consoleStr =
             "CG " + string(CG_VERSION) + "\n"
@@ -45,7 +96,8 @@ void GameLoader::loadGame()
         disp = new GameDisplay(wnd);
         GameDisplay::loadingStr = "Loading game engine...";
         DebugLogger::logDbg("Creating Game");
-        game = new Game(argmap);
+        game = new Game(&argmap);
+        registerEventHandlers();
 
         if(!game->updateFound)
         {
@@ -67,6 +119,157 @@ void GameLoader::loadGame()
     }
 }
 
+int GameLoader::main(int argc, char* argv[])
+{
+    // parse args
+    std::map<std::string, std::string> args;
+
+    setDefaultArgs(args);
+    parseArgs(args, argc, argv);
+    applyArgs(args);
+    preInit();
+
+    int i = 0;
+
+    // Call core handler
+    //cgLoad(&data);
+
+    try
+    {
+        DebugLogger::logDbg("Creating loading window");
+        createLoadingWnd();
+
+        DebugLogger::logDbg("Starting loading thread");
+        startLoadingThread();
+
+        sf::Clock clock;
+        sf::Clock eventClock;
+        //sf::Clock guiClock;
+        sf::Clock tickClock;
+        sf::Clock renderClock;
+        sf::Clock waitClock;
+        sf::Clock lastWarningClock;
+        //sf::Event ev1;
+
+        bool mainLoopRunning = true;
+
+        while(mainLoopRunning)
+        {
+            // to handle closing game by GuiHandler::close()
+            if(game && !game->isRunning())
+                mainLoopRunning = false;
+
+            if(loaded)
+            {
+                try
+                {
+                    // Initialize loop and check if it should run
+                    bool updateDebugStats = /*data.game->mainTickCount % 6 == 0*/ true;
+                    //bool mouseMoveHandled = false;
+
+                    // Restart clocks
+                    clock.restart();
+                    eventClock.restart();
+                    if(updateDebugStats) game->times.timeGui = Time::Zero;
+
+                    // Call postInit()
+                    if(game->mainTickCount == 0)
+                    {
+                        DebugLogger::logDbg("Starting first-tick initialization");
+                        game->postInit();
+                    }
+
+                    // Check all events
+                    checkEvents();
+                    if (updateDebugStats) game->times.timeEvent = eventClock.getElapsedTime();
+
+                    // Update game logic
+                    tickClock.restart();
+                    loop(game);
+                    if (updateDebugStats) game->times.timeTick = tickClock.getElapsedTime();
+
+                    // Render game
+                    renderClock.restart();
+                    disp->display();
+                    if (updateDebugStats) game->times.timeRender = renderClock.getElapsedTime();
+
+                    if (updateDebugStats) game->tickTime = clock.getElapsedTime();
+
+                    // Check and notify about lags
+                    waitClock.restart();
+                    sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
+                    if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
+                    {
+                        DebugLogger::log("Tick took " + std::to_string(l) + "us.", "main", "LAG");
+                        lastWarningClock.restart();
+                    }
+
+                    // Wait
+                    Time waitTime = microseconds(15000) - clock.getElapsedTime();
+                    sleep(waitTime);
+
+                    // Post-tick cleanup
+                    if (updateDebugStats) game->times.timeWait = waitClock.getElapsedTime();
+                    if (updateDebugStats) game->realTickTime = clock.getElapsedTime();
+                }
+                catch(bad_alloc& ba)
+                {
+                    DebugLogger::log("Out of memory!", "main", "FATAL");
+                    if(game)
+                        game->displayError("Out of memory!", "M00");
+                }
+                catch(exception& e)
+                {
+                    DebugLogger::log("std::exception caught: " + std::string(e.what()), "main", "FATAL");
+                    if(game)
+                        game->displayError("Exception while running: " + std::string(e.what()), "M01");
+                }
+                catch(...)
+                {
+                    DebugLogger::log("Unexpected exception caught!", "main", "FATAL");
+                    if(game)
+                        game->displayError("Unexpected error", "M02");
+                }
+            }
+            else
+            {
+                bool b = loadingCheckEvents();
+                if(!b)
+                    return 0;
+                GameDisplay::drawLoading(wnd);
+                if(!GameDisplay::consoleStr.isEmpty())
+                    sf::sleep(sf::seconds(1));
+            }
+        }
+
+        DebugLogger::log("Closing the game...", "main");
+        GameDisplay::drawLoadingProgress("Closing...", wnd);
+
+        if(loaded)
+        {
+            game->savePlayerData();
+            i = game->retVal;
+        }
+        else
+            i = 0;
+    }
+    catch(...)
+    {
+        DebugLogger::log("Unexpected exception caught from main(). This shouldn't happen.", "main", "FATAL");
+    }
+
+    DebugLogger::log("Unloading resources...", "main");
+    delete disp;
+    delete game;
+
+    wnd->close();
+    delete wnd;
+
+    cleanup();
+
+    return i;
+}
+
 void GameLoader::loop(Game* game)
 {
     GameEvent event;
@@ -83,3 +286,26 @@ void GameLoader::loop(Game* game)
     event.type = GameEvent::PostTick;
     game->runGameEventHandler(event);
 }
+
+void GameLoader::consoleColor(std::string level)
+{
+    static bool warned = false;
+    if(!warned)
+    {
+        warned = true;
+        std::cout << "DebugLogger: Console coloring not supported" << std::endl;
+    }
+    std::hex(std::cout);
+    std::cout << "&" << level << " ";
+    std::dec(std::cout);
+}
+
+#define EMPTY {}
+
+void GameLoader::preInit()                  EMPTY
+void GameLoader::createLoadingWnd()         EMPTY
+void GameLoader::startLoadingThread()       EMPTY
+void GameLoader::registerEventHandlers()    EMPTY
+void GameLoader::checkEvents()              EMPTY
+bool GameLoader::loadingCheckEvents()       EMPTY
+void GameLoader::cleanup()                  EMPTY

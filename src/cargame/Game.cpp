@@ -184,10 +184,7 @@ bool Game::runGameEventHandler(GameEvent& event)
 
 void Game::registerEventHandlers()
 {
-	addEventHandler(Event::Closed, EventHandlers::onClose);
-	addEventHandler(Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
-	addEventHandler(Event::KeyPressed, EventHandlers::onKeyPressed);
-	addEventHandler(Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
+
 }
 
 void Game::addEventHandler(Event::EventType type, CGEventHandler handler)
