@@ -5,6 +5,8 @@
 
 #include <cargame/GameLoader.hpp>
 
+#include <SFML/System.hpp>
+
 // GameLoader for desktop OS's.
 class DesktopGameLoader : public GameLoader
 {
@@ -16,6 +18,8 @@ public:
 class WindowsGameLoader : public DesktopGameLoader
 {
 public:
+    sf::Thread loadingThread;
+
     WindowsGameLoader();
 
     virtual void preInit();

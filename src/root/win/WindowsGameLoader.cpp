@@ -8,7 +8,9 @@
 
 DesktopGameLoader::DesktopGameLoader() : GameLoader() {}
 
-WindowsGameLoader::WindowsGameLoader() : DesktopGameLoader() {}
+WindowsGameLoader::WindowsGameLoader()
+                : DesktopGameLoader()
+                , loadingThread(GameLoader::loadGame, (GameLoader*)this) {}
 
 void WindowsGameLoader::preInit()
 {
@@ -21,7 +23,7 @@ void WindowsGameLoader::createLoadingWnd()
 }
 void WindowsGameLoader::startLoadingThread()
 {
-    sf::Thread loadingThread(WindowsGameLoader::loadGame, this);
+    //sf::Thread loadingThread(WindowsGameLoader::loadGame, (WindowsGameLoader*)this);
     loadingThread.launch();
 
     //wnd->setActive(true);
