@@ -19,7 +19,7 @@ G04 - Invalid profile version
 	
 	// todo: --info !!
 	* ensure that the game is closed!
-	* open the profile_1.txt file in some Notepad
+	* open the profile_1.txt file in some text editor
 	* you will see the ":version=X" line in profile.
 	* start CMD in game dir (for cglauncher, the game dir is <cglauncher dir>/instances/<version>/cargame-<version>)
 	* type "start.bat --info" or "./start.sh --info" (depending on shell) and press Enter. The .bat extension is very important to not confuse with "start" internal command on Windows/DOS.

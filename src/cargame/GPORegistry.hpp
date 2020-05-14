@@ -10,7 +10,7 @@
 
 // Gameplay Object Registry.
 // Note that objects MUST be created dynamically
-// because there are destroyed when game is closed.
+// because they are destroyed when game is closed.
 //
 // Requirements for IdT:
 //
