@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/sppmacd/CarGame.svg?branch=master)](https://travis-ci.org/sppmacd/CarGame)
 # Car Game
 Current Version: Beta 0.2 (beta-0.2) \[The Power Update\]
 
