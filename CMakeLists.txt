@@ -67,7 +67,7 @@ cg_set_option(CG_ARCH_PREFIX "invalid" STRING "Folder name to use for executable
 # set cg version
 cg_set_option(CG_VER_STR "invalid" STRING "Version string (displayed in-game)")
 cg_set_option(CG_VER_SIG "invalid" STRING "Version signature (used in file names)")
-cg_set_option(SFML_ROOT "invalid" PATH "SFML 2.4.2 root")
+#cg_set_option(SFML_ROOT "invalid" PATH "SFML 2.4.2 root")
 
 # add version to be used in game
 message("CG: version is '${CG_VER_STR}'")
