@@ -16,7 +16,7 @@ jobs:
     - name: Dependency install
       run: sudo apt install libfreetype6-dev libxrandr-dev libudev-dev libflac-dev libogg-dev libvorbis-dev libopenal-dev libsfml-dev
     - name: CMake build system
-      run: cmake -B build "-DCG_VER_STR=CI test" CG_VER_SIG=ci-test 
+      run: cmake -B build "-DCG_VER_STR=CI test" "-DCG_VER_SIG=ci-test"
     - name: make
       run: make
     - name: make check
