@@ -13,8 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: configure
-      run: cmake build
+    - name: Dependency install
+      run: sudo apt install libfreetype6-dev libxrandr-dev libudev-dev libflac-dev libogg-dev libvorbis-dev libopenal-dev libsfml-dev
+    - name: CMake build system
+      run: cmake -B build "-DCG_VER_STR=CI test" "-DCG_VER_SIG=ci-test"
     - name: make
       run: make
     - name: make check
