@@ -9,6 +9,8 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 	Label            Corresponding            Description
 	in changelog     Github issue label        
 	----------------------------------------------------------------------------------
+	[{os}]			 [{os}]					  Issue related to specific OS.
+	[api]            [api]                    Issue that relates to CG 0.3 API.
 	[balance]        [balance]                Change of single gameplay value, e.g.
 											  game speed.
 	[command line]   [command line]           Change of command line arguments or
@@ -17,9 +19,9 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 	[fix]            [bug]                    Something is/was not working
 	[launcher]       [launcher]               Every issue that relates to launcher.
 	[performance]    [performance]            Issue that relates to game performance.
+	[res]			 [res]					  Issue related to resources (e.g. textures)
 	[technical]      [technical]              Issue that is not directly related to
 											  gameplay and does not affect it.
-	[api]            [api]                    Issue that relates to CG 0.3 API.
 	No tag           [enhancement]            Every other issue.
 	----------------------------------------------------------------------------------
 
@@ -27,23 +29,23 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 + New Anti-Power: Ramp
 
 # BETA 0.3 Progress
+* [api] Moved specific code (non engine) to /core, and the rest to /cargame.
+* [api] Added GameplayObjectManager and moved here all registries.
+* [api] Added PlayerDataManager to store player save data.
+* [command line] Added startup script for Unix.
+* [cmake] Separated CG into ROOT (main.cpp >> cg.exe), API (cargame/* >> cg.dll) and CORE (core/* >> mods/cgcore.dll).
+* [fix] Fixed PowerBall (balls not disappearing after started new game).
+* [technical] Added function to specifying log level (e.g. info, error).
+* [technical] Changed log format.
 * [technical] All std::cout calls are now wrapped in DebugLogger to unify log
   format.
 * [technical] Unified Game::displayError() message format.
-* [technical] Changed level of some messages
-* [technical] Added log coloring (for Windows)
-* Added function to specifying log level (e.g. info, error)
-* Changed log format
-* [api] Added GameplayObjectManager and moved here all registries.
-* [technical] Documented code
-* [api] Added PlayerDataManager to store player save data.
-* [fix] Fixed PowerBall (balls not disappearing after started new game)
-* [technical] Renamed /res to /data
-* [command line] Added startup script for Unix
-* [api] Moved specific code (non engine) to /core, and the rest to /cargame.
+* [technical] Changed level of some messages.
+* [technical] Added log coloring (for Windows).
+* [technical] Documented code.
+* [technical] Renamed /res to /data.
 * [technical] Added some displayErrors instead of undefined behaviours. e.g if no cars were registered.
 * [technical] Fixed crash when no map was found.
-* [cmake] Divided CG into ROOT (main.cpp >> cg.exe), API (cargame/* >> cg.dll) and CORE (core/* >> mods/core.dll)
 * [technical] When game fails to load, the info is displayed in in-game console (not in loading screen).
 
 # BETA 0.2
