@@ -1,0 +1,26 @@
+﻿#define CG_VERSION_NO   0,3,0,0
+#define CG_VERSION_STABLE "beta-0.3"
+
+1 VERSIONINFO
+FILEVERSION CG_VERSION_NO
+PRODUCTVERSION CG_VERSION_NO
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904B0"
+        {
+            VALUE "CompanyName", "SITS Gamedev"
+            VALUE "FileDescription", "Car Game Core Module"
+            VALUE "FileVersion", CG_VERSION_STABLE
+            VALUE "InternalName", "cg.exe"
+            VALUE "LegalCopyright", "SITS Gamedev (c) 2018-2020"
+            VALUE "OriginalFilename", "cg.exe"
+            VALUE "ProductName", "CG - Car Game"
+            VALUE "ProductVersion", CG_VERSION_STABLE
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x0409, 1200
+    }
+}
