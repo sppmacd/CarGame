@@ -1,7 +1,7 @@
 #include "CarRare.h"
 
-CarRare::CarRare(Car::TypeId id, float s, int l)
-    : Car(id, s,l)
+CarRare::CarRare(float s, int l)
+    : Car("rare", s,l)
 {
 }
 

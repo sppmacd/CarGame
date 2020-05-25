@@ -7,6 +7,7 @@
 
 #include "EventHandler.h"
 #include "GameEvent.h"
+#include "ModuleIdentifier.hpp"
 
 #include "DebugLogger.hpp"
 
@@ -19,6 +20,8 @@
 #include "GuiError.hpp"
 
 #include <HackerMan/Util/Main.hpp>
+
+#include <windows.h>
 
 // core handler
 //#include <core/CoreLoader.hpp>
@@ -71,14 +74,40 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		this->isPowerUsed = false;
 		this->powerHandle = NULL;
 		this->currentPower = 0;
-		this->playerData.unlockedLevels = 0LL;
 		this->tickCount = 0;
 
 		// Initialize registries
 		DebugLogger::logDbg("Starting registry filling", "Game");
 		registerPowers();
 		registerEventHandlers();
-		//cgGameInit(this);
+
+        /*
+		// tmp: add some example objects
+		// todo: replace with modulemanager
+        gpo.registerCarType("api_example_car", (new CarType("default"))->setRarityFor(ModuleIdentifier("api_example_level"), 1));
+        LevelData::registerLevel("api_example_level", (new LevelData())->setTextureName("countryside"));
+        gpo.registerPower(this, 1, new Power("cgcore"));
+
+        // tmp
+        SetDllDirectoryA("win_x64/mods");
+
+        // this foreach module
+		HMODULE cgCoreMod = LoadLibraryA("cgcore");
+		if(!cgCoreMod)
+            DebugLogger::log("Couldn't load module");
+        else
+        {
+            typedef void(*ProcType_cgGameInit)(Game*);
+            ProcType_cgGameInit cgGameInit = (ProcType_cgGameInit)GetProcAddress(cgCoreMod, "cgGameInit");
+            if(!cgGameInit)
+                DebugLogger::log("Couldn't load cgGameInit function");
+            else
+            {
+                cgGameInit(this);
+            }
+            FreeLibrary(cgCoreMod);
+        }
+        */
 
 		// Load player data
 		DebugLogger::logDbg("Loading player data", "Game");
@@ -232,11 +261,11 @@ void Game::savePlayerData()
     playerData.save("profile_1.txt");
 }
 
-void Game::loadGame(LevelData level)
+void Game::loadGame(LevelData* level)
 {
-    GameDisplay::drawLoadingProgress("Loading level " + level.getMapType(), GameDisplay::instance->getRenderWnd());
+    GameDisplay::drawLoadingProgress("Loading level " + level->getMapType(), GameDisplay::instance->getRenderWnd());
 
-    DebugLogger::log("Loading level: " + level.getTextureName().toAnsiString(), "Game");
+    DebugLogger::log("Loading level: " + level->getMapType(), "Game");
     this->level = level;
     setupGame();
 }
@@ -245,7 +274,7 @@ void Game::loadGame()
 {
     GameDisplay::drawLoadingProgress("Reloading current level...", GameDisplay::instance->getRenderWnd());
 
-    DebugLogger::log("Reloading level: " + level.getTextureName().toAnsiString(), "Game");
+    DebugLogger::log("Reloading level: " + level->getMapType(), "Game");
     setupGame();
 
 }
@@ -255,10 +284,10 @@ void Game::setupGame()
 
     GameEvent event;
     event.type = GameEvent::LevelLoadingStart;
-    event.level.level = &this->level;
+    event.level.level = this->level;
     runGameEventHandler(event);
 
-    this->gameSpeed = this->level.getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
+    this->gameSpeed = this->level->getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
     this->initialGameSpeed = this->gameSpeed;
     this->lastTickScore = 0;
     this->lastCarTime = 1;
@@ -269,7 +298,7 @@ void Game::setupGame()
     //this->pause(false);
     //this->closeGui();
     this->currentPower = 0;
-	this->carCreatingSpeed = this->level.getCarCreationSpeed();
+	this->carCreatingSpeed = this->level->getCarCreationSpeed();
 	this->newRecord = false;
     this->powerTime = 0;
 	this->powerCooldown = 0;
@@ -278,14 +307,14 @@ void Game::setupGame()
 	for(int i = 0; i < usablePowerIds.size(); i++)
         gpo.powers.findById(usablePowerIds[i])->onLevelLoad();
 
-	this->setPointMultiplier((float(this->level.getMapType()) + 2.f) * 0.8f);
+	this->setPointMultiplier((float(this->level->getPointMultiplier()) + 2.f) * 0.8f);
 
 	this->unpauseGame(3.f);
 }
 
 void Game::closeLevel()
 {
-    DebugLogger::log("Closing level: " + level.getTextureName().toAnsiString(), "Game");
+    DebugLogger::log("Closing level: " + level->getMapType(), "Game");
     GameDisplay::drawLoadingProgress("Closing level...", GameDisplay::instance->getRenderWnd());
     if(!this->cars.empty())
     {
@@ -379,7 +408,7 @@ void Game::removeCoins(long v)
 
 bool Game::isLevelUnlocked(LevelData::MapType type)
 {
-    return playerData.unlockedLevels & (0x1 << type);
+    return playerData.unlockedLevels[type];
 }
 
 bool Game::isRunning()
@@ -495,6 +524,7 @@ public:
     }
     static bool s_language(string)
     {
+        DebugLogger::log("Opening language GUI", "Triggers");
         Game::instance->displayedGui->runDialog(new GuiLanguage, -1);
         return true;
     }
@@ -609,11 +639,11 @@ bool Game::canPowerBuyOrEquip()
     int unlockedPowers = 0;
     for(auto it: gpo.powers.arr())
     {
-        if(it.first != 0 && it.first < 100)
+        if(it.first.baseId != 0 && it.first.baseId < 100)
         {
-            if(playerData.powerLevels[it.first].getLevel() > 0)
+            if(playerData.powerLevels[it.first.baseId].getLevel() > 0)
                 unlockedPowers++;
-            else if(playerData.powerLevels[it.first].getUpgradeCost() <= playerData.playerCoins)
+            else if(playerData.powerLevels[it.first.baseId].getUpgradeCost() <= playerData.playerCoins)
                 powerCanBuy = true;
         }
     }

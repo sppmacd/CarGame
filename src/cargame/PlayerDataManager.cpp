@@ -30,8 +30,9 @@ bool PlayerDataManager::load(std::string fileName)
 
         for(size_t t = 0; t < game->gpo.levels.count(); t++)
         {
-            bool unlocked = playerData.getKey("unlocked_" + game->gpo.levels.arr()[t].first, "level", "false") == "true";
-            unlockedLevels |= (unlocked << t);
+            std::string id = game->gpo.levels.arr()[t].first.baseId;
+            bool unlocked = playerData.getKey("unlocked_" + id, "level", "false") == "true";
+            unlockedLevels[id] = unlocked;
         }
         totalPlayerPoints = playerData.getNumberKey("totalPoints", "main", 0);
         coinMpl = playerData.getNumberKey("coinMultiplier", "main", 1);
@@ -41,16 +42,16 @@ bool PlayerDataManager::load(std::string fileName)
         {
             for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
             {
-                int c = playerData.getNumberKey("count_" + to_string(it->first), "power", 0);
-                powerLevels[it->first] = PowerPlayerData(it->second, sqrt(c));
+                int c = playerData.getNumberKey("count_" + to_string(it->first.numericId), "power", 0);
+                powerLevels[it->first.numericId] = PowerPlayerData(it->second, sqrt(c));
             }
         }
         else if(ver == 4)
         {
             for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
             {
-                int c = playerData.getNumberKey("level_" + to_string(it->first), "power", 0);
-                this->powerLevels[it->first] = PowerPlayerData(it->second, c);
+                int c = playerData.getNumberKey("level_" + to_string(it->first.numericId), "power", 0);
+                this->powerLevels[it->first.numericId] = PowerPlayerData(it->second, c);
             }
             for(size_t t = 0; t < equipment.size(); t++)
             {
@@ -75,10 +76,12 @@ bool PlayerDataManager::load(std::string fileName)
             cout << "PlayerDataManager: Couldn't load profile! Converting from old player data format (v2)..." << endl;
             DebugLogger::log("Couldn't load profile! Converting from old player data format (v2)...", "PlayerDataManager");
 
+            long long null;
+
             file
             >> highScore
             >> playerCoins
-            >> unlockedLevels
+            >> null //todo
             >> totalPlayerPoints
             >> coinMpl
             >> pointsToNewMpl;
@@ -90,15 +93,17 @@ bool PlayerDataManager::load(std::string fileName)
         }
         else
         {
+            DebugLogger::log("Couldn't load data.txt! Converting from old player data format (v1)...", "PlayerDataManager");
             file.open("highscore.txt");
 
             if(file.good())
             {
-                DebugLogger::log("Couldn't load data.txt! Converting from old player data format (v1)...", "PlayerDataManager");
+                long long null;
+
                 file
                 >> highScore
                 >> playerCoins
-                >> unlockedLevels
+                >> null
                 >> totalPlayerPoints
                 >> coinMpl
                 >> pointsToNewMpl;
@@ -132,13 +137,14 @@ bool PlayerDataManager::save(std::string fileName)
     {
         playerData.setNumberKey("power_" + to_string(t), equipment[t], "equipment");
     }
-    for(size_t t = 0; t < game->gpo.levels.count(); t++)
+    for(auto& level: game->gpo.levels.arr())
     {
-        playerData.setKey("unlocked_" + game->gpo.levels.arr()[t].first, (game->isLevelUnlocked((LevelData::MapType)t) ? "true" : "false"), "level");
+        std::string id = level.first.baseId;
+        playerData.setKey("unlocked_" + id, ((game->isLevelUnlocked(id)) ? "true" : "false"), "level");
     }
     for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
     {
-        playerData.setNumberKey("level_" + to_string(it->first), powerLevels[it->first].getLevel(), "power");
+        playerData.setNumberKey("level_" + to_string(it->first.numericId), powerLevels[it->first.numericId].getLevel(), "power");
     }
     abilities.write(playerData);
 
@@ -150,7 +156,6 @@ void PlayerDataManager::init()
     Game* game = Game::instance;
     highScore = 0;
     playerCoins = 0;
-    unlockedLevels  = 0;
 
     totalPlayerPoints = 0;
     coinMpl = 1;
@@ -161,7 +166,7 @@ void PlayerDataManager::init()
 
     for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
     {
-        powerLevels[it->first] = PowerPlayerData(it->second);
+        powerLevels[it->first.numericId] = PowerPlayerData(it->second);
     }
     for(size_t t = 0; t < equipment.size(); t++)
     {

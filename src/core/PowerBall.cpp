@@ -3,7 +3,8 @@
 #include <cmath>
 #include <iostream>
 
-PowerBall::PowerBall() : Power()
+PowerBall::PowerBall()
+    : Power("cgcore")
 {
     setMaxTime(1200);
     ballTexture = NULL;

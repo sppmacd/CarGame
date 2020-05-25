@@ -21,7 +21,7 @@ private:
 
 	struct MapData
 	{
-		string name;
+		string id;
 		ButtonImage bImg;
 		int cost;
 	};

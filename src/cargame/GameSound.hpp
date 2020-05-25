@@ -26,7 +26,7 @@ public:
     GameSound();
 
     // Adds sound to map.
-    bool loadSound(std::string name, bool random = false);
+    bool loadSound(std::string name, std::string modName, bool random = false);
 
     // Reloads all sounds.
     void reload();

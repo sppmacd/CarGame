@@ -107,14 +107,25 @@ void Game::checkSpawnCar()
 
         lastCarTime = tickCount;
 		vector<CarType*> selectedTypes;
+		size_t rarity0Counted = 0;
 		while(selectedTypes.empty())
-		for(auto& type : gpo.carTypes.arr())
-		{
-		    if(type.second->getRarity(level.getMapType()) == 0)
-                continue;
-			if(rand() % type.second->getRarity(level.getMapType()) == 0)
-				selectedTypes.push_back(type.second);
-		}
+        {
+            for(auto& type : gpo.carTypes.arr())
+            {
+                if(type.second->getRarity(level->getMapType()) == 0)
+                {
+                    rarity0Counted++;
+                    continue;
+                }
+                if(rand() % type.second->getRarity(level->getMapType()) == 0)
+                    selectedTypes.push_back(type.second);
+            }
+            if(rarity0Counted == gpo.carTypes.count())
+            {
+                displayError("No spawnable CarType found!", "C02");
+                return;
+            }
+        }
 
 		CarType* carType = selectedTypes[rand() % selectedTypes.size()];
 
@@ -179,7 +190,7 @@ void Game::newTick()
 
     if(!paused())
     {
-        gameSpeed += level.getAcceleration() / 10000;
+        gameSpeed += level->getAcceleration() / 10000;
         ++tickCount;
     }
 

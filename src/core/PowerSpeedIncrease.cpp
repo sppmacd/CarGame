@@ -1,7 +1,8 @@
 #include "PowerSpeedIncrease.hpp"
 #include "CoreLoader.hpp"
 
-PowerSpeedIncrease::PowerSpeedIncrease(): Power()
+PowerSpeedIncrease::PowerSpeedIncrease()
+    : Power("cgcore")
 {
     setMaxTime(500);
     cooldownTime = 0;

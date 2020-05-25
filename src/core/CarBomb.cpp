@@ -1,6 +1,6 @@
 #include "CarBomb.hpp"
 
-CarBomb::CarBomb(float spd, int lane) : Car(CoreLoader::Cars::BOMB, spd, lane)
+CarBomb::CarBomb(float spd, int lane) : Car("bomb", spd, lane)
 {
     setColor(Color::White);
     animSize = 10;

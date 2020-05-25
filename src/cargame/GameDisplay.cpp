@@ -70,27 +70,36 @@ void GameDisplay::reload()
         unknownTexture.setRepeated(true);
     }
 
-    DebugLogger::logDbg("Adding car textures", "GameDisplay");
-	for(int i = 1; i < Game::instance->gpo.carTypes.count(); i++)
-	{
-	    CarType* type = Game::instance->gpo.carTypes.findById(i);
-		if(type != NULL)
-            addTexture("car/" + type->getTextureName());
+    DebugLogger::log("Loading textures for each module", "GameDisplay", "INFO");
+    std::vector<std::string> moduleNames = {"api"};
+    //GameLoader::instance->moduleManager.getModulesTo(moduleNames);
+    moduleNames.push_back("cgcore");
+
+    for(int i = 1; i < Game::instance->gpo.carTypes.count(); i++)
+    {
+        CarType* type = Game::instance->gpo.carTypes.findByNumericId(i);
+        if(type != NULL)
+            addTexture("car/" + type->getTextureName(), type->getModuleName());
         else
             DebugLogger::log("Unknown car type " + std::to_string(i) + ", cannot load textures.", "GameDisplay", "ERROR");
-	}
+    }
 
-	DebugLogger::logDbg("Adding map textures", "GameDisplay");
-	if(Game::instance->gpo.levels.count() > 0)
+    if(Game::instance->gpo.levels.count() > 0)
     {
         for(auto ld : Game::instance->gpo.levels.arr())
         {
-            addTexture("bg/" + ld.second->getTextureName(), true, true);
-            addTexture("map/" + ld.second->getTextureName());
+            LevelData* data = ld.second;
+            addTexture("bg/" + data->getTextureName(), data->getModuleName(), true, true);
+            addTexture("map/" + data->getTextureName(), data->getModuleName());
         }
     }
-    else
-        DebugLogger::log("Map textures not loaded - no map found. Probably the core mod is broken.", "GameDisplay", "ERROR");
+
+    DebugLogger::logDbg("Adding power icons", "GameDisplay");
+    for(auto it = Game::instance->gpo.powers.arr().begin(); it != Game::instance->gpo.powers.arr().end(); it++)
+    {
+        addTexture("power/" + to_string(it->first.numericId), it->second->getModuleName());
+        it->second->onTextureLoad();
+    }
 
     DebugLogger::logDbg("Adding stat and GUI textures", "GameDisplay");
     addTexture("stat/coin");
@@ -101,25 +110,19 @@ void GameDisplay::reload()
     addTexture("gui/start");
     addTexture("gui/settings");
     addTexture("gui/quit");
-
-    DebugLogger::logDbg("Adding power icons", "GameDisplay");
-    for(auto it = Game::instance->gpo.powers.arr().begin(); it != Game::instance->gpo.powers.arr().end(); it++)
-    {
-        addTexture("power/" + to_string(it->first));
-        it->second->onTextureLoad();
-    }
 }
 
-void GameDisplay::addTexture(string name, bool repeated, bool smooth)
+void GameDisplay::addTexture(string name, string modName, bool repeated, bool smooth)
 {
     //cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
-    DebugLogger::logDbg("Adding texture: " + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
+    DebugLogger::logDbg("Adding texture: " + modName + ":" + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
     sf::Texture tx;
-	bool load = tx.loadFromFile("res/textures/" + name + ".png");
+	bool load = tx.loadFromFile("res/" + modName + "/textures/" + name + ".png");
 	if(!load)
     {
-        DebugLogger::log("Texture not loaded: '" + name + "'. Error: D00", "GameDisplay", "ERROR");
+        DebugLogger::log("Texture not loaded: '" + modName + ":" + name + "'. Error: D00", "GameDisplay", "ERROR");
+        DebugLogger::logDbg("Texture path: 'res/" + modName + "/textures/" + name + ".png'", "GameDisplay");
 		texturesByName.insert(pair<string, sf::Texture>(name, unknownTexture));
 		return;
 	}
@@ -249,7 +252,7 @@ void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
         }
         else
         {
-            if(!GameDisplay::instance->error && !GameDisplay::instance->logoTexture.loadFromFile("res/textures/gui/logo.png"))
+            if(!GameDisplay::instance->error && !GameDisplay::instance->logoTexture.loadFromFile("res/api/textures/gui/logo.png"))
                 GameDisplay::instance->error = true;
         }
     }
@@ -292,7 +295,7 @@ void GameDisplay::drawGame()
         arrbg[1] = sf::Vertex(sf::Vector2f(0.f, mapSizeY/2 + 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 320.f));
         arrbg[2] = sf::Vertex(sf::Vector2f(mapSizeX, mapSizeY/2 + 160.f * fac), sf::Color::White, sf::Vector2f(mapSizeX / fac, 320.f));
         arrbg[3] = sf::Vertex(sf::Vector2f(mapSizeX, mapSizeY/2 - 160.f * fac), sf::Color::White, sf::Vector2f(mapSizeX / fac, 0.f));
-        renderWnd->draw(arrbg, sf::RenderStates(&getTexture("bg/" + game->level.getTextureName().toAnsiString())));
+        renderWnd->draw(arrbg, sf::RenderStates(&getTexture("bg/" + game->level->getTextureName().toAnsiString())));
     }
     { // FOG
         VertexArray arr(Quads, 8);

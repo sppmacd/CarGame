@@ -84,29 +84,38 @@ bool TranslationManager::loadFromFile(String code)
 
     languageCode = code;
 
-    DebugLogger::log("Loading translation: " + code.toAnsiString(), "TranslationManager");
-    wifstream file("res/lang/" + code + ".lang");
-    codecvt_utf8_utf16<wchar_t>* c = new codecvt_utf8_utf16<wchar_t>;
-    file.imbue(locale(file.getloc(), c));
-    if(!file.good())
-        return false; //err:04
+    std::vector<std::string> modules = {"api"};
+    //Game::instance->moduleManager.populateModuleArray(modules);
 
-    // parse
-    while(!file.eof())
+    for(std::string& mod: modules)
     {
-        wstring str;
-        getline(file, str);
+        DebugLogger::log("Loading translation: " + mod + ":" + code.toAnsiString(), "TranslationManager");
+        wifstream file("res/" + mod + "/lang/" + code + ".lang");
+        codecvt_utf8_utf16<wchar_t>* c = new codecvt_utf8_utf16<wchar_t>;
+        file.imbue(locale(file.getloc(), c));
+        if(!file.good())
+        {
+            DebugLogger::log("L04: Couldn't open language file: " + mod + ":" + code);
+            return false; //err:04
+        }
 
-        String sfStr(str);
+        // parse
+        while(!file.eof())
+        {
+            wstring str;
+            getline(file, str);
 
-        size_t pos = sfStr.find("=");
+            String sfStr(str);
 
-        if(pos == String::InvalidPos || str[str.find_first_not_of(32)] == '#')
-            continue;
+            size_t pos = sfStr.find("=");
 
-        String code = sfStr.substring(0, pos);
-        String trs = sfStr.substring(pos + 1);
-        addTranslation(code, trs);
+            if(pos == String::InvalidPos || str[str.find_first_not_of(32)] == '#')
+                continue;
+
+            String code = sfStr.substring(0, pos);
+            String trs = sfStr.substring(pos + 1);
+            addTranslation(code, trs);
+        }
     }
 
     return true;

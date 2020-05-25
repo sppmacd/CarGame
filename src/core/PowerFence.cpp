@@ -3,7 +3,8 @@
 
 //// FENCE ////
 
-PowerFence::PowerFence() : Power()
+PowerFence::PowerFence()
+    : Power("cgcore")
 {
     setMaxTime(900);
 }

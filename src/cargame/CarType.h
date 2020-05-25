@@ -3,10 +3,13 @@
 #include <vector>
 #include "LevelData.h"
 #include "Car.h"
+#include "GameplayObject.hpp"
+#include "ModuleIdentifier.hpp"
+
 using namespace std;
 
 // Class to manage static <Car> data.
-class CarType
+class CarType : public GameplayObject
 {
 	// Car texture name.
 	string carTexture;
@@ -16,11 +19,13 @@ class CarType
 
 	// Car rarities map; it maps "map ID" to car rarity (chance on tick). If 0, car will not spawn.
 	map<LevelData::MapType, int> carRarities;
+
+	int defaultRarity;
 public:
 	// %textureName - The car texture. It will be added to "/res/car/".
 	CarType(string textureName);
 
-	CarType() {}
+	CarType(): GameplayObject("") {}
 
 	// Compare <CarType> with %type2.
 	bool operator==(CarType& type2);
@@ -34,11 +39,11 @@ public:
 	// Compare this TypeId with %id.
 	bool operator!=(Car::TypeId id);
 
-	// Set standard rarities to %list.
-	CarType* setRarities(initializer_list<int> list);
-
 	// Set map rarity on %level to %rarity. If %rarity=0, the car will not spawn.
-	CarType* setRarityFor(LevelData::MapType level, int rarity);
+	CarType* setRarityFor(ModuleIdentifier modId, int rarity);
+
+	// Set default map rarity that is used when no rarity is specified for map.
+	CarType* setDefaultRarity(int rarity);
 
 	// Set car max health.
 	CarType* setMaxHealth(float max);
@@ -50,7 +55,7 @@ public:
 	float getMaxHealth();
 
 	// Get rarity for %mapType.
-	int getRarity(LevelData::MapType mapType);
+	int getRarity(ModuleIdentifier modId);
 
 	// Current car type ID.
 	Car::TypeId carId;

@@ -3,10 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include "GameplayObject.hpp"
+
 using namespace std;
 using namespace sf;
 
-class Power
+class Power : public GameplayObject
 {
 protected:
     int currentLevel;
@@ -16,7 +18,7 @@ public:
     int id;
 
     // Default constructor
-    Power();
+    Power(std::string modName);
 
     // Destructor
     virtual ~Power() {}

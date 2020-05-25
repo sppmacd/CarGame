@@ -6,7 +6,7 @@
 GPOREGISTRY_TEMPLATE
 GPORegistry<IdT, ObjT>::GPORegistry()
 {
-    greatestId = IdT();
+    greatestNumericId = 0;
 }
 
 GPOREGISTRY_TEMPLATE
@@ -26,34 +26,39 @@ void GPORegistry<IdT, ObjT>::clear()
 }
 
 GPOREGISTRY_TEMPLATE
-int GPORegistry<IdT, ObjT>::add(IdT id, ObjT* obj)
+int GPORegistry<IdT, ObjT>::add(IdT id, ObjT* obj, size_t numeric)
 {
-    ObjT* obj2 = findById(id);
-    if(obj2)
+    if(numeric != 0)
     {
-        return REG_ERROR_EXISTS;
-    }
-    try
-    {
-        objects.push_back(std::make_pair(id, obj));
-    }
-    catch(...)
-    {
-        return REG_ERROR_UNKNOWN;
-    }
-    if(greatestId < id)
-        greatestId = id;
-    return 0;
-}
+        // Check if object already exists, if so, return error.
+        for(auto it = objects.begin(); it != objects.end(); it++)
+        {
+            if(it->first.baseId == id)
+                return REG_ERROR_EXISTS;
+            if(it->first.numericId == numeric)
+                return REG_ERROR_EXISTS_NUMERIC;
+        }
 
-GPOREGISTRY_TEMPLATE
-IdT GPORegistry<IdT, ObjT>::add(ObjT* obj)
-{
-    /* generate a new ID*/
-    IdT id = greatestId + 1;
+        // Try to add object.
+        try
+        {
+            objects.push_back(std::make_pair(IdTEntry{id,numeric}, obj));
+        }
+        catch(...)
+        {
+            return REG_ERROR_UNKNOWN;
+        }
 
-    /* add object an return its ID*/
-    return (add(id, obj) == 0) ? id : 0;
+        if(greatestNumericId < numeric)
+            greatestNumericId = numeric;
+        return numeric;
+    }
+    else
+    {
+        // Generate ID and add the object if %numeric == 0.
+        numeric = greatestNumericId + 1;
+        return add(id, obj, numeric);
+    }
 }
 
 GPOREGISTRY_TEMPLATE
@@ -61,21 +66,32 @@ ObjT* GPORegistry<IdT, ObjT>::findById(const IdT& id) const
 {
     for(auto it = objects.begin(); it != objects.end(); it++)
     {
-        if(it->first == id)
+        if(it->first.baseId == id)
             return it->second;
     }
     return NULL;
 }
 
 GPOREGISTRY_TEMPLATE
-IdT GPORegistry<IdT, ObjT>::getIdOf(ObjT* obj) const
+ObjT* GPORegistry<IdT, ObjT>::findByNumericId(const size_t id) const
+{
+    for(auto it = objects.begin(); it != objects.end(); it++)
+    {
+        if(it->first.numericId == id)
+            return it->second;
+    }
+    return NULL;
+}
+
+GPOREGISTRY_TEMPLATE
+typename GPORegistry<IdT, ObjT>::IdTEntry GPORegistry<IdT, ObjT>::getIdOf(ObjT* obj) const
 {
     for(auto it = objects.begin(); it != objects.end(); it++)
     {
         if(it->second == obj)
             return it->first;
     }
-    return IdT();
+    return IdTEntry{IdT(), 0};
 }
 
 GPOREGISTRY_TEMPLATE
@@ -83,7 +99,21 @@ void GPORegistry<IdT, ObjT>::remove(const IdT& id)
 {
     for(auto it = objects.begin(); it != objects.end(); it++)
     {
-        if(it->first == id)
+        if(it->first.baseId == id)
+        {
+            delete it->second;
+            objects.erase(it);
+            return;
+        }
+    }
+}
+
+GPOREGISTRY_TEMPLATE
+void GPORegistry<IdT, ObjT>::removeByNumericId(const size_t id)
+{
+    for(auto it = objects.begin(); it != objects.end(); it++)
+    {
+        if(it->first.numericId == id)
         {
             delete it->second;
             objects.erase(it);
@@ -131,7 +161,19 @@ void GPORegistry<IdT, void>::remove(const IdT& id)
 {
     for(auto it = objects.begin(); it != objects.end(); it++)
     {
-        if(it->first == id)
+        if(it->first.baseId == id)
+        {
+            objects.erase(it);
+            return;
+        }
+    }
+}
+template<class IdT>
+void GPORegistry<IdT, void>::removeByNumericId(const size_t id)
+{
+    for(auto it = objects.begin(); it != objects.end(); it++)
+    {
+        if(it->first.numericId == id)
         {
             objects.erase(it);
             return;

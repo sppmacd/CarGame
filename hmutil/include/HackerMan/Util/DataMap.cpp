@@ -65,6 +65,7 @@ bool HMDataMap::saveToFile(string fname)
 		std::string key = it.first.second;
 		std::string val = it.second;
 		file << ns << ":" << key << "=" << val << std::endl;
+		//std::cout << ns << ":" << key << "=" << val << std::endl;
 	}
 	return true;
 }
@@ -109,8 +110,10 @@ string HMDataMap::getKey(string key, string space, string defaultVal)
     return defaultVal;
 }
 
+// key,value,space --> value,space,NULL
 HMDataMap& HMDataMap::setKey(string key, string value, string space)
 {
     m_dataMap[make_pair(space,key)] = value;
+    //std::cout << space << ":" << key << "=" << value << std::endl;
     return *this;
 }

@@ -17,7 +17,6 @@ typedef bool(*CGEventHandler)(Event,Game*);
 // (e.g. if CarSpawning event handler returns false, the car won't be spawned)
 typedef bool(*GameEventHandler)(GameEvent&, Game*);
 
-// todo: move to core dll
 namespace EventHandlers
 {
     // SYSTEM EVENTS

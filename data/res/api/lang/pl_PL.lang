@@ -1,0 +1,79 @@
+gui.done=Gotowe
+gui.return=Wróć...
+gui.cancel=Anuluj
+gui.up=Do góry
+gui.down=Na dół
+gui.next=Nast.
+gui.prev=Poprz.
+
+gui.toggle.on=Wł.
+gui.toggle.off=Wył.
+
+gui.yesno.yes=Tak
+gui.yesno.no=Nie
+
+gui.mainmenu.credit=Domyślny CG
+
+gui.settings.title=Ustawienia...
+
+settings.graphics.refreshres=Przeładuj zasoby
+settings.graphics.verticalsync=Synchr. pionowa
+settings.graphics.fullscreen=Fullscreen
+settings.game.resetgame=Zresetuj grę
+settings.game.resetgame.msg=Czy jesteś pewien, żeby usunąć wszystkie dane gracza?\n\nTego nie można cofnąć!
+settings.global.language=Język
+settings.global.debug=Tryb debugowania
+settings.global.resetsettings=Resetuj ustawienia
+settings.global.resetsettings.msg=Czy na pewno chcesz zresetować ustawienia?
+settings.sound.volume=Głośność dźwięku
+
+gui.language.title=Język...
+
+gui.selectmap.title=Mapy i Moce
+gui.selectmap.powers=Moce...
+gui.selectmap.buyconfirm=Czy chcesz kupić %0?
+gui.selectmap.buyfor=Kup za %0$
+gui.selectmap.notenoughcoins=Za mało pieniędzy
+gui.selectmap.noMapsFound=No Maps Found!
+
+gui.powers.buy=Kup %0: %1$
+gui.powers.upgrade=Ulepsz %0: %1$
+gui.powers.title=Kup moce
+gui.powers.return=Wróć do Map
+gui.powers.notbought=Nie kupiono
+gui.powers.powerinfo=LVL %0 TIME %1s
+gui.powers.powerlvl=LVL %0
+gui.powers.tip=Naciśnij prawy przycisk myszy aby użyć mocy\nUżyj kółka myszy aby ją zmienić
+gui.powers.maxlvl=%0: MAX LEVEL
+gui.powers.equip=Kliknij ikonę aby ustawić
+gui.powers.equippedPowers=Ustawione moce
+
+gui.shop.title=Sklep
+gui.shop.labels.ability=Umiejętności
+gui.shop.labels.power=Moce...
+gui.shop.upgrade_ability=Ulepsz %0: %1$
+gui.shop.ability=LVL %0 = %1
+
+gui.ingame.returngame=Wróć do gry
+gui.ingame.returnmainmenu=Wróć do menu głównego
+gui.ingame.quit=Wyjdź z gry
+gui.ingame.title=Menu gry
+
+gui.gameover.title=Koniec gry!
+gui.gameover.score=Zdobyłeś %0 punktów
+gui.gameover.return=Wróć do Menu
+gui.gameover.newgame=Nowa gra
+
+gui.updates.found=Znaleziono aktualizację: %0. \nCzy chcesz ją teraz zainstalować?
+
+power.none=Brak mocy
+power.none.desc=Ta moc nic nie robi :)
+power.none.upgr=Ulepszenie też nic nie zmienia.
+
+splash.newrecord=Nowy Rekord!
+
+stat.coin=Monety
+stat.score=Punkty
+stat.high=Twój rekord
+stat.mpl=Mnożnik monet
+stat.points_mpl=Pozostałe punkty\n do następnego mnożnika monet.

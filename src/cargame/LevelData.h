@@ -4,31 +4,22 @@
 #include <array>
 #include <SFML/Graphics.hpp>
 #include "Car.h"
+#include "GameplayObject.hpp"
 
 using namespace std;
 using namespace sf;
 
 /// Class used with loading game, stores main level data.
-class LevelData
+class LevelData : public GameplayObject
 {
 public:
-    class MapType
-    {
-        int mapId;
-        static int nextId;
-    public:
-        MapType(int id = nextId++);
-        operator int() const;
-    };
+    typedef std::string MapType;
 
     // Register a new level.
-    static void registerLevel(std::string strId, LevelData& data);
+    static void registerLevel(const MapType& strId, LevelData& data);
 
-    // Creates a new instance of Map with specified ID.
-    LevelData(const MapType& type);
-
-    // Creates an invalid map.
-    LevelData(): mapType(0) {}
+    // Creates a new instance of Map. The ID will be given by registerLevel() function. ^^
+    LevelData();
 
     // Returns ID of this map.
     const MapType& getMapType() const;
@@ -49,6 +40,9 @@ public:
     // Set map cost.
 	LevelData& setCost(int cost);
 
+	// ...
+	LevelData& setPointMultiplier(float ptMpl);
+
 	// Returns display map color (background)
     Color getColor() const;
 
@@ -64,6 +58,9 @@ public:
 	// Returns map cost.
 	int getCost() const;
 
+	// ...
+	float getPointMultiplier() const;
+
 private:
     Color mapColor;
     String textureName;
@@ -71,6 +68,7 @@ private:
     MapType mapType;
 	int carCreationSpd;
 	int mapCost;
+	float pointMultiplier;
 };
 
 

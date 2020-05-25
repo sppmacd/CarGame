@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-#define CAR_NO_ID 0
-
 class Game;
 class CarType;
 
@@ -20,13 +18,13 @@ class Car
 {
 public:
     // Constructor used to create empty cars. Do not use in spawning!
-	Car() : animSize(1)
+	/*Car() : animSize(1)
 	{
-		this->typeId = CAR_NO_ID;
-	}
+		this->typeId = "";
+	}*/
 
-	// Don't need to replace all occurrences, just map TypeId to int :)
-	typedef int TypeId;
+	// Don't need to replace all occurrences, just map TypeId to std::string :)
+	typedef std::string TypeId;
 
 	// %id - The car type ID.
 	// %speed - The car speed. It's constant because the game speed is controlled from <Game> class.

@@ -6,11 +6,7 @@
 class CarAmbulance : public Car
 {
 public:
-    CarAmbulance()
-    {
-        this->typeId = CoreLoader::Cars::AMBULANCE;
-    }
-    CarAmbulance(Car::TypeId, float, int);
+    CarAmbulance(float, int);
     virtual ~CarAmbulance() {}
 
 protected:

@@ -7,6 +7,7 @@
 
 #define REG_ERROR_UNKNOWN -1
 #define REG_ERROR_EXISTS -2
+#define REG_ERROR_EXISTS_NUMERIC -3
 
 // Gameplay Object Registry.
 // Note that objects MUST be created dynamically
@@ -14,10 +15,7 @@
 //
 // Requirements for IdT:
 //
-// * must have operator<(IdT, IdT)
 // * must have IdT::IdT() <default constructor>
-// * must have [ non-explicit IdT::IdT(int) <constructor from int> and IdT operator+(IdT&, IdT&) ]
-//          or IdT operator+(IdT&, int)
 // * must have copy constructor or assigment operator
 // * must have operator==(const IdT&, const IdT&)
 // The best for it will be number primitive type e.g. int.
@@ -28,7 +26,13 @@ class GPORegistry
 {
 public:
 
-    typedef std::vector<std::pair<IdT, ObjT*>> ArrayType;
+    struct IdTEntry
+    {
+        IdT baseId;
+        size_t numericId;
+    };
+
+    typedef std::vector<std::pair<IdTEntry, ObjT*>> ArrayType;
 
     GPORegistry();
 
@@ -38,24 +42,29 @@ public:
     virtual void clear();
 
     // Adds a new object to registry. It must be created dynamically.
-    // Returns negative value if object exists (or another error occured), 0
-    // otherwise.
-    virtual int add(IdT id, ObjT* obj);
+    // Returns negative value if object exists (or another error occured),
+    // positive otherwise.
+    // If %numeric is not specified or equal 0, the ID is automatically
+    // generated and the return value is an ID of object.
+    virtual int add(IdT id, ObjT* obj, size_t numeric = 0);
 
-    // Adds an new object, generating a new ID for it. It must be created
-    // dynamically. Returns an ID of object or 0 if error.
-    virtual IdT add(ObjT* obj);
-
-    // Returns an object that has specified %id. Returns NULL if
+    // Returns an object that has specified base %id. Returns NULL if
     // the object doesn't exist or another error occured.
     virtual ObjT* findById(const IdT& id) const;
 
+    // Returns an object that has specified numeric %id. Returns NULL if
+    // the object doesn't exist or another error occured.
+    virtual ObjT* findByNumericId(const size_t id) const;
+
     // Returns an ID of %obj. Returns IdT() if object doesn't exist
     // or another error occured.
-    virtual IdT getIdOf(ObjT* obj) const;
+    virtual IdTEntry getIdOf(ObjT* obj) const;
 
     // Removes an object with specified %id.
     virtual void remove(const IdT& id);
+
+    // Removes an object with specified %id.
+    virtual void removeByNumericId(const size_t id);
 
     // Removes (but not deallocates) object with the same pointer
     // that specified.
@@ -71,7 +80,7 @@ public:
 private:
 
     ArrayType objects;
-    IdT greatestId;
+    size_t greatestNumericId;
 };
 
 // Specialization for void - do not deallocate!!
@@ -79,23 +88,31 @@ template<class IdT>
 class GPORegistry<IdT, void>
 {
 public:
+    struct IdTEntry
+    {
+        IdT baseId;
+        size_t numericId;
+    };
 
-    typedef std::vector<std::pair<IdT, void*>> ArrayType;
+    typedef std::vector<std::pair<IdTEntry, void*>> ArrayType;
 
     // Deallocates and removes all elements from registry.
-    void clear();
+    virtual void clear();
 
     // Removes an object with specified %id.
-    void remove(const IdT& id);
+    virtual void removeByNumericId(const size_t id);
+
+    // Removes an object with specified %id.
+    virtual void remove(const IdT& id);
 
     // Removes (but not deallocates) object with the same pointer
     // that specified.
-    void remove(void* obj);
+   virtual  void remove(void* obj);
 
 private:
 
     ArrayType objects;
-    IdT greatestId;
+    IdT greatestNumericId;
 };
 
 // Functions

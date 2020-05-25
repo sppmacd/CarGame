@@ -23,21 +23,21 @@ GameSound::GameSound()
 {
 }
 
-bool GameSound::loadSound(std::string name, bool random)
+bool GameSound::loadSound(std::string name, std::string mod, bool random)
 {
-    DebugLogger::logDbg("Adding sound: " + name + "(random=" + std::to_string(random) + ")", "GameSound");
+    DebugLogger::logDbg("Adding sound: " + mod + ":" + name + "(random=" + std::to_string(random) + ")", "GameSound");
     std::vector<sf::SoundBuffer> buffers;
     if(!random)
     {
-        DebugLogger::logDbg("Adding basic SoundBuffer: " + name, "GameSound");
+        DebugLogger::logDbg("Adding basic SoundBuffer: " + mod + ":" + name, "GameSound");
         sf::SoundBuffer buf;
-        if(buf.loadFromFile("res/sounds/" + name + ".ogg"))
+        if(buf.loadFromFile("res/" + mod + "/sounds/" + name + ".ogg"))
         {
             buffers.push_back(buf);
         }
         else
         {
-            DebugLogger::log("Sound not loaded: " + name, "GameSound", "ERROR");
+            DebugLogger::log("Sound not loaded: " + mod + ":" + name, "GameSound", "ERROR");
             return false;
         }
     }
@@ -47,12 +47,12 @@ bool GameSound::loadSound(std::string name, bool random)
         bool loaded = true;
         while(loaded)
         {
-            DebugLogger::logDbg("Adding randomized SoundBuffer: " + name + std::to_string(c), "GameSound");
+            DebugLogger::logDbg("Adding randomized SoundBuffer: " + mod + ":" + name + std::to_string(c), "GameSound");
             sf::SoundBuffer buf;
-            loaded = buf.loadFromFile("res/sounds/" + name + std::to_string(c) + ".ogg");
+            loaded = buf.loadFromFile("res/" + mod + "/sounds/" + name + std::to_string(c) + ".ogg");
             if(!loaded && c == 1)
             {
-                DebugLogger::log("Random sound not loaded: " + name, "GameSound", "ERROR");
+                DebugLogger::log("Random sound not loaded: " + mod + ":" + name, "GameSound", "ERROR");
                 return false;
             }
             if(loaded)
@@ -77,16 +77,16 @@ void GameSound::reload()
     soundBuffers.clear();
     bool err = false;
 
-    err |= ! loadSound("click");
-    err |= ! loadSound("damage", true);
-    err |= ! loadSound("destroy");
-    err |= ! loadSound("start");
-    err |= ! loadSound("coin_add");
-    err |= ! loadSound("coin_remove");
-    err |= ! loadSound("point_add");
-    err |= ! loadSound("coin_mpl");
-    err |= ! loadSound("game_over");
-    err |= ! loadSound("upgrade");
+    err |= ! loadSound("click", "api");
+    err |= ! loadSound("damage", "api", true);
+    err |= ! loadSound("destroy", "api");
+    err |= ! loadSound("start", "api");
+    err |= ! loadSound("coin_add", "api");
+    err |= ! loadSound("coin_remove", "api");
+    err |= ! loadSound("point_add", "api");
+    err |= ! loadSound("coin_mpl", "api");
+    err |= ! loadSound("game_over", "api");
+    err |= ! loadSound("upgrade", "api");
 }
 
 void GameSound::playSound(std::string name, float volume)

@@ -22,8 +22,14 @@ void GuiLanguage::onLoad()
     langNameMap.loadFromFile("res/langnames.hmd");
 
     // generate widgets for all languages
-    // "res/lang" length: 8
-    std::vector<std::string> langFiles = FileUtil::listFiles("res/lang");
+    // "res/api/lang" length: 12
+    std::vector<std::string> langFiles = FileUtil::listFiles("res/api/lang");
+
+    if(langFiles.empty())
+    {
+        close(1);
+        return;
+    }
 
     // convert file names to lang codes, add widgets
     std::string currentLangCode = Game::instance->hmLangCfg.getKey("current", "lang", "en_US");
@@ -32,7 +38,7 @@ void GuiLanguage::onLoad()
     {
         std::string cf = langFiles[i];
         int dPos = cf.find_last_of('.');
-        std::string fn = cf.substr(9, dPos - 9); //Use only file name (without extension)
+        std::string fn = cf.substr(13, dPos - 13); //Use only file name (without extension)
         std::string ext = cf.substr(dPos + 1);
 
         // Exclude all files that are not language files.
@@ -96,11 +102,14 @@ void GuiLanguage::onResize()
     bUp.setPosition(Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 - 260.f));
     bDown.setPosition(Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + 60.f));
 
-    GuiLanguage::GlLangPage& pg = bLangButtons[current];
-    for(int i = 0; i < pg.bBts.size(); i++)
+    if(!bLangButtons.empty())
     {
-        if(!pg.bBts[i].langCode.empty())
-            pg.bBts[i].bSetLang->setPosition(sf::Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + i * 50.f - 200.f));
+        GuiLanguage::GlLangPage& pg = bLangButtons[current];
+        for(int i = 0; i < pg.bBts.size(); i++)
+        {
+            if(!pg.bBts[i].langCode.empty())
+                pg.bBts[i].bSetLang->setPosition(sf::Vector2f(guiHandler->getSize().x / 2 -  200.f, guiHandler->getSize().y / 2 + i * 50.f - 200.f));
+        }
     }
 }
 

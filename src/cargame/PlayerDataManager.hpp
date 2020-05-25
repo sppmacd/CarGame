@@ -7,6 +7,7 @@
 #include <vector>
 #include <HackerMan/Util/Main.hpp>
 
+#include "LevelData.h"
 #include "PlayerAbilityManager.hpp"
 #include "PowerPlayerData.hpp"
 
@@ -58,7 +59,7 @@ public:
     void init();
 
     typedef std::array<int, 2> PlayerEquipment;
-    typedef long long FlagList;
+    typedef std::map<LevelData::MapType, bool> FlagList;
     typedef std::map<int, PowerPlayerData> PlayerPowerList;
 
     //PlayerDataMap main;               //group: main

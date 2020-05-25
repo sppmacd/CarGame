@@ -92,7 +92,7 @@ public:
     Power* powerHandle;
 
 	// Current level data.
-    LevelData level;
+    LevelData* level;
 
 	// Current return value for game.
     int retVal;
@@ -191,7 +191,7 @@ public:
     void updateEffect();
 
 	// Loads specified level
-    void loadGame(LevelData level);
+    void loadGame(LevelData* level);
 
 	// Reloads current level (after game over)
     void loadGame();
@@ -236,7 +236,7 @@ public:
     void initProfile();
 
 	// Returns level color, used by renderer
-    sf::Color getLevelColor() { return this->level.getColor(); }
+    sf::Color getLevelColor() { return level->getColor(); }
 
 	// Checks if the level is unlocked
     bool isLevelUnlocked(LevelData::MapType lvl);

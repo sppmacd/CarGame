@@ -4,6 +4,7 @@
 #include <string>
 #include "GPORegistry.hpp"
 
+#include "Car.h"
 #include "CarType.h"
 #include "LevelData.h"
 #include "Power.h"
@@ -16,10 +17,10 @@ class Game;
 class GameplayObjectManager
 {
 public:
-    GPORegistry<int, CarType> carTypes;
-    GPORegistry<std::string, LevelData> levels;
-    GPORegistry<int, Power> powers;
-    GPORegistry<int, void> user;
+    GPORegistry<Car::TypeId, CarType> carTypes;
+    GPORegistry<LevelData::MapType, LevelData> levels;
+    GPORegistry<int, Power> powers; //todo: Power needs more refactoring
+    GPORegistry<std::string, void> user;
 
     // Clear all registries.
     void clear();
@@ -30,7 +31,7 @@ public:
     void registerPower(Game* game, int id, Power* obj);
 
     // Register car. It assigns ID to CarType after registering.
-    int registerCarType(CarType* carType);
+    void registerCarType(std::string id, CarType* carType);
 };
 
 // Add int to std::string.

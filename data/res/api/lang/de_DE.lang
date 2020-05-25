@@ -1,0 +1,79 @@
+gui.done=OK
+gui.return=Zurückkommen...
+gui.cancel=Stornieren
+gui.up=Auf
+gui.down=Ab
+gui.next=Next
+gui.prev=Prev.
+
+gui.toggle.on=An
+gui.toggle.off=Aus
+
+gui.yesno.yes=Ja
+gui.yesno.no=Nein
+
+gui.mainmenu.credit=SITS Gamedev (c) 2018-2020. Benutzt SFML.
+
+gui.settings.title=Einstellungen...
+
+settings.graphics.refreshres=Ressourcen aktualisieren
+settings.graphics.verticalsync=V-Sync
+settings.graphics.fullscreen=Fullscreen
+settings.game.resetgame=Spiel Zurücksetzen
+settings.game.resetgame.msg=Bist du sicher, um alle Spieldatei to löschen?\n\nDas kann man nicht rückgängig machen!
+settings.global.language=Sprache
+settings.global.debug=Debug Mode
+settings.global.resetsettings=Reset Settings
+settings.global.resetsettings.msg=Do you really want to reset settings?
+settings.sound.volume=Sound Volume
+
+gui.language.title=Sprache...
+
+gui.selectmap.title=Landschaften & Leistungen
+gui.selectmap.powers=Leistungen...
+gui.selectmap.buyconfirm=Willst du %0 kaufen?
+gui.selectmap.buyfor=Kaufen für %0$
+gui.selectmap.notenoughcoins=Nicht genug Geld
+gui.selectmap.noMapsFound=No Maps Found!
+
+gui.powers.buy=Kaufen %0: %1$
+gui.powers.upgrade=Upgrade %0: %1$
+gui.powers.title=Kaufen Leistungen
+gui.powers.return=Zu Landschaften Zurückkommen
+gui.powers.notbought=Nicht gekauft
+gui.powers.powerinfo=LVL %0 TIME %1s
+gui.powers.powerlvl=LVL %0
+gui.powers.tip=Press Right mouse button to use Power\nUse Mouse Wheel to change it
+gui.powers.maxlvl=%0: MAX LEVEL
+gui.powers.equip=Click icon to equip
+gui.powers.equippedPowers=Equipped powers
+
+gui.shop.title=Geschäft
+gui.shop.labels.ability=Abilities
+gui.shop.labels.power=Powers...
+gui.shop.upgrade_ability=Upgrade %0: %1$
+gui.shop.ability=LVL %0 = %1
+
+gui.ingame.returngame=Zu Spiel zurückkommen
+gui.ingame.returnmainmenu=Return zum Hauptmenü
+gui.ingame.quit=Spiel beenden
+gui.ingame.title=Spielmenü
+
+gui.gameover.title=Spiel ist aus!
+gui.gameover.score=Deine Punkte war %0
+gui.gameover.return=Zu Menü zurückkommen
+gui.gameover.newgame=Neue Spiel
+
+gui.updates.found=Found update: %0. \nDo you want to install it now?
+
+power.none=Kein Leistung
+power.none.desc=This power does nothing :)
+power.none.upgr=Upgrading also does nothing.
+
+splash.newrecord=Neue Rekord!
+
+stat.coin=Coins
+stat.score=Points
+stat.high=Highscore
+stat.mpl=Point Multiplier
+stat.points_mpl=Points remaining to get\n next Point Multiplier.

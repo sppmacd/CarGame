@@ -6,11 +6,7 @@
 class CarRare : public Car
 {
 public:
-    CarRare()
-    {
-        this->typeId = CoreLoader::Cars::RARE;
-    }
-    CarRare(Car::TypeId, float, int);
+    CarRare(float, int);
 
     // Called when the car is damaged by left mouse click.
     void onDamage(Game* game);

@@ -25,13 +25,16 @@ void GuiMapSelect::onLoad()
 	for(auto ld : Game::instance->gpo.levels.arr())
 	{
 		LevelData* lvld = ld.second;
-		ButtonImage bimg(this, "map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first, 100);
+		ButtonImage bimg(this, "map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first.baseId, 100);
 		bimg.setColor(lvld->getColor());
-		MapData md{ld.first, bimg, lvld->getCost()};
+		MapData md;
+		md.bImg = bimg;
+		md.cost = lvld->getCost();
+		md.id = ld.first.baseId;
 		bMd.push_back(md);
 
 		if(Game::instance->isLevelUnlocked(lvld->getMapType()))
-            id = lvld->getMapType();
+            id = ld.first.numericId - 1;
 
         i++;
 	}
@@ -80,7 +83,7 @@ void GuiMapSelect::onDialogFinished(Gui*, int callId)
 {
 	if(callId == 0 && dialogReturnValue == 1)
 	{
-		Game::instance->playerData.unlockedLevels |= (0b1 << id);
+		Game::instance->playerData.unlockedLevels[bMd[id].id] = true;
 		Game::instance->removeCoins(bMd[id].cost);
 		Game::instance->sound.playSound("upgrade", 100.f);
 
@@ -133,10 +136,10 @@ void GuiMapSelect::onDraw(sf::RenderWindow& wnd)
 
     float bSize = min(game->getSize().y / 2, game->getSize().x / 2);
 
-	String mapstr = Game::instance->translation.get("map." + bMd[id].name); //map name
+	String mapstr = Game::instance->translation.get("map." + bMd[id].id);
 	String mapstr2; //map info
 
-	if (!game->isLevelUnlocked((LevelData::MapType)id))
+	if (!game->isLevelUnlocked(bMd[id].id))
 	{
 		if (!(game->playerData.playerCoins >= bMd[id].cost))
 			mapstr2 += (Game::instance->translation.get("gui.selectmap.notenoughcoins"));
@@ -189,9 +192,9 @@ void GuiMapSelect::onClick(int button)
                 Game::instance->playerData.tutorialStep = TUT_DESTROYCAR;
             }
 
-            if (game->isLevelUnlocked((LevelData::MapType)id))
+            if (game->isLevelUnlocked(bMd[id].id))
             {
-                game->loadGame(*game->gpo.levels.arr()[id].second);
+                game->loadGame(game->gpo.levels.arr()[id].second);
 
                 if (Game::instance->playerData.isNewPlayer && Game::instance->playerData.tutorialStep == 4)
                 {
@@ -203,7 +206,7 @@ void GuiMapSelect::onClick(int button)
             {
                 if (game->playerData.playerCoins >= bMd[id].cost)
                 {
-                    runDialog(new GuiYesNo(Game::instance->translation.get("gui.selectmap.buyconfirm", {Game::instance->translation.get("map." + bMd[id].name)})), 0);
+                    runDialog(new GuiYesNo(Game::instance->translation.get("gui.selectmap.buyconfirm", {Game::instance->translation.get("map." + bMd[id].id)})), 0);
                 }
                 else
                     bMd[id].bImg.setEnabled(false);
@@ -211,7 +214,7 @@ void GuiMapSelect::onClick(int button)
         }
     }
 
-	if (!(game->playerData.playerCoins >= bMd[id].cost) && !game->isLevelUnlocked((LevelData::MapType)id))
+	if (!(game->playerData.playerCoins >= bMd[id].cost) && !game->isLevelUnlocked(bMd[id].id))
 		bMd[id].bImg.setEnabled(false);
 	else
 		bMd[id].bImg.setEnabled(true);

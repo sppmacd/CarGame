@@ -5,13 +5,15 @@ C00 - No CarType found
 	The error indicates that no car is registered in game. It means that you have corrupted core and you must reinstall the game.
 C01 - CarType not found
 	This happens when the game tries to spawn Car that is not registered as CarType. This may be caused by invalid mod configuration or broken core. If you encounter that error, try removing all mods or reinstall tha game.
+C02 - No spawnable CarType found
+	The error occurs when the Car is registered, but no car can be spawned (because it has e.g rarity 0).
 
 ## Game Error Codes
 G00 - Couldn't load default language
 	This happens when the game can't find default (English) translation. The solution is to download the missing file from https://raw.githubusercontent.com/sppmacd/CarGame/master/data/res/lang/en_US.lang and place it to <game dir>/res/lang/en_US.lang
 	(for cglauncher, the game dir is <cglauncher dir>/instances/<version>/cargame-<version>)
-G01 - (deprecated)
-G02 - (deprecated)
+G01 - not used
+G02 - not used
 G03 - Duplicate Game instance
 	Try removing mods.
 G04 - Invalid profile version
@@ -29,8 +31,10 @@ G04 - Invalid profile version
 
 ## Display / ResourceManager Error Codes
 D00 - Couldn't load texture
-	The error is displayed only in log. If occurred, the unknown texture will be visible instead of not-loaded texture. To fix
+	The error is displayed only in log. If occurred, the unknown texture will be visible instead of not-loaded texture. To fix error,
+	reinstall the game or download missing texture and place it to specified path.
 D01 - Couldn't find /res folder
+	The game cannot find resource folder. If the error occurs, reinstall the game.
 
 ## Main Error Codes
 M00 - Out of memory

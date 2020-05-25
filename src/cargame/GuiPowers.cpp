@@ -18,21 +18,21 @@ void GuiPowers::onLoad()
     for(auto s: Game::instance->gpo.powers.arr())
     {
         // powers > 100 -> functional powers (e.g anti-powers)
-        if(s.first != 0 && s.first < 100)
+        if(s.first.baseId != 0 && s.first.baseId < 100)
         {
             PowerData* data = new PowerData;
             data->power = s.second;
-            data->cost = Game::instance->playerData.powerLevels[s.first].getUpgradeCost();
-            data->count = Game::instance->playerData.powerLevels[s.first].getLevel();
+            data->cost = Game::instance->playerData.powerLevels[s.first.baseId].getUpgradeCost();
+            data->count = Game::instance->playerData.powerLevels[s.first.baseId].getLevel();
             // data->level = Game::instance->power; // 0.2
             powerData.push_back(data);
 
-            data->bBuyPower = Button(this, Vector2f(550.f, 40.f), Vector2f(game->getSize().x / 2 - 300.f, s.first * 50.f + game->getSize().y / 4), "", s.first + 100);
-            data->bEquipPower = ButtonImage(this, "power/" + to_string(s.first), Vector2f(40.f, 40.f), Vector2f(), "E", s.first + 200);
+            data->bBuyPower = Button(this, Vector2f(550.f, 40.f), Vector2f(game->getSize().x / 2 - 300.f, s.first.baseId * 50.f + game->getSize().y / 4), "", s.first.baseId + 100);
+            data->bEquipPower = ButtonImage(this, "power/" + to_string(s.first.baseId), Vector2f(40.f, 40.f), Vector2f(), "E", s.first.baseId + 200);
 
             if(data->count > 0)
             {
-                data->bEquipPower.setEnabled(!Game::instance->isPowerEquipped(s.first));
+                data->bEquipPower.setEnabled(!Game::instance->isPowerEquipped(s.first.baseId));
             }
             else
             {

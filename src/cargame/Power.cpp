@@ -1,7 +1,7 @@
 #include "Power.h"
 #include "Game.h"
 
-Power::Power()
+Power::Power(std::string modName) : GameplayObject(modName)
 {
     cooldownTime = 1800; //30 seconds
 }

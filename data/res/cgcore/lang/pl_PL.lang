@@ -1,0 +1,49 @@
+ability.power_cooldown_time=Przeładowanie mocy
+ability.power_time=Czas mocy
+ability.damage=Siła
+.
+power.oil=Olej
+power.oil.desc=Olej tworzy plamę klejącej cieczy na 2 pasach, która zadaje obrażenia przejeżdżającym Samochodom.
+power.oil.upgr=Ulepszenie zwiększa siłę mocy.
+power.freeze=Lód
+power.freeze.desc=Lód tworzy lodowatą mgłę na mapie, która spowalnia wszystkie samochody na 50 sekund.
+power.freeze.upgr=Ulepszenie spowoduje, że Samochody będą stawały się wolniejsze.
+power.point_boost=Dopalacz
+power.point_boost.desc=Dopalacz daje ogromną ilość punktów, ale gra staje się szybsza.
+power.point_boost.upgr=Ulepszona moc daje więcej punktów.
+power.fence=Płot
+power.fence.desc=Ta moc generuje szeroki na 2 pasy płot na drodze, zatrzymując i zadając obrażenia samochodom które spróbują przez niego przejechać.
+power.fence.upgr=Ulepszenie zwiększy obrażenia zadawane przez Płot.
+power.ball=Piłka
+power.ball.desc=Piłka odpycha samochody do tyłu zadając im trochę obrażeń.
+power.ball.upgr=Ulepszenie zwiększy siłę Piłki - będzie zadawać więcej obrażeń i mocniej odpychać samochody.
+
+power.anti.ramp=Rampa
+power.anti.ramp.desc=Rampa powoduje, że samochody skaczą. Nie mogą być wtedy kliknięte, a do tego zaczynają jechać szybciej.
+power.anti.ramp.upgr=N/A
+power.anti.damage_decrease=Zmniejszenie Siły
+power.anti.damage_decrease.desc=Zmniejszenie Siły zniszczy twoją broń, powodując, że Samochody są prawie niezniszczalne.
+power.anti.damage_decrease.upgr=Ta moc zwiększy prędkość wszystkich samochodów na mapie, robiąc je niemożliwe do zatrzymania przez żaden inny efekt.
+power.anti.car_speed_increase=
+power.anti.car_speed_increase.desc=
+power.anti.car_speed_increase.upgr=N/A
+
+map.countryside=Wieś
+map.desert=Pustynia
+map.forest=Las
+map.ice=Lód
+map.mountains=Góry
+map.beach=Plaża
+map.city=Miasto
+map.motorway=Autostrada
+map.sea=Morze
+map.swampland=Bagna
+map.forest_trails=Leśne ścieżki
+
+tutorial.startgame=Rozpocznij grę
+tutorial.buymap=Kup Wieś
+tutorial.selectmap=Wybierz Wieś
+tutorial.destroycar=Niszcz samochody klikając na nie\n Otrzymujesz Punkty i Monety za niszczenie samochodów.
+tutorial.dontleave=Nie pozwól samochodom wyjść za ekran!
+tutorial.avoidbomb=Nie możesz kliknąć na Bombę!\n To jest złe!
+tutorial.shop=W sklepie możesz kupić Moce\n i Umiejętności które ułatwią grę.

@@ -1,7 +1,8 @@
 #include "PowerDamageDecrease.hpp"
 #include "CoreLoader.hpp"
 
-PowerDamageDecrease::PowerDamageDecrease(): Power()
+PowerDamageDecrease::PowerDamageDecrease()
+    : Power("cgcore")
 {
     setMaxTime(500);
     cooldownTime = 0;
