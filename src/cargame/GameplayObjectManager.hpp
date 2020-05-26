@@ -19,8 +19,9 @@ class GameplayObjectManager
 public:
     GPORegistry<Car::TypeId, CarType> carTypes;
     GPORegistry<LevelData::MapType, LevelData> levels;
-    GPORegistry<int, Power> powers; //todo: Power needs more refactoring
-    GPORegistry<std::string, void> user;
+    GPORegistry<ModuleIdentifier, Power> powers;
+    GPORegistry<ModuleIdentifier, Power> antiPowers;
+    GPORegistry<ModuleIdentifier, void> user;
 
     // Clear all registries.
     void clear();
@@ -28,7 +29,7 @@ public:
     // Register power. It needs some attention because there
     // are Powers and Anti-Powers and Game needs to set some
     // variables basing on ID.
-    void registerPower(Game* game, int id, Power* obj);
+    void registerPower(Game* game, std::string id, Power* obj);
 
     // Register car. It assigns ID to CarType after registering.
     void registerCarType(std::string id, CarType* carType);

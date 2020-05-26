@@ -5,6 +5,8 @@
 #include "Game.h"
 #include "GameDisplay.h"
 
+#include <cargame/Export.hpp>
+
 #include <SFML/Graphics.hpp>
 
 class GameLoader
@@ -18,7 +20,7 @@ public:
 	sf::RenderWindow* wnd;
 
 	// The instance.
-	static GameLoader* instance;
+	CGAPI static GameLoader* instance;
 
 	// Default constructor.
 	GameLoader();

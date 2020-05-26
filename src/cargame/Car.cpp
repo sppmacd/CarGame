@@ -27,9 +27,9 @@ Car::Car(Car::TypeId id, float speed, int line)
 	// It's critical error; stop the game.
 	if(!type)
     {
-        DebugLogger::log("Couldn't find CarType for ID '" + id + "'", "Car");
-        DebugLogger::log("Probably the mod is broken", "Car");
-        DebugLogger::log("Try reinstalling the game", "Car");
+        DebugLogger::log("Couldn't find CarType for ID '" + id.toString() + "'", "Car", "ERROR");
+        DebugLogger::log("Probably the mod is broken", "Car", "ERROR");
+        DebugLogger::log("Try reinstalling the game", "Car", "ERROR");
         Game::instance->displayError("CarType not found.\nSee log for details.", "C01");
         return;
     }

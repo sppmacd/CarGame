@@ -25,7 +25,7 @@ void GuiMapSelect::onLoad()
 	for(auto ld : Game::instance->gpo.levels.arr())
 	{
 		LevelData* lvld = ld.second;
-		ButtonImage bimg(this, "map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first.baseId, 100);
+		ButtonImage bimg(this, lvld->getModuleName() + "$map/" + lvld->getTextureName(), Vector2f(600.f, 600.f), Vector2f(game->getSize().x / 2 - 300.f, game->getSize().y / 2 - 300.f), ld.first.baseId, 100);
 		bimg.setColor(lvld->getColor());
 		MapData md;
 		md.bImg = bimg;
@@ -83,7 +83,10 @@ void GuiMapSelect::onDialogFinished(Gui*, int callId)
 {
 	if(callId == 0 && dialogReturnValue == 1)
 	{
+	    DebugLogger::logDbg("Unlocking level: " + bMd[id].id, "GuiMapSelect");
+	    // todo: error ! VVV
 		Game::instance->playerData.unlockedLevels[bMd[id].id] = true;
+		// todo: error ! ^^^
 		Game::instance->removeCoins(bMd[id].cost);
 		Game::instance->sound.playSound("upgrade", 100.f);
 

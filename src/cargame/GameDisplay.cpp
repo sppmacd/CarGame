@@ -4,7 +4,7 @@
 #include "FileUtil.hpp"
 #include "DebugLogger.hpp"
 
-GameDisplay* GameDisplay::instance;
+CGAPI GameDisplay* GameDisplay::instance = NULL;
 String GameDisplay::loadingStr;
 String GameDisplay::consoleStr;
 
@@ -71,17 +71,13 @@ void GameDisplay::reload()
     }
 
     DebugLogger::log("Loading textures for each module", "GameDisplay", "INFO");
-    std::vector<std::string> moduleNames = {"api"};
-    //GameLoader::instance->moduleManager.getModulesTo(moduleNames);
-    moduleNames.push_back("cgcore");
-
-    for(int i = 1; i < Game::instance->gpo.carTypes.count(); i++)
+    for(auto& car: Game::instance->gpo.carTypes.arr())
     {
-        CarType* type = Game::instance->gpo.carTypes.findByNumericId(i);
+        CarType* type = car.second;
         if(type != NULL)
             addTexture("car/" + type->getTextureName(), type->getModuleName());
         else
-            DebugLogger::log("Unknown car type " + std::to_string(i) + ", cannot load textures.", "GameDisplay", "ERROR");
+            DebugLogger::log("Unknown car type " + car.first.baseId.toString() + ", cannot load textures.", "GameDisplay", "ERROR");
     }
 
     if(Game::instance->gpo.levels.count() > 0)
@@ -97,7 +93,8 @@ void GameDisplay::reload()
     DebugLogger::logDbg("Adding power icons", "GameDisplay");
     for(auto it = Game::instance->gpo.powers.arr().begin(); it != Game::instance->gpo.powers.arr().end(); it++)
     {
-        addTexture("power/" + to_string(it->first.numericId), it->second->getModuleName());
+        DebugLogger::logDbg("Adding textures for power: " + it->second->getName());
+        addTexture("power/" + it->first.baseId.getObjectId(), it->second->getModuleName());
         it->second->onTextureLoad();
     }
 
@@ -116,12 +113,12 @@ void GameDisplay::addTexture(string name, string modName, bool repeated, bool sm
 {
     //cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
 
-    DebugLogger::logDbg("Adding texture: " + modName + ":" + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
+    DebugLogger::logDbg("Adding texture: " + modName + "$" + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
     sf::Texture tx;
 	bool load = tx.loadFromFile("res/" + modName + "/textures/" + name + ".png");
 	if(!load)
     {
-        DebugLogger::log("Texture not loaded: '" + modName + ":" + name + "'. Error: D00", "GameDisplay", "ERROR");
+        DebugLogger::log("Texture not loaded: '" + modName + "$" + name + "'. Error: D00", "GameDisplay", "ERROR");
         DebugLogger::logDbg("Texture path: 'res/" + modName + "/textures/" + name + ".png'", "GameDisplay");
 		texturesByName.insert(pair<string, sf::Texture>(name, unknownTexture));
 		return;
@@ -130,7 +127,7 @@ void GameDisplay::addTexture(string name, string modName, bool repeated, bool sm
 	{
 		tx.setRepeated(repeated);
 		tx.setSmooth(smooth);
-		texturesByName.insert(make_pair(name, tx));
+		texturesByName.insert(make_pair(modName + "$" + name, tx));
 	}
 }
 
@@ -138,7 +135,16 @@ sf::Texture & GameDisplay::getTexture(string name)
 {
 	map<string,Texture>::iterator tex = texturesByName.find(name);
 
-	return (tex != texturesByName.end()) ? tex->second : unknownTexture;
+	if(tex == texturesByName.end())
+    {
+        DebugLogger::log("Couldn't get texture: " + name + ". Falling back to unknown texture.", "GameDisplay", "ERROR");
+        texturesByName[name] = unknownTexture;
+        return unknownTexture;
+    }
+    else
+    {
+        return tex->second;
+    }
 }
 
 void GameDisplay::setVSync(bool b)
@@ -295,7 +301,7 @@ void GameDisplay::drawGame()
         arrbg[1] = sf::Vertex(sf::Vector2f(0.f, mapSizeY/2 + 160.f * fac), sf::Color::White, sf::Vector2f(0.f, 320.f));
         arrbg[2] = sf::Vertex(sf::Vector2f(mapSizeX, mapSizeY/2 + 160.f * fac), sf::Color::White, sf::Vector2f(mapSizeX / fac, 320.f));
         arrbg[3] = sf::Vertex(sf::Vector2f(mapSizeX, mapSizeY/2 - 160.f * fac), sf::Color::White, sf::Vector2f(mapSizeX / fac, 0.f));
-        renderWnd->draw(arrbg, sf::RenderStates(&getTexture("bg/" + game->level->getTextureName().toAnsiString())));
+        renderWnd->draw(arrbg, sf::RenderStates(&getTexture(game->level->getModuleName() + "$bg/" + game->level->getTextureName().toAnsiString())));
     }
     { // FOG
         VertexArray arr(Quads, 8);
@@ -321,7 +327,7 @@ void GameDisplay::drawGame()
     }
 
     // CARS
-    sf::Sprite car(getTexture("car/default"));
+    sf::Sprite car(getTexture("api$car/default"));
     car.setOrigin(50.f, 20.f);
     car.setScale(2.0f, 2.0f);
 
@@ -349,7 +355,7 @@ void GameDisplay::drawGame()
 
 		// car background layer
 		car.setColor(carobj.getColor());
-        car.setTexture(getTexture("car/" + carobj.getTextureName()));
+        car.setTexture(getTexture(carobj.type->getModuleName() + "$car/" + carobj.getTextureName()));
 		car.setTextureRect(IntRect(0, 0, 100, 40));
         renderWnd->draw(car);
 
@@ -403,10 +409,11 @@ void GameDisplay::drawEffect()
 
     if(!game->paused())
     {
+        ModuleIdentifier powerId = game->getCurrentPower();
         if(game->powerTime > 1)
             game->powerHandle->drawPower(renderWnd);
-        else if(game->getCurrentPower() != -1)
-            game->gpo.powers.findById(game->getCurrentPower())->drawPowerIdle(renderWnd);
+        else if(powerId != ModuleIdentifier("api$no_power_equipped"))
+            game->gpo.powers.findById(powerId)->drawPowerIdle(renderWnd);
         else if(game->powerHandle)
             game->powerHandle->drawPowerIdle(renderWnd);
             //game->powerHandle->drawPowerCooldown(renderWnd);

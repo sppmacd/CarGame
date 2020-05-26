@@ -3,7 +3,7 @@
 
 #include "CoreLoader.hpp"
 
-class CarAmbulance : public Car
+CGAPI class CarAmbulance : public Car
 {
 public:
     CarAmbulance(float, int);

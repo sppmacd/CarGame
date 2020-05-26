@@ -2,7 +2,7 @@
 
 #include "CoreLoader.hpp"
 
-class PowerDamageDecrease: public Power
+CGAPI class PowerDamageDecrease: public Power
 {
 public:
     PowerDamageDecrease();
@@ -11,5 +11,6 @@ public:
     virtual void onPowerStop();
     virtual int getCost();
     virtual string getName();
+    virtual bool isAntiPower();
 };
 

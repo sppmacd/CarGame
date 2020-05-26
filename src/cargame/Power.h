@@ -15,10 +15,10 @@ protected:
 public:
     int maxPowerTime;
     int cooldownTime;
-    int id;
+    std::string id;
 
     // Default constructor
-    Power(std::string modName);
+    Power();
 
     // Destructor
     virtual ~Power() {}
@@ -27,7 +27,7 @@ public:
     virtual Power& setMaxTime(int time);
 
     // Sets power level that player currently has.
-    void setLevel(int level);
+    virtual void setLevel(int level);
 
     // Called when the power is used or started in any way.
 	virtual bool onPowerStart();
@@ -64,6 +64,9 @@ public:
 
 	// Returns unlocalized name of power. It's used by language files.
 	virtual string getName();
+
+	// Returns true if the power is Anti-Power, false otherwise.
+	virtual bool isAntiPower();
 
 	// Returns current player power level, basing on power ID.
 	static int getCurrentPowerLevel();

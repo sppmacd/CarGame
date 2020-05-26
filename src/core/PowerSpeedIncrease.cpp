@@ -2,7 +2,7 @@
 #include "CoreLoader.hpp"
 
 PowerSpeedIncrease::PowerSpeedIncrease()
-    : Power("cgcore")
+    : Power()
 {
     setMaxTime(500);
     cooldownTime = 0;
@@ -24,4 +24,8 @@ int PowerSpeedIncrease::getCost()
 string PowerSpeedIncrease::getName()
 {
     return "speed_increase";
+}
+bool PowerSpeedIncrease::isAntiPower()
+{
+    return true;
 }

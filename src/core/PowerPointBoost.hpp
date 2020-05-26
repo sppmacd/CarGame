@@ -2,7 +2,7 @@
 
 #include "CoreLoader.hpp"
 
-class PowerPointBoost: public Power
+CGAPI class PowerPointBoost: public Power
 {
 public:
     PowerPointBoost();

@@ -25,8 +25,6 @@ public:
 	// %textureName - The car texture. It will be added to "/res/car/".
 	CarType(string textureName);
 
-	CarType(): GameplayObject("") {}
-
 	// Compare <CarType> with %type2.
 	bool operator==(CarType& type2);
 

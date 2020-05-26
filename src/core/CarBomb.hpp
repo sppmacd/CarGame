@@ -2,7 +2,7 @@
 
 #include "CoreLoader.hpp"
 
-class CarBomb : public Car
+CGAPI class CarBomb : public Car
 {
 public:
     CarBomb(float spd, int lane);

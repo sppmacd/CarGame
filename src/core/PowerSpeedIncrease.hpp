@@ -2,7 +2,7 @@
 
 #include "CoreLoader.hpp"
 
-class PowerSpeedIncrease: public Power
+CGAPI class PowerSpeedIncrease: public Power
 {
 public:
     PowerSpeedIncrease();
@@ -10,4 +10,5 @@ public:
     virtual void onPowerTick(int tick);
     virtual int getCost();
     virtual string getName();
+    virtual bool isAntiPower();
 };

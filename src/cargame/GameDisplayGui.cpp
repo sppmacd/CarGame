@@ -6,7 +6,7 @@
 
 void GameDisplay::drawStat(int x, int y, String texture, long val, int animTick)
 {
-    sf::Sprite s1(this->getTexture("stat/" + texture));
+    sf::Sprite s1(this->getTexture("api$stat/" + texture));
     s1.setPosition(x, y + 10);
     this->renderWnd->draw(s1);
 
@@ -217,9 +217,9 @@ void GameDisplay::drawGui()
 
     if(game->tickCount > 0/* || game->tutorialStep == 6*/)
     {
-        bool bPowerUsable = game->usablePowerIds.size() != 0 && game->getCurrentPower() != 0;
+        bool bPowerUsable = game->usablePowerIds.size() != 0 && game->getCurrentPower() != "api$no_power";
         bool b2 = game->powerTime != 0;
-        int currentPower = game->getCurrentPower();
+        ModuleIdentifier currentPower = game->getCurrentPower();
         if(bPowerUsable || b2)
         {
             // Draw power cooldown / time
@@ -255,7 +255,9 @@ void GameDisplay::drawGui()
             }
             this->renderWnd->draw(arr);
 
-            sf::Sprite spr(this->getTexture("power/" + to_string(b2 ? game->powerHandle->id : currentPower)));
+            ModuleIdentifier currentPwr = b2 ? ModuleIdentifier(game->powerHandle->id) : currentPower;
+
+            sf::Sprite spr(this->getTexture(currentPwr.getModule() + "$power/" + currentPwr.getObjectId()));
             spr.setPosition(1050, 42);
             this->renderWnd->draw(spr);
         }

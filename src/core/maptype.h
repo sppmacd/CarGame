@@ -1,7 +1,7 @@
 #ifndef maptype_H
 #define maptype_H
 
-class Maps
+CGAPI class Maps
 {
 public:
     static LevelData* countryside;  ///<- Countryside map

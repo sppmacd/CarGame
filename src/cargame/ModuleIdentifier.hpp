@@ -15,17 +15,25 @@ public:
 
     ModuleIdentifier(const char* fullId) : ModuleIdentifier(std::string(fullId)) {}
 
-    // ...
-    std::string getModule();
+    ModuleIdentifier() : ModuleIdentifier("$") {}
 
     // ...
-    std::string getObjectId();
+    std::string getModule() const;
+
+    // ...
+    std::string getObjectId() const;
 
     // Converts identifier to <mod>$<id> format.
-    std::string toString();
+    std::string toString() const;
+
+    operator std::string();
 private:
     std::string module;
     std::string objectId;
 };
+
+bool operator==(const ModuleIdentifier mod1, const ModuleIdentifier mod2);
+bool operator!=(const ModuleIdentifier mod1, const ModuleIdentifier mod2);
+bool operator<(const ModuleIdentifier mod1, const ModuleIdentifier mod2);
 
 #endif // MODULEIDENTIFIER_HPP

@@ -43,7 +43,7 @@ float LevelData::getPointMultiplier() const
     return pointMultiplier;
 }
 
-void LevelData::registerLevel(const MapType& strId, LevelData& data)
+void LevelData::registerLevel(const std::string& strId, LevelData& data)
 {
     std::string strIdNamespaced = data.getNamespacedId(strId);
     DebugLogger::logDbg("Adding level: " + strIdNamespaced, "LevelData");

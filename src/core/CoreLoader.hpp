@@ -27,7 +27,7 @@ namespace CoreLoader
 extern "C"
 {
     // Called when module is initialized in Game.
-    CGAPI void cgGameInit(Game* game);
+    CGAPI void cgGameInit();
 
     // Called when module is added to Game, before anything starts.
     CGAPI void cgLoad(GameLoader* loader);

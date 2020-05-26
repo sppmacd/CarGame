@@ -139,6 +139,8 @@ void GameSound::update()
         // Erase stopped sounds.
         if(playedSounds[s].second->getStatus() == sf::SoundSource::Stopped)
         {
+            // todo: crashing delete ?
+            DebugLogger::logDbg("Removing sound: " + playedSounds[s].first, "GameSound");
             delete playedSounds[s].second;
             playedSounds.erase(playedSounds.begin() + s);
         }

@@ -7,7 +7,7 @@ ButtonImage::ButtonImage(Gui* gui, String imgName, sf::Vector2f size, sf::Vector
 	this->bText = imgName;
 }
 
-ButtonImage::ButtonImage() : ButtonImage(NULL, "stat/mpl", Vector2f(0, 0), Vector2f(100, 100), "ButtonImage", -1) {}
+ButtonImage::ButtonImage() : ButtonImage(NULL, "api$stat/mpl", Vector2f(0, 0), Vector2f(100, 100), "ButtonImage", -1) {}
 
 void ButtonImage::draw(RenderWindow& wnd)
 {

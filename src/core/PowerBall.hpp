@@ -4,7 +4,7 @@
 
 class Car;
 
-class PowerBall : public Power
+CGAPI class PowerBall : public Power
 {
 public:
     struct PbBall

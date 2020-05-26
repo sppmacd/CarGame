@@ -1,7 +1,7 @@
 #include "Power.h"
 #include "Game.h"
 
-Power::Power(std::string modName) : GameplayObject(modName)
+Power::Power() : GameplayObject("cgcore") //todo: switch to modulemanager
 {
     cooldownTime = 1800; //30 seconds
 }
@@ -24,6 +24,7 @@ void Power::drawPowerIdle(RenderWindow*) {}
 void Power::onInit() {}
 void Power::onTextureLoad() {}
 void Power::onLevelLoad() {}
+bool Power::isAntiPower() {return false; }
 
 int Power::getCost()
 {

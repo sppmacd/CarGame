@@ -5,7 +5,7 @@
 //// FREEZE ////
 
 PowerFreeze::PowerFreeze()
-    : Power("cgcore") {}
+    : Power() {}
 void PowerFreeze::onPowerStop()
 {
 

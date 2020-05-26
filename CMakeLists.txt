@@ -111,7 +111,6 @@ add_library(cgapi SHARED "${API_SOURCES}")
 
 if(CG_COMPILE_DEBUG)
 	set(CMAKE_BUILD_TYPE "Debug")
-	add_library(cgapid SHARED "${API_SOURCES}")
 endif()
 
 # copy resources to binary folder
@@ -133,12 +132,6 @@ if(SFML_FOUND)
 	#target_include_directories(cgapi PUBLIC "${SFML_INCLUDE_DIR}")
 	target_link_libraries(cgapi PRIVATE ${SFML_LIBRARIES}
 								${SFML_DEPENDENCIES})
-	
-	if(CG_COMPILE_DEBUG)
-		#target_include_directories(cgapid PUBLIC "${SFML_INCLUDE_DIR}")
-		target_link_libraries(cgapid PRIVATE ${SFML_LIBRARIES}
-										${SFML_DEPENDENCIES})
-	endif()	
 endif()
 
 # add sfml extlibs
@@ -168,11 +161,6 @@ message("CG: ROOT sources for '${CG_ARCH_PREFIX_A}' are ${ROOT_SOURCES}")
 
 add_executable(cg "${ROOT_SOURCES}")
 cg_gcc_static_link(cg)
-
-if(CG_COMPILE_DEBUG)
-	add_executable(cgd "${ROOT_SOURCES}")
-	cg_gcc_static_link(cgd)
-endif()
 
 set(CG_MOD_DIR ${CMAKE_BINARY_DIR}/${EXEC}/${CG_ARCH_PREFIX}/mods)
 message("CG: mod directory is ${CG_MOD_DIR}")
@@ -208,17 +196,6 @@ cg_link_common(cg)
 target_link_directories(cgapi PUBLIC ${CMAKE_BINARY_DIR})
 target_link_libraries(cgapi PRIVATE hmutil)
 cg_link_common(cgapi)
-
-if(CG_COMPILE_DEBUG)
-	target_link_directories(cgd PUBLIC ${CMAKE_BINARY_DIR})
-	target_include_directories(cgd PUBLIC "${CMAKE_SOURCE_DIR}/src/root/${CG_ARCH_PREFIX_A}")
-	target_link_libraries(cgd PRIVATE cgapid)
-	cg_link_common(cgd)
-	
-	target_link_directories(cgapid PUBLIC ${CMAKE_BINARY_DIR})
-	target_link_libraries(cgapid PRIVATE hmutil)
-	cg_link_common(cgapid)
-endif()
 
 # add default modules
 add_subdirectory("src/core")

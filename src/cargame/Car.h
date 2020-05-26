@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include <cargame/ModuleIdentifier.hpp>
+
 class Game;
 class CarType;
 
@@ -24,7 +26,7 @@ public:
 	}*/
 
 	// Don't need to replace all occurrences, just map TypeId to std::string :)
-	typedef std::string TypeId;
+	typedef ModuleIdentifier TypeId;
 
 	// %id - The car type ID.
 	// %speed - The car speed. It's constant because the game speed is controlled from <Game> class.

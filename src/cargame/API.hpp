@@ -31,8 +31,13 @@
 // hmUtil headers
 #include <HackerMan/Util/Main.hpp>
 
-// DLL import/export
-#define CGAPI SFML_SYSTEM_API
+#include <cargame/Export.hpp>
+
+// Global functions
+extern "C"
+{
+void cgApiInit(GameLoader* loader);
+}
 
 #endif // API_HPP
 

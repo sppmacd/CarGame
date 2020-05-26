@@ -4,7 +4,7 @@
 #include <iostream>
 
 PowerBall::PowerBall()
-    : Power("cgcore")
+    : Power()
 {
     setMaxTime(1200);
     ballTexture = NULL;
@@ -13,8 +13,8 @@ PowerBall::PowerBall()
 void PowerBall::onTextureLoad()
 {
     GameDisplay& gameDisplay = *GameDisplay::instance;
-    gameDisplay.addTexture("misc/power/ball");
-    ballTexture = &gameDisplay.getTexture("misc/power/ball");
+    gameDisplay.addTexture("misc/power/ball", "cgcore");
+    ballTexture = &gameDisplay.getTexture("cgcore$misc/power/ball");
 }
 
 void PowerBall::onPowerStop()

@@ -4,6 +4,7 @@
 
 #include "Game.h"
 #include "GameDisplay.h"
+#include "GameLoader.hpp"
 
 #include "EventHandler.h"
 #include "GameEvent.h"
@@ -33,7 +34,7 @@
 // G03 second Game instance
 // G04 invalid profile
 
-Game* Game::instance = NULL;
+CGAPI Game* Game::instance = NULL;
 
 Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::instance->getGuiFont())
 {
@@ -46,6 +47,25 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 	    DebugLogger::logDbg("Performing basic setup", "Game");
 		instance = this; //Set main game instance to this
 		this->running = true; //Set game running
+
+		// todo: modulemanager load modules.
+        SetDllDirectoryA("win_x64/mods");
+
+        // this foreach module
+		HMODULE cgCoreMod = LoadLibraryA("cgcore");
+		if(!cgCoreMod)
+            DebugLogger::log("Couldn't load module");
+        else
+        {
+            typedef void(*ProcType_cgLoad)(GameLoader*);
+            ProcType_cgLoad cgLoad = (ProcType_cgLoad)GetProcAddress(cgCoreMod, "cgLoad");
+            if(!cgLoad)
+                DebugLogger::log("Couldn't load cgLoad function");
+            else
+            {
+                cgLoad(GameLoader::instance);
+            }
+        }
 
 		// Perform first initializations
 		// and check for updates
@@ -79,35 +99,27 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		// Initialize registries
 		DebugLogger::logDbg("Starting registry filling", "Game");
 		registerPowers();
-		registerEventHandlers();
+		//registerEventHandlers();
 
-        /*
 		// tmp: add some example objects
 		// todo: replace with modulemanager
-        gpo.registerCarType("api_example_car", (new CarType("default"))->setRarityFor(ModuleIdentifier("api_example_level"), 1));
-        LevelData::registerLevel("api_example_level", (new LevelData())->setTextureName("countryside"));
-        gpo.registerPower(this, 1, new Power("cgcore"));
+        //gpo.registerCarType("api_example_car", (new CarType("default"))->setRarityFor(ModuleIdentifier("api_example_level"), 1));
+        //LevelData::registerLevel("api_example_level", (new LevelData())->setTextureName("countryside"));
+        //gpo.registerPower(this, 1, new Power("cgcore"));
 
         // tmp
-        SetDllDirectoryA("win_x64/mods");
-
-        // this foreach module
-		HMODULE cgCoreMod = LoadLibraryA("cgcore");
-		if(!cgCoreMod)
-            DebugLogger::log("Couldn't load module");
-        else
+        if(cgCoreMod)
         {
-            typedef void(*ProcType_cgGameInit)(Game*);
+            typedef void(*ProcType_cgGameInit)();
             ProcType_cgGameInit cgGameInit = (ProcType_cgGameInit)GetProcAddress(cgCoreMod, "cgGameInit");
             if(!cgGameInit)
                 DebugLogger::log("Couldn't load cgGameInit function");
             else
             {
-                cgGameInit(this);
+                cgGameInit();
             }
-            FreeLibrary(cgCoreMod);
         }
-        */
+
 
 		// Load player data
 		DebugLogger::logDbg("Loading player data", "Game");
@@ -116,6 +128,8 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
         // Load language configuration
         DebugLogger::logDbg("Loading language config", "Game");
 		this->loadLanguages();
+
+		//FreeLibrary(cgCoreMod);
 	}
 	else //fatal error
 	{
@@ -143,12 +157,12 @@ void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
     }
 }
 
-bool Game::getPower(int id)
+bool Game::getPower(ModuleIdentifier id)
 {
     return playerData.powerLevels[id].upgrade(this);
 }
 
-bool Game::usePower(int id)
+bool Game::usePower(ModuleIdentifier id)
 {
     return true;
 }
@@ -157,8 +171,6 @@ bool Game::usePower(int id)
 void Game::registerPowers()
 {
 	//registerPower(0, (Power*)NULL);
-	biggestPlayerPowerID = 0;
-	biggestGenericPowerID = 100;
 }
 
 float Game::getGameSpeed()
@@ -221,9 +233,9 @@ void Game::addEventHandler(Event::EventType type, CGEventHandler handler)
 	eventHandlers.insert(make_pair(type, handler));
 }
 
-int Game::getCurrentPower()
+ModuleIdentifier Game::getCurrentPower()
 {
-    return usablePowerIds.size() > 0 ? usablePowerIds[this->currentPower] : -1;
+    return usablePowerIds.size() > 0 ? usablePowerIds[this->currentPower] : "api$no_power_equipped";
 }
 
 void Game::addScore(int s)
@@ -263,9 +275,9 @@ void Game::savePlayerData()
 
 void Game::loadGame(LevelData* level)
 {
-    GameDisplay::drawLoadingProgress("Loading level " + level->getMapType(), GameDisplay::instance->getRenderWnd());
+    GameDisplay::drawLoadingProgress("Loading level " + level->getMapType().toString(), GameDisplay::instance->getRenderWnd());
 
-    DebugLogger::log("Loading level: " + level->getMapType(), "Game");
+    DebugLogger::log("Loading level: " + level->getMapType().toString(), "Game");
     this->level = level;
     setupGame();
 }
@@ -274,7 +286,7 @@ void Game::loadGame()
 {
     GameDisplay::drawLoadingProgress("Reloading current level...", GameDisplay::instance->getRenderWnd());
 
-    DebugLogger::log("Reloading level: " + level->getMapType(), "Game");
+    DebugLogger::log("Reloading level: " + level->getMapType().toString(), "Game");
     setupGame();
 
 }
@@ -305,7 +317,16 @@ void Game::setupGame()
 
 	// Initialize powers
 	for(int i = 0; i < usablePowerIds.size(); i++)
-        gpo.powers.findById(usablePowerIds[i])->onLevelLoad();
+    {
+        Power* power = gpo.powers.findById(usablePowerIds[i]);
+        if(power)
+            power->onLevelLoad();
+        else
+        {
+            DebugLogger::log("Invalid Power in usablePowerIds[" + std::to_string(i) + "]. Falling back to api$no_power_equipped", "Game", "WARN");
+            usablePowerIds[i] = "api$no_power_equipped";
+        }
+    }
 
 	this->setPointMultiplier((float(this->level->getPointMultiplier()) + 2.f) * 0.8f);
 
@@ -314,7 +335,7 @@ void Game::setupGame()
 
 void Game::closeLevel()
 {
-    DebugLogger::log("Closing level: " + level->getMapType(), "Game");
+    DebugLogger::log("Closing level: " + level->getMapType().toString(), "Game");
     GameDisplay::drawLoadingProgress("Closing level...", GameDisplay::instance->getRenderWnd());
     if(!this->cars.empty())
     {
@@ -612,7 +633,7 @@ void Game::postInit()
     //GameDisplay::instance->createFullscreenWnd();
 }
 
-bool Game::isPowerEquipped(int id)
+bool Game::isPowerEquipped(ModuleIdentifier id)
 {
     for(size_t s = 0; s < playerData.equipment.size(); s++)
     {
@@ -639,13 +660,10 @@ bool Game::canPowerBuyOrEquip()
     int unlockedPowers = 0;
     for(auto it: gpo.powers.arr())
     {
-        if(it.first.baseId != 0 && it.first.baseId < 100)
-        {
-            if(playerData.powerLevels[it.first.baseId].getLevel() > 0)
-                unlockedPowers++;
-            else if(playerData.powerLevels[it.first.baseId].getUpgradeCost() <= playerData.playerCoins)
-                powerCanBuy = true;
-        }
+        if(playerData.powerLevels[it.first.baseId].getLevel() > 0)
+            unlockedPowers++;
+        else if(playerData.powerLevels[it.first.baseId].getUpgradeCost() <= playerData.playerCoins)
+            powerCanBuy = true;
     }
     if(usablePowerIds.size() < 2 && unlockedPowers > 1)
         powerCanEquip = true;

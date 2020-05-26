@@ -2,7 +2,7 @@
 #include "CoreLoader.hpp"
 
 PowerPointBoost::PowerPointBoost()
-    : Power("cgcore")
+    : Power()
 {
     setMaxTime(300);
 }

@@ -8,6 +8,7 @@
 #include <HackerMan/Util/Main.hpp>
 
 #include "LevelData.h"
+#include "ModuleIdentifier.hpp"
 #include "PlayerAbilityManager.hpp"
 #include "PowerPlayerData.hpp"
 
@@ -58,9 +59,9 @@ public:
     // Fills player data by default values.
     void init();
 
-    typedef std::array<int, 2> PlayerEquipment;
+    typedef std::array<ModuleIdentifier, 2> PlayerEquipment;
     typedef std::map<LevelData::MapType, bool> FlagList;
-    typedef std::map<int, PowerPlayerData> PlayerPowerList;
+    typedef std::map<ModuleIdentifier, PowerPlayerData> PlayerPowerList;
 
     //PlayerDataMap main;               //group: main
     PlayerAbilityManager abilities;     //group: ability

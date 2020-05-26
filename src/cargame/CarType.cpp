@@ -37,7 +37,7 @@ CarType* CarType::setDefaultRarity(int rarity)
 
 CarType* CarType::setRarityFor(ModuleIdentifier modId, int rarity)
 {
-    carRarities[modId.toString()] = rarity;
+    carRarities[modId] = rarity;
     return this;
 }
 

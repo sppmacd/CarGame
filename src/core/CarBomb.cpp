@@ -15,7 +15,7 @@ void CarBomb::onDamage(Game* game)
         DebugLogger::log("No anti-power found!", "CarBomb", "INFO");
         return;
     }
-    Power* power = game->gpo.powers.findById(rand() % (game->biggestGenericPowerID - 100) + 101);
+    Power* power = game->gpo.antiPowers.arr()[rand() % game->gpo.antiPowers.count()].second;
     if(power)
     {
         game->setCurrentPower(power);

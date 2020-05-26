@@ -13,13 +13,16 @@ bool CoreEventHandlers::onLevelLoadingStart(GameEvent& event, Game* game)
 
 bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
 {
-	std::string carId = event.carSpawned.type->carId;
+	std::string carId = event.carSpawned.type->carId.getObjectId();
+
+	if(event.carSpawned.type->carId.getModule() != "cgcore")
+        return false;
 
 	int color = rand() % 128 + 64;
 
-	if(carId == "normal")
+	if(carId == "default")
 	{
-		Car* car = new Car("normal", 7.f, rand() % 3);
+		Car* car = new Car("default", 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(rand() % 128 + 64, rand() % 128 + 64, rand() % 128 + 64));
 	}
@@ -112,6 +115,6 @@ bool CoreEventHandlers::onCarDamaged(GameEvent& event, Game* game)
 {
     // handle PowerRamp
     Car* car = event.car.car;
-    DebugLogger::logDbg("Car damaged: a=" + to_string((size_t)car) + ", pos=" + to_string(car->pos) + ", type=" + car->typeId, "EventHandlers", "EVENT");
+    DebugLogger::logDbg("Car damaged: a=" + to_string((size_t)car) + ", pos=" + to_string(car->pos) + ", type=" + car->typeId.toString(), "EventHandlers", "EVENT");
     return true;
 }

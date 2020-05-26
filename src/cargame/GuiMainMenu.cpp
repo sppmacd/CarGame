@@ -12,9 +12,9 @@ void GuiMainMenu::onLoad()
 {
     GameDisplay* game = GameDisplay::instance;
 
-    addWidget(&(bStart = ButtonCircle(this, 180.f, Vector2f(game->getSize().x / 2, game->getSize().y / 2), "gui/start", 0)));
-    addWidget(&(bSettings = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "gui/settings", 2)));
-    addWidget(&(bQuit = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "gui/quit", 1)));
+    addWidget(&(bStart = ButtonCircle(this, 180.f, Vector2f(game->getSize().x / 2, game->getSize().y / 2), "api$gui/start", 0)));
+    addWidget(&(bSettings = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 - 380, game->getSize().y / 2), "api$gui/settings", 2)));
+    addWidget(&(bQuit = ButtonCircle(this, 100.f, Vector2f(game->getSize().x / 2 + 380, game->getSize().y / 2), "api$gui/quit", 1)));
     addWidget(&(sTest = Slider(this, Vector2f(10.f, 10.f), 100.f, 5.f, 100)));
     addWidget(&(bCredits = Button(this, Vector2f(), Vector2f(), "", 3)));
 

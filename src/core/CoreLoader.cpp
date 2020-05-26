@@ -152,7 +152,7 @@ namespace CoreLoader
                                   ->setMaxHealth(15));
         game->gpo.registerCarType("train", (new CarType("train"))
                                   //->setRarities(         {20,50,5,50,25,10,5,30,10,10,20})
-                                  ->setDefaultRarity(25)
+                                  ->setDefaultRarity(20)
                                   ->setRarityFor("desert", 50)
                                   ->setRarityFor("forest", 5)
                                   ->setRarityFor("ice", 50)
@@ -165,15 +165,15 @@ namespace CoreLoader
     void registerPowers(Game* game)
     {
         // move to core DLL
-        game->gpo.registerPower(game, 1, &(new PowerOil())->setMaxTime(1800));
-        game->gpo.registerPower(game, 2, &(new PowerFreeze())->setMaxTime(3000));
-        game->gpo.registerPower(game, 3, new PowerPointBoost());
-        game->gpo.registerPower(game, 4, new PowerFence());
-        game->gpo.registerPower(game, 5, new PowerBall());
+        game->gpo.registerPower(game, "oil", &(new PowerOil())->setMaxTime(1800));
+        game->gpo.registerPower(game, "freeze", &(new PowerFreeze())->setMaxTime(3000));
+        game->gpo.registerPower(game, "point_boost", new PowerPointBoost());
+        game->gpo.registerPower(game, "fence", new PowerFence());
+        game->gpo.registerPower(game, "ball", new PowerBall());
         // PowerRegisterEvent
 
-        game->gpo.registerPower(game, 101, new PowerSpeedIncrease());
-        game->gpo.registerPower(game, 102, new PowerDamageDecrease());
+        game->gpo.registerPower(game, "speed_increase", new PowerSpeedIncrease());
+        game->gpo.registerPower(game, "damage_decrease", new PowerDamageDecrease());
         // AntipowerRegisterEvent
     }
     void registerEventHandlers(Game* game)
@@ -193,10 +193,9 @@ namespace CoreLoader
 extern "C"
 {
     // Called when module is initialized in Game.
-    CGAPI void cgGameInit(Game* game)
+    CGAPI void cgGameInit()
     {
-        Game::instance = game;
-
+        Game* game = Game::instance;
         CoreLoader::registerEventHandlers(game);
 
         CoreLoader::registerLevels(game);
@@ -208,7 +207,7 @@ extern "C"
     // Called when module is added to Game, before anything starts.
     CGAPI void cgLoad(GameLoader* loader)
     {
-        // nothing
+        //cgApiInit(loader);
     }
 
     CGAPI void cgCleanup()

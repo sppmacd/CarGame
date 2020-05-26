@@ -5,7 +5,7 @@
 //// OIL ////
 
 PowerOil::PowerOil()
-    : Power("cgcore") {}
+    : Power() {}
 void PowerOil::onPowerStop()
 {
 	//Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (1.3f / ((-1 / currentLevel) + 1)));

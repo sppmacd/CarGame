@@ -1,0 +1,37 @@
+# Documentation - CarGame DLL API
+
+## Procedures
+
+
+	CGAPI void cgCleanup()
+	The function is called by root (cg.exe) when the Game exits main loop.
+	
+	### Valid pointers
+	[ ] Game
+	[ ] GameDisplay
+	[x] GameLoader
+	[x] ModuleManager
+
+
+	CGAPI cgGameInit()
+	The function is called from Game constructor (before GameDisplay reload).
+	You can here fill GameplayObjectManager registers by your objects.
+	
+	### Valid pointers
+	[x] Game
+	[x] GameDisplay
+	[x] GameLoader
+	[x] ModuleManager
+
+	
+	CGAPI int cgLoad(GameLoader* loader)
+	The function is called immediately after module is loaded, before Game
+	starts. You must call here API function cgApiInit(loader), which sets
+	Game::instance, GameDisplay::instance and ModuleManager::instance pointers.
+	
+	### Valid pointers
+	[x] Game
+	[x] GameDisplay
+	[x] GameLoader
+	[x] ModuleManager
+	

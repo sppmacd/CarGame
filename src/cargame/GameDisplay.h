@@ -5,6 +5,8 @@
 #include <map>
 #include <iostream>
 
+#include <cargame/Export.hpp>
+
 using namespace std;
 using namespace sf;
 
@@ -99,7 +101,7 @@ public:
 	sf::Vector2u getSize();
 
 	// A default instance of GameDisplay.
-    static GameDisplay* instance;
+    CGAPI static GameDisplay* instance;
 
 	// Texture map.
 	map<string, sf::Texture> texturesByName;

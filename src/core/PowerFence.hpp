@@ -2,7 +2,7 @@
 
 #include "CoreLoader.hpp"
 
-class PowerFence : public Power
+CGAPI class PowerFence : public Power
 {
 public:
     PowerFence();

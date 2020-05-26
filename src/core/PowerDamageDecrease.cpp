@@ -2,7 +2,7 @@
 #include "CoreLoader.hpp"
 
 PowerDamageDecrease::PowerDamageDecrease()
-    : Power("cgcore")
+    : Power()
 {
     setMaxTime(500);
     cooldownTime = 0;
@@ -29,4 +29,8 @@ int PowerDamageDecrease::getCost()
 string PowerDamageDecrease::getName()
 {
     return "damage_decrease";
+}
+bool PowerDamageDecrease::isAntiPower()
+{
+    return true;
 }

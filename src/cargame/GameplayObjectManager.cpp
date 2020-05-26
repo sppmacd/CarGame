@@ -18,45 +18,23 @@ void GameplayObjectManager::registerCarType(std::string id, CarType* carType)
     carType->carId = id;
 }
 
-void GameplayObjectManager::registerPower(Game* game, int id, Power* obj)
+void GameplayObjectManager::registerPower(Game* game, std::string id, Power* obj)
 {
-    int rid = id;
+    std::string s = obj->getNamespacedId(id);
+    DebugLogger::logDbg("Adding power: " + s + " (" + obj->getName() + ")", "GameplayObjectManager");
+    obj->id = s;
 
-    // Automatically determine ID for special values.
-    if(id == POWER_REGULAR_ID_START)
+    if(!obj->isAntiPower())
     {
-        rid = game->biggestPlayerPowerID + 1;
-    }
-    else if(id == POWER_ANTI_ID_START)
-    {
-        rid = game->biggestGenericPowerID + 1;
-    }
-
-    // todo: another identification for anti-powers
-    // maybe separate registry?
-    // Don't add power if it exceedes power limit
-    if(id == POWER_REGULAR_ID_START && rid > POWER_ANTI_ID_START)
-    {
-        DebugLogger::logDbg("Couldn't add regular power, power limit exceeded: " + obj->getName(), "GameplayObjectManager", "ERROR");
-        return;
-    }
-
-    DebugLogger::logDbg("Adding power: " + std::to_string(id) + " (" + obj->getName() + ")", "GameplayObjectManager");
-    obj->id = rid;
-
-    if(!powers.add(rid, obj))
-        return;
-
-    if(id <= 100)
-    {
-        if(id > game->biggestPlayerPowerID)
-            game->biggestPlayerPowerID = id;
+        if(powers.add(s, obj) < 0)
+            return;
     }
     else
     {
-        if(id > game->biggestGenericPowerID)
-            game->biggestGenericPowerID = id;
+        if(antiPowers.add(s, obj) < 0)
+            return;
     }
+
     obj->onInit();
 }
 

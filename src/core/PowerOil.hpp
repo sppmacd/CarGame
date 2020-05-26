@@ -2,7 +2,7 @@
 
 #include "CoreLoader.hpp"
 
-class PowerOil : public Power
+CGAPI class PowerOil : public Power
 {
 public:
     PowerOil();

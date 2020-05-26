@@ -92,7 +92,7 @@ public:
     struct LevelEvent { LevelData* level; };
 
 	// Every event related to Power. In core used by some abilities.
-	struct PowerEvent { Power* handle; int& tickTime; int& cooldownTime; };
+	struct PowerEvent { Power* handle; int* tickTime; int* cooldownTime; };
 
 	// Every event related to Power loading - don't need to pass tickTime and cooldownTime.
 	struct PowerInitEvent { Power* handle; };

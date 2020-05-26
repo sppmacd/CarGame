@@ -7,6 +7,7 @@ using namespace cg;
 #include <array>
 #include "Power.h"
 #include "ButtonImage.h"
+#include "ModuleIdentifier.hpp"
 
 class GuiPowers : public Gui
 {
@@ -31,7 +32,7 @@ private:
     };
     struct EquippedPowerData
     {
-        int powerId;
+        ModuleIdentifier powerId;
         ButtonImage bImg;
     };
 

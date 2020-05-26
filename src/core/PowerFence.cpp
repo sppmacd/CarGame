@@ -4,7 +4,7 @@
 //// FENCE ////
 
 PowerFence::PowerFence()
-    : Power("cgcore")
+    : Power()
 {
     setMaxTime(900);
 }

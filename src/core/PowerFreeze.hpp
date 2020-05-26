@@ -2,7 +2,7 @@
 
 #include "CoreLoader.hpp"
 
-class PowerFreeze : public Power
+CGAPI class PowerFreeze : public Power
 {
 public:
     PowerFreeze();

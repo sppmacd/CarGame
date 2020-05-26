@@ -26,6 +26,8 @@
 #include <HackerMan/Util/Main.hpp>
 #include <CG/CG.h>
 
+#include <cargame/Export.hpp>
+
 #define TUT_NONE 0 //- no tutorial
 #define TUT_START 1 //- start game in main menu
 #define TUT_BUYMAP 2 //- buy map
@@ -56,7 +58,7 @@ public:
 	/////////////////////////
 
 	// Instance of the game.
-    static Game* instance;
+    CGAPI static Game* instance;
 
 	// Game tick count (since level loaded).
     int tickCount;
@@ -156,7 +158,7 @@ public:
 	bool error;
 
     // Player powers, that can be currently used.
-    vector<int> usablePowerIds;
+    vector<ModuleIdentifier> usablePowerIds;
 
     // Time left to unpause the game (after exiting In-game Menu)
     Time unpauseDelay;
@@ -335,16 +337,16 @@ public:
     void addScore(int s);
 
 	// Returns current power ID
-    int getCurrentPower();
+    ModuleIdentifier getCurrentPower();
 
 	// Upgrades the specified power
-    bool getPower(int id);
+    bool getPower(ModuleIdentifier id);
 
 	// Use player power (--)
-    bool usePower(int id);
+    bool usePower(ModuleIdentifier id);
 
     // Returns true if specified power is equipped (can use)
-	bool isPowerEquipped(int id);
+	bool isPowerEquipped(ModuleIdentifier id);
 
 	// Returns true if any power can be upgraded or equipped. Used by GuiMapSelect
 	// and GuiShop to know when to display blinking border.

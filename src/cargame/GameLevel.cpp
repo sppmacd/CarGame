@@ -146,6 +146,10 @@ void Game::checkSpawnCar()
                 event.carSpawned.carToCreate->onCreate(this);
             }
 		}
+		else
+        {
+            DebugLogger::logDbg("CarType spawner not found: " + event.carSpawned.type->carId.toString(), "Game");
+        }
     }
 }
 
@@ -219,8 +223,8 @@ void Game::setCurrentPower(Power* power)
     {
         GameEvent event;
         event.type = GameEvent::PowerStopped;
-        event.power.cooldownTime = powerCooldown;
-        event.power.tickTime = powerTime;
+        event.power.cooldownTime = &powerCooldown;
+        event.power.tickTime = &powerTime;
         event.power.handle = powerHandle;
         runGameEventHandler(event);
         event.type = GameEvent::PowerCooldownStopped;
@@ -244,8 +248,8 @@ void Game::setCurrentPower(Power* power)
     // power 'start'
     GameEvent event;
     event.type = GameEvent::PowerStarted;
-    event.power.cooldownTime = powerCooldown;
-    event.power.tickTime = powerTime;
+    event.power.cooldownTime = &powerCooldown;
+    event.power.tickTime = &powerTime;
     event.power.handle = powerHandle;
     bool startPower = runGameEventHandler(event);
 
@@ -274,8 +278,8 @@ void Game::stopCurrentPower()
     // power 'stop'
     GameEvent event;
     event.type = GameEvent::PowerStopped;
-    event.power.cooldownTime = powerCooldown;
-    event.power.tickTime = powerTime;
+    event.power.cooldownTime = &powerCooldown;
+    event.power.tickTime = &powerTime;
     event.power.handle = powerHandle;
     bool stopPower = runGameEventHandler(event);
 
@@ -286,7 +290,7 @@ void Game::stopCurrentPower()
 }
 void Game::updateEffect()
 {
-    if(isPowerUsed && powerCooldown <= 0 && getCurrentPower() != -1)
+    if(isPowerUsed && powerCooldown <= 0 && getCurrentPower() != "api$no_power_equipped")
     {
         Power* power = gpo.powers.findById(getCurrentPower());
         if(!power)
@@ -305,8 +309,8 @@ void Game::updateEffect()
             // power 'tick'
             GameEvent event;
             event.type = GameEvent::PowerTick;
-            event.power.cooldownTime = powerCooldown;
-            event.power.tickTime = powerTime;
+            event.power.cooldownTime = &powerCooldown;
+            event.power.tickTime = &powerTime;
             event.power.handle = powerHandle;
             runGameEventHandler(event);
 
@@ -323,8 +327,8 @@ void Game::updateEffect()
             // power 'cooldown tick'
             GameEvent event;
             event.type = GameEvent::PowerCooldownTick;
-            event.power.cooldownTime = powerCooldown;
-            event.power.tickTime = powerTime;
+            event.power.cooldownTime = &powerCooldown;
+            event.power.tickTime = &powerTime;
             event.power.handle = powerHandle;
             runGameEventHandler(event);
 
@@ -337,8 +341,8 @@ void Game::updateEffect()
             // power 'cooldown stop'
             GameEvent event;
             event.type = GameEvent::PowerCooldownStopped;
-            event.power.cooldownTime = powerCooldown;
-            event.power.tickTime = powerTime;
+            event.power.cooldownTime = &powerCooldown;
+            event.power.tickTime = &powerTime;
             event.power.handle = powerHandle;
             runGameEventHandler(event);
 

@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "Car.h"
 #include "GameplayObject.hpp"
+#include "ModuleIdentifier.hpp"
 
 using namespace std;
 using namespace sf;
@@ -13,10 +14,10 @@ using namespace sf;
 class LevelData : public GameplayObject
 {
 public:
-    typedef std::string MapType;
+    typedef ModuleIdentifier MapType;
 
     // Register a new level.
-    static void registerLevel(const MapType& strId, LevelData& data);
+    static void registerLevel(const std::string& strId, LevelData& data);
 
     // Creates a new instance of Map. The ID will be given by registerLevel() function. ^^
     LevelData();

@@ -15,7 +15,7 @@
 #include <ctime>
 #include <exception>
 
-GameLoader* GameLoader::instance = NULL;
+CGAPI GameLoader* GameLoader::instance = NULL;
 
 GameLoader::GameLoader() : game(NULL), disp(NULL), wnd(NULL), loaded(false)
 {
@@ -130,6 +130,7 @@ int GameLoader::main(int argc, char* argv[])
     preInit();
 
     int i = 0;
+    bool hang = false;
 
     // Call core handler
     //cgLoad(&data);
@@ -211,24 +212,52 @@ int GameLoader::main(int argc, char* argv[])
                     // Post-tick cleanup
                     if (updateDebugStats) game->times.timeWait = waitClock.getElapsedTime();
                     if (updateDebugStats) game->realTickTime = clock.getElapsedTime();
+
+                    hang = false;
                 }
                 catch(bad_alloc& ba)
                 {
-                    DebugLogger::log("Out of memory!", "main", "FATAL");
-                    if(game)
+                    if(game && !hang)
+                    {
+                        DebugLogger::log("Out of memory!", "main", "FATAL");
                         game->displayError("Out of memory!", "M00");
+                        hang = true;
+                    }
+                    else
+                    {
+                        DebugLogger::log("Out of memory!", "main", "FATAL");
+                        DebugLogger::log("occurred after another exception! Stopping game.", "main", "FATAL");
+                        break;
+                    }
                 }
                 catch(exception& e)
                 {
-                    DebugLogger::log("std::exception caught: " + std::string(e.what()), "main", "FATAL");
-                    if(game)
+                    if(game && !hang)
+                    {
+                        DebugLogger::log("std::exception caught: " + std::string(e.what()), "main", "FATAL");
                         game->displayError("Exception while running: " + std::string(e.what()), "M01");
+                        hang = true;
+                    }
+                    else
+                    {
+                        DebugLogger::log("std::exception caught: " + std::string(e.what()), "main", "FATAL");
+                        DebugLogger::log("occurred after another exception! Stopping game.", "main", "FATAL");
+                        break;
+                    }
                 }
                 catch(...)
                 {
-                    DebugLogger::log("Unexpected exception caught!", "main", "FATAL");
-                    if(game)
+                    if(game && !hang)
+                    {
+                        DebugLogger::log("Unexpected exception caught!", "main", "FATAL");
                         game->displayError("Unexpected error", "M02");
+                    }
+                    else
+                    {
+                        DebugLogger::log("Unexpected exception caught!", "main", "FATAL");
+                        DebugLogger::log("occurred after another exception", "main", "FATAL");
+                        break;
+                    }
                 }
             }
             else
