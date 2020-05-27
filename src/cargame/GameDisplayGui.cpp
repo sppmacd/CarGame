@@ -263,7 +263,7 @@ void GameDisplay::drawGui()
         }
         if(bPowerUsable)
         {
-            sf::Text t1 = this->drawCenteredString(game->translation.get("gui.powers.powerlvl", {to_string(game->playerData.powerLevels[game->getCurrentPower()].getLevel())}), 45, sf::Vector2f(1050, 80), sf::Text::Bold);
+            sf::Text t1 = this->drawCenteredString(game->translation.get("gui.powers.powerlvl", {to_string(game->playerData.powerLevels[game->getCurrentPower()]->getLevel())}), 45, sf::Vector2f(1050, 80), sf::Text::Bold);
             t1.setFillColor(sf::Color::Blue);
             this->renderWnd->draw(t1);
         }

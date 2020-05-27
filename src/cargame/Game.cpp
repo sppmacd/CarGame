@@ -22,8 +22,6 @@
 
 #include <HackerMan/Util/Main.hpp>
 
-#include <windows.h>
-
 // core handler
 //#include <core/CoreLoader.hpp>
 
@@ -47,25 +45,6 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 	    DebugLogger::logDbg("Performing basic setup", "Game");
 		instance = this; //Set main game instance to this
 		this->running = true; //Set game running
-
-		// todo: modulemanager load modules.
-        SetDllDirectoryA("win_x64/mods");
-
-        // this foreach module
-		HMODULE cgCoreMod = LoadLibraryA("cgcore");
-		if(!cgCoreMod)
-            DebugLogger::log("Couldn't load module");
-        else
-        {
-            typedef void(*ProcType_cgLoad)(GameLoader*);
-            ProcType_cgLoad cgLoad = (ProcType_cgLoad)GetProcAddress(cgCoreMod, "cgLoad");
-            if(!cgLoad)
-                DebugLogger::log("Couldn't load cgLoad function");
-            else
-            {
-                cgLoad(GameLoader::instance);
-            }
-        }
 
 		// Perform first initializations
 		// and check for updates
@@ -99,27 +78,12 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		// Initialize registries
 		DebugLogger::logDbg("Starting registry filling", "Game");
 		registerPowers();
-		//registerEventHandlers();
 
-		// tmp: add some example objects
-		// todo: replace with modulemanager
-        //gpo.registerCarType("api_example_car", (new CarType("default"))->setRarityFor(ModuleIdentifier("api_example_level"), 1));
-        //LevelData::registerLevel("api_example_level", (new LevelData())->setTextureName("countryside"));
-        //gpo.registerPower(this, 1, new Power("cgcore"));
-
-        // tmp
-        if(cgCoreMod)
+        if(!ModuleManager::instance->gameInitAllModules())
         {
-            typedef void(*ProcType_cgGameInit)();
-            ProcType_cgGameInit cgGameInit = (ProcType_cgGameInit)GetProcAddress(cgCoreMod, "cgGameInit");
-            if(!cgGameInit)
-                DebugLogger::log("Couldn't load cgGameInit function");
-            else
-            {
-                cgGameInit();
-            }
+            DebugLogger::log("Couldn't call gameInit for modules!", "Game", "ERROR");
+            throw std::runtime_error("G05 - Couldn't initialize modules");
         }
-
 
 		// Load player data
 		DebugLogger::logDbg("Loading player data", "Game");
@@ -159,7 +123,7 @@ void Game::wheelEvent(sf::Event::MouseWheelScrollEvent event)
 
 bool Game::getPower(ModuleIdentifier id)
 {
-    return playerData.powerLevels[id].upgrade(this);
+    return playerData.powerLevels[id]->upgrade(this);
 }
 
 bool Game::usePower(ModuleIdentifier id)
@@ -660,9 +624,13 @@ bool Game::canPowerBuyOrEquip()
     int unlockedPowers = 0;
     for(auto it: gpo.powers.arr())
     {
-        if(playerData.powerLevels[it.first.baseId].getLevel() > 0)
+        PowerPlayerData* ppd = playerData.powerLevels[it.first.baseId];
+        if(!ppd)
+            return false;
+
+        if(ppd->getLevel() > 0)
             unlockedPowers++;
-        else if(playerData.powerLevels[it.first.baseId].getUpgradeCost() <= playerData.playerCoins)
+        else if(ppd->getUpgradeCost() <= playerData.playerCoins)
             powerCanBuy = true;
     }
     if(usablePowerIds.size() < 2 && unlockedPowers > 1)

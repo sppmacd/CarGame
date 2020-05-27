@@ -1,10 +1,9 @@
 #include "WindowsGameLoader.hpp"
 
 #include <SFML/Graphics.hpp>
-
 #include <windows.h>
-
 #include <cargame/EventHandler.h>
+#include "WindowsModuleManager.hpp"
 
 DesktopGameLoader::DesktopGameLoader() : GameLoader() {}
 
@@ -16,6 +15,9 @@ void WindowsGameLoader::preInit()
 {
     // redirect SFML error output to null if not debug mode
     if(!argmap.a_debug) sf::err().rdbuf(NULL);
+
+    // create modmanager
+    modManager = new WindowsModuleManager;
 }
 void WindowsGameLoader::createLoadingWnd()
 {

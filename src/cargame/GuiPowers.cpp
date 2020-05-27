@@ -24,8 +24,8 @@ void GuiPowers::onLoad()
         // powers > 100 -> functional powers (e.g anti-powers)
         PowerData* data = new PowerData;
         data->power = s.second;
-        data->cost = Game::instance->playerData.powerLevels[s.first.baseId].getUpgradeCost();
-        data->count = Game::instance->playerData.powerLevels[s.first.baseId].getLevel();
+        data->cost = Game::instance->playerData.powerLevels[s.first.baseId]->getUpgradeCost();
+        data->count = Game::instance->playerData.powerLevels[s.first.baseId]->getLevel();
         // data->level = Game::instance->power; // 0.2
         powerData.push_back(data);
 
@@ -187,7 +187,7 @@ void GuiPowers::onClick(int button)
         {
             if(game->getPower(powerId))
             {
-                data->cost = Game::instance->playerData.powerLevels[powerId].getUpgradeCost();
+                data->cost = Game::instance->playerData.powerLevels[powerId]->getUpgradeCost();
                 data->count++;
 
                 if(data->count == 5)

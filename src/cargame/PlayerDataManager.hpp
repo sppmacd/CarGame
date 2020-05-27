@@ -50,6 +50,8 @@ public:
     // Creates PlayerDataManager with default values.
     PlayerDataManager();
 
+    ~PlayerDataManager();
+
     // Loads player data from specified file.
     bool load(std::string fileName);
 
@@ -61,7 +63,7 @@ public:
 
     typedef std::array<ModuleIdentifier, 2> PlayerEquipment;
     typedef std::map<LevelData::MapType, bool> FlagList;
-    typedef std::map<ModuleIdentifier, PowerPlayerData> PlayerPowerList;
+    typedef std::map<ModuleIdentifier, PowerPlayerData*> PlayerPowerList;
 
     //PlayerDataMap main;               //group: main
     PlayerAbilityManager abilities;     //group: ability

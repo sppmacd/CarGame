@@ -1,5 +1,7 @@
 # Documentation - Error Codes
 
+The documentation often refers to game log. You can find it in console that is opening with the game (on Windows).
+
 ## Registry Error Codes
 C00 - No CarType found
 	The error indicates that no car is registered in game. It means that you have corrupted core and you must reinstall the game.
@@ -28,6 +30,9 @@ G04 - Invalid profile version
 	* you will see CG debug info. Find the line "profile-version=X". Set the version in the profile to X.
 	e.g if "profile-version=6", set ":version=6".
 	* start the game.
+G05 - Couldn't initialize modules
+	This is called when Game isn't able to initialize one or more of modules. The module name will be always visible
+	in game log - remove the module if it causes an error.
 
 ## Display / ResourceManager Error Codes
 D00 - Couldn't load texture
@@ -44,6 +49,10 @@ M01 - Exception while running: xxxxxx
 	See docs/exceptions.txt //todo
 M02 - Unexpected exception caught
 	This error shouldn't happen, but if it happen, try reinstalling the game without any mods.
+M03 - Couldn't load modules
+	It occurres always with M01 as description. It means that an error occurred when trying to
+	load mods. See log for details and remove mod that causes the error. If that is 'cgcore', contact me -
+	e.g. add issue on Github.
 	
 ## Other errors
 	* If the game crashes with "cg.exe stopped working..." window, this may be:

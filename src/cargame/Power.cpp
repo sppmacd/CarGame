@@ -1,7 +1,8 @@
 #include "Power.h"
 #include "Game.h"
+#include "ModuleManager.hpp"
 
-Power::Power() : GameplayObject("cgcore") //todo: switch to modulemanager
+Power::Power() : GameplayObject(ModuleManager::instance->current())
 {
     cooldownTime = 1800; //30 seconds
 }
@@ -36,7 +37,7 @@ string Power::getName()
 }
 int Power::getCurrentPowerLevel()
 {
-    return Game::instance->playerData.powerLevels[Game::instance->getCurrentPower()].getLevel();
+    return Game::instance->playerData.powerLevels[Game::instance->getCurrentPower()]->getLevel();
 }
 
 void Power::setLevel(int level)

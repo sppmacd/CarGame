@@ -1,9 +1,10 @@
 #include "LevelData.h"
 #include "Game.h"
+#include "ModuleManager.hpp"
 
 // LevelData
 LevelData::LevelData()
-    : GameplayObject("cgcore") //todo: replace with modulemanager
+    : GameplayObject(ModuleManager::instance->current())
 {
     setCost(0);
 }

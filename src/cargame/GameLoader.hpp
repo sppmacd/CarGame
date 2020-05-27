@@ -4,6 +4,7 @@
 #include "ArgMap.hpp"
 #include "Game.h"
 #include "GameDisplay.h"
+#include "ModuleManager.hpp"
 
 #include <cargame/Export.hpp>
 
@@ -18,6 +19,7 @@ public:
 	bool loaded;
 	ArgMap argmap;
 	sf::RenderWindow* wnd;
+	ModuleManager* modManager;
 
 	// The instance.
 	CGAPI static GameLoader* instance;

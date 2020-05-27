@@ -84,9 +84,7 @@ void GuiMapSelect::onDialogFinished(Gui*, int callId)
 	if(callId == 0 && dialogReturnValue == 1)
 	{
 	    DebugLogger::logDbg("Unlocking level: " + bMd[id].id, "GuiMapSelect");
-	    // todo: error ! VVV
 		Game::instance->playerData.unlockedLevels[bMd[id].id] = true;
-		// todo: error ! ^^^
 		Game::instance->removeCoins(bMd[id].cost);
 		Game::instance->sound.playSound("upgrade", 100.f);
 

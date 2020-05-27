@@ -127,6 +127,8 @@ int GameLoader::main(int argc, char* argv[])
     setDefaultArgs(args);
     parseArgs(args, argc, argv);
     applyArgs(args);
+
+    // the OS-specific root is expected to create modmanager here.
     preInit();
 
     int i = 0;
@@ -137,10 +139,22 @@ int GameLoader::main(int argc, char* argv[])
 
     try
     {
-        DebugLogger::logDbg("Creating loading window");
+        if(!modManager)
+        {
+            // spawn the default modmanager, it will throw errors later :).
+            modManager = new ModuleManager;
+        }
+
+        if(!modManager->loadAllModules())
+        {
+            DebugLogger::log("Couldn't load modules", "GameLoader");
+            throw std::runtime_error("M03 - Couldn't load modules");
+        }
+
+        DebugLogger::logDbg("Creating loading window", "GameLoader");
         createLoadingWnd();
 
-        DebugLogger::logDbg("Starting loading thread");
+        DebugLogger::logDbg("Starting loading thread", "GameLoader");
         startLoadingThread();
 
         sf::Clock clock;
@@ -176,7 +190,7 @@ int GameLoader::main(int argc, char* argv[])
                     // Call postInit()
                     if(game->mainTickCount == 0)
                     {
-                        DebugLogger::logDbg("Starting first-tick initialization");
+                        DebugLogger::logDbg("Starting first-tick initialization", "GameLoader");
                         game->postInit();
                     }
 
@@ -201,8 +215,7 @@ int GameLoader::main(int argc, char* argv[])
                     sf::Uint64 l = clock.getElapsedTime().asMicroseconds();
                     if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
                     {
-                        DebugLogger::log("Tick took " + std::to_string(l) + "us.", "main", "LAG");
-                        lastWarningClock.restart();
+                        DebugLogger::log("Tick took " + std::to_string(l) + "us.", "GameLoader", "LAG");
                     }
 
                     // Wait
@@ -219,14 +232,14 @@ int GameLoader::main(int argc, char* argv[])
                 {
                     if(game && !hang)
                     {
-                        DebugLogger::log("Out of memory!", "main", "FATAL");
+                        DebugLogger::log("Out of memory!", "GameLoader", "FATAL");
                         game->displayError("Out of memory!", "M00");
                         hang = true;
                     }
                     else
                     {
-                        DebugLogger::log("Out of memory!", "main", "FATAL");
-                        DebugLogger::log("occurred after another exception! Stopping game.", "main", "FATAL");
+                        DebugLogger::log("Out of memory!", "GameLoader", "FATAL");
+                        DebugLogger::log("occurred after another exception! Stopping game.", "GameLoader", "FATAL");
                         break;
                     }
                 }
@@ -234,14 +247,14 @@ int GameLoader::main(int argc, char* argv[])
                 {
                     if(game && !hang)
                     {
-                        DebugLogger::log("std::exception caught: " + std::string(e.what()), "main", "FATAL");
+                        DebugLogger::log("std::exception caught: " + std::string(e.what()), "GameLoader", "FATAL");
                         game->displayError("Exception while running: " + std::string(e.what()), "M01");
                         hang = true;
                     }
                     else
                     {
-                        DebugLogger::log("std::exception caught: " + std::string(e.what()), "main", "FATAL");
-                        DebugLogger::log("occurred after another exception! Stopping game.", "main", "FATAL");
+                        DebugLogger::log("std::exception caught: " + std::string(e.what()), "GameLoader", "FATAL");
+                        DebugLogger::log("occurred after another exception! Stopping game.", "GameLoader", "FATAL");
                         break;
                     }
                 }
@@ -249,13 +262,13 @@ int GameLoader::main(int argc, char* argv[])
                 {
                     if(game && !hang)
                     {
-                        DebugLogger::log("Unexpected exception caught!", "main", "FATAL");
+                        DebugLogger::log("Unexpected exception caught!", "GameLoader", "FATAL");
                         game->displayError("Unexpected error", "M02");
                     }
                     else
                     {
-                        DebugLogger::log("Unexpected exception caught!", "main", "FATAL");
-                        DebugLogger::log("occurred after another exception", "main", "FATAL");
+                        DebugLogger::log("Unexpected exception caught!", "GameLoader", "FATAL");
+                        DebugLogger::log("occurred after another exception", "GameLoader", "FATAL");
                         break;
                     }
                 }
@@ -271,7 +284,7 @@ int GameLoader::main(int argc, char* argv[])
             }
         }
 
-        DebugLogger::log("Closing the game...", "main");
+        DebugLogger::log("Closing the game...", "GameLoader");
         GameDisplay::drawLoadingProgress("Closing...", wnd);
 
         if(loaded)
@@ -284,10 +297,10 @@ int GameLoader::main(int argc, char* argv[])
     }
     catch(...)
     {
-        DebugLogger::log("Unexpected exception caught from main(). This shouldn't happen.", "main", "FATAL");
+        DebugLogger::log("Unexpected exception caught from main(). This shouldn't happen.", "GameLoader", "FATAL");
     }
 
-    DebugLogger::log("Unloading resources...", "main");
+    DebugLogger::log("Unloading resources...", "GameLoader");
     delete disp;
     delete game;
 

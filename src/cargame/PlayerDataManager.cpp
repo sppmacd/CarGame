@@ -13,6 +13,12 @@ PlayerDataManager::PlayerDataManager()
     //init();
 }
 
+PlayerDataManager::~PlayerDataManager()
+{
+    for(auto& it: powerLevels)
+        delete it.second;
+}
+
 bool PlayerDataManager::load(std::string fileName)
 {
     Game* game = Game::instance;
@@ -61,7 +67,7 @@ bool PlayerDataManager::load(std::string fileName)
             for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
             {
                 int c = playerData.getNumberKey("count_" + to_string(i), "power", 0);
-                powerLevels[it->first.baseId] = PowerPlayerData(it->second, sqrt(c));
+                powerLevels[it->first.baseId] = new PowerPlayerData(it->second, sqrt(c));
                 i++;
             }
         }
@@ -71,7 +77,7 @@ bool PlayerDataManager::load(std::string fileName)
             for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
             {
                 int c = playerData.getNumberKey("level_" + i, "power", 0);
-                this->powerLevels[it->first.baseId] = PowerPlayerData(it->second, c);
+                this->powerLevels[it->first.baseId] = new PowerPlayerData(it->second, c);
                 i++;
             }
             for(size_t t = 0; t < equipment.size(); t++)
@@ -83,10 +89,10 @@ bool PlayerDataManager::load(std::string fileName)
         }
         else if(ver == 5)
         {
-            for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
+            for(auto it: game->gpo.powers.arr())
             {
-                int c = playerData.getNumberKey("level_" + it->first.baseId.toString(), "power", 0);
-                this->powerLevels[it->first.baseId] = PowerPlayerData(it->second, c);
+                int c = playerData.getNumberKey("level_" + it.first.baseId.toString(), "power", 0);
+                this->powerLevels[it.first.baseId] = new PowerPlayerData(it.second, c);
             }
             for(size_t t = 0; t < equipment.size(); t++)
             {
@@ -123,8 +129,8 @@ bool PlayerDataManager::load(std::string fileName)
             int i1, i2;
             file
             >> i1 >> i2;
-            powerLevels["cgcore$oil"] = PowerPlayerData(game->gpo.powers.findById("cgcore$oil"), sqrt(i1));
-            powerLevels["cgcore$freeze"] = PowerPlayerData(game->gpo.powers.findById("cgcore$freeze"), sqrt(i2));
+            powerLevels["cgcore$oil"] = new PowerPlayerData(game->gpo.powers.findById("cgcore$oil"), sqrt(i1));
+            powerLevels["cgcore$freeze"] = new PowerPlayerData(game->gpo.powers.findById("cgcore$freeze"), sqrt(i2));
         }
         else
         {
@@ -179,7 +185,10 @@ bool PlayerDataManager::save(std::string fileName)
     }
     for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
     {
-        playerData.setNumberKey("level_" + it->first.baseId.toString(), powerLevels[it->first.baseId].getLevel(), "power");
+        PowerPlayerData* power = powerLevels[it->first.baseId];
+        if(!power)
+            continue;
+        playerData.setNumberKey("level_" + it->first.baseId.toString(), power->getLevel(), "power");
     }
     abilities.write(playerData);
 
@@ -203,7 +212,7 @@ void PlayerDataManager::init()
 
     for(auto it = game->gpo.powers.arr().begin(); it != game->gpo.powers.arr().end(); it++)
     {
-        powerLevels[it->first.baseId] = PowerPlayerData(it->second);
+        powerLevels[it->first.baseId] = new PowerPlayerData(it->second);
     }
     for(size_t t = 0; t < equipment.size(); t++)
     {

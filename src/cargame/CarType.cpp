@@ -1,8 +1,9 @@
 #include "CarType.h"
 #include "Game.h"
+#include "ModuleManager.hpp"
 
 CarType::CarType(string textureName)
-    : GameplayObject("cgcore") //todo: replace core with modulemanager
+    : GameplayObject(ModuleManager::instance->current())
     , carTexture(textureName)
     , defaultRarity(2)
     , maxHealth(1)

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "FileUtil.hpp"
 #include "DebugLogger.hpp"
+#include "ModuleManager.hpp"
 
 CGAPI GameDisplay* GameDisplay::instance = NULL;
 String GameDisplay::loadingStr;
@@ -34,8 +35,10 @@ void GameDisplay::clearTextures()
 
 void GameDisplay::reload()
 {
+    ModuleManager::instance->setCurrent("api");
+
     DebugLogger::log("Reloading ResourceManager", "GameDisplay");
-    GameDisplay::loadingStr = "Reloading resources...";
+    GameDisplay::loadingStr = "Loading textures...";
 
     if(FileUtil::getFileType("res") == FileUtil::NOTEXISTING)
     {
@@ -45,6 +48,7 @@ void GameDisplay::reload()
 
     clearTextures();
 
+    GameDisplay::loadingStr = "Loading textures... Unknown texture";
     DebugLogger::logDbg("Generating unknown texture", "GameDisplay");
     if(unknownTexture.getSize() == Vector2u(0,0))
     {
@@ -71,6 +75,7 @@ void GameDisplay::reload()
     }
 
     DebugLogger::log("Loading textures for each module", "GameDisplay", "INFO");
+    GameDisplay::loadingStr = "Loading textures... Cars";
     for(auto& car: Game::instance->gpo.carTypes.arr())
     {
         CarType* type = car.second;
@@ -80,6 +85,7 @@ void GameDisplay::reload()
             DebugLogger::log("Unknown car type " + car.first.baseId.toString() + ", cannot load textures.", "GameDisplay", "ERROR");
     }
 
+    GameDisplay::loadingStr = "Loading textures... Maps";
     if(Game::instance->gpo.levels.count() > 0)
     {
         for(auto ld : Game::instance->gpo.levels.arr())
@@ -91,6 +97,7 @@ void GameDisplay::reload()
     }
 
     DebugLogger::logDbg("Adding power icons", "GameDisplay");
+    GameDisplay::loadingStr = "Loading textures... Powers";
     for(auto it = Game::instance->gpo.powers.arr().begin(); it != Game::instance->gpo.powers.arr().end(); it++)
     {
         DebugLogger::logDbg("Adding textures for power: " + it->second->getName());
@@ -98,6 +105,7 @@ void GameDisplay::reload()
         it->second->onTextureLoad();
     }
 
+    GameDisplay::loadingStr = "Loading textures... Stat & GUI";
     DebugLogger::logDbg("Adding stat and GUI textures", "GameDisplay");
     addTexture("stat/coin");
     addTexture("stat/high");
@@ -107,14 +115,16 @@ void GameDisplay::reload()
     addTexture("gui/start");
     addTexture("gui/settings");
     addTexture("gui/quit");
+
+    ModuleManager::instance->setCurrent("");
 }
 
 void GameDisplay::addTexture(string name, string modName, bool repeated, bool smooth)
 {
-    //cout << "GameDisplay: Adding texture '" << name << "'..." << endl;
-
     DebugLogger::logDbg("Adding texture: " + modName + "$" + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
     sf::Texture tx;
+    ModuleManager::instance->setCurrent(modName);
+
 	bool load = tx.loadFromFile("res/" + modName + "/textures/" + name + ".png");
 	if(!load)
     {
@@ -244,7 +254,13 @@ void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
         wnd->draw(text);
 
         text.setFillColor(sf::Color::Yellow);
-        text.setString(action);
+
+        std::string mod = "api";
+        if(ModuleManager::instance)
+            mod = ModuleManager::instance->current();
+
+        text.setCharacterSize(20);
+        text.setString(mod + " $ " + action);
         text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
         text.setPosition((sf::Vector2f(wnd->getSize() / (unsigned int)2)) + sf::Vector2f(0.f, 100.f));
         wnd->draw(text);

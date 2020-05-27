@@ -30,7 +30,7 @@ extern "C"
     CGAPI void cgGameInit();
 
     // Called when module is added to Game, before anything starts.
-    CGAPI void cgLoad(GameLoader* loader);
+    CGAPI void cgLoad();
 
     // Called when Game is closed.
     CGAPI void cgCleanup();
