@@ -30,6 +30,7 @@ int GPORegistry<IdT, ObjT>::add(IdT id, ObjT* obj, size_t numeric)
 {
     if(numeric != 0)
     {
+        // todo: optimize it
         // Check if object already exists, if so, return error.
         for(auto it = objects.begin(); it != objects.end(); it++)
         {

@@ -59,6 +59,7 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 
 		// Reset game state
 		this->mainTickCount = 0; //Reset ticking
+		this->damageMultiplier = 0.f; //to not confuse user with strange values on F3 debug
 		this->pause(true); //Pause game (to not spawn cars!)
 		this->debug = stoi(settings.getSetting("debug", "global")) || argmap->a_debug; //Disable/enable debug mode
 		this->fullscreen = true;

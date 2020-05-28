@@ -32,8 +32,9 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 * [api] Moved specific code (non engine) to /core, and the rest to /cargame.
 * [api] Added GameplayObjectManager and moved here all registries.
 * [api] Added PlayerDataManager to store player save data.
+* [api] Finally finished "modding" support! You can place your "module" in /mods folder to add some your content to game. See dll_api.txt for details.
 * [command line] Added startup script for Unix.
-* [cmake] Separated CG into ROOT (main.cpp >> cg.exe), API (cargame/* >> cg.dll) and CORE (core/* >> mods/cgcore.dll).
+* [cmake] Separated CG into ROOT (main.cpp >> cg.exe), API (cargame/* >> libcgapi.dll) and CORE (core/* >> mods/cgcore.dll).
 * [fix] Fixed PowerBall (balls not disappearing after started new game).
 * [technical] Added function to specifying log level (e.g. info, error).
 * [technical] Changed log format.
@@ -47,7 +48,6 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 * [technical] Added some displayErrors instead of undefined behaviours. e.g if no cars were registered.
 * [technical] Fixed crash when no map was found.
 * [technical] When game fails to load, the info is displayed in in-game console (not in loading screen).
-
 # BETA 0.2
 Note: Since this version CarGame pack does not include 32-bit Windows in published binaries.
 

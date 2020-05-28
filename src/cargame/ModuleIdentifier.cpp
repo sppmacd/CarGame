@@ -53,5 +53,5 @@ bool operator!=(const ModuleIdentifier mod1, const ModuleIdentifier mod2)
 
 bool operator<(const ModuleIdentifier mod1, const ModuleIdentifier mod2)
 {
-    return mod1.getModule() < mod2.getModule() || mod1.getObjectId() < mod2.getObjectId();
+    return mod1.toString() < mod2.toString();
 }
