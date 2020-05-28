@@ -417,7 +417,7 @@ void Game::displayError(string text, string code)
     displayGui(new GuiError(   "AN ERROR OCCURRED\n"
                             "\n'"
                             + errStr + "'\n\n"
-                            "See https://github.com/sppmacd/CarGame/docs/error_codes.txt\n"
+                            "See https://github.com/sppmacd/CarGame/docs/error_codes.md\n"
                             "Try checking log for details or start game in Debug Mode (--debug)\n"
                             "Error code: " + code + "\n"
                             ":: Press Esc to close game ::"
