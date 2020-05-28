@@ -5,21 +5,7 @@
 {L} - OS-dependent dynamic library extension (.dll, .so, ...)
 
 
-   /----------------------------\           /--------------------------------\
-   |  ${CG_ARCH_PREFIX}/cg.exe  |>> loads >>|  ${CG_ARCH_PREFIX}/mods/*.{L}  |
-   \----------------------------/           \--------------------------------/
-                  V                                           V
- /----------------------------------\                         V
- |  ${CG_ARCH_PREFIX}/libcgapi.{L}  |<<<<<<<<<<<<<<<<<<<<<<<<</
- \----------------------------------/
-                  V
-    /---------------------------\
-    |  ${CG_ARCH_PREFIX}/*.{L}  |
-    \---------------------------/
-	              V
-      /-----------------------\
-      |  System Dependencies  |
-      \-----------------------/		
+![ROOT >> (CORE >> runtime >> system deps) <> mods <<loads>> ROOT](https://raw.githubusercontent.com/sppmacd/CarGame/master/docs/dependency_graph.png "Dependency Graph")	
  
  
 ## Procedures
