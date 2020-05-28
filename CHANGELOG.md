@@ -6,23 +6,26 @@ levelAcceleration - defined by map car spawn delay (in ticks, on the start of th
 # Changelog labels & Github labels
 
 	----------------------------------------------------------------------------------
-	Label            Corresponding            Description
+	Label            Corresponding          Description
 	in changelog     Github issue label        
 	----------------------------------------------------------------------------------
-	[{os}]			 [{os}]					  Issue related to specific OS.
-	[api]            [api]                    Issue that relates to CG 0.3 API.
-	[balance]        [balance]                Change of single gameplay value, e.g.
-											  game speed.
-	[command line]   [command line]           Change of command line arguments or
-											  startup scripts
-	[cmake]          [cmake]                  Issue releates to CMake build system
-	[fix]            [bug]                    Something is/was not working
-	[launcher]       [launcher]               Every issue that relates to launcher.
-	[performance]    [performance]            Issue that relates to game performance.
-	[res]			 [res]					  Issue related to resources (e.g. textures)
-	[technical]      [technical]              Issue that is not directly related to
-											  gameplay and does not affect it.
-	No tag           [enhancement]            Every other issue.
+	[{os}]			[{os}]					Issue related to specific OS.
+	[api]           [api]                   Issue that relates to CG 0.3 API.
+	[balance]       [balance]               Change of single gameplay value, e.g.
+											game speed.
+	[command line]  [command line]          Change of command line arguments or
+				    						startup scripts
+	[cmake]         [cmake]                 Issue releates to CMake build system
+	[docs]			[docs]					Issues related to documentation.
+	[fix]           [bug]                   Something is/was not working as expected
+	[launcher]      [launcher]              Every issue that relates to launcher.
+	[meta]			None                    Issues related to CHANGELOG, README or 
+											other metadata.
+	[performance]   [performance]           Issue that relates to game performance.
+	[res]			[res]					Issue related to resources (e.g. textures)
+	[technical]     [technical]             Issue that is not directly related to
+											gameplay and does not affect it.
+	No tag          [enhancement]           Every other issue.
 	----------------------------------------------------------------------------------
 
 # BETA 0.3 (Planned)
