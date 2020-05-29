@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "ArgMap.hpp"
+
 #include "Game.h"
 #include "GameDisplay.h"
 #include "GameLoader.hpp"

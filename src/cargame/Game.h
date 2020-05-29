@@ -21,7 +21,6 @@
 #include "GameSound.hpp"
 
 #include "SettingsManager.hpp"
-#include "ArgMap.hpp"
 
 #include <HackerMan/Util/Main.hpp>
 #include <CG/CG.h>
@@ -40,6 +39,8 @@
 using namespace std;
 using namespace sf;
 using namespace cg;
+
+class ArgMap;
 
 class Game: public GuiHandler
 {
