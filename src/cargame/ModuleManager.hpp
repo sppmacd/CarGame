@@ -44,6 +44,9 @@ public:
     // and GameplayObjects to determine registrant module.
     std::string current();
 
+    // ...
+    size_t getModuleCount();
+
     void setCurrent(std::string mod);
 
     CGAPI static ModuleManager* instance;

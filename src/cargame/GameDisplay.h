@@ -38,7 +38,7 @@ public:
     void drawEffect();
 
 	// Reload GameDisplay: textures,...
-    void reload();
+    void reload(bool _noResMode = false);
 
 	// Delete all textures, called before reloading.
     void clearTextures();
@@ -158,6 +158,10 @@ private:
 	sf::Vector2u wndSizeDefault;
 
 	bool error;
+
+	// No resources mode; every texture is replaced by unknown texture.
+	// Cannot be unset when called from Settings.
+	bool noResMode;
 
 	// Animation tick of point stat.
 	int pointAnimTick;

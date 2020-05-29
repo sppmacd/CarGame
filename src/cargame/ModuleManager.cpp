@@ -100,6 +100,11 @@ std::string ModuleManager::current()
     return currentModule;
 }
 
+size_t ModuleManager::getModuleCount()
+{
+    return modules.size();
+}
+
 void ModuleManager::setCurrent(std::string mod)
 {
     currentModule = mod;

@@ -1,7 +1,6 @@
 #ifndef GAMELOADER_HPP
 #define GAMELOADER_HPP
 
-#include "ArgMap.hpp"
 #include "Game.h"
 #include "GameDisplay.h"
 #include "ModuleManager.hpp"
@@ -17,7 +16,7 @@ public:
 	Game* game;
 	GameDisplay* disp;
 	bool loaded;
-	ArgMap argmap;
+	ArgMap* argmap;
 	sf::RenderWindow* wnd;
 	ModuleManager* modManager;
 

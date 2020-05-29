@@ -33,20 +33,15 @@ void GameDisplay::clearTextures()
     texturesByName.clear();
 }
 
-void GameDisplay::reload()
+void GameDisplay::reload(bool _noResMode)
 {
     ModuleManager::instance->setCurrent("api");
 
     DebugLogger::log("Reloading ResourceManager", "GameDisplay");
     GameDisplay::loadingStr = "Loading textures...";
 
-    if(FileUtil::getFileType("res") == FileUtil::NOTEXISTING)
-    {
-        DebugLogger::log("Resource folder not found", "GameDisplay", "FATAL");
-        throw runtime_error("No resource folder found. Try reinstalling the game.\nD01");
-    }
-
     clearTextures();
+    noResMode |= _noResMode; //cannot unset when once set by command line
 
     GameDisplay::loadingStr = "Loading textures... Unknown texture";
     DebugLogger::logDbg("Generating unknown texture", "GameDisplay");
@@ -74,47 +69,56 @@ void GameDisplay::reload()
         unknownTexture.setRepeated(true);
     }
 
-    DebugLogger::log("Loading textures for each module", "GameDisplay", "INFO");
-    GameDisplay::loadingStr = "Loading textures... Cars";
-    for(auto& car: Game::instance->gpo.carTypes.arr())
+    if(!noResMode)
     {
-        CarType* type = car.second;
-        if(type != NULL)
-            addTexture("car/" + type->getTextureName(), type->getModuleName());
-        else
-            DebugLogger::log("Unknown car type " + car.first.baseId.toString() + ", cannot load textures.", "GameDisplay", "ERROR");
-    }
-
-    GameDisplay::loadingStr = "Loading textures... Maps";
-    if(Game::instance->gpo.levels.count() > 0)
-    {
-        for(auto ld : Game::instance->gpo.levels.arr())
+        if(FileUtil::getFileType("res") == FileUtil::NOTEXISTING)
         {
-            LevelData* data = ld.second;
-            addTexture("bg/" + data->getTextureName(), data->getModuleName(), true, true);
-            addTexture("map/" + data->getTextureName(), data->getModuleName());
+            DebugLogger::log("Resource folder not found", "GameDisplay", "FATAL");
+            throw runtime_error("No resource folder found. Try reinstalling the game.\nD01");
         }
-    }
 
-    DebugLogger::logDbg("Adding power icons", "GameDisplay");
-    GameDisplay::loadingStr = "Loading textures... Powers";
-    for(auto it = Game::instance->gpo.powers.arr().begin(); it != Game::instance->gpo.powers.arr().end(); it++)
-    {
-        DebugLogger::logDbg("Adding textures for power: " + it->second->getName());
-        addTexture("power/" + it->first.baseId.getObjectId(), it->second->getModuleName());
-        it->second->onTextureLoad();
-    }
+        DebugLogger::log("Loading textures for each module", "GameDisplay", "INFO");
+        GameDisplay::loadingStr = "Loading textures... Cars";
+        for(auto& car: Game::instance->gpo.carTypes.arr())
+        {
+            CarType* type = car.second;
+            if(type != NULL)
+                addTexture("car/" + type->getTextureName(), type->getModuleName());
+            else
+                DebugLogger::log("Unknown car type " + car.first.baseId.toString() + ", cannot load textures.", "GameDisplay", "ERROR");
+        }
 
-    GameDisplay::loadingStr = "Loading textures... Stat & GUI";
-    DebugLogger::logDbg("Adding stat and GUI textures", "GameDisplay");
-    addTexture("stat/coin");
-    addTexture("stat/high");
-    addTexture("stat/score");
-    addTexture("stat/mpl");
-    addTexture("stat/points_mpl");
-    addTexture("gui/start");
-    addTexture("gui/settings");
-    addTexture("gui/quit");
+        GameDisplay::loadingStr = "Loading textures... Maps";
+        if(Game::instance->gpo.levels.count() > 0)
+        {
+            for(auto ld : Game::instance->gpo.levels.arr())
+            {
+                LevelData* data = ld.second;
+                addTexture("bg/" + data->getTextureName(), data->getModuleName(), true, true);
+                addTexture("map/" + data->getTextureName(), data->getModuleName());
+            }
+        }
+
+        DebugLogger::logDbg("Adding power icons", "GameDisplay");
+        GameDisplay::loadingStr = "Loading textures... Powers";
+        for(auto it = Game::instance->gpo.powers.arr().begin(); it != Game::instance->gpo.powers.arr().end(); it++)
+        {
+            DebugLogger::logDbg("Adding textures for power: " + it->second->getName());
+            addTexture("power/" + it->first.baseId.getObjectId(), it->second->getModuleName());
+            it->second->onTextureLoad();
+        }
+
+        GameDisplay::loadingStr = "Loading textures... Stat & GUI";
+        DebugLogger::logDbg("Adding stat and GUI textures", "GameDisplay");
+        addTexture("stat/coin");
+        addTexture("stat/high");
+        addTexture("stat/score");
+        addTexture("stat/mpl");
+        addTexture("stat/points_mpl");
+        addTexture("gui/start");
+        addTexture("gui/settings");
+        addTexture("gui/quit");
+    }
 
     ModuleManager::instance->setCurrent("");
 }

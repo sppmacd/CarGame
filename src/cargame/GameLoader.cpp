@@ -60,9 +60,11 @@ void GameLoader::setDefaultArgs(std::map<std::string, std::string>& args)
 void GameLoader::applyArgs(std::map<std::string, std::string>& args)
 {
     // convert args to values and save in argmap
-    argmap.a_debug = (args.count("--debug") == 1);
-    argmap.a_help = (args.count("--help") == 1);
-    argmap.a_message = args["--message"];
+    argmap->a_debug = (args.count("--debug") == 1);
+    argmap->a_help = (args.count("--help") == 1);
+    argmap->a_info = (args.count("--info") == 1);
+    argmap->a_message = args["--message"];
+    argmap->a_no_resources =  (args.count("--no-resources") == 1);
 }
 
 void GameLoader::loadGame()
@@ -72,21 +74,36 @@ void GameLoader::loadGame()
     {
         sf::Clock loadTime;
 
-        DebugLogger::log("" + argmap.a_message + " [" + std::string(CG_VERSION) + "]", "GameLoader");
+        DebugLogger::log("" + argmap->a_message + " [" + std::string(CG_VERSION) + "]", "GameLoader");
         DebugLogger::log("Loading game engine...", "GameLoader");
 
         // display help if specified in cmdline
-        if(argmap.a_help)
+        if(argmap->a_help)
         {
-            GameDisplay::consoleStr =
+            GameDisplay::consoleStr = "\n"
             "CG " + string(CG_VERSION) + "\n"
             "Command Line Usage:\n"
-            "--debug     Starts Car Game in Debug Mode (can be changed in Settings)\n"
-            "--message   Sets a custom message displayed in CG log (really only to test\n"
-            "command line args)\n"
-            "--help      Shows this message\n"
+            "--debug         Starts Car Game in Debug Mode (can be changed in Settings)\n"
+            "--help          Shows this message\n"
+            "--info          Displays game info\n"
+            "--message       Sets a custom message displayed in CG log\n"
+            "--no-resources  Skips GameDisplay and GameSound resource loading\n"
             "Press Esc to close game...";
-            DebugLogger::log(GameDisplay::consoleStr, "main");
+            DebugLogger::log(GameDisplay::consoleStr, "GameLoader");
+            return;
+        }
+        if(argmap->a_info)
+        {
+            GameDisplay::consoleStr = "\n"
+            "CG " + string(CG_VERSION) + "\n"
+            "Debug Information\n"
+            "* api-version=" + string("1") + "\n"
+            "* arch-prefix='" + string(CG_ARCH_PREFIX) + "'\n"
+            "* modules-loaded=" + to_string(modManager->getModuleCount()) + "\n"
+            "* profile-version=" + string("5") + "\n"
+            "* version-signature='" + string(CG_VERSION_SIG) + "'\n"
+            "Press Esc to close game...";
+            DebugLogger::log(GameDisplay::consoleStr, "GameLoader");
             return;
         }
 
@@ -96,13 +113,13 @@ void GameLoader::loadGame()
         disp = new GameDisplay(wnd);
         GameDisplay::loadingStr = "Loading game engine...";
         DebugLogger::logDbg("Creating Game");
-        game = new Game(&argmap);
+        game = new Game(argmap);
         registerEventHandlers();
 
         if(!game->updateFound)
         {
-            DebugLogger::logDbg("Triggering full game reload");
-            disp->reload(); // moved from constructor to display loading screen.
+            DebugLogger::logDbg("Triggering full game reload", "GameLoader");
+            disp->reload(argmap->a_no_resources); // moved from constructor to display loading screen.
             game->sound.reload();
         }
 
@@ -123,6 +140,8 @@ int GameLoader::main(int argc, char* argv[])
 {
     // parse args
     std::map<std::string, std::string> args;
+
+    argmap = new ArgMap;
 
     setDefaultArgs(args);
     parseArgs(args, argc, argv);
@@ -301,12 +320,6 @@ int GameLoader::main(int argc, char* argv[])
     }
 
     DebugLogger::log("Unloading resources...", "GameLoader");
-    delete disp;
-    delete game;
-
-    wnd->close();
-    delete wnd;
-
     cleanup();
 
     return i;
@@ -342,6 +355,16 @@ void GameLoader::consoleColor(std::string level)
     std::dec(std::cout);
 }
 
+void GameLoader::cleanup()
+{
+    delete disp;
+    delete game;
+
+    wnd->close();
+    delete wnd;
+    delete argmap;
+}
+
 #define EMPTY {}
 
 void GameLoader::preInit()                  EMPTY
@@ -350,4 +373,3 @@ void GameLoader::startLoadingThread()       EMPTY
 void GameLoader::registerEventHandlers()    EMPTY
 void GameLoader::checkEvents()              EMPTY
 bool GameLoader::loadingCheckEvents()       EMPTY
-void GameLoader::cleanup()                  EMPTY
