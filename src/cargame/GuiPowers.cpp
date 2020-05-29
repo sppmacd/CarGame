@@ -20,7 +20,6 @@ void GuiPowers::onLoad()
     for(auto s: Game::instance->gpo.powers.arr())
     {
         i++;
-
         // powers > 100 -> functional powers (e.g anti-powers)
         PowerData* data = new PowerData;
         data->power = s.second;
@@ -165,6 +164,7 @@ void GuiPowers::onDraw(sf::RenderWindow& wnd)
 }
 void GuiPowers::onClose()
 {
+    Game::instance->savePlayerData();
     for(size_t s = 0; s < equippedPowerIds.size(); s++)
     {
         if(equippedPowerIds[s].powerId != "api$no_power")
@@ -205,7 +205,6 @@ void GuiPowers::onClick(int button)
                 }
 
                 cooldown = 30;
-                game->savePlayerData();
             }
         }
     }
@@ -218,7 +217,6 @@ void GuiPowers::onClick(int button)
             {
                 equippedPowerIds[s].powerId = powerId;
                 game->playerData.equipment[s] = powerId;
-                game->savePlayerData();
                 equippedPowerIds[s].bImg = ButtonImage(this, powerId.getModule() + "$power/" + powerId.getObjectId(), Vector2f(40.f, 40.f), Vector2f(), "", equippedPowerIds[s].bImg.getID());
                 equippedPowerIds[s].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + s * 50.f, powerData.size() * 50.f + 300.f));
                 break;
@@ -233,7 +231,6 @@ void GuiPowers::onClick(int button)
         equippedPowerIds[slotId].bImg.setPosition(Vector2f(game->getSize().x / 2 - 45.f + slotId * 50.f, powerData.size() * 50.f + 300.f));
         equippedPowerIds[slotId].bImg.setEnabled(false);
         game->playerData.equipment[slotId] = "api$no_power";
-        game->savePlayerData();
     }
 }
 void GuiPowers::onMouseMove(sf::Vector2f vec)
