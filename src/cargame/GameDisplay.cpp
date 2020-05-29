@@ -270,12 +270,15 @@ void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
             Sprite sprite(GameDisplay::instance->logoTexture);
             sprite.setOrigin(Vector2f(GameDisplay::instance->logoTexture.getSize() / 2U));
             sprite.setPosition(wnd->getSize().x / 2, wnd->getSize().y / 4);
+            sprite.setScale(0.75f, 0.75f);
             wnd->draw(sprite);
         }
         else
         {
-            if(!GameDisplay::instance->error && !GameDisplay::instance->logoTexture.loadFromFile("res/api/textures/gui/logo.png"))
+            if(!GameDisplay::instance->error && !GameDisplay::instance->logoTexture.loadFromFile("res/api/textures/gui/logo.png", sf::IntRect(0, 0, 512, 256)))
+            {
                 GameDisplay::instance->error = true;
+            }
         }
     }
 }

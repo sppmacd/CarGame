@@ -6,20 +6,23 @@
 
 void GameDisplay::drawStat(int x, int y, String texture, long val, int animTick)
 {
-    sf::Sprite s1(this->getTexture("api$stat/" + texture));
-    s1.setPosition(x, y + 10);
+    Texture& _texture = this->getTexture("api$stat/" + texture);
+    sf::Sprite s1(_texture);
+    s1.setPosition(x, y);
+    s1.setScale(64.f / _texture.getSize().x, 64.f / _texture.getSize().y);
+    s1.setOrigin(_texture.getSize().x /2.f, _texture.getSize().y /2.f);
     this->renderWnd->draw(s1);
 
-    sf::Text t1 = this->drawString(to_string(val), 45, sf::Vector2f(x + 50, y), sf::Text::Bold);
+    sf::Text t1 = this->drawString(to_string(val), 45, sf::Vector2f(x + 48.f, y), sf::Text::Bold);
     t1.setFillColor(sf::Color::Cyan);
     t1.setOutlineColor(sf::Color::Black);
     t1.setOutlineThickness(1.f);
     t1.setOrigin(t1.getLocalBounds().width / 2.f, t1.getLocalBounds().height / 2.f);
-    t1.move(t1.getLocalBounds().width / 2.f, t1.getLocalBounds().height / 2.f);
+    t1.move(t1.getLocalBounds().width / 2.f, -t1.getLocalBounds().height / 2.f);
     t1.setScale(animTick / 30.f + 1.f, animTick / 30.f + 1.f);
     this->renderWnd->draw(t1);
 
-    if(sf::IntRect(x, y, 50, 50).contains(Game::instance->paused() ? sf::Mouse::getPosition(*renderWnd) : mousePos()) || Game::instance->playerData.isNewPlayer)
+    if(sf::IntRect(x - 32, y - 32, 64, 64).contains(Game::instance->paused() ? sf::Mouse::getPosition(*renderWnd) : mousePos()) || Game::instance->playerData.isNewPlayer)
     {
         t1.move(0.f, 30.f);
         t1.setOrigin(0.f, 0.f);
@@ -268,16 +271,16 @@ void GameDisplay::drawGui()
             this->renderWnd->draw(t1);
         }
 
-        drawStat(250, 32, "score", game->getScore(), pointAnimTick);
+        drawStat(260, 48, "score", game->getScore(), pointAnimTick);
         if(pointAnimTick > 0)
             pointAnimTick--;
 
-        drawStat(450, 32, "high", game->playerData.highScore);
-        drawStat(650, 32, "mpl", game->playerData.coinMpl);
-        drawStat(850, 32, "points_mpl", game->playerData.pointsToNewMpl);
+        drawStat(470, 48, "high", game->playerData.highScore);
+        drawStat(680, 48, "mpl", game->playerData.coinMpl);
+        drawStat(890, 48, "points_mpl", game->playerData.pointsToNewMpl);
     }
 
-    drawStat(50, 32, "coin", game->playerData.playerCoins);
+    drawStat(50, 48, "coin", game->playerData.playerCoins);
 	game->drawGui(false);
 
     if(game->debug) drawDebugInfo(this->renderWnd);
