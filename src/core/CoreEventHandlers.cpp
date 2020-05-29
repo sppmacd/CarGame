@@ -7,7 +7,7 @@
 
 bool CoreEventHandlers::onLevelLoadingStart(GameEvent& event, Game* game)
 {
-    game->setDamageMultiplier(game->playerData.abilities.calculateValue(CoreLoader::Abilities::DAMAGE));
+    game->setDamageMultiplier(game->playerData.abilities.calculateValue("damage"));
     return true;
 }
 
@@ -116,5 +116,25 @@ bool CoreEventHandlers::onCarDamaged(GameEvent& event, Game* game)
     // handle PowerRamp
     Car* car = event.car.car;
     DebugLogger::logDbg("Car damaged: a=" + to_string((size_t)car) + ", pos=" + to_string(car->pos) + ", type=" + car->typeId.toString(), "EventHandlers", "EVENT");
+    return true;
+}
+
+bool CoreEventHandlers::onPowerStarted(GameEvent& event, Game* game)
+{
+    Power* power = event.power.handle;
+    if(!power->isAntiPower())
+    {
+        (*event.power.tickTime) *= game->playerData.abilities.calculateValue("power_time");
+    }
+    return true;
+}
+
+bool CoreEventHandlers::onPowerStopped(GameEvent& event, Game* game)
+{
+    Power* power = event.power.handle;
+    if(!power->isAntiPower())
+    {
+        (*event.power.cooldownTime) /= game->playerData.abilities.calculateValue("power_cooldown_time");
+    }
     return true;
 }

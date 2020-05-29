@@ -2,6 +2,7 @@
 
 #include <CG/CG.h>
 #include "AbilityBase.hpp"
+#include <cargame/ModuleIdentifier.hpp>
 
 using namespace cg;
 
@@ -13,7 +14,7 @@ class GuiShop : public Gui
         Button bUpgrade;
         int cost;
         double value;
-        int id;
+        ModuleIdentifier id;
         int level;
     };
     vector<AbilityData*> abilityData;

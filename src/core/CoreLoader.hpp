@@ -7,16 +7,6 @@
 
 namespace CoreLoader
 {
-    namespace Abilities
-    {
-        enum
-        {
-            POWER_COOLDOWN_TIME     = 0,
-            POWER_TIME              = 1,
-            DAMAGE                  = 2
-        };
-    }
-
     void registerLevels(Game* game);
     void registerCars(Game* game);
     void registerPowers(Game* game);

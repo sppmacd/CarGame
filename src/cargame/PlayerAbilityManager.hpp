@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include "AbilityBase.hpp"
+#include <cargame/ModuleIdentifier.hpp>
 
 class Game;
 
@@ -14,16 +15,16 @@ public:
     virtual ~PlayerAbilityManager();
 
     // Upgrades ability and removes coins. Returns true if player has PAID for ability.
-    bool upgradeAbility(Game* game, int ability);
+    bool upgradeAbility(Game* game, ModuleIdentifier ability);
 
     // Get level of ability.
-    unsigned int getAbilityLevel(int ability);
+    unsigned int getAbilityLevel(ModuleIdentifier ability);
 
     // Calculate ability value from level. Set no level to use current level. Equation: baseValue*level^2
-    double calculateValue(int ability, int level = -1);
+    double calculateValue(ModuleIdentifier ability, int level = -1);
 
     // Calculate cost of specified ability level. Set no level to use next level. Equation: baseCost*level^2 (same as powers)
-    unsigned int calculateCost(int ability, int level = -1);
+    unsigned int calculateCost(ModuleIdentifier ability, int level = -1);
 
     // Write ability levels to profile.
     void write(HMDataMap& map);
@@ -35,7 +36,7 @@ public:
     void clear();
 
     // Register ability - add it to map. It will be now loaded from profile. Ability must be created dynamically - it's automatically deleted.
-    void registerAbility(int id, AbilityBase* base);
+    void registerAbility(ModuleIdentifier id, AbilityBase* base);
 
     // Register all default abilities.
     void init();
@@ -43,6 +44,6 @@ public:
 private:
     friend class GuiShop;
 
-    std::map<int, AbilityBase*> abilities; //Registered abilities.
-    std::map<int, unsigned int> abilityLevels; //Ability values.
+    std::map<ModuleIdentifier, AbilityBase*> abilities; //Registered abilities.
+    std::map<ModuleIdentifier, unsigned int> abilityLevels; //Ability values.
 };

@@ -181,12 +181,14 @@ namespace CoreLoader
         game->eventHandlerInst.registerGameEvent(GameEvent::CarSpawning, CoreEventHandlers::onCarSpawning);
         game->eventHandlerInst.registerGameEvent(GameEvent::CarDamaged, CoreEventHandlers::onCarDamaged);
         game->eventHandlerInst.registerGameEvent(GameEvent::LevelLoadingStart, CoreEventHandlers::onLevelLoadingStart);
+        game->eventHandlerInst.registerGameEvent(GameEvent::PowerStarted, CoreEventHandlers::onPowerStarted);
+        game->eventHandlerInst.registerGameEvent(GameEvent::PowerStopped, CoreEventHandlers::onPowerStopped);
     }
     void registerAbilities(PlayerAbilityManager* ab)
     {
-        ab->registerAbility(Abilities::POWER_COOLDOWN_TIME, new AbilityBaseLinear(2000, 0.3, 1.0, "power_cooldown_time"));
-        ab->registerAbility(Abilities::POWER_TIME, new AbilityBaseLinear(4000, 0.25, 1.0, "power_time"));
-        ab->registerAbility(Abilities::DAMAGE, new AbilityBaseLinear(2500, 0.25, 1.0, "damage"));
+        ab->registerAbility("power_cooldown_time", new AbilityBaseLinear(2000, 0.3, 1.0, "power_cooldown_time"));
+        ab->registerAbility("power_time", new AbilityBaseLinear(4000, 0.25, 1.0, "power_time"));
+        ab->registerAbility("damage", new AbilityBaseLinear(2500, 0.25, 1.0, "damage"));
     }
 }
 

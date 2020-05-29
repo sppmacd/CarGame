@@ -16,7 +16,7 @@ void GuiShop::onLoad()
         bPowers.setBlinking(true);
 
     int id = 0;
-    for(pair<const int, AbilityBase*>& base: Game::instance->playerData.abilities.abilities)
+    for(pair<const ModuleIdentifier, AbilityBase*>& base: Game::instance->playerData.abilities.abilities)
     {
         GuiShop::AbilityData* data = new GuiShop::AbilityData{*base.second};
         data->id = base.first;
