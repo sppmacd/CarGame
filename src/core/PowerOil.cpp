@@ -24,21 +24,19 @@ bool PowerOil::onPowerStart()
 void PowerOil::onPowerTick(int powerTick)
 {
     int size = currentLevel * 45;
-	if(powerTick % 3 == 0)
-	{
-		for(Car* c : Game::instance->cars)
-		{
-			if(abs(c->getScreenPos().x - pos.x) < size)
-			{
-			    if(lane == 0 && c->getLine() < 2)
-                    c->makeDestroy(0.2 * currentLevel + 0.3);
-                else if(lane == 1 && (c->getLine() == 1 || (powerTick % 6 == 0)))
-                    c->makeDestroy(0.2 * currentLevel + 0.3);
-                else if(lane == 2 && c->getLine() > 0)
-                    c->makeDestroy(0.2 * currentLevel + 0.3);
-			}
-		}
-	}
+    bool b = powerTick % 6 == 0;
+    for(Car* c : Game::instance->cars)
+    {
+        if(abs(c->getScreenPos().x - pos.x) < size)
+        {
+            if(b && lane == 0 && c->getLine() < 2)
+                c->makeDestroy(0.09 * currentLevel + 0.09);
+            else if(lane == 1 && ((b && c->getLine() == 1) || (powerTick % 8 == 0)))
+                c->makeDestroy(0.09 * currentLevel + 0.09);
+            else if(b && lane == 2 && c->getLine() > 0)
+                c->makeDestroy(0.09 * currentLevel + 0.09);
+        }
+    }
 }
 
 void PowerOil::drawPower(RenderWindow * wnd)
