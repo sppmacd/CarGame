@@ -179,7 +179,7 @@ void Game::tickNormalGame()
     {
         sound.playSound("point_mpl", 100.f);
         playerData.coinMpl++;
-        playerData.pointsToNewMpl = playerData.coinMpl * 200;
+        playerData.pointsToNewMpl = playerData.coinMpl * 250;
     }
 
     if(gameOver && !paused())
