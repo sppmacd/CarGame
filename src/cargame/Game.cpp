@@ -277,7 +277,7 @@ void Game::setupGame()
     //this->pause(false);
     //this->closeGui();
     this->currentPower = 0;
-	this->carCreatingSpeed = this->level->getCarCreationSpeed();
+	this->carCreatingSpeed = this->level->getCarCreationSpeed() / 1.1f;
 	this->newRecord = false;
     this->powerTime = 0;
 	this->powerCooldown = 0;

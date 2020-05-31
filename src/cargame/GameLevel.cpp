@@ -194,7 +194,7 @@ void Game::newTick()
 
     if(!paused())
     {
-        gameSpeed += level->getAcceleration() / 10000;
+        gameSpeed += level->getAcceleration() / 8000.f;
         ++tickCount;
     }
 

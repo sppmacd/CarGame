@@ -37,7 +37,7 @@ void GuiGameOver::onDraw(sf::RenderWindow& wnd)
     Game* game = Game::instance;
 
     sf::Text gameover = GameDisplay::instance->drawCenteredString(game->translation.get("gui.gameover.title"), 100, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2 - 250), sf::Text::Italic);
-    gameover.setFillColor(sf::Color(100, 0, 0));
+    gameover.setFillColor(sf::Color(200, 0, 0));
     wnd.draw(gameover);
 
     sf::Text sc = GameDisplay::instance->drawCenteredString(game->translation.get("gui.gameover.score", {to_string(game->lastTickScore)}), 40, sf::Vector2f(GameDisplay::instance->getSize().x / 2, GameDisplay::instance->getSize().y / 2 - 70));
