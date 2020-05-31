@@ -85,7 +85,7 @@ void Car::makeDestroy(float count)
     GameEvent event;
     event.type = GameEvent::DamageDealenCar;
     event.carDamage.car = this;
-    event.carDamage.damage = count;
+    event.carDamage.damage = &count;
     bool dmg = Game::instance->runGameEventHandler(event);
     if(!dmg)
         return;

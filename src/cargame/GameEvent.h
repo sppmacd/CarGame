@@ -86,7 +86,7 @@ public:
 
 	// Structure used when damage is dealed to car. You can modify the damage here. In core, used e.g.
 	// in Ability.
-	struct CarDamageEvent { Car* car; float& damage; };
+	struct CarDamageEvent { Car* car; float* damage; };
 
     // It's every event that relates to level (e.g. event loading)
     struct LevelEvent { LevelData* level; };
