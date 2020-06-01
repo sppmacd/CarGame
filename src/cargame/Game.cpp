@@ -71,8 +71,10 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		playerData.isNewPlayer = false;
 		playerData.tutorialStep = 0;
 		DebugLogger::logDbg("Starting power setup", "Game");
+        this->powerTime = 0;
+        this->maxPowerTime = 0;
         this->powerCooldown = 0;
-		this->powerTime = 0;
+        this->maxPowerCooldown = 0;
 		this->isPowerUsed = false;
 		this->powerHandle = NULL;
 		this->currentPower = 0;
@@ -280,7 +282,9 @@ void Game::setupGame()
 	this->carCreatingSpeed = this->level->getCarCreationSpeed() / 1.1f;
 	this->newRecord = false;
     this->powerTime = 0;
+    this->maxPowerTime = 0;
 	this->powerCooldown = 0;
+	this->maxPowerCooldown = 0;
 
 	// Initialize powers
 	for(int i = 0; i < usablePowerIds.size(); i++)

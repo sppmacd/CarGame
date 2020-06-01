@@ -240,7 +240,6 @@ void Game::setCurrentPower(Power* power)
     powerHandle = power;
     // todo
     powerTime = powerHandle->maxPowerTime;// * playerData.abilities.calculateValue(PlayerAbilityManager::POWER_TIME);
-    powerMaxTime = powerTime;
     powerCooldown = -1;
 
     powerHandle->setLevel(Power::getCurrentPowerLevel());
@@ -253,8 +252,9 @@ void Game::setCurrentPower(Power* power)
     event.power.handle = powerHandle;
     bool startPower = runGameEventHandler(event);
 
-    if(!startPower) // disable cooldown
+    if(!startPower) // disable power
         return;
+    maxPowerTime = powerTime;
 
     if (!powerHandle->onPowerStart())
     {
@@ -270,8 +270,9 @@ void Game::stopCurrentPower()
     if(powerHandle->cooldownTime <= 1)
         powerCooldown = 1;
     else
-        // todo
+    {
         powerCooldown = powerHandle->cooldownTime;/* / playerData.abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME);*/ // 30 seconds
+    }
 
     powerTime = -1; //0 - can use power, -1 - cooldown, >0 - power is used, 1 - set cooldown!
 
@@ -285,6 +286,7 @@ void Game::stopCurrentPower()
 
     if(!stopPower) // disable cooldown
         powerCooldown = 0;
+    maxPowerCooldown = powerCooldown;
 
     powerHandle->onPowerStop();
 }

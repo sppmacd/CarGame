@@ -13,9 +13,9 @@ void PowerFreeze::onPowerStop()
 
 void PowerFreeze::onPowerTick(int tc)
 {
-    if(Game::instance->powerMaxTime - tc < maxPowerTime / 18)
+    if(Game::instance->maxPowerTime - tc < Game::instance->maxPowerTime / 18)
         Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (0.005f * sqrt(currentLevel) + 1.f));
-    else if(tc < maxPowerTime / 16)
+    else if(tc < Game::instance->maxPowerTime / 16)
         Game::instance->setGameSpeed(Game::instance->getGameSpeed() * (0.000725f * sqrt(currentLevel) + 1.f));
 }
 

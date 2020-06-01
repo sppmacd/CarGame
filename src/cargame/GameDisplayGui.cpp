@@ -239,14 +239,14 @@ void GameDisplay::drawGui()
                 if(game->powerTime == -1)
                 {
                     // todo
-                    if(i >= game->powerCooldown / ((1800.f/* / game->playerData.abilities.calculateValue(PlayerAbilityManager::POWER_COOLDOWN_TIME)*/) / 64.f))
+                    if(i >= game->powerCooldown / (game->maxPowerCooldown / 64.f))
                         arr.append(Vertex(pointPos, Color::Green));
                     else
                         arr.append(Vertex(pointPos, Color::Red));
                 }
                 else if(game->powerTime > 0)
                 {
-                    if(i >= game->powerTime / (game->powerMaxTime / 64.f))
+                    if(i >= game->powerTime / (game->maxPowerTime / 64.f))
                         arr.append(Vertex(pointPos, Color::Red));
                     else
                         arr.append(Vertex(pointPos, Color::Blue));

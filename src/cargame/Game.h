@@ -82,14 +82,17 @@ public:
 	// GameSound (sound manager) instance.
 	GameSound sound;
 
-	// Power time.
+	// Power time tick.
     int powerTime;
 
-	// Power cooldown.
+    // The total duration of power "work" time.
+    int maxPowerTime;
+
+	// Power cooldown tick.
     int powerCooldown;
 
-    // Power max time.
-    int powerMaxTime;
+    // The total duration of power cooldown.
+    int maxPowerCooldown;
 
     // Current power.
     Power* powerHandle;
