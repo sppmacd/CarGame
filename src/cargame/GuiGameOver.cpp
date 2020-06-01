@@ -14,7 +14,8 @@ void GuiGameOver::onLoad()
 
     sf::String s = game2->translation.get("gui.gameover.newgame");
     addWidget(&(b1 = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2), s, 0)));
-    addWidget(&(bMainMenu = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), game2->translation.get("gui.gameover.return"), 1)));
+    s = game2->translation.get("gui.gameover.return");
+    addWidget(&(bMainMenu = Button(this, Vector2f(400.f, 40.f), Vector2f(game->getSize().x / 2 - 200, game->getSize().y / 2 + 60), s, 1)));
 
     b1.setColor(sf::Color::Green);
     bMainMenu.setColor(sf::Color::Red);

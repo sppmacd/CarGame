@@ -48,9 +48,11 @@ String TranslationEntry::getValue(initializer_list<String> values)
     basic_ostringstream<Uint32> stream;
     vector<String> strings;
     strings.insert(strings.begin(), values.begin(), values.end());
+    if(translation.empty())
+        return "";
     for(String& str: translation)
     {
-        if(str[0] == '%')
+        if(str[0] == '%' && str.getSize() > 1)
         {
             size_t val = str[1] - '0';
             if(val < strings.size())
