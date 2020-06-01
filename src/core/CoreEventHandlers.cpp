@@ -48,7 +48,6 @@ bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
 	{
 		Car* car = new CarAmbulance(7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
-		event.carSpawned.carToCreate->setColor(Color(255, 255, 255));
 	}
 	else if(carId == "rally")
 	{
@@ -104,6 +103,16 @@ bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
         Car* car = new CarTrain(7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
 		event.carSpawned.carToCreate->setColor(Color(193, 205, 155));
+    }
+	else if(carId == "rocket")
+    {
+        Car* car = new Car("rocket", 7.f, rand() % 3);
+		event.carSpawned.carToCreate = car;
+    }
+	else if(carId == "coach")
+    {
+        Car* car = new Car("coach", 7.f, rand() % 3);
+		event.carSpawned.carToCreate = car;
     }
 	else
         return false;
