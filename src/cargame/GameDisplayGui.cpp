@@ -281,7 +281,7 @@ void GameDisplay::drawGui()
     }
 
     drawStat(50, 48, "coin", game->playerData.playerCoins);
-	game->drawGui(false);
+	game->drawGui();
 
     if(game->debug) drawDebugInfo(this->renderWnd);
 }

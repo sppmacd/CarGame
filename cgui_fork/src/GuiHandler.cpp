@@ -38,7 +38,7 @@ GuiHandler::GuiHandler() : GuiHandler(NULL, NULL)
 }
 Vector2f GuiHandler::getSize()
 {
-    return guiView.getSize();
+    return sf::Vector2f(1920.f, 1080.f);
 }
 
 RenderWindow* GuiHandler::getWindow()

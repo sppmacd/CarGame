@@ -327,6 +327,9 @@ public:
     // Returns current game view.
     sf::View getGameView();
 
+    // Draws the entire GUI, previously setting the GameView. (it's better)
+    void drawGui();
+
 	////////////////////////////////////////////
 	// Helper functions for PlayerDataManager //
 	////////////////////////////////////////////

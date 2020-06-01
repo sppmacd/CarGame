@@ -664,7 +664,8 @@ sf::View Game::getGUIView()
 
 sf::View Game::getGameView()
 {
-    float aspect = (float(getSize().x) / getSize().y) / (16.f / 9.f);
+    // use real size of window, not view size
+    float aspect = (float(getWindow()->getSize().x) / getWindow()->getSize().y) / (16.f / 9.f);
     float mapSizeX = 1920.f;
     float mapSizeY = 1080.f;
 
@@ -682,4 +683,10 @@ sf::View Game::getGameView()
         view.setViewport(sf::FloatRect(x, 0.f, 1.f / aspect, 1.f));
     }
     return view;
+}
+
+void Game::drawGui()
+{
+    guiView = getGameView();
+    GuiHandler::drawGui(false);
 }

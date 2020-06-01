@@ -196,6 +196,15 @@ void GameDisplay::display()
 {
     Game* game = Game::instance;
 
+    // Prepare viewport for drawing
+    // GameView is now common to GUI and Game views.
+
+    // 0.2+ scale window to be like 1920x1080
+    float mapSizeX = 1920.f;
+    float mapSizeY = 1080.f;
+    sf::View view = Game::instance->getGameView();
+    renderWnd->setView(view);
+
     if(!game->isGuiLoaded())
     {
         drawGame();
@@ -293,17 +302,10 @@ void GameDisplay::drawGame()
 {
     Game* game = Game::instance;
 
-    renderWnd->clear(/*game->getLevelColor()*/Color::Black);
-
-    // some useful variables to calculate coordinates
-    float hy = getSize().y / 2.f;
-    float fx = getSize().x;
-
-    // 0.2+ scale window to be like 1920x1080
     float mapSizeX = 1920.f;
     float mapSizeY = 1080.f;
-    sf::View view = Game::instance->getGameView();
-    renderWnd->setView(view);
+
+    renderWnd->clear(/*game->getLevelColor()*/Color::Black);
 
     { // BACKGROUND
         float fac = 1.5625f;
