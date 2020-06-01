@@ -242,7 +242,8 @@ void Game::setCurrentPower(Power* power)
     powerTime = powerHandle->maxPowerTime;// * playerData.abilities.calculateValue(PlayerAbilityManager::POWER_TIME);
     powerCooldown = -1;
 
-    powerHandle->setLevel(Power::getCurrentPowerLevel());
+    if(!powerHandle->isAntiPower()) //anti-powers doesn't have levels (currently)
+        powerHandle->setLevel(playerData.powerLevels[power->id]->getLevel());
 
     // power 'start'
     GameEvent event;
