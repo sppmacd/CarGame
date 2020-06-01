@@ -1,7 +1,5 @@
 #include "CoreLoader.hpp"
 
-#include "maptype.h"
-
 #include "PowerBall.hpp"
 #include "PowerDamageDecrease.hpp"
 #include "PowerFence.hpp"
@@ -10,45 +8,25 @@
 #include "PowerPointBoost.hpp"
 #include "PowerSpeedIncrease.hpp"
 
-LevelData* Maps::countryside;
-LevelData* Maps::desert;
-LevelData* Maps::forest;
-LevelData* Maps::ice;
-LevelData* Maps::mountains;
-LevelData* Maps::beach;
-LevelData* Maps::city;
-LevelData* Maps::sea;
-LevelData* Maps::swampland;
-LevelData* Maps::motorway;
-LevelData* Maps::forest_trails;
-
 namespace CoreLoader
 {
     void registerLevels(Game* game)
     {
-        Maps::countryside = &(new LevelData())->setAcceleration(5.f).setColor(sf::Color(82, 133, 75)).setTextureName("countryside").setCarCreationSpeed(70);
-        Maps::desert = &(new LevelData())->setAcceleration(4.4f).setColor(sf::Color(211, 210, 144)).setTextureName("desert").setCarCreationSpeed(80).setCost(400);
-        Maps::forest = &(new LevelData())->setAcceleration(6.f).setColor(sf::Color(52, 82, 44)).setTextureName("forest").setCarCreationSpeed(60).setCost(1600);
-        Maps::ice = &(new LevelData())->setAcceleration(7.f).setColor(sf::Color(230, 230, 230)).setTextureName("ice").setCarCreationSpeed(90).setCost(4000);
-        Maps::mountains = &(new LevelData())->setAcceleration(4.f).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(85).setCost(16000);
-        Maps::beach = &(new LevelData())->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(50).setCost(24000);
-        Maps::city = &(new LevelData())->setAcceleration(6.f).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(30).setCost(40000);
-        Maps::motorway = &(new LevelData())->setAcceleration(10.f).setColor(sf::Color(26, 26, 26)).setTextureName("motorway").setCarCreationSpeed(100).setCost(60000);
-        Maps::sea = &(new LevelData())->setAcceleration(4.f).setColor(sf::Color(44, 48, 112)).setTextureName("sea").setCarCreationSpeed(50).setCost(80000);
-        Maps::swampland = &(new LevelData())->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(80).setCost(120000);
-        Maps::forest_trails = &(new LevelData())->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(200000);
+        LevelData::registerLevel("countryside", (new LevelData())->setAcceleration(5.f).setColor(sf::Color(82, 133, 75)).setTextureName("countryside").setCarCreationSpeed(70));
+        LevelData::registerLevel("desert", (new LevelData())->setAcceleration(4.4f).setColor(sf::Color(211, 210, 144)).setTextureName("desert").setCarCreationSpeed(80).setCost(400));
+        LevelData::registerLevel("forest", (new LevelData())->setAcceleration(6.f).setColor(sf::Color(52, 82, 44)).setTextureName("forest").setCarCreationSpeed(60).setCost(1600));
+        LevelData::registerLevel("ice", (new LevelData())->setAcceleration(7.f).setColor(sf::Color(230, 230, 230)).setTextureName("ice").setCarCreationSpeed(90).setCost(4000));
+        LevelData::registerLevel("mountains", (new LevelData())->setAcceleration(4.f).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(85).setCost(16000));
+        LevelData::registerLevel("beach", (new LevelData())->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(50).setCost(24000));
+        LevelData::registerLevel("city", (new LevelData())->setAcceleration(6.f).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(30).setCost(40000));
+        LevelData::registerLevel("motorway", (new LevelData())->setAcceleration(10.f).setColor(sf::Color(26, 26, 26)).setTextureName("motorway").setCarCreationSpeed(100).setCost(60000));
+        LevelData::registerLevel("sea", (new LevelData())->setAcceleration(4.f).setColor(sf::Color(44, 48, 112)).setTextureName("sea").setCarCreationSpeed(50).setCost(80000));
+        LevelData::registerLevel("swampland", (new LevelData())->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(80).setCost(120000));
+        LevelData::registerLevel("forest_trails", (new LevelData())->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(200000));
 
-        LevelData::registerLevel("countryside", *Maps::countryside);
-        LevelData::registerLevel("desert", *Maps::desert);
-        LevelData::registerLevel("forest", *Maps::forest);
-        LevelData::registerLevel("ice", *Maps::ice);
-        LevelData::registerLevel("mountains", *Maps::mountains);
-        LevelData::registerLevel("beach", *Maps::beach);
-        LevelData::registerLevel("city", *Maps::city);
-        LevelData::registerLevel("motorway", *Maps::motorway);
-        LevelData::registerLevel("sea", *Maps::sea);
-        LevelData::registerLevel("swampland", *Maps::swampland);
-        LevelData::registerLevel("forest_trails", *Maps::forest_trails);
+        LevelData::registerLevel("town", (new LevelData())->setAcceleration(9.f).setColor(sf::Color(145, 145, 145)).setTextureName("city").setCarCreationSpeed(30).setCost(500000));
+        LevelData::registerLevel("space_station", (new LevelData())->setAcceleration(10.f).setColor(sf::Color(5, 5, 10)).setTextureName("sea").setCarCreationSpeed(40).setCost(1000000));
+        LevelData::registerLevel("space", (new LevelData())->setAcceleration(12.f).setColor(sf::Color(0, 0, 5)).setTextureName("sea").setCarCreationSpeed(60).setCost(1500000));
     }
     void registerCars(Game* game)
     {
@@ -75,12 +53,12 @@ namespace CoreLoader
                                   ->setMaxHealth(2));
         game->gpo.registerCarType("bus", (new CarType("bus"))
                                   //->setRarities(             {10,3,14,8,3,3,5,3,5,8,3})
-                                  ->setDefaultRarity(3)
+                                  ->setDefaultRarity(6)
                                   ->setRarityFor("countryside", 10)
                                   ->setRarityFor("forest", 14)
                                   ->setRarityFor("ice", 8)
                                   ->setRarityFor("city", 5)
-                                  ->setRarityFor("sea", 5)
+                                  ->setRarityFor("sea", 10)
                                   ->setRarityFor("swampland", 8)
                                   ->setMaxHealth(5));
         game->gpo.registerCarType("ambulance", (new CarType("ambulance"))
@@ -161,6 +139,18 @@ namespace CoreLoader
                                   ->setRarityFor("sea", 10)
                                   ->setRarityFor("swampland", 10)
                                   ->setMaxHealth(10));
+
+        game->gpo.registerCarType("rocket", (new CarType("old"))
+                                  ->setDefaultRarity(0)
+                                  ->setRarityFor("space_station", 7)
+                                  ->setRarityFor("space", 3)
+                                  ->setMaxHealth(7));
+
+        game->gpo.registerCarType("coach", (new CarType("bus"))
+                                  ->setDefaultRarity(20)
+                                  ->setRarityFor("sea", 5)
+                                  ->setRarityFor("beach", 3)
+                                  ->setMaxHealth(5));
     }
     void registerPowers(Game* game)
     {
