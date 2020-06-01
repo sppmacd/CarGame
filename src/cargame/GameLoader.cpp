@@ -235,6 +235,7 @@ int GameLoader::main(int argc, char* argv[])
                     if(l > 16660 && (lastWarningClock.getElapsedTime().asSeconds() > 15.f || l > 40000))
                     {
                         DebugLogger::log("Tick took " + std::to_string(l) + "us.", "GameLoader", "LAG");
+                        lastWarningClock.restart();
                     }
 
                     // Wait
