@@ -70,6 +70,7 @@ void GameDisplay::reload(bool _noResMode)
         unknownTexture.setRepeated(true);
     }
 
+    DebugLogger::log("NoRes Mode: " + std::to_string(_noResMode), "GameDisplay");
     if(!noResMode)
     {
         if(FileUtil::getFileType("res") == FileUtil::NOTEXISTING)
