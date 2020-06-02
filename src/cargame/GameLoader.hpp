@@ -42,6 +42,10 @@ public:
     // By convention, all keys are starting with '--' or '-' (for aliases).
     void parseArgs(std::map<std::string, std::string>& args, int argc, char* argv[]);
 
+    // Simple convert string to argv (argument vector)
+    // It doesn't support e.g. quotes.
+    std::vector<std::string> stringToArgv(std::string str);
+
     // Saves default values of arguments to map.
     virtual void setDefaultArgs(std::map<std::string, std::string>& args);
 
@@ -83,4 +87,3 @@ public:
 };
 
 #endif // GAMELOADER_HPP
-

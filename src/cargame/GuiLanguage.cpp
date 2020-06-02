@@ -173,7 +173,8 @@ void GuiLanguage::onClick(int buttonId)
 
                 //save language to config file
                 Game::instance->hmLangCfg.setKey("current",gld.langCode,"lang");
-                Game::instance->hmLangCfg.saveToFile("lang.hmd");
+                if(!Game::instance->isTmpSession())
+                    Game::instance->hmLangCfg.saveToFile("lang.hmd");
 
                 //disable button for current lang.
                 gld.bSetLang->setEnabled(false);

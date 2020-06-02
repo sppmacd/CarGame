@@ -52,14 +52,16 @@ public:
 
     ~PlayerDataManager();
 
-    // Loads player data from specified file.
-    bool load(std::string fileName);
+    // Loads player data from specified file or from HM Map if fileName is empty.
+    bool load(std::string fileName = "");
 
-    // Saves player data to specified file.
-    bool save(std::string fileName);
+    // Saves player data to specified file or tp HM Map if fileName is empty.
+    bool save(std::string fileName = "");
 
     // Fills player data by default values.
     void init();
+
+    HMDataMap& getHMMap();
 
     typedef std::array<ModuleIdentifier, 2> PlayerEquipment;
     typedef std::map<LevelData::MapType, bool> FlagList;

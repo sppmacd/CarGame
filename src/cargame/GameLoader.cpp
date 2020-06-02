@@ -10,10 +10,12 @@
 #include <SFML/Graphics.hpp>
 
 #include <cstdlib>
-#include <iostream>
-#include <string>
 #include <ctime>
 #include <exception>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 CGAPI GameLoader* GameLoader::instance = NULL;
 
@@ -55,16 +57,33 @@ void GameLoader::setDefaultArgs(std::map<std::string, std::string>& args)
 {
     // set default values
     args["--message"] = "Starting Car Game";
+    args["--debug-options"] = "";
+}
+
+std::vector<std::string> GameLoader::stringToArgv(std::string str)
+{
+    std::vector<std::string> vec;
+    std::istringstream iss;
+    iss.str(str);
+    std::string _tmp;
+    while(!iss.eof())
+    {
+        iss >> _tmp;
+        vec.push_back(_tmp);
+    }
+    return vec;
 }
 
 void GameLoader::applyArgs(std::map<std::string, std::string>& args)
 {
     // convert args to values and save in argmap
+    argmap->a_debug_options = args["--debug-options"];
     argmap->a_debug = (args.count("--debug") == 1);
     argmap->a_help = (args.count("--help") == 1);
     argmap->a_info = (args.count("--info") == 1);
     argmap->a_message = args["--message"];
     argmap->a_no_resources =  (args.count("--no-resources") == 1);
+    argmap->a_tmp =  (args.count("--tmp") == 1);
 }
 
 void GameLoader::loadGame()
@@ -80,16 +99,19 @@ void GameLoader::loadGame()
         // display help if specified in cmdline
         if(argmap->a_help)
         {
-            GameDisplay::consoleStr = "\n"
+            GameDisplay::consoleStr =
             "CG " + string(CG_VERSION) + "\n"
             "Command Line Usage:\n"
             "--debug         Starts Car Game in Debug Mode (can be changed in Settings)\n"
+            "--debug-options Specifies debug options to be used. See docs/debug_options.md\n"
             "--help          Shows this message\n"
             "--info          Displays game info\n"
             "--message       Sets a custom message displayed in CG log\n"
             "--no-resources  Skips GameDisplay and GameSound resource loading\n"
+            "--tmp           Enables Temporary Session Mode (don't save player \n"
+            "profile)\n"
             "Press Esc to close game...";
-            DebugLogger::log(GameDisplay::consoleStr, "GameLoader");
+            DebugLogger::log("\n" + GameDisplay::consoleStr, "GameLoader");
             return;
         }
         if(argmap->a_info)
@@ -99,6 +121,7 @@ void GameLoader::loadGame()
             "Debug Information\n"
             "* api-version=" + string("1") + "\n"
             "* arch-prefix='" + string(CG_ARCH_PREFIX) + "'\n"
+            "* debug-options='" + string(argmap->a_debug_options) + "'\n"
             "* modules-loaded=" + to_string(modManager->getModuleCount()) + "\n"
             "* profile-version=" + string("5") + "\n"
             "* version-signature='" + string(CG_VERSION_SIG) + "'\n"

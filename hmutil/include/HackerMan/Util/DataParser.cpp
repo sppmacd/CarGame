@@ -49,7 +49,12 @@ bool HMDataParser::parse(HMDataMap& map, string& data)
                     m.push_back("");
             }
             else
-                m.push_back(data.substr(lp+1, i-lp-1));
+            {
+                if(lp == -1)
+                    m.push_back("\n" + data.substr(lp + 1, i - lp - 1));
+                else
+                    m.push_back(data.substr(lp, i-lp));
+            }
             lp = i;
         }
         else if(d == '\n' && comment)
@@ -72,17 +77,40 @@ bool HMDataParser::parse(HMDataMap& map, string& data)
         }
     }
 
-    if(m.size() % 3 != 0)
+    /*if(m.size() % 3 != 0)
     {
         cerr << "HMDataParser: syntax error (04)" << endl;
         return false;
-    }
+    }*/
 
     // Add keys
-    for(unsigned i = 0; i < m.size(); i += 3)
+    std::string key,nameSpace,value,_lastmv;
+    for(unsigned i = 0; i < m.size() + 1; i++)
     {
-        //cout << "'" << m[i] << "' '" << m[i+1] << "' '" << m[i+2] << "'" << endl;
-        map.setKey(m[i+1], m[i+2], m[i]);
+        std::string _mv = (i == m.size() ? " " : m[i]);
+        //cout << _mv << endl;
+        if(_mv[0] == '=')
+        {
+            value += _mv;
+            key = _lastmv;
+        }
+        else if(_lastmv[0] == '\n' || _lastmv[0] == ':')
+        {
+            nameSpace += _lastmv;
+        }
+
+        if(!value.empty() && !key.empty())
+        {
+            if(nameSpace.empty())
+                nameSpace = "\n";
+            //cout << "Adding: '" << nameSpace.substr(1) << "':'" << key.substr(1) << "'='" << value.substr(1) << "'" << endl;
+            map.setKey(key.substr(1), value.substr(1), nameSpace.substr(1));
+            value.clear();
+            key.clear();
+            nameSpace.clear();
+        }
+
+        _lastmv = _mv;
     }
 
     return !err;

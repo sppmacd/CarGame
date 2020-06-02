@@ -279,7 +279,7 @@ public:
 	void displayError(string text, string code = "???");
 
 	// Loads language list.
-	void loadLanguages();
+	void loadLanguages(bool useFile = true);
 
 	// Setup new game - set map, unpause game, initialize variables,
 	// reinitialize powers
@@ -363,6 +363,10 @@ public:
     // just before powers are registered.
 	void registerPowers();
 
+	void applyDebugOptions(std::string options);
+
+	bool isTmpSession();
+
 	/////////////////////////////////
 	/////////////////////////////////
 	/////////////////////////////////
@@ -415,4 +419,8 @@ private:
 
 	// The damage multiplier. It's set to ability.damage by default and changed by PowerDamageDecrease.
 	float damageMultiplier;
+
+	// True if --tmp specified, the player data won't be saved.
+	// You can still force save data by calling playerData.save().
+	bool tmpSession;
 };

@@ -57,6 +57,13 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		// Register settings
 		DebugLogger::logDbg("Loading game API", "Game");
 		GameDisplay::loadingStr = "Loading game engine...";
+
+        tmpSession = argmap->a_tmp || !argmap->a_debug_options.empty();
+		if(tmpSession)
+        {
+            DebugLogger::log("Enabled Temporary Session Mode", "Game");
+        }
+
 		this->registerSettings();
 
 		// Reset game state
@@ -91,14 +98,13 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
         }
 
 		// Load player data
-		DebugLogger::logDbg("Loading player data", "Game");
 		this->loadPlayerData();
 
         // Load language configuration
         DebugLogger::logDbg("Loading language config", "Game");
 		this->loadLanguages();
 
-		//FreeLibrary(cgCoreMod);
+		this->applyDebugOptions(argmap->a_debug_options);
 	}
 	else //fatal error
 	{
@@ -237,9 +243,16 @@ void Game::initProfile()
 
 void Game::savePlayerData()
 {
-    DebugLogger::log("Saving player data to default profile file", "Game");
-    GameDisplay::drawLoadingProgress("Saving player data...", GameDisplay::instance->getRenderWnd());
-    playerData.save("profile_1.txt");
+    if(!tmpSession)
+    {
+        DebugLogger::log("Saving player data to default profile file", "Game");
+        GameDisplay::drawLoadingProgress("Saving player data...", GameDisplay::instance->getRenderWnd());
+        playerData.save("profile_1.txt");
+    }
+    else
+    {
+        DebugLogger::log("Temporary Session Mode is enabled, save aborted!", "Game", "WARN");
+    }
 }
 
 void Game::loadGame(LevelData* level)
@@ -432,17 +445,22 @@ void Game::displayError(string text, string code)
     error = true;
 }
 
-void Game::loadLanguages()
+void Game::loadLanguages(bool useFile)
 {
     GameDisplay::loadingStr = "Loading language...";
     DebugLogger::log("Loading language config", "Game");
-    bool b = hmLangCfg.loadFromFile("lang.hmd");
+    bool b = true;
+
+    if(useFile)
+        b = hmLangCfg.loadFromFile("lang.hmd");
+
     if(!b)
     {
         DebugLogger::log("Could not load translation config! Creating a new one...", "Game", "WARN");
 
         hmLangCfg.setKey("current","en_US","lang");
-        hmLangCfg.saveToFile("lang.hmd");
+        if(!tmpSession)
+            hmLangCfg.saveToFile("lang.hmd");
 
         // try to load newly created config
         b = hmLangCfg.loadFromFile("lang.hmd");
@@ -689,4 +707,42 @@ void Game::drawGui()
 {
     guiView = getGameView();
     GuiHandler::drawGui(false);
+}
+
+void Game::applyDebugOptions(std::string options)
+{
+    if(!options.empty())
+    {
+        DebugLogger::log("Applying Debug Options", "Game");
+        sf::String optStr = options;
+        optStr.replace(" ", "\n");
+
+        HMDataMap hmMap;
+        hmMap.loadFromString(optStr.toAnsiString());
+
+        for(auto& pr: hmMap.getMap())
+        {
+            DebugLogger::logDbg("Trying to apply debug option: '" + pr.first.first + "':'" + pr.first.second + "'='" + pr.second + "'", "Game");
+            std::string type = pr.first.first.substr(0, 2);
+            if(type == "lg")
+                hmLangCfg.setKey(pr.first.second, pr.second, pr.first.first.substr(3));
+            else if(type == "pp")
+                playerData.getHMMap().setKey(pr.first.second, pr.second, pr.first.first.substr(3));
+            else if(type == "st")
+                settings.setSetting(pr.first.second, pr.second, pr.first.first.substr(3));
+            else
+                DebugLogger::logDbg("Invalid debug option type: " + type, "Game", "WARN");
+        }
+        loadLanguages();
+        playerData.load();
+
+        HMDataMap soNS = hmMap.getAllByNamespace("so");
+        if(soNS.getNumberKey("newPlayer", "so", 0))
+            initProfile();
+    }
+}
+
+bool Game::isTmpSession()
+{
+    return tmpSession;
 }

@@ -25,8 +25,15 @@ bool PlayerDataManager::load(std::string fileName)
 
     game->usablePowerIds.clear();
 
-    playerData = HMDataMap(); //clear all data
-    if(playerData.loadFromFile("profile_1.txt"))
+    bool b = true;
+    if(!fileName.empty())
+    {
+        //clear all data
+        playerData = HMDataMap();
+        b = playerData.loadFromFile(fileName);
+    }
+
+    if(b)
     {
         int ver = playerData.getNumberKey("version", "", 0);
 
@@ -192,7 +199,13 @@ bool PlayerDataManager::save(std::string fileName)
     }
     abilities.write(playerData);
 
-    playerData.saveToFile("profile_1.txt");
+    if(!fileName.empty())
+        playerData.saveToFile(fileName);
+}
+
+HMDataMap& PlayerDataManager::getHMMap()
+{
+    return playerData;
 }
 
 void PlayerDataManager::init()

@@ -44,10 +44,11 @@ void SettingsManager::loadSettings(string fileName)
 
 void SettingsManager::resetSettings(string fileName)
 {
+    // todo: disable on tmp mode
     DebugLogger::logDbg("Resetting settings to defaults", "SettingsManager");
-	remove(fileName.c_str());
-	loadSettings(fileName);
-	saveSettings(fileName);
+    remove(fileName.c_str());
+    loadSettings(fileName);
+    saveSettings(fileName);
 }
 
 void SettingsManager::registerTrigger(string settingName, SettingsManager::TriggerFunc func, string space)
@@ -142,20 +143,23 @@ bool SettingsManager::triggerSetting(string settingName, string space)
 
 void SettingsManager::saveSettings(string file)
 {
-    DebugLogger::log("Saving settings to file: " + file, "SettingsManager");
-    ofstream _file(file);
-    _file << "// Auto-generated CG settings file" << endl;
-    if(_file.fail())
+    if(!tmpMode)
     {
-        DebugLogger::log("Couldn't save settings" + file, "SettingsManager", "ERROR");
-    }
-    for(auto it: settings)
-    {
-        if(it.second.type != SettingsManager::TRIGGER && it.second.type != SettingsManager::CONFIRM_TRIGGER)
+        DebugLogger::log("Saving settings to file: " + file, "SettingsManager");
+        ofstream _file(file);
+        _file << "// Auto-generated CG settings file" << endl;
+        if(_file.fail())
         {
-            string key = it.first;
-            string line = key + "=" + it.second.currentVal;
-            _file << line << endl;
+            DebugLogger::log("Couldn't save settings" + file, "SettingsManager", "ERROR");
+        }
+        for(auto it: settings)
+        {
+            if(it.second.type != SettingsManager::TRIGGER && it.second.type != SettingsManager::CONFIRM_TRIGGER)
+            {
+                string key = it.first;
+                string line = key + "=" + it.second.currentVal;
+                _file << line << endl;
+            }
         }
     }
 }
@@ -280,5 +284,11 @@ bool SettingsManager::triggerAllClose()
         DebugLogger::log("On-close trigger was unsuccessful", "SettingsManager", "ERROR");
     }
     return succeed;
+}
+
+void SettingsManager::setTmpMode(bool mode)
+{
+    DebugLogger::log(std::string("TMP Mode: ") + (mode ? "enabled" : "disabled"), "SettingsManager", "WARN");
+    tmpMode = mode;
 }
 

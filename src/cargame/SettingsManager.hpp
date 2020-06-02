@@ -43,8 +43,6 @@ public:
         SettingType type;
     };
 
-    // SettingsManager();
-
     // Adds setting to manager. All registered settings will be displayed in GUI.
     // Space - prefix added to name in the following way: settings.[space]:[settingName].
     // Space is saved in file in the following way: [space]:[settingName]=[value].
@@ -52,7 +50,7 @@ public:
 
     // Loads settings from specified file.
     void loadSettings(string fileName);
-	
+
 	// Resets settings in %fileName to default values.
     void resetSettings(string fileName);
 
@@ -76,7 +74,7 @@ public:
 
     // Generates widget list by registered settings. Used by GuiSettings.
     GuiSettings* generateWidgets();
-	
+
 	// Adds corresponding widgets for all settings to specified GuiSettings.
 	void addWidgetsToSettings(GuiSettings* guisettings);
 
@@ -91,8 +89,12 @@ public:
     SettingType getSettingType(string name, string space = "");
 
     bool triggerAllClose();
+
+    // Enables tmp mode - it doesn't allow to save any settings to file.
+    void setTmpMode(bool mode = true);
 private:
     // map key: [space]:[settingName]
     map<string, Setting> settings;
     multimap<string, TriggerFunc> triggers;
+    bool tmpMode;
 };
