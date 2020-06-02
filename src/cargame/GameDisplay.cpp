@@ -117,6 +117,8 @@ void GameDisplay::reload(bool _noResMode)
         addTexture("stat/score");
         addTexture("stat/mpl");
         addTexture("stat/points_mpl");
+        addTexture("stat/damage_multiplier");
+        addTexture("stat/point_multiplier");
         addTexture("gui/start");
         addTexture("gui/settings");
         addTexture("gui/quit");

@@ -278,6 +278,8 @@ void GameDisplay::drawGui()
         drawStat(470, 48, "high", game->playerData.highScore);
         drawStat(680, 48, "mpl", game->playerData.coinMpl);
         drawStat(890, 48, "points_mpl", game->playerData.pointsToNewMpl);
+        drawStat(1100, 48, "damage_multiplier", game->getDamageMultiplier());
+        drawStat(1310, 48, "point_multiplier", game->getPointMultiplier());
     }
 
     drawStat(50, 48, "coin", game->playerData.playerCoins);
