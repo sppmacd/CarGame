@@ -6,6 +6,7 @@
 
 void Game::addCar(Car* car)
 {
+    DebugLogger::logDbg("Adding car: ", std::to_string((size_t)car), "Game");
     cars.push_back(car);
 }
 
@@ -97,7 +98,7 @@ void Game::updateCars()
 void Game::checkSpawnCar()
 {
     // [[   time from last spawn   ]][[         game speed multiplier         ]]  [[ is first tick  ]]
-    if(tickCount - lastCarTime > carCreatingSpeed / (gameSpeed / initialGameSpeed) || tickCount <= 1)
+    if(tickCount - lastCarTime > carCreatingSpeed * 3 / (gameSpeed / initialGameSpeed) || tickCount <= 1)
     {
         if(gpo.carTypes.count() == 0)
         {
@@ -194,7 +195,7 @@ void Game::newTick()
 
     if(!paused())
     {
-        gameSpeed += level->getAcceleration() / 8000.f;
+        gameSpeed += level->getAcceleration() / 60.f;
         ++tickCount;
     }
 

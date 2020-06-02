@@ -209,6 +209,9 @@ void GameDisplay::drawDebugInfo(sf::RenderWindow* wnd)
 		+ std::string(",\tdmg = ") + std::string(to_string(Game::instance->getDamageMultiplier()))
 		+ std::string(",\tpt = ") + std::string(to_string(Game::instance->powerTime))
 		+ std::string(",\tpc = ") + std::string(to_string(Game::instance->powerCooldown))
+		+ std::string(",\tgs = ") + std::string(to_string(Game::instance->getGameSpeed()))
+		+ std::string(",\tigs = ") + std::string(to_string(Game::instance->initialGameSpeed))
+		+ std::string(",\tccs = ") + std::string(to_string(Game::instance->carCreatingSpeed))
     , 15, sf::Vector2f(6.f, disp->getSize().y - 21)));
 
     drawDebugPie(wnd);

@@ -29,9 +29,9 @@ public:
 	typedef ModuleIdentifier TypeId;
 
 	// %id - The car type ID.
-	// %speed - The car speed. It's constant because the game speed is controlled from <Game> class.
+	// %initialSpeed - The car initial speed. It's constant because the game speed is controlled from <Game> class.
 	// %line - The car line (0-2).
-	Car(Car::TypeId id, float speed, int line);
+	Car(Car::TypeId id, float initialSpeed, int line);
 
 	virtual ~Car() {}
 
@@ -108,6 +108,9 @@ public:
 	// Sets the current car speed to %speed. Currently not used.
     void setSpeed(float speed);
 
+    // Updates the car AI and physics.
+    void updateAIAndPhysics();
+
 	// <true> if in "dead" state.
     bool canErase;
 
@@ -138,16 +141,28 @@ public:
 	// Gets the texture name of car. It will be added to "/res/car/".
     string getTextureName();
 
+    // The acceleration of the car (in px/s^2). The speed is changed
+    // by (carAcceleration / 60.f) every tick.
+    float carAcceleration;
+
 protected:
 	// Texture name, it will be added to "/res/car/".
     string textureName;
 
 private:
-	// Current car speed.
+    // The car will be trying to keep this speed all the time.
+    float initialCarSpeed;
+
+	// Current car speed (in px/s). The car is moved every tick
+	// by (carSpeed / 60.f).
     float carSpeed;
 
+    // The friction factor (in px/s^2). The friction force is calculated
+    // using { carAcceleration -= (speed == 0 ? 0 : friction) } function.
+    float friction;
+
 	// Car line.
-    int lineIn;
+    float lineIn;
 
 	// Car color multiplier.
     sf::Color colorMultiplier;

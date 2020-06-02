@@ -386,12 +386,12 @@ public:
 
 	friend class Triggers;
 
+    // Game speed, with which you started the game.
+    float initialGameSpeed;
+
 private:
 	// Current game speed
     float gameSpeed;
-
-    // Game speed, with which you started the game.
-    float initialGameSpeed;
 
 	// Variable storing game over stat
     bool gameOver;

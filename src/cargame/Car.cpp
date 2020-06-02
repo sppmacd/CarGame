@@ -11,14 +11,19 @@
 
 Car::Car(Car::TypeId id, float speed, int line)
     : typeId(id)
-    , carSpeed(speed)
     , lineIn(line)
 {
+    speed += Game::instance->getGameSpeed();
+    initialCarSpeed = speed;
+    carSpeed = speed;
+    carAcceleration = 0.f;
     this->pos = 1130.f;
     this->destroyTick = -1.f;
     this->canErase = false;
 	this->animSize = 1;
 	this->frameLength = 60;
+	friction = 5.f;
+	DebugLogger::logDbg("INIT: car " + std::to_string((size_t)this) + ": v=" + std::to_string(carSpeed) + ", f=" + std::to_string(friction) + ", v_i=" + std::to_string(initialCarSpeed), "Car");
 
 	// Find car type for car
 	this->type = Game::instance->gpo.carTypes.findById(id);
@@ -70,9 +75,8 @@ void Car::setColor(sf::Color color)
 
 void Car::move(float gameSpeed)
 {
-    //this->pos -= this->carSpeed;
-    this->pos -= this->carSpeed / 6.f;
-    this->pos -= gameSpeed / 6.f;
+    // todo: check collision
+    pos -= carSpeed / 60.f;
 }
 
 sf::Color Car::getColor()
@@ -137,11 +141,44 @@ void Car::onDestroy(Game* game)
 void Car::onUpdate(Game*)
 {
     //...
+    updateAIAndPhysics();
 }
 
 void Car::onLeave(Game* game)
 {
     game->setGameOver();
+}
+
+void Car::updateAIAndPhysics()
+{
+    DebugLogger::logDbg("0: car " + std::to_string((size_t)this) + ": a=" + std::to_string(carAcceleration) + ", v=" + std::to_string(carSpeed) + ", s=" + std::to_string(pos), "Car");
+    carAcceleration = 0;
+
+    // todo: check collisions (brake on car in front of)
+
+    /////////////
+    // PHYSICS //
+    /////////////
+
+    // friction
+    carAcceleration -= carSpeed == 0.f ? 0.f : ((friction) * (carSpeed < 0 ? -1 : 1));
+
+    //////////
+    // "AI" //
+    //////////
+
+    // keep speed
+    carAcceleration -= (carSpeed - initialCarSpeed) * 4.f;
+
+    // Physics ...
+    // acceleration
+    carSpeed += carAcceleration / 60.f;
+
+    // round speed to 0 if very small
+    if(abs(carSpeed) < 0.001f)
+        carSpeed = 0.f;
+
+    DebugLogger::logDbg("1: car " + std::to_string((size_t)this) + ": a=" + std::to_string(carAcceleration) + ", v=" + std::to_string(carSpeed) + ", s=" + std::to_string(pos), "Car");
 }
 
 sf::Vector2f Car::getScreenPos()

@@ -12,22 +12,22 @@ namespace CoreLoader
 {
     void registerLevels(Game* game)
     {
-        LevelData::registerLevel("countryside", (new LevelData())->setAcceleration(5.f).setColor(sf::Color(82, 133, 75)).setTextureName("countryside").setCarCreationSpeed(70));
-        LevelData::registerLevel("desert", (new LevelData())->setAcceleration(4.4f).setColor(sf::Color(211, 210, 144)).setTextureName("desert").setCarCreationSpeed(80).setCost(400));
-        LevelData::registerLevel("forest", (new LevelData())->setAcceleration(6.f).setColor(sf::Color(52, 82, 44)).setTextureName("forest").setCarCreationSpeed(60).setCost(1600));
-        LevelData::registerLevel("ice", (new LevelData())->setAcceleration(7.f).setColor(sf::Color(230, 230, 230)).setTextureName("ice").setCarCreationSpeed(90).setCost(4000));
-        LevelData::registerLevel("mountains", (new LevelData())->setAcceleration(4.f).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(85).setCost(16000));
-        LevelData::registerLevel("beach", (new LevelData())->setAcceleration(8.f).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(50).setCost(24000));
-        LevelData::registerLevel("city", (new LevelData())->setAcceleration(6.f).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(30).setCost(40000));
-        LevelData::registerLevel("motorway", (new LevelData())->setAcceleration(10.f).setColor(sf::Color(26, 26, 26)).setTextureName("motorway").setCarCreationSpeed(100).setCost(60000));
-        LevelData::registerLevel("sea", (new LevelData())->setAcceleration(4.f).setColor(sf::Color(44, 48, 112)).setTextureName("sea").setCarCreationSpeed(50).setCost(80000));
-        LevelData::registerLevel("swampland", (new LevelData())->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(80).setCost(120000));
-        LevelData::registerLevel("forest_trails", (new LevelData())->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(200000));
+        LevelData::registerLevel("countryside", (new LevelData())->setAcceleration(5).setColor(sf::Color(82, 133, 75)).setTextureName("countryside").setCarCreationSpeed(40));
+        LevelData::registerLevel("desert", (new LevelData())->setAcceleration(4.4).setColor(sf::Color(211, 210, 144)).setTextureName("desert").setCarCreationSpeed(45).setCost(400));
+        LevelData::registerLevel("forest", (new LevelData())->setAcceleration(6).setColor(sf::Color(52, 82, 44)).setTextureName("forest").setCarCreationSpeed(40).setCost(1600));
+        LevelData::registerLevel("ice", (new LevelData())->setAcceleration(7).setColor(sf::Color(230, 230, 230)).setTextureName("ice").setCarCreationSpeed(45).setCost(4000));
+        LevelData::registerLevel("mountains", (new LevelData())->setAcceleration(4).setColor(sf::Color(85, 86, 85)).setTextureName("mountains").setCarCreationSpeed(34).setCost(16000));
+        LevelData::registerLevel("beach", (new LevelData())->setAcceleration(8).setColor(sf::Color(0, 143, 236)).setTextureName("beach").setCarCreationSpeed(30).setCost(24000));
+        LevelData::registerLevel("city", (new LevelData())->setAcceleration(6).setColor(sf::Color(105, 105, 105)).setTextureName("city").setCarCreationSpeed(27).setCost(40000));
+        LevelData::registerLevel("motorway", (new LevelData())->setAcceleration(10).setColor(sf::Color(26, 26, 26)).setTextureName("motorway").setCarCreationSpeed(46).setCost(60000));
+        LevelData::registerLevel("sea", (new LevelData())->setAcceleration(4).setColor(sf::Color(44, 48, 112)).setTextureName("sea").setCarCreationSpeed(37).setCost(80000));
+        LevelData::registerLevel("swampland", (new LevelData())->setAcceleration(5).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(34).setCost(120000));
+        LevelData::registerLevel("forest_trails", (new LevelData())->setAcceleration(7).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(25).setCost(200000));
 
         // todo: new maps
-        LevelData::registerLevel("town", (new LevelData())->setAcceleration(9.f).setColor(sf::Color(145, 145, 145)).setTextureName("town").setCarCreationSpeed(30).setCost(500000));
-        LevelData::registerLevel("space_station", (new LevelData())->setAcceleration(10.f).setColor(sf::Color(15, 15, 20)).setTextureName("space_station").setCarCreationSpeed(40).setCost(1000000));
-        LevelData::registerLevel("space", (new LevelData())->setAcceleration(12.f).setColor(sf::Color(0, 0, 5)).setTextureName("space").setCarCreationSpeed(60).setCost(1500000));
+        LevelData::registerLevel("town", (new LevelData())->setAcceleration(9).setColor(sf::Color(145, 145, 145)).setTextureName("town").setCarCreationSpeed(25).setCost(500000));
+        LevelData::registerLevel("space_station", (new LevelData())->setAcceleration(10).setColor(sf::Color(15, 15, 20)).setTextureName("space_station").setCarCreationSpeed(40).setCost(1000000));
+        LevelData::registerLevel("space", (new LevelData())->setAcceleration(12).setColor(sf::Color(0, 0, 5)).setTextureName("space").setCarCreationSpeed(46).setCost(1500000));
     }
     void registerCars(Game* game)
     {
@@ -159,7 +159,7 @@ namespace CoreLoader
         game->gpo.registerPower(game, "point_boost", new PowerPointBoost());
         game->gpo.registerPower(game, "fence", new PowerFence());
         game->gpo.registerPower(game, "ball", new PowerBall());
-        game->gpo.registerPower(game, "big_damage", new PowerBigDamage());
+        //game->gpo.registerPower(game, "big_damage", new PowerBigDamage());
         // PowerRegisterEvent
 
         game->gpo.registerPower(game, "speed_increase", new PowerSpeedIncrease());

@@ -31,6 +31,7 @@ bool PlayerDataManager::load(std::string fileName)
         //clear all data
         playerData = HMDataMap();
         b = playerData.loadFromFile(fileName);
+        DebugLogger::logDbg("Loading from file: " + fileName , "PlayerDataManager");
     }
 
     if(b)
@@ -232,4 +233,6 @@ void PlayerDataManager::init()
         equipment[t] = "api$no_power";
     }
     abilities.clear();
+
+    playerData.setNumberKey("version", 5, "");
 }

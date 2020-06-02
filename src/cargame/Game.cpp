@@ -281,7 +281,7 @@ void Game::setupGame()
     event.level.level = this->level;
     runGameEventHandler(event);
 
-    this->gameSpeed = this->level->getAcceleration() / (2.2f * 1920.f / GameDisplay::instance->getRenderWnd()->getSize().x);
+    this->gameSpeed = this->level->getCarCreationSpeed() * 2;
     this->initialGameSpeed = this->gameSpeed;
     this->lastTickScore = 0;
     this->lastCarTime = 1;
@@ -292,7 +292,7 @@ void Game::setupGame()
     //this->pause(false);
     //this->closeGui();
     this->currentPower = 0;
-	this->carCreatingSpeed = this->level->getCarCreationSpeed() / 1.1f;
+	this->carCreatingSpeed = this->level->getCarCreationSpeed();
 	this->newRecord = false;
     this->powerTime = 0;
     this->maxPowerTime = 0;

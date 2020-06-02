@@ -15,7 +15,8 @@ void PowerSpeedIncrease::drawPower(RenderWindow* wnd)
 }
 void PowerSpeedIncrease::onPowerTick(int tick)
 {
-    Game::instance->setGameSpeed(Game::instance->getGameSpeed() + 0.05f);
+    //Game::instance->setGameSpeed(Game::instance->getGameSpeed() + 0.05f);
+    // todo: give big acc to cars
 }
 int PowerSpeedIncrease::getCost()
 {
