@@ -24,17 +24,18 @@ namespace CoreLoader
         LevelData::registerLevel("swampland", (new LevelData())->setAcceleration(5.f).setColor(sf::Color(32, 48, 28)).setTextureName("swampland").setCarCreationSpeed(80).setCost(120000));
         LevelData::registerLevel("forest_trails", (new LevelData())->setAcceleration(7.f).setColor(sf::Color(33, 94, 18)).setTextureName("forest_trails").setCarCreationSpeed(30).setCost(200000));
 
-        LevelData::registerLevel("town", (new LevelData())->setAcceleration(9.f).setColor(sf::Color(145, 145, 145)).setTextureName("city").setCarCreationSpeed(30).setCost(500000));
-        LevelData::registerLevel("space_station", (new LevelData())->setAcceleration(10.f).setColor(sf::Color(5, 5, 10)).setTextureName("sea").setCarCreationSpeed(40).setCost(1000000));
-        LevelData::registerLevel("space", (new LevelData())->setAcceleration(12.f).setColor(sf::Color(0, 0, 5)).setTextureName("sea").setCarCreationSpeed(60).setCost(1500000));
+        // todo: new maps
+        LevelData::registerLevel("town", (new LevelData())->setAcceleration(9.f).setColor(sf::Color(145, 145, 145)).setTextureName("town").setCarCreationSpeed(30).setCost(500000));
+        LevelData::registerLevel("space_station", (new LevelData())->setAcceleration(10.f).setColor(sf::Color(15, 15, 20)).setTextureName("space_station").setCarCreationSpeed(40).setCost(1000000));
+        LevelData::registerLevel("space", (new LevelData())->setAcceleration(12.f).setColor(sf::Color(0, 0, 5)).setTextureName("space").setCarCreationSpeed(60).setCost(1500000));
     }
     void registerCars(Game* game)
     {
         game->gpo.registerCarType("default", (new CarType("default"))
                                   ->setDefaultRarity(2)
+                                  ->setRarityFor("space", 200)
                                   ->setMaxHealth(1));
         game->gpo.registerCarType("lorry", (new CarType("lorry"))
-                                  //->setRarities(         {4,4,4,15,13,5,2,5,10,4,15})
                                   ->setDefaultRarity(4)
                                   ->setRarityFor("ice", 15)
                                   ->setRarityFor("mountains", 13)
@@ -42,7 +43,6 @@ namespace CoreLoader
                                   ->setRarityFor("city", 2)
                                   ->setMaxHealth(3));
         game->gpo.registerCarType("rare", (new CarType("default"))
-                                  //->setRarities(        {5,3,3,4,7,8,10,5,5,3,5})
                                   ->setDefaultRarity(5)
                                   ->setRarityFor("desert", 3)
                                   ->setRarityFor("forest", 3)
@@ -52,7 +52,6 @@ namespace CoreLoader
                                   ->setRarityFor("swampland", 3)
                                   ->setMaxHealth(2));
         game->gpo.registerCarType("bus", (new CarType("bus"))
-                                  //->setRarities(             {10,3,14,8,3,3,5,3,5,8,3})
                                   ->setDefaultRarity(6)
                                   ->setRarityFor("countryside", 10)
                                   ->setRarityFor("forest", 14)
@@ -62,7 +61,6 @@ namespace CoreLoader
                                   ->setRarityFor("swampland", 8)
                                   ->setMaxHealth(5));
         game->gpo.registerCarType("ambulance", (new CarType("ambulance"))
-                                  //->setRarities( {10,3,10,15,20,5,3,10,3,3,6})
                                   ->setDefaultRarity(4)
                                   ->setRarityFor("countryside", 10)
                                   ->setRarityFor("forest", 10)
@@ -71,7 +69,6 @@ namespace CoreLoader
                                   ->setRarityFor("sea", 3)
                                   ->setMaxHealth(4));
         game->gpo.registerCarType("rally", (new CarType("rally"))
-                                  //->setRarities(         {4,20,5,25,10,20,10,20,20,5,20})
                                   ->setDefaultRarity(20)
                                   ->setRarityFor("countryside", 4)
                                   ->setRarityFor("forest", 5)
@@ -81,11 +78,9 @@ namespace CoreLoader
                                   ->setRarityFor("swampland", 5)
                                   ->setMaxHealth(2));
         game->gpo.registerCarType("bomb", (new CarType("bomb"))
-                                  //->setRarities(           {15,15,15,15,15,15,15,15,15,15,15})
-                                  ->setDefaultRarity(15)
+                                  ->setDefaultRarity(13)
                                   ->setMaxHealth(1));
         game->gpo.registerCarType("fireman", (new CarType("fireman"))
-                                  //->setRarities(     {5,7,3,10,8,12,4,10,5,5,12})
                                   ->setDefaultRarity(12)
                                   ->setRarityFor("countryside", 5)
                                   ->setRarityFor("desert", 7)
@@ -96,7 +91,6 @@ namespace CoreLoader
                                   ->setRarityFor("swampland", 5)
                                   ->setMaxHealth(5));
         game->gpo.registerCarType("tank", (new CarType("tank"))
-                                  //->setRarities(           {10,7,15,20,25,10,20,20,25,30,10})
                                   ->setDefaultRarity(20)
                                   ->setRarityFor("countryside", 10)
                                   ->setRarityFor("desert", 7)
@@ -107,7 +101,6 @@ namespace CoreLoader
                                   ->setRarityFor("forest_trails", 10)
                                   ->setMaxHealth(10));
         game->gpo.registerCarType("old", (new CarType("old"))
-                                  //->setRarities(             {5,20,8,10,15,5,15,20,15,15,5})
                                   ->setDefaultRarity(30)
                                   ->setRarityFor("countryside", 10)
                                   ->setRarityFor("desert", 20)
@@ -118,7 +111,6 @@ namespace CoreLoader
                                   ->setRarityFor("forest_trails", 10)
                                   ->setMaxHealth(2));
         game->gpo.registerCarType("armored", (new CarType("lorry"))
-                                  //->setRarities(       {20,14,30,40,50,15,40,10,12,15,5})
                                   ->setDefaultRarity(40)
                                   ->setRarityFor("countryside", 20)
                                   ->setRarityFor("desert", 14)
@@ -129,7 +121,6 @@ namespace CoreLoader
                                   ->setRarityFor("forest_trails", 5)
                                   ->setMaxHealth(15));
         game->gpo.registerCarType("train", (new CarType("train"))
-                                  //->setRarities(         {20,50,5,50,25,10,5,30,10,10,20})
                                   ->setDefaultRarity(20)
                                   ->setRarityFor("desert", 50)
                                   ->setRarityFor("forest", 5)
@@ -140,17 +131,25 @@ namespace CoreLoader
                                   ->setRarityFor("swampland", 10)
                                   ->setMaxHealth(10));
 
-        game->gpo.registerCarType("rocket", (new CarType("old"))
+        // todo: new cars
+        game->gpo.registerCarType("rocket", (new CarType("rocket"))
                                   ->setDefaultRarity(0)
                                   ->setRarityFor("space_station", 7)
                                   ->setRarityFor("space", 3)
                                   ->setMaxHealth(7));
-
-        game->gpo.registerCarType("coach", (new CarType("bus"))
+        game->gpo.registerCarType("coach", (new CarType("coach"))
                                   ->setDefaultRarity(20)
                                   ->setRarityFor("sea", 5)
                                   ->setRarityFor("beach", 3)
                                   ->setMaxHealth(5));
+        game->gpo.registerCarType("space_ship", (new CarType("space_ship"))
+                                  ->setDefaultRarity(0)
+                                  ->setRarityFor("space_station", 3)
+                                  ->setRarityFor("space", 7)
+                                  ->setMaxHealth(10));
+        game->gpo.registerCarType("police", (new CarType("police"))
+                                  ->setDefaultRarity(20)
+                                  ->setMaxHealth(4));
     }
     void registerPowers(Game* game)
     {
@@ -160,6 +159,7 @@ namespace CoreLoader
         game->gpo.registerPower(game, "point_boost", new PowerPointBoost());
         game->gpo.registerPower(game, "fence", new PowerFence());
         game->gpo.registerPower(game, "ball", new PowerBall());
+        game->gpo.registerPower(game, "big_damage", new PowerBigDamage());
         // PowerRegisterEvent
 
         game->gpo.registerPower(game, "speed_increase", new PowerSpeedIncrease());

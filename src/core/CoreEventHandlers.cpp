@@ -114,6 +114,16 @@ bool CoreEventHandlers::onCarSpawning(GameEvent& event, Game*)
         Car* car = new Car("coach", 7.f, rand() % 3);
 		event.carSpawned.carToCreate = car;
     }
+	else if(carId == "space_ship")
+    {
+        Car* car = new Car("space_ship", 7.f, rand() % 3);
+		event.carSpawned.carToCreate = car;
+    }
+	else if(carId == "police")
+    {
+        Car* car = new Car("police", 7.f, rand() % 3);
+		event.carSpawned.carToCreate = car;
+    }
 	else
         return false;
 
