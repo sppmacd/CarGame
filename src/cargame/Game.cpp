@@ -713,7 +713,7 @@ void Game::applyDebugOptions(std::string options)
 {
     if(!options.empty())
     {
-        DebugLogger::log("Applying Debug Options", "Game");
+        DebugLogger::log("Applying Debug Options", "Game", "IMP");
         sf::String optStr = options;
         optStr.replace(" ", "\n");
 

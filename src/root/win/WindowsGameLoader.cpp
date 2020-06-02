@@ -75,7 +75,7 @@ bool WindowsGameLoader::loadingCheckEvents()
 int WindowsGameLoader::levelToColor(std::string lvl)
 {
     if(lvl == "INFO")
-        return 0x0F;
+        return 0x07;
     else if(lvl == "WARN")
         return 0x06;
     else if(lvl == "ERROR")
@@ -88,6 +88,8 @@ int WindowsGameLoader::levelToColor(std::string lvl)
         return 0x08;
     else if(lvl == "EVENT")
         return 0x0D;
+    else if(lvl == "IMP")
+        return 0x01;
     else
         return 0x07;
 }
