@@ -13,10 +13,13 @@ void PowerFreeze::onPowerStop()
 
 void PowerFreeze::onPowerTick(int tc)
 {
-    if(Game::instance->maxPowerTime - tc < Game::instance->maxPowerTime / 18)
-        Game::instance->setGameSpeed(Game::instance->getGameSpeed() / (0.005f * sqrt(currentLevel) + 1.f));
-    else if(tc < Game::instance->maxPowerTime / 16)
-        Game::instance->setGameSpeed(Game::instance->getGameSpeed() * (0.000725f * sqrt(currentLevel) + 1.f));
+    for(Car* car: Game::instance->cars)
+    {
+        if(abs(car->getSpeed()) > 15.f / sqrt(currentLevel))
+        {
+            car->setSpeed(car->getSpeed() - (0.5f * sqrt(currentLevel) + 1.f));
+        }
+    }
 }
 
 void PowerFreeze::drawPower(RenderWindow * wnd)

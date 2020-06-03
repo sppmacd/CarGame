@@ -155,7 +155,7 @@ namespace CoreLoader
     {
         // move to core DLL
         game->gpo.registerPower(game, "oil", &(new PowerOil())->setMaxTime(1800));
-        game->gpo.registerPower(game, "freeze", &(new PowerFreeze())->setMaxTime(3000));
+        game->gpo.registerPower(game, "freeze", &(new PowerFreeze())->setMaxTime(1500));
         game->gpo.registerPower(game, "point_boost", new PowerPointBoost());
         game->gpo.registerPower(game, "fence", new PowerFence());
         game->gpo.registerPower(game, "ball", new PowerBall());

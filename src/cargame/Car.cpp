@@ -151,7 +151,7 @@ void Car::onLeave(Game* game)
 
 void Car::updateAIAndPhysics()
 {
-    DebugLogger::logDbg("0: car " + std::to_string((size_t)this) + ": a=" + std::to_string(carAcceleration) + ", v=" + std::to_string(carSpeed) + ", s=" + std::to_string(pos), "Car");
+    DebugLogger::logDbg("0: car " + std::to_string((size_t)this) + ": a=" + std::to_string(carAcceleration) + ", v=" + std::to_string(carSpeed) + ", s=" + std::to_string(pos) + ", F=" + std::to_string(friction), "Car");
     carAcceleration = 0;
 
     // todo: check collisions (brake on car in front of)
@@ -168,7 +168,7 @@ void Car::updateAIAndPhysics()
     //////////
 
     // keep speed
-    carAcceleration -= (carSpeed - initialCarSpeed) * 4.f;
+    carAcceleration += max(50.f, (initialCarSpeed - carSpeed) * 4.f);
 
     // Physics ...
     // acceleration
@@ -178,7 +178,7 @@ void Car::updateAIAndPhysics()
     if(abs(carSpeed) < 0.001f)
         carSpeed = 0.f;
 
-    DebugLogger::logDbg("1: car " + std::to_string((size_t)this) + ": a=" + std::to_string(carAcceleration) + ", v=" + std::to_string(carSpeed) + ", s=" + std::to_string(pos), "Car");
+    DebugLogger::logDbg("1: car " + std::to_string((size_t)this) + ": a=" + std::to_string(carAcceleration) + ", v=" + std::to_string(carSpeed) + ", s=" + std::to_string(pos) + ", F=" + std::to_string(friction), "Car");
 }
 
 sf::Vector2f Car::getScreenPos()

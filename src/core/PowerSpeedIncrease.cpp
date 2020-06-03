@@ -1,4 +1,5 @@
 #include "PowerSpeedIncrease.hpp"
+#include <cargame/Game.h>
 #include "CoreLoader.hpp"
 
 PowerSpeedIncrease::PowerSpeedIncrease()
@@ -17,6 +18,10 @@ void PowerSpeedIncrease::onPowerTick(int tick)
 {
     //Game::instance->setGameSpeed(Game::instance->getGameSpeed() + 0.05f);
     // todo: give big acc to cars
+    for(Car* car: Game::instance->cars)
+    {
+        car->setSpeed(car->getSpeed() + 100.f);
+    }
 }
 int PowerSpeedIncrease::getCost()
 {

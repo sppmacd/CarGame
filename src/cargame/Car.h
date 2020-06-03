@@ -145,21 +145,22 @@ public:
     // by (carAcceleration / 60.f) every tick.
     float carAcceleration;
 
+    // The car will be trying to keep this speed all the time.
+    float initialCarSpeed;
+
+    // The friction factor (in px/s^2). The friction force is calculated
+    // using { carAcceleration -= (speed == 0 ? 0 : friction) } function.
+    float friction;
+
 protected:
 	// Texture name, it will be added to "/res/car/".
     string textureName;
 
 private:
-    // The car will be trying to keep this speed all the time.
-    float initialCarSpeed;
 
 	// Current car speed (in px/s). The car is moved every tick
 	// by (carSpeed / 60.f).
     float carSpeed;
-
-    // The friction factor (in px/s^2). The friction force is calculated
-    // using { carAcceleration -= (speed == 0 ? 0 : friction) } function.
-    float friction;
 
 	// Car line.
     float lineIn;
