@@ -111,6 +111,9 @@ public:
     // Updates the car AI and physics.
     void updateAIAndPhysics();
 
+    // Update car AI.
+    virtual void tickAI();
+
 	// <true> if in "dead" state.
     bool canErase;
 
