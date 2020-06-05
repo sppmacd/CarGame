@@ -1,6 +1,6 @@
-ability.cgcore$power_cooldown_time=Power Reload
-ability.cgcore$power_time=Power Time
-ability.cgcore$damage=Damage
+ability.power_cooldown_time=Power Reload
+ability.power_time=Power Time
+ability.damage=Damage
 
 power.cgcore$oil=Oil
 power.cgcore$oil.desc=Oil makes a stain of sticky fluid on 2 lanes, which damages passing Cars.
@@ -39,6 +39,9 @@ map.cgcore$motorway=Motorway
 map.cgcore$sea=Sea
 map.cgcore$swampland=Swampland
 map.cgcore$forest_trails=Forest Trails
+map.cgcore$town=Town
+map.cgcore$space_station=Space Station
+map.cgcore$space=Space
 
 tutorial.startgame=Start Game
 tutorial.buymap=Buy Countryside

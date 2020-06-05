@@ -127,6 +127,7 @@ bool TranslationManager::loadFromFile(String code)
 }
 void TranslationManager::addTranslation(String unlocalized, String localized)
 {
+    DebugLogger::logDbg("Adding translation: " + unlocalized + " --> " + localized, "TranslationManager");
     TranslationEntry* entry = new TranslationEntry(localized);
     translations.insert(make_pair(unlocalized, entry));
 }
