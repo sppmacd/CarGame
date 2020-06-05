@@ -117,3 +117,18 @@ void ModuleManager::getModuleNames(std::vector<std::string>& modArr)
         modArr.push_back(modules[s]->getName());
     }
 }
+
+std::string ModuleManager::toString()
+{
+    std::string str = "ModuleManager{";
+    std::vector<std::string> arr;
+    getModuleNames(arr);
+    for(size_t s = 0; s < arr.size(); s++)
+    {
+        str += arr[s];
+        if(s != arr.size() - 1)
+            str += ", ";
+    }
+    str += "}";
+    return str;
+}

@@ -53,6 +53,9 @@ public:
     // ...
     void setCurrent(std::string mod);
 
+    // Converts ModuleManager to human-readable string.
+    std::string toString();
+
     CGAPI static ModuleManager* instance;
 
 private:
