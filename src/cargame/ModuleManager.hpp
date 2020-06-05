@@ -47,6 +47,10 @@ public:
     // ...
     size_t getModuleCount();
 
+    // ...
+    void getModuleNames(std::vector<std::string>& modArr);
+
+    // ...
     void setCurrent(std::string mod);
 
     CGAPI static ModuleManager* instance;

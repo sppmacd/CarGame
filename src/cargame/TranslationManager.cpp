@@ -1,11 +1,14 @@
 #include "TranslationManager.hpp"
+
+#include "DebugLogger.hpp"
+#include "ModuleManager.hpp"
+
+#include <codecvt>
 #include <cstring>
-#include <sstream>
 #include <fstream>
 #include <iostream>
 #include <locale>
-#include <codecvt>
-#include "DebugLogger.hpp"
+#include <sstream>
 
 // error codes
 // 01 - not enough values given (too many variables in translation string)
@@ -87,7 +90,7 @@ bool TranslationManager::loadFromFile(String code)
     languageCode = code;
 
     std::vector<std::string> modules = {"api"};
-    //Game::instance->moduleManager.populateModuleArray(modules);
+    ModuleManager::instance->getModuleNames(modules);
 
     for(std::string& mod: modules)
     {

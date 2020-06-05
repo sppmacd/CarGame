@@ -109,3 +109,11 @@ void ModuleManager::setCurrent(std::string mod)
 {
     currentModule = mod;
 }
+
+void ModuleManager::getModuleNames(std::vector<std::string>& modArr)
+{
+    for(size_t s = 0; s < modules.size(); s++)
+    {
+        modArr.push_back(modules[s]->getName());
+    }
+}
