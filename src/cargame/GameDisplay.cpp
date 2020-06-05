@@ -112,6 +112,7 @@ void GameDisplay::reload(bool _noResMode)
 
         GameDisplay::loadingStr = "Loading textures... Stat & GUI";
         DebugLogger::logDbg("Adding stat and GUI textures", "GameDisplay");
+        ModuleManager::instance->setCurrent("api");
         addTexture("stat/coin");
         addTexture("stat/high");
         addTexture("stat/score");
@@ -123,15 +124,13 @@ void GameDisplay::reload(bool _noResMode)
         addTexture("gui/settings");
         addTexture("gui/quit");
     }
-
-    ModuleManager::instance->setCurrent("");
 }
 
 void GameDisplay::addTexture(string name, string modName, bool repeated, bool smooth)
 {
+    ModuleManager::instance->setCurrent(modName);
     DebugLogger::logDbg("Adding texture: " + modName + "$" + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
     sf::Texture tx;
-    ModuleManager::instance->setCurrent(modName);
 
 	bool load = tx.loadFromFile("res/" + modName + "/textures/" + name + ".png");
 	if(!load)

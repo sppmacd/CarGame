@@ -130,12 +130,12 @@ void GameLoader::loadGame()
             return;
         }
 
-        DebugLogger::logDbg("Setting random seed to current timestamp");
+        DebugLogger::logDbg("Setting random seed to current timestamp", "GameLoader");
         srand(time(NULL));
-        DebugLogger::logDbg("Creating GameDisplay");
+        DebugLogger::logDbg("Creating GameDisplay", "GameLoader");
         disp = new GameDisplay(wnd);
         GameDisplay::loadingStr = "Loading game engine...";
-        DebugLogger::logDbg("Creating Game");
+        DebugLogger::logDbg("Creating Game", "GameLoader");
         game = new Game(argmap);
         registerEventHandlers();
 
@@ -175,9 +175,6 @@ int GameLoader::main(int argc, char* argv[])
 
     int i = 0;
     bool hang = false;
-
-    // Call core handler
-    //cgLoad(&data);
 
     try
     {

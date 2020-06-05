@@ -74,7 +74,7 @@ bool ModuleManager::loadAllModules()
         if(!b1) {} //it's optional so don't care
         modules.push_back(module);
     }
-    currentModule = "";
+    currentModule = "root";
     return true;
 }
 
@@ -91,7 +91,7 @@ bool ModuleManager::gameInitAllModules()
             break;
         }
     }
-    currentModule = "";
+    currentModule = "api";
     return true;
 }
 

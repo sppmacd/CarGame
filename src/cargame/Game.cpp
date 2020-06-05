@@ -38,6 +38,7 @@ CGAPI Game* Game::instance = NULL;
 
 Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), GameDisplay::instance->getGuiFont())
 {
+    ModuleManager::instance->setCurrent("api");
     DebugLogger::log("Loading game engine...", "Game");
 
 	GameDisplay::loadingStr = "Loading game data...";

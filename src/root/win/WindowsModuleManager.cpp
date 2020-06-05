@@ -31,7 +31,7 @@ void WindowsModuleManager::cleanup(Module* mod)
 bool WindowsModuleManager::call(Module* module, std::string funcName)
 {
     typedef void(*ProcType_cg)();
-    DebugLogger::logDbg("Trying to load get address of " + funcName + "() from " + module->getName(), "WindowsModuleManager");
+    DebugLogger::logDbg("Trying to retrieve address of " + funcName + "() from " + module->getName(), "WindowsModuleManager");
     ProcType_cg func = (ProcType_cg)GetProcAddress((HMODULE)module->getSystemInfo(), funcName.c_str());
 
     if(!func)

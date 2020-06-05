@@ -19,6 +19,7 @@ void WindowsGameLoader::preInit()
 
     // create modmanager
     modManager = new WindowsModuleManager;
+    modManager->setCurrent("root");
 }
 void WindowsGameLoader::createLoadingWnd()
 {
@@ -90,6 +91,8 @@ int WindowsGameLoader::levelToColor(std::string lvl)
         return 0x0D;
     else if(lvl == "IMP")
         return 0x01;
+    else if(lvl == "TEXT")
+        return 0x0A;
     else
         return 0x07;
 }

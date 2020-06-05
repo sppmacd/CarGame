@@ -6,7 +6,7 @@
 
 void Game::addCar(Car* car)
 {
-    DebugLogger::logDbg("Adding car: ", std::to_string((size_t)car), "Game");
+    DebugLogger::logDbg("Adding car: " + std::to_string((size_t)car), "Game");
     cars.push_back(car);
 }
 

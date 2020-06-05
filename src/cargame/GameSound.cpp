@@ -1,9 +1,12 @@
 #include "GameSound.hpp"
+
+#include "DebugLogger.hpp"
+#include "Game.h"
+#include "GameDisplay.h"
+#include "ModuleManager.hpp"
+
 #include <cstdlib>
 #include <iostream>
-#include "GameDisplay.h"
-#include "Game.h"
-#include "DebugLogger.hpp"
 
 SoundBase::SoundBase(std::vector<sf::SoundBuffer> buffs): buffers(buffs)
 {
@@ -25,6 +28,7 @@ GameSound::GameSound()
 
 bool GameSound::loadSound(std::string name, std::string mod, bool random)
 {
+    ModuleManager::instance->setCurrent(mod);
     DebugLogger::logDbg("Adding sound: " + mod + ":" + name + "(random=" + std::to_string(random) + ")", "GameSound");
     std::vector<sf::SoundBuffer> buffers;
     if(!random)
