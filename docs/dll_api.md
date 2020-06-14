@@ -10,9 +10,9 @@
  
 ## Procedures
 
+````CGAPI void cgCleanup()````
 
 [OPTIONAL]
-	CGAPI void cgCleanup()
 The function is called by root (cg.exe) when the Game exits main loop.
 	
 ### Valid pointers
@@ -22,8 +22,8 @@ The function is called by root (cg.exe) when the Game exits main loop.
 [x] ModuleManager
 
 
+````CGAPI cgGameInit()````
 [REQUIRED]
-	CGAPI cgGameInit()
 The function is called from Game constructor (before GameDisplay reload).
 You can here fill GameplayObjectManager registers by your objects.
 
@@ -34,8 +34,8 @@ You can here fill GameplayObjectManager registers by your objects.
 [x] ModuleManager
 
 
+````CGAPI int cgLoad()````
 [OPTIONAL]
-	CGAPI int cgLoad()
 The function is called immediately after module is loaded, before Game
 starts.
 
