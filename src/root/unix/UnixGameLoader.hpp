@@ -1,5 +1,5 @@
-#ifndef WINDOWSGAMELOADER_HPP
-#define WINDOWSGAMELOADER_HPP
+#ifndef UNIXGAMELOADER_HPP
+#define UNIXGAMELOADER_HPP
 
 #include <string>
 
@@ -7,13 +7,13 @@
 
 #include <SFML/System.hpp>
 
-// GameLoader for Windows.
-class WindowsGameLoader : public DesktopGameLoader
+// GameLoader for Unix-like systems.
+class UnixGameLoader : public DesktopGameLoader
 {
 public:
     sf::Thread loadingThread;
 
-    WindowsGameLoader();
+    UnixGameLoader();
 
     virtual void preInit();
     virtual void createLoadingWnd();
@@ -28,5 +28,5 @@ public:
     int levelToColor(std::string lvl);
 };
 
-#endif // WINDOWSGAMELOADER_HPP
+#endif // UNIXGAMELOADER_HPP
 

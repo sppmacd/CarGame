@@ -4,7 +4,6 @@
 #include <array>
 
 #include "version.hpp"
-#include "UpdateChecker.hpp"
 
 #include "Car.h"
 #include "CarType.h"
@@ -72,12 +71,6 @@ public:
 
     // The settings manager.
 	SettingsManager settings;
-
-	// The update checker.
-	UpdateChecker updateChecker;
-
-	// True if update was found, false otherwise.
-	bool updateFound;
 
 	// GameSound (sound manager) instance.
 	GameSound sound;

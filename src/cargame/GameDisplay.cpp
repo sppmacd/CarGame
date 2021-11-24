@@ -66,6 +66,7 @@ void GameDisplay::reload(bool _noResMode)
             bool isNB = ((i <= 32 && j > 32) || (i > 32 && j <= 32));
             imgUnknownTexture.setPixel(i, j, isNB ? Color::Red : Color::Green);
         }
+        sf::Lock lock(glAccessMutex);
         unknownTexture.loadFromImage(imgUnknownTexture);
         unknownTexture.setRepeated(true);
     }
@@ -73,7 +74,7 @@ void GameDisplay::reload(bool _noResMode)
     DebugLogger::log("NoRes Mode: " + std::to_string(_noResMode), "GameDisplay");
     if(!noResMode)
     {
-        if(FileUtil::getFileType("res") == FileUtil::NOTEXISTING)
+        if(FileUtil::getFileType("res") == FileUtil::FileType::NOTEXISTING)
         {
             DebugLogger::log("Resource folder not found", "GameDisplay", "FATAL");
             throw runtime_error("No resource folder found. Try reinstalling the game.\nD01");
@@ -130,8 +131,9 @@ void GameDisplay::addTexture(string name, string modName, bool repeated, bool sm
 {
     ModuleManager::instance->setCurrent(modName);
     DebugLogger::logDbg("Adding texture: " + modName + "$" + name + "(repeated=" + std::to_string(repeated) + "," + "smooth=" + std::to_string(smooth) + ")", "GameDisplay");
-    sf::Texture tx;
 
+    sf::Lock lock(glAccessMutex);
+    sf::Texture tx;
 	bool load = tx.loadFromFile("res/" + modName + "/textures/" + name + ".png");
 	if(!load)
     {
@@ -148,8 +150,9 @@ void GameDisplay::addTexture(string name, string modName, bool repeated, bool sm
 	}
 }
 
-sf::Texture & GameDisplay::getTexture(string name)
+sf::Texture& GameDisplay::getTexture(string name)
 {
+    sf::Lock lock(glAccessMutex);
 	map<string,Texture>::iterator tex = texturesByName.find(name);
 
 	if(tex == texturesByName.end())
@@ -195,6 +198,7 @@ GameDisplay::~GameDisplay()
 
 void GameDisplay::display()
 {
+    sf::Lock lock(glAccessMutex);
     Game* game = Game::instance;
 
     // Prepare viewport for drawing
@@ -254,6 +258,7 @@ void GameDisplay::drawLoadingProgress(String action, sf::RenderWindow* wnd)
 {
     if(GameDisplay::instance)
     {
+        sf::Lock lock(GameDisplay::instance->glAccessMutex);
         if(GameDisplay::instance->guiFont.getInfo().family.empty() && !GameDisplay::instance->error && !GameDisplay::instance->guiFont.loadFromFile("res/font.ttf"))
         {
             GameDisplay::instance->error = true;

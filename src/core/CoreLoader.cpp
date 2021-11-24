@@ -28,6 +28,8 @@ namespace CoreLoader
         LevelData::registerLevel("town", (new LevelData())->setAcceleration(9).setColor(sf::Color(145, 145, 145)).setTextureName("town").setCarCreationSpeed(25).setCost(500000));
         LevelData::registerLevel("space_station", (new LevelData())->setAcceleration(10).setColor(sf::Color(15, 15, 20)).setTextureName("space_station").setCarCreationSpeed(40).setCost(1000000));
         LevelData::registerLevel("space", (new LevelData())->setAcceleration(12).setColor(sf::Color(0, 0, 5)).setTextureName("space").setCarCreationSpeed(46).setCost(1500000));
+
+        // TODO: Airport, Aircraft Carrier
     }
     void registerCars(Game* game)
     {

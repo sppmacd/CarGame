@@ -1,3 +1,6 @@
 *.save-failed
 launcher.options
 src/version.cpp
+.vscode
+.cache
+build

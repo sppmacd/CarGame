@@ -58,6 +58,8 @@ public:
 
     // Does pre-initialization of game, basing on arguments
     // on desktop OS's: redirects sfml error output to NULL if not debug mode
+    // The OS-specific ROOT is expected to create its ModuleManager here; if not,
+    // the mods won't be loaded.
     virtual void preInit();
 
     // Creates loading window (splash or fullscreen, depending on OS)
@@ -84,6 +86,13 @@ public:
 
     // Sets console color. OS-specific.
     virtual void consoleColor(std::string level);
+};
+
+// GameLoader for desktop OS's.
+class DesktopGameLoader : public GameLoader
+{
+public:
+    DesktopGameLoader();
 };
 
 #endif // GAMELOADER_HPP

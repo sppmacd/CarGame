@@ -1,5 +1,5 @@
 #include "version.hpp"
 
-const char* CG_VERSION          =   "live";
-const char* CG_VERSION_SIG      =   "live";
-const char* CG_ARCH_PREFIX      =   "win_x64";
+const char* CG_VERSION          =   "invalid";
+const char* CG_VERSION_SIG      =   "invalid";
+const char* CG_ARCH_PREFIX      =   "unix_x86";

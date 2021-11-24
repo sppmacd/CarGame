@@ -11,3 +11,5 @@ namespace DebugLogger
     // or this option is unknown (e.g. because of Game not created)
     void logDbg(std::string str, std::string logger = "main", std::string level = "DEBUG");
 };
+
+#define DBG DebugLogger

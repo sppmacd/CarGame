@@ -1,0 +1,64 @@
+#!/bin/sh
+
+if [ -z ${1+x} ]
+then 
+    echo "Usage: ./configure <cg version>"
+    exit 1
+else
+    CG_VER_STR="$1"
+fi
+
+CG_VER_SIG="$CG_VER_STR"
+
+check_command () {
+    $1 $2
+    if [ $? != 0 ] 
+    then
+        echo "Failed to run $1 $2, stopping"
+    fi
+}
+
+# check dependencies
+echo "-----------------------------"
+echo "CG: Checking for dependencies"
+echo "-----------------------------"
+check_command cmake --version
+check_command gcc --version
+check_command git --version
+check_command make --version
+
+# download and compile SFML dependencies
+
+# download and compile SFML
+echo "----------------------------------"
+echo "CG: Downloading and compiling SFML"
+echo "----------------------------------"
+mkdir build
+cd build
+sudo rm -rf sfml
+git clone https://github.com/sfml/sfml
+
+# [todo] downgrade to 2.4.2 due 2.5+ not working
+git fetch --tags
+git checkout tags/2.4.2
+
+cd sfml
+cmake -B build -S . -DBUILD_SHARED_LIBS=FALSE -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_BUILD_TYPE=Debug
+
+cd build
+JOBS=$(nproc)
+echo "------------------------"
+echo "CG: Running jobs: $JOBS"
+echo "------------------------"
+make clean
+sudo make install -j $JOBS
+
+cd ../../..
+
+# run our CMake
+echo "-----------------------"
+echo "CG: Configuring project"
+echo "-----------------------"
+cmake -B build -S . -DCG_VER_SIG=$CG_VER_SIG -DCG_VER_STR=$CG_VER_STR -DSFML_ROOT=build/sfml
+cd build
+

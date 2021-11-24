@@ -1,43 +1,42 @@
-#include "WindowsGameLoader.hpp"
+#include "UnixGameLoader.hpp"
 
 #include <SFML/Graphics.hpp>
-#include <windows.h>
 #include <cargame/EventHandler.h>
 #include <cargame/ArgMap.hpp>
-#include "WindowsModuleManager.hpp"
+#include "UnixModuleManager.hpp"
 
-WindowsGameLoader::WindowsGameLoader()
+UnixGameLoader::UnixGameLoader()
                 : DesktopGameLoader()
-                , loadingThread(GameLoader::loadGame, (GameLoader*)this) {}
+                , loadingThread(&GameLoader::loadGame, (GameLoader*)this) {}
 
-void WindowsGameLoader::preInit()
+void UnixGameLoader::preInit()
 {
     // redirect SFML error output to null if not debug mode
     if(!argmap->a_debug) sf::err().rdbuf(NULL);
 
     // create modmanager
-    modManager = new WindowsModuleManager;
+    modManager = new UnixModuleManager;
     modManager->setCurrent("root");
 }
-void WindowsGameLoader::createLoadingWnd()
+void UnixGameLoader::createLoadingWnd()
 {
-    wnd = new sf::RenderWindow(VideoMode(600, 500), "CarGame loading...", Style::None);
+    wnd = new sf::RenderWindow(VideoMode(600, 500), "CarGame loading...", sf::Style::Default, sf::ContextSettings(0, 0, 0, 2, 0, sf::ContextSettings::Debug));
 }
-void WindowsGameLoader::startLoadingThread()
+void UnixGameLoader::startLoadingThread()
 {
-    //sf::Thread loadingThread(WindowsGameLoader::loadGame, (WindowsGameLoader*)this);
+    //sf::Thread loadingThread(UnixGameLoader::loadGame, (UnixGameLoader*)this);
     loadingThread.launch();
 
     //wnd->setActive(true);
 }
-void WindowsGameLoader::registerEventHandlers()
+void UnixGameLoader::registerEventHandlers()
 {
 	game->addEventHandler(sf::Event::Closed, EventHandlers::onClose);
 	game->addEventHandler(sf::Event::MouseButtonReleased, EventHandlers::onMouseButtonReleased);
 	game->addEventHandler(sf::Event::KeyPressed, EventHandlers::onKeyPressed);
 	game->addEventHandler(sf::Event::MouseWheelScrolled, EventHandlers::onMouseWheelScrolled);
 }
-void WindowsGameLoader::checkEvents()
+void UnixGameLoader::checkEvents()
 {
     sf::Event ev1;
     bool mouseMoveHandled = false;
@@ -60,7 +59,7 @@ void WindowsGameLoader::checkEvents()
         if (updateDebugStats) game->times.timeGui += guiClock.getElapsedTime();
     }
 }
-bool WindowsGameLoader::loadingCheckEvents()
+bool UnixGameLoader::loadingCheckEvents()
 {
     sf::Event ev1;
     while(wnd->pollEvent(ev1))
@@ -71,7 +70,7 @@ bool WindowsGameLoader::loadingCheckEvents()
     return true;
 }
 
-int WindowsGameLoader::levelToColor(std::string lvl)
+int UnixGameLoader::levelToColor(std::string lvl)
 {
     if(lvl == "INFO")
         return 0x07;
@@ -95,8 +94,7 @@ int WindowsGameLoader::levelToColor(std::string lvl)
         return 0x07;
 }
 
-void WindowsGameLoader::consoleColor(std::string level)
+void UnixGameLoader::consoleColor(std::string level)
 {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, levelToColor(level));
+    // currently not supported
 }

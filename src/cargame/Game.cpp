@@ -19,7 +19,6 @@
 #include "GuiSettings.h"
 #include "GuiIngame.h"
 #include "GuiMainMenu.h"
-#include "GuiUpdates.hpp"
 #include "GuiError.hpp"
 
 #include <HackerMan/Util/Main.hpp>
@@ -53,7 +52,6 @@ Game::Game(ArgMap* argmap): GuiHandler(GameDisplay::instance->getRenderWnd(), Ga
 		// and check for updates
 		DebugLogger::logDbg("Checking for updates", "Game");
 		GameDisplay::loadingStr = "Checking for updates...";
-		this->updateFound = this->updateChecker.checkUpdates();
 
 		// Register settings
 		DebugLogger::logDbg("Loading game API", "Game");
@@ -607,15 +605,7 @@ void Game::postInit()
         GameDisplay::instance->getRenderWnd()->create(sf::VideoMode(1280, 720, 32), "CG " + string(CG_VERSION));
     }*/
 
-    // Display the main menu
-    if(updateFound)
-    {
-        displayGui(new GuiUpdates(&updateChecker));
-    }
-    else
-    {
-        displayGui(new GuiMainMenu);
-    }
+    displayGui(new GuiMainMenu);
     settings.triggerAllClose();
     if(isFullscreen())
         GameDisplay::instance->createFullscreenWnd();

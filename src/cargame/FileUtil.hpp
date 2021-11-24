@@ -14,11 +14,15 @@ namespace FileUtil
     // It excludes special "." and ".." directories.
     vector<string> getFileList(string folder, string pattern, int depth = 0);
 
-    enum FileType
+    enum class FileType
     {
         DIRECTORY,
         FILE,
-        UNKNOWN,
+        SYMLINK, // unix
+        CHARACTER_DEVICE, // unix
+        BLOCK_DEVICE, // unix
+        FIFO, // unix
+        SOCKET, // unix
         NOTEXISTING
     };
 

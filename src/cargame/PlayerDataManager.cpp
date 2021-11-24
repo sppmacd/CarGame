@@ -201,7 +201,8 @@ bool PlayerDataManager::save(std::string fileName)
     abilities.write(playerData);
 
     if(!fileName.empty())
-        playerData.saveToFile(fileName);
+        return playerData.saveToFile(fileName);
+    return false;
 }
 
 HMDataMap& PlayerDataManager::getHMMap()

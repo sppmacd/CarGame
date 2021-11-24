@@ -4,9 +4,13 @@
 #ifdef SFML_SYSTEM_WINDOWS
 #include <windows.h>
 #include <shlwapi.h>
+#else
+#include <dirent.h>
 #endif // SFML_SYSTEM_WINDOWS
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#include <cargame/DebugLogger.hpp>
 
 namespace FileUtil
 {
@@ -19,11 +23,21 @@ namespace FileUtil
         struct stat info;
 
         if(stat(fileName.c_str(), &info) != 0)
-            return FileUtil::NOTEXISTING;
-        else if(info.st_mode & S_IFDIR)  // S_ISDIR() doesn't exist on my windows
-            return FileUtil::DIRECTORY;
+            return FileUtil::FileType::NOTEXISTING;
+        else if(info.st_mode & S_IFDIR)  // S_ISDIR() etc. doesn't exist on Windows
+            return FileUtil::FileType::DIRECTORY;
+        else if(info.st_mode & S_IFLNK)
+            return FileUtil::FileType::SYMLINK;
+        else if(info.st_mode & S_IFCHR)
+            return FileUtil::FileType::CHARACTER_DEVICE;
+        else if(info.st_mode & S_IFBLK)
+            return FileUtil::FileType::BLOCK_DEVICE;
+        else if(info.st_mode & S_IFIFO)
+            return FileUtil::FileType::FIFO;
+        else if(info.st_mode & S_IFSOCK)
+            return FileUtil::FileType::SOCKET;
         else
-            return FileUtil::FILE;
+            return FileUtil::FileType::FILE;
     }
     #ifdef SFML_SYSTEM_WINDOWS
         vector<string> getFileList(string folder, string pattern, int depth)
@@ -70,10 +84,35 @@ namespace FileUtil
             }
         }
     #else
-        vector<string> getFileList(string, string, int)
+        // TODO: handle pattern
+        vector<string> getFileList(string folder, string pattern, int depth)
         {
-            DebugLogger::log("System not supported, cannot list files.", "FileUtil", "ERROR");
-            return vector<string>();
+            if(depth < 64)
+            {
+                vector<string> files;
+
+                DIR* dir = opendir(folder.c_str());
+                if(!dir)
+                    return {};
+                dirent* _dirent = nullptr;
+                while(_dirent = readdir(dir))
+                {
+                    if(S_ISDIR(_dirent->d_type) && string(_dirent->d_name) != "." && string(_dirent->d_name) != "..")
+                    {
+                        vector<string> files2 = getFileList(folder + "/" + _dirent->d_name, pattern, depth + 1);
+                        files.insert(files.end(), files2.begin(), files2.end());
+                    }
+                    else
+                        files.push_back(folder + "/" + _dirent->d_name);
+                }
+                closedir(dir);
+                return files;
+            }
+            else
+            {
+                DBG::log("(getFileList) Maximum depth encountered (64), aborting", "FileUtil", "WARN");
+                return vector<string>();
+            }
         }
     #endif
 }

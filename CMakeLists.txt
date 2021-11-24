@@ -3,7 +3,7 @@
 #      Ver. 0.3-beta.1       #
 ##############################
 
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.13)
 project (CarGame)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -54,7 +54,9 @@ endif()
 
 # generate arch prefix
 set(CG_ARCH_PREFIX "${CG_ARCH_PREFIX_A}_${CG_ARCH_PREFIX_B}")
-set(CG_EXTLIB_PATH "extlibs/libs-${CG_COMPILER}/${CG_ARCH_PREFIX_B}")
+if(NOT DEFINED CG_EXTLIB_PATH)
+	set(CG_EXTLIB_PATH "extlibs/libs-${CG_COMPILER}/${CG_ARCH_PREFIX_B}")
+endif()
 
 # todo: generate CG_VER_SIG from CG_VER_STR
 # ...
@@ -73,8 +75,8 @@ cg_set_option(CG_VER_SIG "invalid" STRING "Version signature (used in file names
 message("CG: version is '${CG_VER_STR}'")
 configure_file ("${PROJECT_SOURCE_DIR}/src/version.cpp.in" "${PROJECT_SOURCE_DIR}/src/version.cpp")
 
-set(VERSION_SOURCES 
-	"src/version.hpp" 
+set(VERSION_SOURCES
+	"src/version.hpp"
 	"src/version.cpp"
 )
 
@@ -98,16 +100,22 @@ if(CG_COMPILE_LAUNCHER)
 	endif()
 endif()
 
-####################
-# add cg.dll (API) #
-####################
+##########################
+# add cg.dll/cg.so (API) #
+##########################
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC}/${CG_ARCH_PREFIX})
 
 file(GLOB_RECURSE API_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} ${VERSION_SOURCES} "src/cargame/*.rc" "src/cargame/*.cpp" "src/cargame/*.cpp" "src/cargame/*.inl" "src/cargame/*.hpp" "cgui_fork/src/*.cpp" "cgui_fork/include/CG/*.hpp" "src/cargame/*.h" "cgui_fork/include/CG/*.h" "cgui_fork/include/CG/*.hpp")
 set(CMAKE_BUILD_TYPE "Release")
-message("CG: API sources are ${API_SOURCES}")
+#message("CG: API sources are ${API_SOURCES}")
 add_library(cgapi SHARED "${API_SOURCES}")
+set_target_properties(cgapi PROPERTIES LINK_FLAGS "-fPIC")
+#set_target_properties(cgapi PROPERTIES COMPILE_FLAGS)
+
+if(CG_ARCH_PREFIX_A STREQUAL "unix")
+	target_link_libraries(cgapi PUBLIC dl)
+endif()
 
 if(CG_COMPILE_DEBUG)
 	set(CMAKE_BUILD_TYPE "Debug")
@@ -122,23 +130,20 @@ file(COPY data/ DESTINATION ${EXEC})
 #####################
 
 cmake_policy(SET CMP0074 NEW) # suppress SFML_ROOT warning
-set(SFML_STATIC_LIBRARIES TRUE)
-message("CG: SFML root is ${SFML_ROOT}")
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-find_package(SFML 2.4 COMPONENTS network audio graphics window system REQUIRED)
+message("CG: SFML root is '${SFML_ROOT}'")
+find_package(SFML 2.5 COMPONENTS network audio graphics window system REQUIRED)
 if(SFML_FOUND)
 	message("CG: adding SFML as dependency")
-	
+
 	#target_include_directories(cgapi PUBLIC "${SFML_INCLUDE_DIR}")
-	target_link_libraries(cgapi PRIVATE ${SFML_LIBRARIES}
-								${SFML_DEPENDENCIES})
+	target_link_libraries(cgapi PUBLIC sfml-graphics sfml-audio)
 endif()
 
 # add sfml extlibs
 message("CG: sfml extlib path is ${SFML_ROOT}/${CG_EXTLIB_PATH}")
 #link_directories("${SFML_ROOT}/${CG_EXTLIB_PATH}")
-file(COPY ${SFML_ROOT}/${CG_EXTLIB_PATH}/ DESTINATION ${SFML_ROOT}/lib)
-	
+link_directories("${CMAKE_BINARY_DIR}/sfml/${CG_EXTLIB_PATH}")
+
 # add lib directory
 link_directories(${CMAKE_BINARY_DIR}/lib)
 
@@ -147,6 +152,8 @@ message("CG: compiling and adding hmutil")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 file(GLOB_RECURSE HMUTIL_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/hmutil/include/HackerMan/Util/*.cpp")
 add_library(hmutil "${HMUTIL_SOURCES}")
+set_target_properties(hmutil PROPERTIES LINK_FLAGS "-fPIC")
+set_target_properties(hmutil PROPERTIES COMPILE_FLAGS "-fPIC")
 target_include_directories(hmutil PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 
 #####################
@@ -155,11 +162,13 @@ target_include_directories(hmutil PUBLIC "${CMAKE_SOURCE_DIR}/hmutil/include")
 
 file(GLOB_RECURSE ROOT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} ${VERSION_SOURCES} "src/root/${CG_ARCH_PREFIX_A}/*.rc" "src/root/${CG_ARCH_PREFIX_A}/*.cpp" "src/root/${CG_ARCH_PREFIX_A}/*.hpp")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC}/${CG_ARCH_PREFIX})
-message("CG: ROOT sources for '${CG_ARCH_PREFIX_A}' are ${ROOT_SOURCES}")
+#message("CG: ROOT sources for '${CG_ARCH_PREFIX_A}' are ${ROOT_SOURCES}")
 
 #set(CMAKE_EXE_LINKER_FLAGS " -static")
 
 add_executable(cg "${ROOT_SOURCES}")
+set_target_properties(cg PROPERTIES LINK_FLAGS "-fPIC")
+set_target_properties(cg PROPERTIES COMPILE_FLAGS "-fPIC")
 cg_gcc_static_link(cg)
 
 set(CG_MOD_DIR ${CMAKE_BINARY_DIR}/${EXEC}/${CG_ARCH_PREFIX}/mods)
@@ -167,9 +176,11 @@ message("CG: mod directory is ${CG_MOD_DIR}")
 
 # Add mod to build system.
 macro(cg_setup_mod name sources)
-	message(":: MOD :: '${name}' (${sources})")
+	message("CG: Adding MODULE: '${name}'")
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CG_MOD_DIR}")
 	add_library(${name} MODULE "${sources}")
+	set_target_properties(${name} PROPERTIES LINK_FLAGS "-fPIC")
+	set_target_properties(${name} PROPERTIES COMPILE_FLAGS "-fPIC")
 	set_target_properties(${name} PROPERTIES PREFIX "")
 	cg_link_common(${name})
 	target_link_directories(${name} PUBLIC ${CMAKE_BINARY_DIR})
@@ -189,7 +200,7 @@ endmacro()
 message("CG: adding headers")
 target_link_directories(cg PUBLIC ${CMAKE_BINARY_DIR})
 target_include_directories(cg PUBLIC "${CMAKE_SOURCE_DIR}/src/root/${CG_ARCH_PREFIX_A}")
-target_link_libraries(cg PRIVATE cgapi)
+target_link_libraries(cg PUBLIC cgapi)
 cg_link_common(cg)
 
 # add libraries to API DLL
@@ -203,3 +214,4 @@ add_subdirectory("src/core")
 # set working directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${EXEC})
 message("CG: successfully configured CG ${CG_VER_STR}")
+

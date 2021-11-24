@@ -127,6 +127,8 @@ public:
     // Draw debug info (shift + f3).
     void drawDebugInfo(sf::RenderWindow* wnd);
 
+    sf::Mutex glAccessMutex;
+
 protected:
 
 private:

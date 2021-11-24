@@ -37,6 +37,7 @@ void GameDisplay::drawStat(int x, int y, String texture, long val, int animTick)
 
 void GameDisplay::drawLoading(sf::RenderWindow* wnd)
 {
+    sf::Lock lock(GameDisplay::instance->glAccessMutex);
 	static int animC = 0;
 	wnd->clear(Color(30, 30, 40));
 	if(GameDisplay::consoleStr.isEmpty())

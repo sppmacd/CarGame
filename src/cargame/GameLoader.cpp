@@ -17,6 +17,8 @@
 #include <string>
 #include <vector>
 
+DesktopGameLoader::DesktopGameLoader() : GameLoader() {}
+
 CGAPI GameLoader* GameLoader::instance = NULL;
 
 GameLoader::GameLoader() : game(NULL), disp(NULL), wnd(NULL), loaded(false)
@@ -132,19 +134,14 @@ void GameLoader::loadGame()
 
         DebugLogger::logDbg("Setting random seed to current timestamp", "GameLoader");
         srand(time(NULL));
-        DebugLogger::logDbg("Creating GameDisplay", "GameLoader");
-        disp = new GameDisplay(wnd);
         GameDisplay::loadingStr = "Loading game engine...";
         DebugLogger::logDbg("Creating Game", "GameLoader");
         game = new Game(argmap);
         registerEventHandlers();
 
-        if(!game->updateFound)
-        {
-            DebugLogger::logDbg("Triggering full game reload", "GameLoader");
-            disp->reload(argmap->a_no_resources); // moved from constructor to display loading screen.
-            game->sound.reload();
-        }
+        DebugLogger::logDbg("Triggering full game reload", "GameLoader");
+        disp->reload(argmap->a_no_resources);
+        game->sound.reload();
 
         if(disp->isError())
             throw runtime_error("GameDisplay loading error");
@@ -174,7 +171,6 @@ int GameLoader::main(int argc, char* argv[])
     preInit();
 
     int i = 0;
-    bool hang = false;
 
     try
     {
@@ -193,8 +189,12 @@ int GameLoader::main(int argc, char* argv[])
         DebugLogger::logDbg("Creating loading window", "GameLoader");
         createLoadingWnd();
 
+        DebugLogger::logDbg("Creating GameDisplay", "GameLoader");
+        disp = new GameDisplay(wnd);
+
         DebugLogger::logDbg("Starting loading thread", "GameLoader");
         startLoadingThread();
+        //loadGame();
 
         sf::Clock clock;
         sf::Clock eventClock;
@@ -207,6 +207,7 @@ int GameLoader::main(int argc, char* argv[])
 
         bool mainLoopRunning = true;
 
+        bool hang = false;
         while(mainLoopRunning)
         {
             // to handle closing game by GuiHandler::close()
@@ -279,7 +280,7 @@ int GameLoader::main(int argc, char* argv[])
                     else
                     {
                         DebugLogger::log("Out of memory!", "GameLoader", "FATAL");
-                        DebugLogger::log("occurred after another exception! Stopping game.", "GameLoader", "FATAL");
+                        DebugLogger::log("Exception caught after another exception! Stopping game.", "GameLoader", "FATAL");
                         break;
                     }
                 }
@@ -294,7 +295,7 @@ int GameLoader::main(int argc, char* argv[])
                     else
                     {
                         DebugLogger::log("std::exception caught: " + std::string(e.what()), "GameLoader", "FATAL");
-                        DebugLogger::log("occurred after another exception! Stopping game.", "GameLoader", "FATAL");
+                        DebugLogger::log("Exception caught after another exception! Stopping game.", "GameLoader", "FATAL");
                         break;
                     }
                 }
@@ -393,4 +394,4 @@ void GameLoader::createLoadingWnd()         EMPTY
 void GameLoader::startLoadingThread()       EMPTY
 void GameLoader::registerEventHandlers()    EMPTY
 void GameLoader::checkEvents()              EMPTY
-bool GameLoader::loadingCheckEvents()       EMPTY
+bool GameLoader::loadingCheckEvents()       { return false; }
