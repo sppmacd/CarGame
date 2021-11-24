@@ -11,25 +11,32 @@
 
 Download and install dependencies for your platform:
 
-	Ubuntu: sudo apt-get install -y libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev libudev-dev libxcb-image0-dev libjpeg-dev libflac-dev git cmake make gcc
+### Ubuntu
 
-Download and build SFML, run CMake for CarGame:
+	sudo apt-get install -y libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew1.5-dev libjpeg8-dev libsndfile1-dev libopenal-dev libudev-dev libxcb-image0-dev libjpeg-dev libflac-dev git cmake ninja gcc
 
-	./configure <version signature>
+### Arch Linux/Manjaro
 
-Build CarGame:
+	sudo pacman -S git gcc cmake ninja sfml
 
-	cd build
-	make all
+### Build steps
 
-Run CarGame:
+	git clone https://github.com/sppmacd/CarGame
+	cd CarGame
+	mkdir build && cd build
+	cmake .. -GNinja -DCG_VER_SIG=<version>
+	ninja -j$(nproc)
 
-	cd cargame-<version signature>
+### Run
+
+	cd cargame-<version>
 	./cglaunch.sh
 
-(```chmod a+rwx cglaunch.sh``` may be needed)
+(```chmod u+x cglaunch.sh``` may be needed)
 
 ## Building CG on Windows
+
+WARNING: These are outdated and probably doesn't work
 
 - We assume you have a compiler
 - Download CMake (minimum version: 2.8)
