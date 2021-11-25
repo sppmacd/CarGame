@@ -18,4 +18,4 @@ jobs:
     - name: Generate build system
       run: mkdir build && cd build && cmake .. -GNinja "-DCG_VER_STR=CI test" "-DCG_VER_SIG=ci-test"
     - name: Build
-      run: ninja -j$(nproc)
+      run: cd build && ninja -j$(nproc)
