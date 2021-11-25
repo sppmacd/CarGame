@@ -2,7 +2,7 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, ci ]
   pull_request:
     branches: [ master ]
 
@@ -14,12 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Dependency install
-      run: sudo apt install libfreetype6-dev libxrandr-dev libudev-dev libflac-dev libogg-dev libvorbis-dev libopenal-dev libsfml-dev
-    - name: CMake build system
-      run: cmake -B build "-DCG_VER_STR=CI test" "-DCG_VER_SIG=ci-test"
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      run: sudo apt install libsfml-dev
+    - name: Generate build system
+      run: mkdir build && cd build && cmake .. -GNinja "-DCG_VER_STR=CI test" "-DCG_VER_SIG=ci-test"
+    - name: Build
+      run: ninja -j$(nproc)
